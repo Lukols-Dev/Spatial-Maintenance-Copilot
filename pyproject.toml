@@ -20,6 +20,10 @@ ignore = ["E501"]   # line length is enforced by the formatter
 [tool.ruff.format]
 docstring-code-format = true
 
+[tool.pytest.ini_options]
+testpaths = ["services/perception/tests"]
+addopts = "-ra --strict-markers"
+
 [tool.mypy]
 python_version = "3.14"
 strict = true
@@ -29,6 +33,7 @@ files = ["services/perception/src"]
 
 [dependency-groups]
 dev = [
+    "httpx>=0.28.1",
     "mypy>=2.3.1",
     "pre-commit>=4.6.2",
     "pytest>=9.1.1",
