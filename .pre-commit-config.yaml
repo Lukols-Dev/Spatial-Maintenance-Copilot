@@ -1,0 +1,112 @@
+default_language_version:
+  python: python3.14
+
+default_stages: [pre-commit]
+
+exclude: |
+  (?x)^(
+    \.venv/.*|
+    \.git/.*|
+    node_modules/.*|
+    htmlcov/.*|
+    output/.*|
+    dist/.*|
+    build/.*|
+    cdk\.out/.*|
+    \.terraform/.*|
+    \.pytest_cache/.*|
+    \.mypy_cache/.*|
+    \.ruff_cache/.*|
+    .*\.lock|
+    package-lock\.json
+  )$
+
+fail_fast: false
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      # Text files
+      - id: trailing-whitespace
+        args: [--markdown-linebreak-ext=md]
+      - id: end-of-file-fixer
+      - id: mixed-line-ending
+        args: [--fix=lf]
+
+      # Syntax validation
+      - id: check-yaml
+      - id: check-toml
+      - id: check-json
+
+      # Repository health
+      - id: check-added-large-files
+        args: [--maxkb=512]
+      - id: check-merge-conflict
+      - id: check-case-conflict
+      - id: check-symlinks
+      - id: forbid-submodules
+      - id: detect-private-key
+
+      # Scripts in tools/ are meant to be executed
+      - id: check-executables-have-shebangs
+      - id: check-shebang-scripts-are-executable
+
+      # Python-specific
+      - id: check-ast
+      - id: check-builtin-literals
+      - id: check-docstring-first
+      - id: debug-statements
+      - id: name-tests-test
+        args: [--pytest-test-first]
+
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.30.0
+    hooks:
+      - id: gitleaks
+
+  - repo: https://github.com/kynan/nbstripout
+    rev: 0.9.1
+    hooks:
+      - id: nbstripout
+
+  - repo: local
+    hooks:
+      - id: check-media
+        name: media guard (EXIF GPS, placement, size)
+        entry: python3 tools/hooks/check_media.py
+        language: system
+        pass_filenames: true
+        types_or: [image, binary]
+
+  - repo: local
+    hooks:
+      - id: ruff-check
+        name: ruff (lint)
+        entry: uv run ruff check --fix
+        language: system
+        types_or: [python, pyi]
+        require_serial: true
+
+      - id: ruff-format
+        name: ruff (format)
+        entry: uv run ruff format
+        language: system
+        types_or: [python, pyi]
+        require_serial: true
+
+  - repo: local
+    hooks:
+      - id: mypy
+        name: mypy (workspace)
+        entry: uv run mypy
+        language: system
+        types: [python]
+        pass_filenames: false
+        stages: [pre-push]
+
+ci:
+  autofix_commit_msg: "style: auto-fixes from pre-commit hooks"
+  autoupdate_commit_msg: "chore: pre-commit autoupdate"
+  autoupdate_schedule: monthly
+  skip: [ruff-check, ruff-format, mypy]
