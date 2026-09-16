@@ -34,6 +34,37 @@ Currently exploring:
 - AI Agents
 - AWS
 
+## Repository layout
+
+```
+apps/web/              Next.js static frontend (S3 + CloudFront)
+services/perception/   FastAPI service running the OpenCV pipeline (ECS Fargate)
+tools/                 Bench utilities and git hooks
+```
+
+Single uv workspace. Geometry will live in a standalone library imported by the
+service, never computed in the HTTP layer.
+
+## Running locally
+
+Requirements: [uv](https://docs.astral.sh/uv/), Node.js 20.9+, Docker.
+
+```bash
+make setup     # install the workspace and git hooks
+make api       # perception service on :8000
+make web       # frontend on :3000
+make check     # lint, type check, tests
+```
+
+Run `make help` for the full list of targets.
+
+The containerised service, which is what gets deployed:
+
+```bash
+make api-build
+make api-run
+```
+
 ## Current stage
 
 The project is currently in the experimentation and prototyping phase.
@@ -49,3 +80,7 @@ Primary track: **Agentic Vision**
 Solo project by **Łukasz Olszewski**
 
 #OpenCVComp26
+
+## License
+
+Apache License 2.0. See [LICENSE](LICENSE).
