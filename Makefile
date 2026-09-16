@@ -1,5 +1,7 @@
 .DEFAULT_GOAL := help
 .PHONY: help api web setup lint format typecheck test check
+IMAGE := smc/perception:dev
+NAME  := smc-perception
 
 help:  ## Show this help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
@@ -13,6 +15,18 @@ web:  ## Run the Next.js dev server on :3000
 
 up:  ## Run api and web together
 	$(MAKE) -j2 api web
+
+api-build:  ## Build the perception container image
+	docker build -f services/perception/Dockerfile -t $(IMAGE) .
+
+api-run:  ## Run the perception container on :8000
+	docker run --rm --name $(NAME) -p 8000:8000 $(IMAGE)
+
+api-stop:  ## Stop and remove the perception container
+	-docker rm -f $(NAME)
+
+logs:  ## Follow container logs
+	docker logs -f $(NAME)
 
 setup:  ## Install the workspace and git hooks
 	uv sync --all-packages
