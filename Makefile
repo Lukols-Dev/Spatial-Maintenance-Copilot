@@ -45,4 +45,8 @@ typecheck:  ## Type check the paths listed in [tool.mypy]
 test:  ## Run the test suite
 	uv run pytest
 
-check: lint typecheck test  ## Everything CI runs
+check:  ## Everything CI runs
+	lint typecheck test
+
+boards: #Generate the printable ChArUco rig boards
+	uv run tools/gen_charuco_boards.py
