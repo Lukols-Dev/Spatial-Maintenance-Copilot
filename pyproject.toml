@@ -21,8 +21,12 @@ ignore = ["E501"]   # line length is enforced by the formatter
 docstring-code-format = true
 
 [tool.pytest.ini_options]
-testpaths = ["services/perception/tests"]
+testpaths = ["services/perception/tests", "tests"]
+pythonpath = ["tools"]
 addopts = "-ra --strict-markers"
+
+[tool.basedpyright]
+extraPaths = ["tools"]
 
 [tool.mypy]
 python_version = "3.14"
@@ -33,9 +37,11 @@ files = ["services/perception/src"]
 
 [dependency-groups]
 dev = [
-    "httpx>=0.28.1",
+    "httpx2>=2.13.0",
     "mypy>=2.3.1",
+    "opencv-python-headless>=5.0.0.93",
     "pre-commit>=4.6.2",
     "pytest>=9.1.1",
+    "reportlab>=5.0.1",
     "ruff>=0.16.7",
 ]
