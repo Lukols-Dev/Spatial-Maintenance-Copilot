@@ -1,0 +1,39 @@
+# Nominal geometry emitted by gen_charuco_boards.py.
+# Replace every *_measured_mm value with a caliper reading from the
+# printed and mounted board before any pose is computed.
+dictionary: DICT_5X5_100
+marker_ratio: 0.72
+boards:
+  calibration_board:
+    squares_x: 5
+    squares_y: 7
+    ids: [0, 16] # inclusive range
+    square_nominal_mm: 30.0
+    marker_nominal_mm: 21.6
+    square_measured_mm: 30.0
+    marker_measured_mm: null
+    measurement_uncertainty_mm: 0.25
+    substrate: "A4 print taped with masking tape to paperboard"
+    measured_on: 2026-09-17
+  rig_board_a:
+    squares_x: 4
+    squares_y: 6
+    ids: [20, 31] # inclusive range
+    square_nominal_mm: 25.0
+    marker_nominal_mm: 18.0
+    square_measured_mm: null
+    marker_measured_mm: null
+    measurement_uncertainty_mm: null
+    substrate: null
+    measured_on: null
+  rig_board_b:
+    squares_x: 4
+    squares_y: 6
+    ids: [35, 46] # inclusive range
+    square_nominal_mm: 25.0
+    marker_nominal_mm: 18.0
+    square_measured_mm: null
+    marker_measured_mm: null
+    measurement_uncertainty_mm: null
+    substrate: null
+    measured_on: null

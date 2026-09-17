@@ -49,4 +49,4 @@ check:  ## Everything CI runs
 	lint typecheck test
 
 boards: #Generate the printable ChArUco rig boards
-	uv run tools/gen_charuco_boards.py
+	uv run tools/gen_charuco_boards.py --out calib/charuco_boards_A4.pdf --yaml calib/rig_nominal.yaml
