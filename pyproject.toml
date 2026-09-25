@@ -1,5 +1,8 @@
 [tool.uv.workspace]
-members = ["services/*"]
+members = [
+    "services/*",
+    "packages/*",
+]
 
 [tool.ruff]
 line-length = 100
@@ -28,18 +31,22 @@ addopts = "-ra --strict-markers"
 [tool.basedpyright]
 extraPaths = ["tools"]
 
+[tool.pylint.typecheck]
+# cv2 is a Python package that loads its native module at import time, so pylint
+# finds no functions in it and flags every cv2 call as no-member (E1101).
+ignored-modules = ["cv2"]
+
 [tool.mypy]
 python_version = "3.14"
 strict = true
 warn_unreachable = true
 pretty = true
-files = ["services/perception/src"]
+files = ["services/perception/src", "packages/smc_core/src"]
 
 [dependency-groups]
 dev = [
     "httpx2>=2.13.0",
     "mypy>=2.3.1",
-    "opencv-python-headless>=5.0.0.93",
     "pre-commit>=4.6.2",
     "pytest>=9.1.1",
     "reportlab>=5.0.1",
