@@ -810,11 +810,15 @@ name = "smc-core"
 version = "0.1.0"
 source = { editable = "packages/smc_core" }
 dependencies = [
+    { name = "numpy" },
     { name = "opencv-python-headless" },
 ]
 
 [package.metadata]
-requires-dist = [{ name = "opencv-python-headless", specifier = "==5.0.0.93" }]
+requires-dist = [
+    { name = "numpy", specifier = ">=2.5.3" },
+    { name = "opencv-python-headless", specifier = "==5.0.0.93" },
+]
 
 [[package]]
 name = "smc-perception"

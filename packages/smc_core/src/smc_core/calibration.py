@@ -1,4 +1,5 @@
 from collections.abc import Iterable, Sequence
+from datetime import datetime
 from typing import TypedDict, cast
 
 import cv2 as cv
@@ -177,3 +178,23 @@ def undistort_frame(
     )
 
     return cv.undistort(frame, camera_matrix, dist_coeffs, None, new_matrix)
+
+
+def save_calibration(
+    path: str, result: Calibration, image_size: tuple[int, int], camera_id: str
+) -> None:
+    """Save calibrate() output; the format follows the extension (.yml/.xml/.json)."""
+
+    fs = cv.FileStorage(path, cv.FileStorage_WRITE)
+    fs.write("calibration_time", datetime.now().isoformat(timespec="seconds"))
+    fs.write("opencv_version", cv.__version__)
+    fs.write("camera_id", camera_id)
+    fs.write("image_width", image_size[0])
+    fs.write("image_height", image_size[1])
+    fs.write("nr_of_frames", len(result["per_view_errors"]))
+    fs.write("camera_matrix", result["camera_matrix"])
+    fs.write("distortion_coefficients", result["dist_coeffs"])
+    fs.write("avg_reprojection_error", result["rms"])
+    fs.writeComment("std devs, order: fx fy cx cy k1 k2 p1 p2 k3")
+    fs.write("std_intrinsics", result["std_intrinsics"][:9])
+    fs.release()
