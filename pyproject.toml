@@ -24,7 +24,7 @@ ignore = ["E501"]   # line length is enforced by the formatter
 docstring-code-format = true
 
 [tool.pytest.ini_options]
-testpaths = ["services/perception/tests", "packages/smc_core/tests", "packages/smc_core/tests", "tests"]
+testpaths = ["services/perception/tests", "packages/smc_core/tests", "tests"]
 pythonpath = ["tools"]
 addopts = "-ra --strict-markers"
 
