@@ -36,6 +36,8 @@ repos:
 
       # Syntax validation
       - id: check-yaml
+        # OpenCV FileStorage output uses its own !!opencv-matrix tags.
+        exclude: ^calib/intrinsics/
       - id: check-toml
       - id: check-json
 

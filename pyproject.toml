@@ -31,6 +31,10 @@ addopts = "-ra --strict-markers"
 [tool.basedpyright]
 extraPaths = ["tools"]
 
+[tool.pylint.main]
+# The tests import the scripts in tools/ as top-level modules (see pytest's pythonpath).
+init-hook = "import sys; sys.path.insert(0, 'tools')"
+
 [tool.pylint.typecheck]
 # cv2 is a Python package that loads its native module at import time, so pylint
 # finds no functions in it and flags every cv2 call as no-member (E1101).
