@@ -1,4 +1,4 @@
-"""Calibrate a camera from a folder of ChArUco board photos."""
+"""Calibrate a camera from a video, or a folder of images, of the ChArUco board."""
 
 import argparse
 from pathlib import Path
@@ -13,6 +13,7 @@ from smc_core.calibration import (
     save_calibration,
 )
 from smc_core.images import read_images
+from smc_core.video import read_video_frames
 
 PARAMETER_NAMES = ["fx", "fy", "cx", "cy", "k1", "k2", "p1", "p2", "k3"]
 
@@ -47,20 +48,24 @@ def format_report(result: Calibration, used: list[str], image_size: tuple[int, i
 
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("images", type=Path, help="folder with photos of the calibration board")
+    parser.add_argument("source", type=Path, help="video of the board, or a folder of images")
     parser.add_argument("--out", type=Path, required=True, help="file to write, e.g. calib/x.yml")
     parser.add_argument("--camera-id", required=True, help="capture mode the result is valid for")
+    parser.add_argument("--step", type=int, default=30, help="use every n-th video frame")
     args = parser.parse_args(argv)
 
     # The printed calibration board, as recorded in calib/rig.yaml.
     board = create_board(5, 7, 30.0, 21.6, cv.aruco.DICT_5X5_100, list(range(17)))
     detector = cv.aruco.CharucoDetector(board)
 
-    object_points, image_points, used, image_size = collect_correspondences(
-        detector, board, read_images(args.images)
-    )
+    if args.source.is_dir():
+        frames = read_images(args.source)
+    else:
+        frames = read_video_frames(args.source, args.step)
+
+    object_points, image_points, used, image_size = collect_correspondences(detector, board, frames)
     if image_size is None:
-        raise SystemExit(f"no photo in {args.images} shows enough of the board")
+        raise SystemExit(f"no frame in {args.source} shows enough of the board")
 
     result = calibrate(object_points, image_points, image_size)
     print(format_report(result, used, image_size))
