@@ -9,6 +9,8 @@ authors = [
 requires-python = ">=3.14"
 dependencies = [
     "fastapi>=0.141.1",
+    "python-multipart>=0.0.32",
+    "smc-core",
     "uvicorn>=0.53.0",
 ]
 
@@ -18,3 +20,6 @@ smc-perception = "smc_perception:main"
 [build-system]
 requires = ["uv_build>=0.11.14,<0.12.0"]
 build-backend = "uv_build"
+
+[tool.uv.sources]
+smc-core = { workspace = true }

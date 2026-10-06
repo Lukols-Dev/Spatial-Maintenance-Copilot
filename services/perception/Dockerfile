@@ -14,11 +14,15 @@ WORKDIR /app
 # not rebuild every time application code changes.
 COPY pyproject.toml uv.lock ./
 COPY services/perception/pyproject.toml services/perception/README.md services/perception/
+COPY packages/smc_core/pyproject.toml packages/smc_core/README.md packages/smc_core/
 
+# --no-install-workspace, not --no-install-project: smc-core is a workspace
+# package built from source, and its source is not in the image yet.
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --frozen --no-dev --no-install-project --package smc-perception
+    uv sync --frozen --no-dev --no-install-workspace --package smc-perception
 
 # Application layer.
+COPY packages/smc_core/src packages/smc_core/src
 COPY services/perception/src services/perception/src
 
 RUN --mount=type=cache,target=/root/.cache/uv \

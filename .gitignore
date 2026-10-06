@@ -14,12 +14,15 @@ credentials
 # Media lives in a private S3 bucket and is referenced from
 # eval/datasets/*.manifest.json by key and SHA256, never committed.
 # ============================================================
+/data/
 *.mp4
 *.mov
 *.MOV
 *.avi
 *.mkv
 *.mts
+# ...but in the web app .mts is TypeScript (an ES module), not AVCHD video.
+!apps/web/**/*.mts
 *.cr2
 *.CR2
 *.cr3
