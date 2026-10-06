@@ -1,0 +1,76 @@
+{
+  "name": "cabinet",
+  "images": [
+    {
+      "file": "frame_000000.png",
+      "width": 1080,
+      "height": 1920,
+      "format": "png",
+      "error": null
+    },
+    {
+      "file": "frame_000015.png",
+      "width": 1080,
+      "height": 1920,
+      "format": "png",
+      "error": null
+    },
+    {
+      "file": "frame_000030.png",
+      "width": 1080,
+      "height": 1920,
+      "format": "png",
+      "error": null
+    }
+  ],
+  "clicks": {
+    "camera_id": "iphone11-1x-1080p-portrait",
+    "points": [
+      "hinge_top",
+      "handle",
+      "corner_left",
+      "drone"
+    ],
+    "views": {
+      "frame_000000.png": {
+        "hinge_top": [
+          512.25,
+          380.5
+        ],
+        "handle": [
+          700.0,
+          1010.75
+        ],
+        "drone": [
+          540.5,
+          1200.0
+        ]
+      },
+      "frame_000015.png": {
+        "hinge_top": [
+          498.0,
+          372.25
+        ],
+        "handle": [
+          688.5,
+          1003.0
+        ],
+        "corner_left": [
+          120.0,
+          1500.5
+        ],
+        "drone": [
+          530.0,
+          1190.25
+        ]
+      },
+      "frame_000030.png": {
+        "hinge_top": [
+          470.75,
+          365.0
+        ]
+      }
+    }
+  },
+  "clicks_error": null
+}

@@ -1,4 +1,4 @@
-from collections.abc import Iterator
+from collections.abc import Iterable, Iterator
 from pathlib import Path
 
 import cv2 as cv
@@ -18,6 +18,9 @@ def read_video_frames(path: Path, step: int = 1) -> Iterator[tuple[str, np.ndarr
     if step < 1:
         raise ValueError("step must be at least 1")
 
+    if not path.is_file():
+        raise FileNotFoundError(f"no such video file: {path}")
+
     capture = cv.VideoCapture(path, cv.CAP_FFMPEG)
     if not capture.isOpened():
         raise OSError(f"cannot open video: {path}")
@@ -32,3 +35,37 @@ def read_video_frames(path: Path, step: int = 1) -> Iterator[tuple[str, np.ndarr
             index += 1
     finally:
         capture.release()
+
+
+def sharpness(frame: np.ndarray) -> float:
+    """Variance of the Laplacian of a BGR frame. Higher means sharper.
+
+    The value depends on resolution and on what is in the picture, so it has
+    no meaning on its own. Use it only to rank frames of the same scene.
+    """
+    gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
+    return float(cv.Laplacian(gray, cv.CV_64F).var())
+
+
+def sharpest_per_window(
+    frames: Iterable[tuple[str, np.ndarray]], window: int
+) -> Iterator[tuple[str, np.ndarray]]:
+    """From every `window` consecutive frames yield only the sharpest one.
+
+    Neighbouring frames show almost the same scene, so the sharpest of them is
+    the one with the least motion blur. No threshold is involved.
+    """
+    if window < 1:
+        raise ValueError("window must be at least 1")
+
+    best: tuple[float, str, np.ndarray] | None = None
+    for count, (label, frame) in enumerate(frames, start=1):
+        score = sharpness(frame)
+        if best is None or score > best[0]:
+            best = (score, label, frame)
+        if count % window == 0:
+            yield best[1], best[2]
+            best = None
+
+    if best is not None:
+        yield best[1], best[2]

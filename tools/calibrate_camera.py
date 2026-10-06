@@ -13,9 +13,16 @@ from smc_core.calibration import (
     save_calibration,
 )
 from smc_core.images import read_images
+from smc_core.rig import load_rig_board
 from smc_core.video import read_video_frames
 
 PARAMETER_NAMES = ["fx", "fy", "cx", "cy", "k1", "k2", "p1", "p2", "k3"]
+RIG_FILE = Path(__file__).resolve().parents[1] / "calib" / "rig.yaml"
+
+
+def keep_views(per_view_errors: np.ndarray, max_error: float) -> list[int]:
+    """Indices of the views whose RMS reprojection error is at most max_error px."""
+    return [index for index, error in enumerate(per_view_errors) if error <= max_error]
 
 
 def format_report(result: Calibration, used: list[str], image_size: tuple[int, int]) -> str:
@@ -52,10 +59,27 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument("--out", type=Path, required=True, help="file to write, e.g. calib/x.yml")
     parser.add_argument("--camera-id", required=True, help="capture mode the result is valid for")
     parser.add_argument("--step", type=int, default=30, help="use every n-th video frame")
+    parser.add_argument(
+        "--rig", type=Path, default=RIG_FILE, help="measured boards, default calib/rig.yaml"
+    )
+    parser.add_argument(
+        "--fix-k3", action="store_true", help="hold k3 at zero, e.g. when its std exceeds its value"
+    )
+    parser.add_argument(
+        "--max-view-error", type=float, help="drop views above this error in px, then recalibrate"
+    )
     args = parser.parse_args(argv)
 
-    # The printed calibration board, as recorded in calib/rig.yaml.
-    board = create_board(5, 7, 30.0, 21.6, cv.aruco.DICT_5X5_100, list(range(17)))
+    # The printed calibration board, sized by the caliper reading in the rig file.
+    rig = load_rig_board(args.rig, "calibration_board")
+    board = create_board(
+        rig["squares_x"],
+        rig["squares_y"],
+        rig["square_mm"],
+        rig["marker_mm"],
+        rig["dictionary_id"],
+        rig["marker_ids"],
+    )
     detector = cv.aruco.CharucoDetector(board)
 
     if args.source.is_dir():
@@ -67,7 +91,20 @@ def main(argv: list[str] | None = None) -> None:
     if image_size is None:
         raise SystemExit(f"no frame in {args.source} shows enough of the board")
 
-    result = calibrate(object_points, image_points, image_size)
+    result = calibrate(object_points, image_points, image_size, fix_k3=args.fix_k3)
+
+    if args.max_view_error is not None:
+        keep = keep_views(result["per_view_errors"], args.max_view_error)
+        if not keep:
+            raise SystemExit(f"no view has an error at most {args.max_view_error} px")
+        dropped = [used[index] for index in range(len(used)) if index not in keep]
+        print(f"dropped {len(dropped)} views above {args.max_view_error} px: {', '.join(dropped)}")
+
+        object_points = [object_points[index] for index in keep]
+        image_points = [image_points[index] for index in keep]
+        used = [used[index] for index in keep]
+        result = calibrate(object_points, image_points, image_size, fix_k3=args.fix_k3)
+
     print(format_report(result, used, image_size))
 
     args.out.parent.mkdir(parents=True, exist_ok=True)

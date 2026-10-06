@@ -12,11 +12,15 @@ printer.
 
 from __future__ import annotations
 
+from pathlib import Path
+
 import cv2
 import numpy as np
 import pytest
+import yaml
 from gen_charuco_boards import (
     DICT_BITS,
+    DICT_NAME,
     board_specs,
     get_dictionary,
     make_board,
@@ -30,6 +34,8 @@ BORDER_BITS = 1
 
 SPECS = board_specs()
 SPEC_IDS = [s["key"] for s in SPECS]
+
+RIG_FILE = Path(__file__).resolve().parents[1] / "calib" / "rig.yaml"
 
 
 def _render_for_detection(board, spec) -> np.ndarray:
@@ -145,3 +151,20 @@ def test_id_ranges_are_disjoint_across_boards() -> None:
                 f"ID {marker_id} used by both {seen.get(marker_id)} and {s['key']}"
             )
             seen[marker_id] = s["key"]
+
+
+def test_rig_yaml_still_describes_the_printed_board(spec) -> None:
+    """calib/rig.yaml is what the pipeline reads, board_specs() is what was printed.
+
+    The YAML is edited by hand to add caliper readings, so an edit that also
+    changes the layout, an ID range or a nominal size would go unnoticed: the
+    pipeline would model a board that is not the one in frame.
+    """
+    rig = yaml.safe_load(RIG_FILE.read_text(encoding="utf-8"))
+    entry = rig["boards"][spec["key"]]
+
+    assert rig["dictionary"] == DICT_NAME
+    assert (entry["squares_x"], entry["squares_y"]) == (spec["squares_x"], spec["squares_y"])
+    assert entry["ids"] == [spec["ids"][0], spec["ids"][-1]]
+    assert entry["square_nominal_mm"] == spec["square_mm"]
+    assert entry["marker_nominal_mm"] == spec["marker_mm"]

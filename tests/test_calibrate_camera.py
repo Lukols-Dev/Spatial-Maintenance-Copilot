@@ -2,7 +2,7 @@ from pathlib import Path
 
 import numpy as np
 import pytest
-from calibrate_camera import format_report, main
+from calibrate_camera import format_report, keep_views, main
 from smc_core.calibration import Calibration
 
 
@@ -22,6 +22,10 @@ def test_format_report_shows_quality_numbers_and_worst_view_first() -> None:
     assert "RMS reprojection error: 0.432 px" in report
     assert "3000.0000 +/- 0.5000" in report
     assert report.index("b.jpg") < report.index("c.jpg") < report.index("a.jpg")
+
+
+def test_keep_views_drops_the_views_above_the_limit() -> None:
+    assert keep_views(np.array([0.4, 2.1, 0.9, 1.0]), 1.0) == [0, 2, 3]
 
 
 def test_main_stops_when_no_frame_shows_the_board(tmp_path: Path) -> None:

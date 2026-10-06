@@ -1,0 +1,29 @@
+%YAML 1.2
+---
+calibration_time: "2026-10-05T18:07:40"
+opencv_version: "5.0.0"
+camera_id: iphone11-1x-1080p-portrait
+image_width: 1080
+image_height: 1920
+nr_of_frames: 58
+camera_matrix: !!opencv-matrix
+   rows: 3
+   cols: 3
+   dt: d
+   data: [ 1674.7099211028426, 0., 531.59854908306909, 0.,
+       1677.4229220680631, 956.2293822122416, 0., 0., 1. ]
+distortion_coefficients: !!opencv-nd-matrix
+   sizes: [ 5 ]
+   dt: d
+   data: [ 0.14210058518662277, -0.15397367732630199,
+       0.0001613388344987106, -0.0039132775821486042,
+       -0.21289617453496759 ]
+avg_reprojection_error: 0.8999671297538292
+# std devs, order: fx fy cx cy k1 k2 p1 p2 k3
+std_intrinsics: !!opencv-nd-matrix
+   sizes: [ 9 ]
+   dt: d
+   data: [ 3.2864222875100149, 3.3783014345701257, 3.2535798930649924,
+       3.7193654206391327, 0.011608227392619465, 0.12043559460240141,
+       0.00096508312569979372, 0.00083584649548595381,
+       0.36606574501140254 ]

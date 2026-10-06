@@ -1,0 +1,13 @@
+{
+  "camera_id": "phone-1x-portrait",
+  "points": ["corner_top_left", "drone"],
+  "views": {
+    "view_0.png": {
+      "corner_top_left": [100, 200],
+      "drone": [299.75, 400.25]
+    },
+    "view_1.png": {
+      "drone": [310, 410]
+    }
+  }
+}

@@ -124,6 +124,7 @@ def calibrate(
     object_points: list[np.ndarray],
     image_points: list[np.ndarray],
     image_size: tuple[int, int],
+    fix_k3: bool = False,
 ) -> Calibration:
     """Camera intrinsics from point pairs collected over many views.
 
@@ -134,7 +135,12 @@ def calibrate(
       std_intrinsics   standard deviation of each parameter, in the order
                        fx, fy, cx, cy, k1, k2, p1, p2, k3, then unused models
       per_view_errors  RMS reprojection error of each view, same order as the input
+
+    fix_k3 keeps k3 at zero. Use it when the data cannot pin k3 down, which
+    shows as a standard deviation larger than the value itself.
     """
+    flags = cv.CALIB_FIX_K3 if fix_k3 else 0
+
     (
         rms,
         camera_matrix,
@@ -150,6 +156,7 @@ def calibrate(
         image_size,
         np.zeros((3, 3), np.float64),
         np.zeros(5, np.float64),
+        flags=flags,
     )
 
     return {
@@ -198,3 +205,98 @@ def save_calibration(
     fs.writeComment("std devs, order: fx fy cx cy k1 k2 p1 p2 k3")
     fs.write("std_intrinsics", result["std_intrinsics"][:9])
     fs.release()
+
+
+class Intrinsics(TypedDict):
+    """A calibration read back by `load_calibration`.
+
+    image_size is (width, height): the only frame size the intrinsics hold for.
+    """
+
+    camera_id: str
+    image_size: tuple[int, int]
+    camera_matrix: np.ndarray
+    dist_coeffs: np.ndarray
+    rms: float
+    std_intrinsics: np.ndarray
+
+
+class CalibrationRecord(TypedDict):
+    """A calibration file read whole: the intrinsics and how they were made.
+
+    frames, calibrated_at and opencv_version are None when the file lacks them.
+    They describe the calibration; the intrinsics alone are enough to use it.
+    """
+
+    intrinsics: Intrinsics
+    frames: int | None
+    calibrated_at: str | None  # as written in the file
+    opencv_version: str | None
+
+
+def load_calibration_record(path: str) -> CalibrationRecord:
+    """Read a file written by `save_calibration`, with what it says about itself."""
+
+    try:
+        fs = cv.FileStorage(path, cv.FileStorage_READ)
+    except (cv.error, SystemError) as error:
+        # A file that does not parse makes the binding raise SystemError, with
+        # OpenCV's parse error as its cause.
+        raise ValueError(f"cannot parse calibration: {path}") from error
+    if not fs.isOpened():
+        raise OSError(f"cannot read calibration: {path}")
+
+    def node(key: str) -> cv.FileNode:
+        found = fs.getNode(key)
+        if found.empty():
+            raise ValueError(f"{path} has no {key}; was it written by save_calibration?")
+        return found
+
+    def text(key: str) -> str | None:
+        found = fs.getNode(key)
+        return (found.string() or None) if found.isString() else None
+
+    try:
+        frames = fs.getNode("nr_of_frames")
+        return {
+            "intrinsics": {
+                "camera_id": node("camera_id").string(),
+                "image_size": (int(node("image_width").real()), int(node("image_height").real())),
+                "camera_matrix": node("camera_matrix").mat(),
+                "dist_coeffs": node("distortion_coefficients").mat().ravel(),
+                "rms": node("avg_reprojection_error").real(),
+                "std_intrinsics": node("std_intrinsics").mat().ravel(),
+            },
+            "frames": int(frames.real()) if frames.isInt() else None,
+            "calibrated_at": text("calibration_time"),
+            "opencv_version": text("opencv_version"),
+        }
+    finally:
+        fs.release()
+
+
+def load_calibration(path: str) -> Intrinsics:
+    """Read a file written by `save_calibration`."""
+    return load_calibration_record(path)["intrinsics"]
+
+
+def check_frame_size(intrinsics: Intrinsics, frame: np.ndarray) -> None:
+    """Fail unless the frame has the size the intrinsics were calibrated for.
+
+    A frame of another size still gives a pose, just a wrong one, so the
+    mismatch has to be caught here. A frame turned on its side is the likely
+    case: image folders are read in the sensor grid, videos as a player shows
+    them.
+    """
+    width, height = intrinsics["image_size"]
+    frame_width, frame_height = frame.shape[1], frame.shape[0]
+    if (frame_width, frame_height) == (width, height):
+        return
+
+    hint = ""
+    if (frame_width, frame_height) == (height, width):
+        hint = " The frame is rotated by 90 degrees relative to the calibration."
+    raise ValueError(
+        f"frame is {frame_width}x{frame_height} px, but {intrinsics['camera_id']} "
+        f"was calibrated at {width}x{height} px.{hint}"
+    )

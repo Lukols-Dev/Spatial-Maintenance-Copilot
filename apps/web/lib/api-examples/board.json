@@ -1,0 +1,17 @@
+{
+  "id": "rig_board_b",
+  "squares_x": 4,
+  "squares_y": 6,
+  "marker_ids": [
+    35,
+    46
+  ],
+  "square_nominal_mm": 25.0,
+  "marker_nominal_mm": 18.0,
+  "square_measured_mm": 25.02,
+  "marker_measured_mm": null,
+  "measurement_uncertainty_mm": 0.02,
+  "substrate": "A4 print on foam board",
+  "measured_on": "2026-10-06",
+  "measured": true
+}

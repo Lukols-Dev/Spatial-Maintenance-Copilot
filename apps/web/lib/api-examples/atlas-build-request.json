@@ -1,0 +1,18 @@
+{
+  "asset_id": "home-cabinet",
+  "view_set": "cabinet",
+  "camera_id": "iphone11-1x-1080p-portrait",
+  "board": "rig_board_a",
+  "target_id": "drone",
+  "target_extent_mm": [
+    300.0,
+    300.0,
+    100.0
+  ],
+  "target_measured_mm": null,
+  "click_sigma_px": 2.0,
+  "target_centre_sigma_mm": 5.0,
+  "samples": 200,
+  "seed": 0,
+  "version": "1"
+}
