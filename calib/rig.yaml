@@ -21,19 +21,19 @@ boards:
     ids: [20, 31] # inclusive range
     square_nominal_mm: 25.0
     marker_nominal_mm: 18.0
-    square_measured_mm: null
+    square_measured_mm: 25.0
     marker_measured_mm: null
-    measurement_uncertainty_mm: null
-    substrate: null
-    measured_on: null
+    measurement_uncertainty_mm: 0.25
+    substrate: "A4 glued to foam board"
+    measured_on: 2026-10-09
   rig_board_b:
     squares_x: 4
     squares_y: 6
     ids: [35, 46] # inclusive range
     square_nominal_mm: 25.0
     marker_nominal_mm: 18.0
-    square_measured_mm: null
+    square_measured_mm: 25.0
     marker_measured_mm: null
-    measurement_uncertainty_mm: null
-    substrate: null
-    measured_on: null
+    measurement_uncertainty_mm: 0.25
+    substrate: "A4 glued to foam board"
+    measured_on: 2026-10-09
