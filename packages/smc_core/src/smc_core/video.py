@@ -1,4 +1,4 @@
-from collections.abc import Iterable, Iterator
+from collections.abc import Callable, Iterable, Iterator
 from pathlib import Path
 
 import cv2 as cv
@@ -48,23 +48,30 @@ def sharpness(frame: np.ndarray) -> float:
 
 
 def sharpest_per_window(
-    frames: Iterable[tuple[str, np.ndarray]], window: int
+    frames: Iterable[tuple[str, np.ndarray]],
+    window: int,
+    keep: Callable[[np.ndarray], bool] | None = None,
 ) -> Iterator[tuple[str, np.ndarray]]:
     """From every `window` consecutive frames yield only the sharpest one.
 
     Neighbouring frames show almost the same scene, so the sharpest of them is
     the one with the least motion blur. No threshold is involved.
+
+    keep, when given, is asked about every frame, and a frame it refuses is
+    never chosen: a window in which it keeps none yields nothing.
     """
     if window < 1:
         raise ValueError("window must be at least 1")
 
     best: tuple[float, str, np.ndarray] | None = None
     for count, (label, frame) in enumerate(frames, start=1):
-        score = sharpness(frame)
-        if best is None or score > best[0]:
-            best = (score, label, frame)
+        if keep is None or keep(frame):
+            score = sharpness(frame)
+            if best is None or score > best[0]:
+                best = (score, label, frame)
         if count % window == 0:
-            yield best[1], best[2]
+            if best is not None:
+                yield best[1], best[2]
             best = None
 
     if best is not None:

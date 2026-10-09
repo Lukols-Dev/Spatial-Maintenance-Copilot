@@ -6,6 +6,9 @@ import numpy as np
 
 from smc_core.calibration import Intrinsics, check_frame_size, collect_correspondences
 
+# The fewest detected corners a board pose is computed from.
+MIN_CORNERS = 8
+
 
 class ViewPose(TypedDict):
     """Where the camera stood in one frame, measured from the printed board.
@@ -34,7 +37,7 @@ def board_view_pose(
     rng: np.random.Generator,
     corner_sigma_px: float | None = None,
     samples: int = 200,
-    min_corners: int = 8,
+    min_corners: int = MIN_CORNERS,
 ) -> ViewPose | None:
     """Camera pose in the board frame, or None when the board is not found.
 
@@ -93,6 +96,18 @@ def board_view_pose(
         "corners": len(obj),
         "rms_px": rms,
     }
+
+
+def board_in_view(
+    detector: cv.aruco.CharucoDetector, board: cv.aruco.CharucoBoard, frame: np.ndarray
+) -> bool:
+    """Whether the board shows the corners board_view_pose needs to pose the camera.
+
+    It is the test board_view_pose makes before solving, without the intrinsics,
+    so it can pick frames before any are posed.
+    """
+    _, _, used, _ = collect_correspondences(detector, board, [("frame", frame)], MIN_CORNERS)
+    return bool(used)
 
 
 def pose_views(

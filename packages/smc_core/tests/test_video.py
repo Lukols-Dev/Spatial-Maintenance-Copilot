@@ -68,3 +68,27 @@ def test_sharpest_per_window_keeps_one_frame_per_window() -> None:
     kept = [label for label, _ in sharpest_per_window(frames, window=3)]
 
     assert kept == ["b", "f", "g"]
+
+
+def test_sharpest_per_window_never_chooses_a_frame_keep_refuses() -> None:
+    """The sharpest frame of a window is refused, so the next sharpest is kept;
+    a window whose every frame is refused gives nothing."""
+    sharp = checkerboard()
+    soft = cv.GaussianBlur(sharp, (0, 0), 1)
+    blurred = cv.GaussianBlur(sharp, (0, 0), 3)
+    refused = [sharp.copy() for _ in range(4)]
+    frames = [
+        ("a", blurred),
+        ("b", refused[0]),
+        ("c", soft),
+        ("d", refused[1]),
+        ("e", refused[2]),
+        ("f", refused[3]),
+        ("g", blurred),
+    ]
+
+    kept = sharpest_per_window(
+        frames, window=3, keep=lambda frame: not any(frame is r for r in refused)
+    )
+
+    assert [label for label, _ in kept] == ["c", "g"]
