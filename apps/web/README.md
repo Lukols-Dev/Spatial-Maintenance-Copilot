@@ -8,9 +8,10 @@ through its HTTP API, from the browser.
 
 | Path | What it is |
 |---|---|
-| `/` | Home: the site name and a link to the annotator, until the workspace view is in place |
+| `/` | Locate: pick an atlas and a recorded viewpoint; `POST /localise` draws the landmarks, the target region and its 95 % region on the image, with the decision (accept, or the move that should give a better view) and a trace of the viewpoints tried |
 | `/annotate/` | Point annotator on PNG files opened from disk: mark landmarks and the target, download `clicks.json` |
 | `/annotate/?set=<name>` | The same on a view set of the workspace: images from the service, every change saved to its `clicks.json` |
+| `/atlas/` | Atlas: import a video or photos as a view set, measure the rig board, build an atlas from a set's clicks and inspect it (points, σ, plan of the board frame) |
 
 The sidebar lists the pages of `NAV` in `lib/site.ts`. A page is listed only once it works; the site has no
 placeholder pages.

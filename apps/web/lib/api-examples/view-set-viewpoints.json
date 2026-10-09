@@ -1,0 +1,112 @@
+{
+  "name": "cabinet-test",
+  "images": [
+    {
+      "file": "frame_000010.png",
+      "width": 1080,
+      "height": 1920,
+      "format": "png",
+      "error": null
+    },
+    {
+      "file": "frame_000040.png",
+      "width": 1080,
+      "height": 1920,
+      "format": "png",
+      "error": null
+    },
+    {
+      "file": "frame_000070.png",
+      "width": 1080,
+      "height": 1920,
+      "format": "png",
+      "error": null
+    }
+  ],
+  "clicks": {
+    "camera_id": "iphone11-1x-1080p-portrait",
+    "points": [
+      "corner_top_left",
+      "corner_top_right",
+      "corner_bottom_left",
+      "corner_bottom_right",
+      "hinge_top",
+      "hinge_bottom",
+      "handle",
+      "drone"
+    ],
+    "views": {
+      "frame_000010.png": {
+        "corner_top_right": [
+          730.6,
+          321.09
+        ],
+        "corner_bottom_right": [
+          729.96,
+          1558.22
+        ],
+        "hinge_top": [
+          693.03,
+          469.44
+        ],
+        "hinge_bottom": [
+          693.58,
+          1427.72
+        ],
+        "handle": [
+          58.82,
+          984.58
+        ]
+      },
+      "frame_000040.png": {
+        "corner_top_left": [
+          186.19,
+          613.56
+        ],
+        "corner_top_right": [
+          874.57,
+          613.45
+        ],
+        "corner_bottom_left": [
+          168.65,
+          1558.77
+        ],
+        "corner_bottom_right": [
+          890.76,
+          1559.14
+        ],
+        "hinge_top": [
+          844.55,
+          718.42
+        ],
+        "hinge_bottom": [
+          857.16,
+          1456.23
+        ],
+        "handle": [
+          330.16,
+          1108.77
+        ],
+        "drone": [
+          531.53,
+          1084.31
+        ]
+      },
+      "frame_000070.png": {
+        "corner_bottom_right": [
+          529.06,
+          858.87
+        ],
+        "hinge_bottom": [
+          451.44,
+          604.64
+        ],
+        "handle": [
+          430.51,
+          879.99
+        ]
+      }
+    }
+  },
+  "clicks_error": null
+}

@@ -2,13 +2,15 @@
 
 Everything that leaves the geometry code, for a file, the HTTP API or an agent
 tool, is one of these models. Positions are millimetres in the asset frame and
-pixels in the calibrated frame. The models carry measurements only: whether a
-value is good enough is the policy's call, and the policy owns the thresholds.
+pixels in the calibrated frame. The Localisation carries measurements only:
+whether a value is good enough is the policy's call. The Decision is that call,
+and it carries the Policy it applied, so the facts and the thresholds held
+against them never mix.
 """
 
 from enum import StrEnum
 from pathlib import Path
-from typing import Self
+from typing import Literal, Self
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
@@ -204,3 +206,60 @@ class Localisation(Contract):
     pose: Pose | None = None
     target: ProjectedTarget | None = None
     uncertainty: UncertaintyRegion | None = None
+
+
+class Action(StrEnum):
+    """What the operator does next: take the result, or move the camera and look again.
+
+    A move is the camera's, as the operator holds it: MOVE_LEFT brings what
+    lies beyond the left edge of the frame into view.
+    """
+
+    ACCEPT = "ACCEPT"
+    MOVE_LEFT = "MOVE_LEFT"
+    MOVE_RIGHT = "MOVE_RIGHT"
+    MOVE_CLOSER = "MOVE_CLOSER"
+    MOVE_BACK = "MOVE_BACK"
+    MOVE_UP = "MOVE_UP"
+    MOVE_DOWN = "MOVE_DOWN"
+
+
+class Check(Contract):
+    """One measurement of a localisation held against one limit of the policy."""
+
+    name: str
+    value: float | None = Field(description="the measurement; None when it cannot be computed")
+    limit: float = Field(description="from the policy")
+    op: Literal[">=", "<="] = Field(description="passing means value op limit")
+    passed: bool
+
+
+class Policy(Contract):
+    """The calibrated opinions: every limit a decision holds a measurement against.
+
+    They are judgements of how much error a result may carry and still be
+    shown as reliable, so they sit here, in one place, and not in the geometry.
+    """
+
+    min_landmarks: int = Field(default=4, description="PnP needs four: pose.MIN_CORRESPONDENCES")
+    min_inliers: int = 6
+    min_inlier_ratio: float = 0.75
+    max_rms_reprojection_px: float = 3.0
+    min_image_coverage: float = 0.05
+    max_failed_sample_ratio: float = Field(
+        default=0.05, description="share of Monte Carlo samples without a usable pose"
+    )
+    max_region_ratio: float = Field(
+        default=0.5, description="95% ellipse semi-major axis / projected target radius"
+    )
+
+
+class Decision(Contract):
+    """Whether a localisation is shown as reliable, and the move that should improve it."""
+
+    reliable: bool
+    action: Action
+    reasons: list[str] = Field(description="one short fact per failed check, a failure first")
+    move_reason: str = Field(description="the fact the move follows from; empty for ACCEPT")
+    checks: list[Check]
+    policy: Policy

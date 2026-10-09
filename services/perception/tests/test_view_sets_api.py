@@ -1,4 +1,4 @@
-"""View sets: importing one, reading it, serving its images, saving its clicks."""
+"""View sets: importing one, reading it, serving its images and thumbnails, saving its clicks."""
 
 import json
 import os
@@ -239,6 +239,100 @@ def test_an_image_is_served_with_its_type(calib: Path, client: TestClient) -> No
     assert jpeg.headers["content-type"] == "image/jpeg"
     assert client.get("/view-sets/cabinet/images/c.png").status_code == 404
     assert client.get("/view-sets/cabinet/images/clicks.json").status_code == 422
+
+
+# ---- thumbnails ------------------------------------------------------------------
+
+
+def decoded(content: bytes) -> np.ndarray:
+    image = cv.imdecode(np.frombuffer(content, np.uint8), cv.IMREAD_UNCHANGED)
+    assert image is not None
+    return image
+
+
+def test_a_thumbnail_is_a_jpeg_of_the_width_asked_for(calib: Path, client: TestClient) -> None:
+    write_view_set(calib, "cabinet", {"portrait.png": (1080, 1920), "wide.png": (1000, 301)})
+
+    portrait = client.get("/view-sets/cabinet/images/portrait.png?width=240")
+    wide = client.get("/view-sets/cabinet/images/wide.png?width=100")
+
+    assert portrait.status_code == 200
+    assert portrait.headers["content-type"] == "image/jpeg"
+    assert portrait.headers["cache-control"] == "no-cache"
+    assert decoded(portrait.content).shape == (427, 240, 3)  # 1920 * 240 / 1080 = 426.7
+    assert decoded(wide.content).shape == (30, 100, 3)  # 301 * 100 / 1000 = 30.1
+
+
+def test_a_thumbnail_is_never_wider_than_its_image(calib: Path, client: TestClient) -> None:
+    folder = write_view_set(calib, "cabinet", {"a.png": (300, 200)})
+    original = client.get("/view-sets/cabinet/images/a.png")
+
+    for width in (300, 2048):
+        response = client.get(f"/view-sets/cabinet/images/a.png?width={width}")
+
+        assert response.headers["content-type"] == PNG
+        assert response.content == (folder / "a.png").read_bytes()
+        assert response.headers["etag"] == original.headers["etag"]
+
+
+def test_a_thumbnail_is_turned_like_the_clicks_not_like_the_exif_tag(
+    calib: Path, client: TestClient
+) -> None:
+    """A phone JPEG tagged to be shown rotated is scaled in its sensor grid."""
+    folder = write_view_set(calib, "cabinet", {})
+    write_image(folder / "IMG_0001.jpg", 400, 300, exif=True)
+
+    response = client.get("/view-sets/cabinet/images/IMG_0001.jpg?width=200")
+
+    assert decoded(response.content).shape == (150, 200, 3)
+
+
+@pytest.mark.parametrize("width", ["15", "2049", "0", "wide"])
+def test_a_thumbnail_width_outside_16_to_2048_is_refused(
+    calib: Path, client: TestClient, width: str
+) -> None:
+    write_view_set(calib, "cabinet", {"a.png": (300, 200)})
+
+    assert client.get(f"/view-sets/cabinet/images/a.png?width={width}").status_code == 422
+
+
+def test_an_image_the_browser_holds_is_not_sent_again(calib: Path, client: TestClient) -> None:
+    folder = write_view_set(calib, "cabinet", {"a.png": (1080, 1920)})
+    urls = [f"/view-sets/cabinet/images/a.png{query}" for query in ("", "?width=240", "?width=120")]
+    tags = [client.get(url).headers["etag"] for url in urls]
+
+    assert len(set(tags)) == 3
+    for url, tag in zip(urls, tags, strict=True):
+        again = client.get(url, headers={"If-None-Match": tag})
+        assert (again.status_code, again.content) == (304, b"")
+        assert again.headers["etag"] == tag
+        assert client.get(url, headers={"If-None-Match": f'"other", W/{tag}'}).status_code == 304
+        assert client.get(url, headers={"If-None-Match": '"other"'}).status_code == 200
+
+    write_image(folder / "a.png", 1080, 1000)  # replaced by another image
+    for url, tag in zip(urls, tags, strict=True):
+        changed = client.get(url, headers={"If-None-Match": tag})
+        assert changed.status_code == 200
+        assert changed.headers["etag"] != tag
+
+
+def test_no_thumbnail_is_made_of_a_file_that_does_not_decode(
+    calib: Path, client: TestClient, tmp_path: Path
+) -> None:
+    folder = write_view_set(calib, "cabinet", {})
+    (folder / "junk.png").write_bytes(b"not a png")
+    # The header is whole, so the size is known; the pixels are cut off.
+    cut = write_image(tmp_path / "whole.png", 400, 300).read_bytes()[:60]
+    (folder / "cut.png").write_bytes(cut)
+
+    junk_thumbnail = client.get("/view-sets/cabinet/images/junk.png?width=240")
+    cut_thumbnail = client.get("/view-sets/cabinet/images/cut.png?width=240")
+
+    assert junk_thumbnail.status_code == 409
+    assert junk_thumbnail.json()["detail"] == "no thumbnail of junk.png: not a PNG file"
+    assert cut_thumbnail.status_code == 409
+    assert cut_thumbnail.json()["detail"] == "cannot decode cut.png"
+    assert client.get("/view-sets/cabinet/images/cut.png").content == cut
 
 
 # ---- paths that lead elsewhere ---------------------------------------------------

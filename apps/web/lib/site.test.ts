@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { NAV, SITE, normalisePath, titleFor } from "./site";
+import { NAV, normalisePath, titleFor } from "./site";
 
 describe("normalisePath", () => {
   it("treats a path with and without its trailing slash as one page", () => {
@@ -11,12 +11,12 @@ describe("normalisePath", () => {
 });
 
 describe("titleFor", () => {
-  it("names the listed pages, the home page and every other path", () => {
+  it("names the listed pages, the home page among them, and every other path", () => {
     for (const { href, title } of NAV) {
       expect(titleFor(href)).toBe(title);
       expect(titleFor(`${href}/`)).toBe(title);
     }
-    expect(titleFor("/")).toBe(SITE.name);
+    expect(titleFor("/")).toBe("Locate");
     expect(titleFor("/demo/")).toBe("Not found");
     expect(titleFor("/annotate/no-such-page/")).toBe("Not found");
   });

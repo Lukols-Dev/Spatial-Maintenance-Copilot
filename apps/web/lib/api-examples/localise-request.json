@@ -1,0 +1,9 @@
+{
+  "asset_id": "home-cabinet",
+  "view_set": "cabinet-test",
+  "view": "frame_000010.png",
+  "truth_view": null,
+  "samples": 500,
+  "seed": 0,
+  "sigma_px": null
+}

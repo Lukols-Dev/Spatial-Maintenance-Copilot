@@ -184,8 +184,9 @@ def test_an_implausible_square_is_refused_with_both_values(
     response = measure(client, square_measured_mm=square)
 
     assert response.status_code == 422
-    assert f"{square:g} mm" in response.json()["detail"]
-    assert "nominal square of 25 mm" in response.json()["detail"]
+    detail = response.json()["detail"]
+    assert f"{square:g} mm" in detail
+    assert "nominal square of 25 mm (expected 20 to 31.25 mm for one square)" in detail
     assert (calib / "calib" / "rig.yaml").read_bytes() == before
 
 

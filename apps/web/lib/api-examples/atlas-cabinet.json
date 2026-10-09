@@ -1,0 +1,95 @@
+{
+  "atlas": {
+    "asset_id": "home-cabinet",
+    "version": "2",
+    "frame": "board:rig_board_a",
+    "landmarks": [
+      {
+        "id": "corner_top_left",
+        "position_mm": [
+          -40.0,
+          -30.0,
+          0.0
+        ],
+        "sigma_mm": 1.6,
+        "description": ""
+      },
+      {
+        "id": "corner_top_right",
+        "position_mm": [
+          560.0,
+          -30.0,
+          0.0
+        ],
+        "sigma_mm": 1.9,
+        "description": ""
+      },
+      {
+        "id": "corner_bottom_left",
+        "position_mm": [
+          -40.0,
+          770.0,
+          0.0
+        ],
+        "sigma_mm": 2.2,
+        "description": ""
+      },
+      {
+        "id": "corner_bottom_right",
+        "position_mm": [
+          560.0,
+          770.0,
+          0.0
+        ],
+        "sigma_mm": 2.4,
+        "description": ""
+      },
+      {
+        "id": "hinge_top",
+        "position_mm": [
+          535.0,
+          60.0,
+          8.0
+        ],
+        "sigma_mm": 1.7,
+        "description": ""
+      },
+      {
+        "id": "hinge_bottom",
+        "position_mm": [
+          535.0,
+          690.0,
+          8.0
+        ],
+        "sigma_mm": 2.0,
+        "description": ""
+      },
+      {
+        "id": "handle",
+        "position_mm": [
+          90.0,
+          400.0,
+          -25.0
+        ],
+        "sigma_mm": 1.8,
+        "description": ""
+      }
+    ],
+    "target": {
+      "id": "drone",
+      "position_mm": [
+        260.0,
+        380.0,
+        240.0
+      ],
+      "sigma_mm": 5.21,
+      "extent_mm": [
+        300.0,
+        300.0,
+        100.0
+      ],
+      "description": ""
+    }
+  },
+  "report": null
+}

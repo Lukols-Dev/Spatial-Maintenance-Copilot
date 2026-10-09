@@ -1,0 +1,129 @@
+{
+  "request": {
+    "asset_id": "home-cabinet",
+    "view_set": "cabinet-test",
+    "view": "frame_000070.png",
+    "truth_view": null,
+    "samples": 500,
+    "seed": 0,
+    "sigma_px": 2.0
+  },
+  "camera_id": "iphone11-1x-1080p-portrait",
+  "image": {
+    "width": 1080,
+    "height": 1920
+  },
+  "localisation": {
+    "view_id": "frame_000070.png",
+    "failure": "too_few_correspondences",
+    "quality": null,
+    "pose": null,
+    "target": null,
+    "uncertainty": null
+  },
+  "observations": [
+    {
+      "landmark_id": "corner_bottom_right",
+      "pixel": [
+        529.06,
+        858.87
+      ],
+      "inlier": null
+    },
+    {
+      "landmark_id": "hinge_bottom",
+      "pixel": [
+        451.44,
+        604.64
+      ],
+      "inlier": null
+    },
+    {
+      "landmark_id": "handle",
+      "pixel": [
+        430.51,
+        879.99
+      ],
+      "inlier": null
+    }
+  ],
+  "projections": [],
+  "ignored_points": [],
+  "truth": null,
+  "decision": {
+    "reliable": false,
+    "action": "MOVE_BACK",
+    "reasons": [
+      "localisation failed: too few correspondences",
+      "3 landmarks matched, needs ≥ 4"
+    ],
+    "move_reason": "too few landmarks in view to fit a pose",
+    "checks": [
+      {
+        "name": "landmarks",
+        "value": 3.0,
+        "limit": 4,
+        "op": ">=",
+        "passed": false
+      },
+      {
+        "name": "inliers",
+        "value": null,
+        "limit": 6,
+        "op": ">=",
+        "passed": false
+      },
+      {
+        "name": "inlier_ratio",
+        "value": null,
+        "limit": 0.75,
+        "op": ">=",
+        "passed": false
+      },
+      {
+        "name": "rms_reprojection_px",
+        "value": null,
+        "limit": 3.0,
+        "op": "<=",
+        "passed": false
+      },
+      {
+        "name": "image_coverage",
+        "value": null,
+        "limit": 0.05,
+        "op": ">=",
+        "passed": false
+      },
+      {
+        "name": "target_in_frame",
+        "value": null,
+        "limit": 1.0,
+        "op": ">=",
+        "passed": false
+      },
+      {
+        "name": "pose_stability",
+        "value": null,
+        "limit": 0.05,
+        "op": "<=",
+        "passed": false
+      },
+      {
+        "name": "region_ratio",
+        "value": null,
+        "limit": 0.5,
+        "op": "<=",
+        "passed": false
+      }
+    ],
+    "policy": {
+      "min_landmarks": 4,
+      "min_inliers": 6,
+      "min_inlier_ratio": 0.75,
+      "max_rms_reprojection_px": 3.0,
+      "min_image_coverage": 0.05,
+      "max_failed_sample_ratio": 0.05,
+      "max_region_ratio": 0.5
+    }
+  }
+}

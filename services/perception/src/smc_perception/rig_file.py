@@ -179,8 +179,7 @@ def check_plausible(board: Board, square_mm: float) -> None:
     if not low <= square_mm <= high:
         raise Invalid(
             f"square_measured_mm {square_mm:g} mm is far from the nominal square of "
-            f"{board.square_nominal_mm:g} mm (expected {low:g} to {high:g}): "
-            "measure the side of one square"
+            f"{board.square_nominal_mm:g} mm (expected {low:g} to {high:g} mm for one square)"
         )
 
 

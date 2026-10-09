@@ -6,14 +6,16 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
 from smc_perception.errors import WorkspaceError
-from smc_perception.middleware import ReadOnlyGuard
-from smc_perception.routes import atlases, boards, view_sets, workspace
+from smc_perception.middleware import ReadableErrors, ReadOnlyGuard
+from smc_perception.routes import atlases, boards, localisation, view_sets, workspace
 from smc_perception.settings import allowed_origins
 
 app = FastAPI(title="Spatial Maintenance Copilot - perception", version="0.1.0")
 
-# The middleware added last runs first: CORS wraps the guard, so the 403 of a
-# refused write still carries the headers a browser needs to read it.
+# The middleware added last runs first: CORS wraps the guard and the error
+# answer, so a refused write's 403 and an unexpected error's 500 still carry
+# the headers a browser needs to read them.
+app.add_middleware(ReadableErrors)
 app.add_middleware(ReadOnlyGuard)
 app.add_middleware(
     CORSMiddleware,
@@ -22,7 +24,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-for module in (workspace, boards, view_sets, atlases):
+for module in (workspace, boards, view_sets, atlases, localisation):
     app.include_router(module.router)
 
 

@@ -11,8 +11,12 @@ export interface NavEntry {
   title: string;
 }
 
-/** The pages the sidebar lists: only pages that work. The home page is reached by the site name. */
-export const NAV: NavEntry[] = [{ href: "/annotate", title: "Annotate" }];
+/** The pages the sidebar lists: only pages that work. */
+export const NAV: NavEntry[] = [
+  { href: "/", title: "Locate" },
+  { href: "/annotate", title: "Annotate" },
+  { href: "/atlas", title: "Atlas" },
+];
 
 /** "/annotate/" and "/annotate" are the same page; the export uses trailing slashes. */
 export function normalisePath(path: string): string {
@@ -22,6 +26,5 @@ export function normalisePath(path: string): string {
 /** The heading of the page at this path. */
 export function titleFor(path: string): string {
   const page = normalisePath(path);
-  if (page === "/") return SITE.name;
   return NAV.find((entry) => entry.href === page)?.title ?? "Not found";
 }

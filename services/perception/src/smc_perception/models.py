@@ -13,7 +13,7 @@ from datetime import date
 from typing import Annotated, Literal, Self
 
 from pydantic import AwareDatetime, BaseModel, ConfigDict, Field, field_validator, model_validator
-from smc_core.contracts import Atlas, Clicks
+from smc_core.contracts import Atlas, Clicks, Decision, Localisation
 
 from smc_perception.workspace import NAME_PATTERN
 
@@ -209,3 +209,88 @@ class Workspace(ApiModel):
     rig: Rig
     view_sets: list[ViewSetSummary]
     atlases: list[AtlasSummary]
+
+
+# ---- localisation ------------------------------------------------------------
+# Pixels are OpenCV's: (0, 0) is the centre of the first pixel.
+
+
+class LocaliseRequest(ApiModel):
+    """One viewpoint of a view set, its clicked landmarks localised against an atlas."""
+
+    asset_id: Name
+    view_set: Name
+    view: str = Field(min_length=1, description="an image of the set")
+    truth_view: str | None = Field(
+        default=None,
+        description="an image of the set with the target clicked, the truth for view; "
+        "None: view itself when the target is clicked in it",
+    )
+    samples: int = Field(default=500, ge=50, le=5000, description="Monte Carlo samples")
+    seed: int = Field(default=0, ge=0)
+    sigma_px: float | None = Field(
+        default=None,
+        gt=0,
+        description="1-sigma of a click; None: the click sigma the atlas was built with, else 2.0",
+    )
+
+
+class ResolvedLocaliseRequest(LocaliseRequest):
+    """The request as it ran: the click sigma used, and the image the truth came from.
+
+    Sent again, it gives the same answer. Every field is required, as in any response.
+    """
+
+    truth_view: str | None = Field(description="the image the truth comes from; None: no truth")
+    samples: int = Field(ge=50, le=5000)
+    seed: int = Field(ge=0)
+    sigma_px: float = Field(gt=0)
+
+
+class ImageSize(ApiModel):
+    width: int
+    height: int
+
+
+class Observation(ApiModel):
+    """A landmark of the atlas clicked in the view."""
+
+    landmark_id: str
+    pixel: tuple[float, float]
+    inlier: bool | None = Field(description="whether the pose agrees with it; None without a pose")
+
+
+class Projection(ApiModel):
+    """Where the estimated pose puts one landmark of the atlas."""
+
+    landmark_id: str
+    pixel: tuple[float, float] | None = Field(description="None when behind the camera")
+    in_frame: bool
+    observed: bool = Field(description="clicked in the view")
+
+
+class Truth(ApiModel):
+    """The target clicked by hand, against which the projection is measured."""
+
+    source_view: str = Field(description="the image the click comes from")
+    target_px: tuple[float, float]
+    error_px: float | None = Field(description="to the projected target centre; None without one")
+    inside_95: bool | None = Field(description="inside the 95% region; None without a region")
+
+
+class LocaliseResult(ApiModel):
+    """The localisation of one viewpoint, what was drawn from it, and the decision on it."""
+
+    request: ResolvedLocaliseRequest
+    camera_id: str
+    image: ImageSize
+    localisation: Localisation
+    observations: list[Observation] = Field(description="in atlas order")
+    projections: list[Projection] = Field(
+        description="every landmark of the atlas, in its order; empty without a pose"
+    )
+    ignored_points: list[str] = Field(
+        description="clicked in the view, not landmarks of the atlas; the target is not listed"
+    )
+    truth: Truth | None
+    decision: Decision

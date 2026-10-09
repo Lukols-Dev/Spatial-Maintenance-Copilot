@@ -1,0 +1,310 @@
+{
+  "request": {
+    "asset_id": "home-cabinet",
+    "view_set": "cabinet-test",
+    "view": "frame_000040.png",
+    "truth_view": "frame_000040.png",
+    "samples": 500,
+    "seed": 0,
+    "sigma_px": 2.0
+  },
+  "camera_id": "iphone11-1x-1080p-portrait",
+  "image": {
+    "width": 1080,
+    "height": 1920
+  },
+  "localisation": {
+    "view_id": "frame_000040.png",
+    "failure": null,
+    "quality": {
+      "observed": 7,
+      "inliers": 7,
+      "inlier_ratio": 1.0,
+      "outlier_ids": [],
+      "rms_reprojection_px": 0.4383295498029178,
+      "max_reprojection_px": 0.7558975635399048,
+      "reprojection_px": {
+        "corner_top_left": 0.39285572278642433,
+        "corner_top_right": 0.1110289239853004,
+        "corner_bottom_left": 0.19531282231490843,
+        "corner_bottom_right": 0.6050262824006845,
+        "hinge_top": 0.3648808539074259,
+        "hinge_bottom": 0.2637109282066982,
+        "handle": 0.7558975635399048
+      },
+      "image_coverage": 0.32155381530797045,
+      "non_planarity": 0.026292307870582118
+    },
+    "pose": {
+      "rvec": [
+        -0.07347835580420083,
+        0.007163238789574036,
+        -6.774645262538929e-05
+      ],
+      "tvec_mm": [
+        -260.3706720937703,
+        -268.27846859351416,
+        1475.2185293829127
+      ]
+    },
+    "target": {
+      "centre_px": [
+        532.8206781773437,
+        1084.0045963785394
+      ],
+      "depth_mm": 1684.8081666221594,
+      "in_frame": true,
+      "outline_px": [
+        [
+          687.7337036132812,
+          1240.8017578125
+        ],
+        [
+          376.7883605957031,
+          1240.927734375
+        ],
+        [
+          379.6937561035156,
+          930.7351684570312
+        ],
+        [
+          685.2889404296875,
+          930.6362915039062
+        ]
+      ],
+      "radius_px": 174.46046625781153
+    },
+    "uncertainty": {
+      "confidence": 0.95,
+      "covariance_px": [
+        [
+          32.26091363511263,
+          -0.42614398117156976
+        ],
+        [
+          -0.42614398117156976,
+          31.89505967949991
+        ]
+      ],
+      "ellipse": {
+        "semi_major_px": 13.963260418642658,
+        "semi_minor_px": 13.762833940757762,
+        "angle_deg": 146.6159796831742
+      },
+      "pose_only": {
+        "semi_major_px": 7.23125367089357,
+        "semi_minor_px": 5.470631746617997,
+        "angle_deg": 171.23569634015146
+      },
+      "samples": 500,
+      "failed_samples": 0,
+      "seed": 0
+    }
+  },
+  "observations": [
+    {
+      "landmark_id": "corner_top_left",
+      "pixel": [
+        186.19,
+        613.56
+      ],
+      "inlier": true
+    },
+    {
+      "landmark_id": "corner_top_right",
+      "pixel": [
+        874.57,
+        613.45
+      ],
+      "inlier": true
+    },
+    {
+      "landmark_id": "corner_bottom_left",
+      "pixel": [
+        168.65,
+        1558.77
+      ],
+      "inlier": true
+    },
+    {
+      "landmark_id": "corner_bottom_right",
+      "pixel": [
+        890.76,
+        1559.14
+      ],
+      "inlier": true
+    },
+    {
+      "landmark_id": "hinge_top",
+      "pixel": [
+        844.55,
+        718.42
+      ],
+      "inlier": true
+    },
+    {
+      "landmark_id": "hinge_bottom",
+      "pixel": [
+        857.16,
+        1456.23
+      ],
+      "inlier": true
+    },
+    {
+      "landmark_id": "handle",
+      "pixel": [
+        330.16,
+        1108.77
+      ],
+      "inlier": true
+    }
+  ],
+  "projections": [
+    {
+      "landmark_id": "corner_top_left",
+      "pixel": [
+        186.56,
+        613.7
+      ],
+      "in_frame": true,
+      "observed": true
+    },
+    {
+      "landmark_id": "corner_top_right",
+      "pixel": [
+        874.64,
+        613.54
+      ],
+      "in_frame": true,
+      "observed": true
+    },
+    {
+      "landmark_id": "corner_bottom_left",
+      "pixel": [
+        168.59,
+        1558.96
+      ],
+      "in_frame": true,
+      "observed": true
+    },
+    {
+      "landmark_id": "corner_bottom_right",
+      "pixel": [
+        891.05,
+        1558.61
+      ],
+      "in_frame": true,
+      "observed": true
+    },
+    {
+      "landmark_id": "hinge_top",
+      "pixel": [
+        844.89,
+        718.3
+      ],
+      "in_frame": true,
+      "observed": true
+    },
+    {
+      "landmark_id": "hinge_bottom",
+      "pixel": [
+        856.91,
+        1456.3
+      ],
+      "in_frame": true,
+      "observed": true
+    },
+    {
+      "landmark_id": "handle",
+      "pixel": [
+        329.43,
+        1108.95
+      ],
+      "in_frame": true,
+      "observed": true
+    }
+  ],
+  "ignored_points": [],
+  "truth": {
+    "source_view": "frame_000040.png",
+    "target_px": [
+      531.53,
+      1084.31
+    ],
+    "error_px": 1.33,
+    "inside_95": true
+  },
+  "decision": {
+    "reliable": true,
+    "action": "ACCEPT",
+    "reasons": [],
+    "move_reason": "",
+    "checks": [
+      {
+        "name": "landmarks",
+        "value": 7.0,
+        "limit": 4,
+        "op": ">=",
+        "passed": true
+      },
+      {
+        "name": "inliers",
+        "value": 7.0,
+        "limit": 6,
+        "op": ">=",
+        "passed": true
+      },
+      {
+        "name": "inlier_ratio",
+        "value": 1.0,
+        "limit": 0.75,
+        "op": ">=",
+        "passed": true
+      },
+      {
+        "name": "rms_reprojection_px",
+        "value": 0.4383295498029178,
+        "limit": 3.0,
+        "op": "<=",
+        "passed": true
+      },
+      {
+        "name": "image_coverage",
+        "value": 0.32155381530797045,
+        "limit": 0.05,
+        "op": ">=",
+        "passed": true
+      },
+      {
+        "name": "target_in_frame",
+        "value": 1.0,
+        "limit": 1.0,
+        "op": ">=",
+        "passed": true
+      },
+      {
+        "name": "pose_stability",
+        "value": 0.0,
+        "limit": 0.05,
+        "op": "<=",
+        "passed": true
+      },
+      {
+        "name": "region_ratio",
+        "value": 0.08003681704030438,
+        "limit": 0.5,
+        "op": "<=",
+        "passed": true
+      }
+    ],
+    "policy": {
+      "min_landmarks": 4,
+      "min_inliers": 6,
+      "min_inlier_ratio": 0.75,
+      "max_rms_reprojection_px": 3.0,
+      "min_image_coverage": 0.05,
+      "max_failed_sample_ratio": 0.05,
+      "max_region_ratio": 0.5
+    }
+  }
+}

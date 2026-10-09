@@ -1,0 +1,294 @@
+{
+  "request": {
+    "asset_id": "home-cabinet",
+    "view_set": "cabinet-test",
+    "view": "frame_000010.png",
+    "truth_view": null,
+    "samples": 500,
+    "seed": 0,
+    "sigma_px": 2.0
+  },
+  "camera_id": "iphone11-1x-1080p-portrait",
+  "image": {
+    "width": 1080,
+    "height": 1920
+  },
+  "localisation": {
+    "view_id": "frame_000010.png",
+    "failure": null,
+    "quality": {
+      "observed": 5,
+      "inliers": 5,
+      "inlier_ratio": 1.0,
+      "outlier_ids": [],
+      "rms_reprojection_px": 0.468048590362685,
+      "max_reprojection_px": 0.7714800315097216,
+      "reprojection_px": {
+        "corner_top_right": 0.2094074614197409,
+        "corner_bottom_right": 0.4710563710457258,
+        "hinge_top": 0.38844884769066157,
+        "hinge_bottom": 0.7714800315097216,
+        "handle": 0.2890119008120772
+      },
+      "image_coverage": 0.20029285819760187,
+      "non_planarity": 0.01324922012648138
+    },
+    "pose": {
+      "rvec": [
+        0.006329817227986163,
+        0.24893032687174982,
+        0.0002882820122827189
+      ],
+      "tvec_mm": [
+        -413.68853626542267,
+        -380.1332126902463,
+        1237.0553854589057
+      ]
+    },
+    "target": {
+      "centre_px": [
+        409.6234563157452,
+        954.6110871372471
+      ],
+      "depth_mm": 1407.992246301255,
+      "in_frame": true,
+      "outline_px": [
+        [
+          596.9117431640625,
+          1131.8433837890625
+        ],
+        [
+          570.484619140625,
+          1145.53759765625
+        ],
+        [
+          217.3109893798828,
+          1136.21435546875
+        ],
+        [
+          216.7009735107422,
+          773.102294921875
+        ],
+        [
+          570.3472900390625,
+          764.409912109375
+        ],
+        [
+          596.81884765625,
+          776.8150024414062
+        ]
+      ],
+      "radius_px": 212.03791737773398
+    },
+    "uncertainty": {
+      "confidence": 0.95,
+      "covariance_px": [
+        [
+          58.5651889636836,
+          4.587758592652648
+        ],
+        [
+          4.587758592652648,
+          88.32741097830156
+        ]
+      ],
+      "ellipse": {
+        "semi_major_px": 23.094403883551426,
+        "semi_minor_px": 18.621232882071062,
+        "angle_deg": 81.43288936749747
+      },
+      "pose_only": {
+        "semi_major_px": 17.944369018093994,
+        "semi_minor_px": 12.047438035113492,
+        "angle_deg": 83.47594826991096
+      },
+      "samples": 500,
+      "failed_samples": 0,
+      "seed": 0
+    }
+  },
+  "observations": [
+    {
+      "landmark_id": "corner_top_right",
+      "pixel": [
+        730.6,
+        321.09
+      ],
+      "inlier": true
+    },
+    {
+      "landmark_id": "corner_bottom_right",
+      "pixel": [
+        729.96,
+        1558.22
+      ],
+      "inlier": true
+    },
+    {
+      "landmark_id": "hinge_top",
+      "pixel": [
+        693.03,
+        469.44
+      ],
+      "inlier": true
+    },
+    {
+      "landmark_id": "hinge_bottom",
+      "pixel": [
+        693.58,
+        1427.72
+      ],
+      "inlier": true
+    },
+    {
+      "landmark_id": "handle",
+      "pixel": [
+        58.82,
+        984.58
+      ],
+      "inlier": true
+    }
+  ],
+  "projections": [
+    {
+      "landmark_id": "corner_top_left",
+      "pixel": [
+        -92.98,
+        390.61
+      ],
+      "in_frame": false,
+      "observed": false
+    },
+    {
+      "landmark_id": "corner_top_right",
+      "pixel": [
+        730.45,
+        320.94
+      ],
+      "in_frame": true,
+      "observed": true
+    },
+    {
+      "landmark_id": "corner_bottom_left",
+      "pixel": [
+        -89.7,
+        1491.6
+      ],
+      "in_frame": false,
+      "observed": false
+    },
+    {
+      "landmark_id": "corner_bottom_right",
+      "pixel": [
+        730.07,
+        1558.68
+      ],
+      "in_frame": true,
+      "observed": true
+    },
+    {
+      "landmark_id": "hinge_top",
+      "pixel": [
+        693.4,
+        469.56
+      ],
+      "in_frame": true,
+      "observed": true
+    },
+    {
+      "landmark_id": "hinge_bottom",
+      "pixel": [
+        693.27,
+        1427.01
+      ],
+      "in_frame": true,
+      "observed": true
+    },
+    {
+      "landmark_id": "handle",
+      "pixel": [
+        58.81,
+        984.87
+      ],
+      "in_frame": true,
+      "observed": true
+    }
+  ],
+  "ignored_points": [],
+  "truth": null,
+  "decision": {
+    "reliable": false,
+    "action": "MOVE_LEFT",
+    "reasons": [
+      "5 inliers, needs ≥ 6"
+    ],
+    "move_reason": "landmarks extend beyond the left edge of the frame",
+    "checks": [
+      {
+        "name": "landmarks",
+        "value": 5.0,
+        "limit": 4,
+        "op": ">=",
+        "passed": true
+      },
+      {
+        "name": "inliers",
+        "value": 5.0,
+        "limit": 6,
+        "op": ">=",
+        "passed": false
+      },
+      {
+        "name": "inlier_ratio",
+        "value": 1.0,
+        "limit": 0.75,
+        "op": ">=",
+        "passed": true
+      },
+      {
+        "name": "rms_reprojection_px",
+        "value": 0.468048590362685,
+        "limit": 3.0,
+        "op": "<=",
+        "passed": true
+      },
+      {
+        "name": "image_coverage",
+        "value": 0.20029285819760187,
+        "limit": 0.05,
+        "op": ">=",
+        "passed": true
+      },
+      {
+        "name": "target_in_frame",
+        "value": 1.0,
+        "limit": 1.0,
+        "op": ">=",
+        "passed": true
+      },
+      {
+        "name": "pose_stability",
+        "value": 0.0,
+        "limit": 0.05,
+        "op": "<=",
+        "passed": true
+      },
+      {
+        "name": "region_ratio",
+        "value": 0.1089163870743458,
+        "limit": 0.5,
+        "op": "<=",
+        "passed": true
+      }
+    ],
+    "policy": {
+      "min_landmarks": 4,
+      "min_inliers": 6,
+      "min_inlier_ratio": 0.75,
+      "max_rms_reprojection_px": 3.0,
+      "min_image_coverage": 0.05,
+      "max_failed_sample_ratio": 0.05,
+      "max_region_ratio": 0.5
+    }
+  }
+}

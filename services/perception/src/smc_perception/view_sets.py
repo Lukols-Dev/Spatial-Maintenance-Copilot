@@ -6,7 +6,7 @@ from pathlib import Path
 from pydantic import ValidationError
 from smc_core.contracts import Clicks
 
-from smc_perception.errors import Invalid, WorkspaceError, describe
+from smc_perception.errors import Conflict, Invalid, WorkspaceError, describe
 from smc_perception.image_headers import image_format, read_header
 from smc_perception.models import Camera, ClicksSummary, ViewSet, ViewSetImage, ViewSetSummary
 from smc_perception.workspace import (
@@ -115,6 +115,17 @@ def load_clicks(workspace: WorkspaceFiles, path: Path) -> Clicks:
         raise Invalid(f"cannot read {workspace.relative(path)}") from error
     except ValidationError as error:
         raise Invalid(f"{workspace.relative(path)} is not valid: {describe(error)}") from error
+
+
+def required_clicks(workspace: WorkspaceFiles, folder: Path, name: str) -> Clicks:
+    """The clicks of a set that a computation starts from: 409 when there are none to use."""
+    path = workspace.clicks_file(folder)
+    if path is None:
+        raise Conflict(f"view set {name!r} has no clicks")
+    try:
+        return load_clicks(workspace, path)
+    except Invalid as error:
+        raise Conflict(str(error)) from error
 
 
 def clicks_summary(workspace: WorkspaceFiles, path: Path) -> ClicksSummary:

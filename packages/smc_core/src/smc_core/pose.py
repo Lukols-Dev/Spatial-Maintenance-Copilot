@@ -4,7 +4,7 @@ import cv2 as cv
 import numpy as np
 
 from smc_core.calibration import Intrinsics
-from smc_core.contracts import Atlas, ProjectedTarget, Quality, Target, View
+from smc_core.contracts import Atlas, Pose, ProjectedTarget, Quality, Target, Vec2, View
 
 # PnP has a unique solution from four points in general position. Three points
 # can have up to four.
@@ -61,23 +61,33 @@ def fit_pose(
     ransac_threshold_px is the reprojection error up to which a landmark counts
     as an inlier; 8 px is OpenCV's default. Returns None when no pose agrees
     with at least MIN_CORRESPONDENCES landmarks.
+
+    Clicks that coincide are a fault of the annotation, not of the code, and
+    OpenCV fails on them in its own ways: with four, RANSAC returns a pose of
+    NaN; with more, SQPnP raises. Both come back as None, like any other view
+    that no pose fits.
     """
     camera_matrix, dist_coeffs = intrinsics["camera_matrix"], intrinsics["dist_coeffs"]
 
     # The stubs declare the inlier array as always present, so without the cast
     # the None check below would be flagged as unreachable.
-    found, rvec, tvec, inlier_index = cast(
-        tuple[bool, np.ndarray, np.ndarray, np.ndarray | None],
-        cv.solvePnPRansac(
-            pairs["object_points"],
-            pairs["image_points"],
-            camera_matrix,
-            dist_coeffs,
-            reprojectionError=ransac_threshold_px,
-            flags=cv.SOLVEPNP_SQPNP,
-        ),
-    )
+    try:
+        found, rvec, tvec, inlier_index = cast(
+            tuple[bool, np.ndarray, np.ndarray, np.ndarray | None],
+            cv.solvePnPRansac(
+                pairs["object_points"],
+                pairs["image_points"],
+                camera_matrix,
+                dist_coeffs,
+                reprojectionError=ransac_threshold_px,
+                flags=cv.SOLVEPNP_SQPNP,
+            ),
+        )
+    except cv.error:
+        return None
     if not found or inlier_index is None or len(inlier_index) < MIN_CORRESPONDENCES:
+        return None
+    if not (np.isfinite(rvec).all() and np.isfinite(tvec).all()):
         return None
 
     inliers = np.zeros(len(pairs["ids"]), bool)
@@ -153,12 +163,41 @@ def project_target(target: Target, fit: PoseFit, intrinsics: Intrinsics) -> Proj
     projected = projected.reshape(-1, 2)
     outline = cv.convexHull(projected[1:].astype(np.float32)).reshape(-1, 2)
 
-    width, height = intrinsics["image_size"]
-    u, v = float(projected[0, 0]), float(projected[0, 1])
+    centre_px = (float(projected[0, 0]), float(projected[0, 1]))
     return ProjectedTarget(
-        centre_px=(u, v),
+        centre_px=centre_px,
         depth_mm=float(depth[0]),
-        in_frame=0 <= u < width and 0 <= v < height,
+        in_frame=in_frame(centre_px, intrinsics["image_size"]),
         outline_px=[(float(x), float(y)) for x, y in outline],
         radius_px=float(np.sqrt(cv.contourArea(outline) / np.pi)),
     )
+
+
+def in_frame(pixel: Vec2, image_size: tuple[int, int]) -> bool:
+    """Whether a pixel lands on an image of image_size (width, height)."""
+    width, height = image_size
+    return 0 <= pixel[0] < width and 0 <= pixel[1] < height
+
+
+def project_landmarks(atlas: Atlas, pose: Pose, intrinsics: Intrinsics) -> dict[str, Vec2 | None]:
+    """Where a pose puts every landmark of the atlas, observed or not, in atlas order.
+
+    A landmark behind the camera maps to None: OpenCV still projects it, to a
+    position that means nothing.
+    """
+    if not atlas.landmarks:
+        return {}
+    points = np.array([landmark.position_mm for landmark in atlas.landmarks], np.float64)
+    rvec, tvec = np.array(pose.rvec, np.float64), np.array(pose.tvec_mm, np.float64)
+
+    rotation, _ = cv.Rodrigues(rvec)
+    depth = (points @ rotation.T + tvec)[:, 2]
+    projected, _ = cv.projectPoints(
+        points, rvec, tvec, intrinsics["camera_matrix"], intrinsics["dist_coeffs"]
+    )
+    return {
+        landmark.id: None if z <= 0 else (float(u), float(v))
+        for landmark, z, (u, v) in zip(
+            atlas.landmarks, depth, projected.reshape(-1, 2), strict=True
+        )
+    }

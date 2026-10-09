@@ -31,7 +31,7 @@ from smc_perception.models import (
     PosedView,
 )
 from smc_perception.rig_file import measured_board
-from smc_perception.view_sets import load_clicks
+from smc_perception.view_sets import required_clicks
 from smc_perception.workspace import (
     REPORT_SUFFIX,
     WorkspaceFiles,
@@ -180,13 +180,7 @@ def build(workspace: WorkspaceFiles, request: AtlasBuildRequest) -> AtlasDetail:
 
 
 def _clicks(workspace: WorkspaceFiles, folder: Path, request: AtlasBuildRequest) -> Clicks:
-    path = workspace.clicks_file(folder)
-    if path is None:
-        raise Conflict(f"view set {request.view_set!r} has no clicks")
-    try:
-        clicks = load_clicks(workspace, path)
-    except Invalid as error:
-        raise Conflict(str(error)) from error
+    clicks = required_clicks(workspace, folder, request.view_set)
     if clicks.camera_id != request.camera_id:
         clicked_on = repr(clicks.camera_id) if clicks.camera_id else "no camera"
         raise Conflict(

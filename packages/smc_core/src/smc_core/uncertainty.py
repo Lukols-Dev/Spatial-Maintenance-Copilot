@@ -2,7 +2,7 @@ import cv2 as cv
 import numpy as np
 
 from smc_core.calibration import Intrinsics
-from smc_core.contracts import Ellipse, Target, UncertaintyRegion
+from smc_core.contracts import Ellipse, Target, UncertaintyRegion, Vec2
 from smc_core.pose import Correspondences, PoseFit
 
 # Squared Mahalanobis radius that holds 95% of a 2D Gaussian: the chi-square
@@ -92,6 +92,21 @@ def target_region(
         failed_samples=samples - len(total),
         seed=seed,
     )
+
+
+def in_region(region: UncertaintyRegion, centre: Vec2, point: Vec2) -> bool | None:
+    """Whether point lies inside the 95% region around centre, the projected target.
+
+    The test is the region's own: the squared Mahalanobis distance under its
+    covariance against CHI2_95_2DOF, the boundary of the drawn ellipse. None
+    when the covariance has no spread in some direction and cannot be inverted.
+    """
+    offset = np.array(point, np.float64) - np.array(centre, np.float64)
+    try:
+        distance = float(offset @ np.linalg.solve(np.array(region.covariance_px), offset))
+    except np.linalg.LinAlgError:
+        return None
+    return distance <= CHI2_95_2DOF
 
 
 def ellipse_95(covariance: np.ndarray) -> Ellipse:

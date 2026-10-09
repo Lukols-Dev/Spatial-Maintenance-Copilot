@@ -23,40 +23,55 @@ function current(page: Page) {
   return sidebar(page).locator("[aria-current=page]");
 }
 
+/** The pages call the API as soon as they open; every test answers for it, so none reaches a real service. */
+async function stubApi(page: Page, online = true) {
+  await stubHealth(page, online);
+  await stubWorkspace(page, online ? example("workspace-empty.json") : "offline");
+}
+
+/** Where a page lives once exported: "/" for the home page, "/annotate/" for the rest. */
+function urlOf(href: string) {
+  return href === "/" ? /:\d+\/$/ : new RegExp(`${href}/$`);
+}
+
 test("the sidebar lists the working pages and reaches each one without a reload", async ({ page }) => {
-  await stubHealth(page);
+  await stubApi(page);
   await page.goto("/");
-  await expect(page).toHaveTitle(SITE.name);
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText(SITE.name);
+  await expect(page).toHaveTitle(`Locate · ${SITE.name}`);
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Locate");
 
   const pages = sidebar(page).getByRole("navigation", { name: "Pages" }).getByRole("link");
   await expect(pages).toHaveText(NAV.map((entry) => entry.title));
+  // The home page is also the first entry; only that entry says it is current.
   await expect(current(page)).toHaveCount(1);
-  await expect(current(page)).toHaveAccessibleName(SITE.name);
+  await expect(current(page)).toHaveText("Locate");
 
   await markWindow(page);
-  for (const { href, title } of NAV) {
+  // Backwards, so the walk starts by leaving the home page and ends by coming back to it.
+  for (const { href, title } of [...NAV].reverse()) {
     await pages.getByText(title, { exact: true }).click();
-    await expect(page).toHaveURL(new RegExp(`${href}/$`));
+    await expect(page).toHaveURL(urlOf(href));
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(title);
     await expect(current(page)).toHaveCount(1);
     await expect(current(page)).toHaveText(title);
   }
+  await pages.getByText("Atlas", { exact: true }).click();
   await sidebar(page).getByRole("link", { name: SITE.name }).click();
-  await expect(page).toHaveURL(/:\d+\/$/);
-  await page.getByRole("main").getByRole("link", { name: "Annotate" }).click();
-  await expect(page).toHaveURL(/\/annotate\/$/);
+  await expect(page).toHaveURL(urlOf("/"));
+  await expect(current(page)).toHaveText("Locate");
   expect(await windowStillMarked(page)).toBe(true);
 });
 
 test("the export redirects a folder to its slash, and unknown or removed pages are 404", async ({ page, request }) => {
   // The local server imitates an S3 website endpoint: a folder without its slash is redirected.
-  const redirect = await request.get("/annotate", { maxRedirects: 0 });
-  expect(redirect.status()).toBe(302);
-  expect(redirect.headers().location).toBe("/annotate/");
+  for (const folder of ["/annotate", "/atlas"]) {
+    const redirect = await request.get(folder, { maxRedirects: 0 });
+    expect(redirect.status()).toBe(302);
+    expect(redirect.headers().location).toBe(`${folder}/`);
+  }
 
-  await stubHealth(page);
-  for (const path of ["/no-such-page/", "/annotate/no-such-page/", "/demo/", "/evaluation/"]) {
+  await stubApi(page);
+  for (const path of ["/no-such-page/", "/annotate/no-such-page/", "/atlas/no-such-page/", "/demo/", "/evaluation/"]) {
     const missing = await page.goto(path);
     expect(missing?.status()).toBe(404);
     await expect(page.getByText("Page not found")).toBeVisible();
@@ -66,7 +81,7 @@ test("the export redirects a folder to its slash, and unknown or removed pages a
 });
 
 test("the dark theme is kept across a reload", async ({ page }) => {
-  await stubHealth(page);
+  await stubApi(page);
   await page.goto("/");
   await page.getByRole("button", { name: "Colour theme" }).click();
   await page.getByRole("menuitemradio", { name: "Dark" }).click();
@@ -76,13 +91,13 @@ test("the dark theme is kept across a reload", async ({ page }) => {
 });
 
 test("the API status entry shows the live answer of /health", async ({ page }) => {
-  await stubHealth(page, true);
+  await stubApi(page);
   await page.goto("/");
   await expect(sidebar(page).getByRole("button", { name: /^API online · v0\.1\.0\./ })).toBeVisible();
 });
 
 test("the API status entry says when the service cannot be reached, and checks again on click", async ({ page }) => {
-  await stubHealth(page, false);
+  await stubApi(page, false);
   await page.goto("/");
   const status = sidebar(page).getByRole("button", { name: /^API (offline|online)/ });
   await expect(status).toHaveAccessibleName(/^API offline\./);
@@ -94,14 +109,13 @@ test("the API status entry says when the service cannot be reached, and checks a
 });
 
 test("no page logs an error", async ({ page }) => {
-  await stubHealth(page);
-  await stubWorkspace(page, example("workspace.json"));
+  await stubApi(page);
   const errors: string[] = [];
   page.on("console", (message) => {
     if (message.type() === "error") errors.push(message.text());
   });
   page.on("pageerror", (error) => errors.push(error.message));
-  for (const path of ["/", "/annotate/"]) {
+  for (const path of ["/", "/annotate/", "/atlas/"]) {
     await page.goto(path);
     await page.waitForLoadState("networkidle");
   }

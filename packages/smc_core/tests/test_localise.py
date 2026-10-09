@@ -4,15 +4,19 @@ import pytest
 from smc_core.calibration import Intrinsics
 from smc_core.contracts import (
     Atlas,
+    Ellipse,
     Failure,
     Landmark,
     LandmarkObservation,
     Localisation,
+    Pose,
     Target,
+    UncertaintyRegion,
     View,
 )
 from smc_core.localise import localise
-from smc_core.uncertainty import CHI2_95_2DOF
+from smc_core.pose import project_landmarks
+from smc_core.uncertainty import CHI2_95_2DOF, in_region
 
 CAMERA_ID = "phone-1x-portrait"
 INTRINSICS: Intrinsics = {
@@ -141,6 +145,17 @@ def test_localise_refuses_landmarks_on_one_line() -> None:
     assert result.failure is Failure.DEGENERATE_GEOMETRY
 
 
+@pytest.mark.parametrize("count", [4, 6])
+def test_localise_finds_no_pose_for_clicks_that_coincide(count: int) -> None:
+    """OpenCV returns a pose of NaN for four such clicks, and SQPnP raises on six."""
+    pixels = np.tile(project(LANDMARKS_MM)[0], (len(LANDMARKS_MM), 1))
+
+    result = localise(make_atlas(), make_view(pixels, seen=list(range(count))), INTRINSICS)
+
+    assert result.failure is Failure.PNP_FAILED
+    assert result.pose is None
+
+
 def test_localise_reports_a_target_behind_the_camera() -> None:
     atlas = make_atlas(target_mm=np.array([0.0, 0.0, -2000.0]))
 
@@ -242,3 +257,51 @@ def test_uncertainty_region_repeats_with_the_same_seed() -> None:
     second = localise(make_atlas(), view, INTRINSICS, seed=3)
 
     assert first == second
+
+
+def test_every_landmark_is_projected_the_unobserved_ones_too() -> None:
+    result = localise(make_atlas(), make_view(project(LANDMARKS_MM), seen=[0, 2, 5, 8]), INTRINSICS)
+
+    assert result.pose is not None
+    projected = project_landmarks(make_atlas(), result.pose, INTRINSICS)
+
+    assert list(projected) == [f"L{i}" for i in range(len(LANDMARKS_MM))]
+    np.testing.assert_allclose(list(projected.values()), project(LANDMARKS_MM), atol=1e-3)
+
+
+def test_a_landmark_behind_the_camera_is_not_projected() -> None:
+    behind = np.vstack([LANDMARKS_MM, [[0.0, 0.0, -3000.0]]])
+    pose = Pose(rvec=(0.15, -0.25, 0.05), tvec_mm=(30.0, -20.0, 1500.0))
+
+    projected = project_landmarks(make_atlas(landmarks_mm=behind), pose, INTRINSICS)
+
+    assert projected["L10"] is None
+    assert all(projected[f"L{i}"] is not None for i in range(len(LANDMARKS_MM)))
+
+
+def region(covariance: tuple[tuple[float, float], tuple[float, float]]) -> UncertaintyRegion:
+    ellipse = Ellipse(semi_major_px=1.0, semi_minor_px=1.0, angle_deg=0.0)
+    return UncertaintyRegion(
+        confidence=0.95,
+        covariance_px=covariance,
+        ellipse=ellipse,
+        pose_only=ellipse,
+        samples=100,
+        failed_samples=0,
+        seed=0,
+    )
+
+
+@pytest.mark.parametrize(
+    ("point", "inside"),
+    [((104.8, 50.0), True), ((105.0, 50.0), False), ((100.0, 52.4), True), ((100.0, 47.5), False)],
+)
+def test_a_point_is_in_the_region_inside_its_95_percent_ellipse(
+    point: tuple[float, float], inside: bool
+) -> None:
+    """Variance 4 along x and 1 along y: the ellipse reaches 2.45 sigma, 4.9 px and 2.45 px."""
+    assert in_region(region(((4.0, 0.0), (0.0, 1.0))), (100.0, 50.0), point) is inside
+
+
+def test_a_region_without_spread_in_one_direction_cannot_tell() -> None:
+    assert in_region(region(((1.0, 1.0), (1.0, 1.0))), (0.0, 0.0), (0.5, 0.5)) is None

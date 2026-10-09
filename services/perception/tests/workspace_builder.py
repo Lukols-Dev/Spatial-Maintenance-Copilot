@@ -5,11 +5,13 @@ from pathlib import Path
 import cv2 as cv
 import numpy as np
 from smc_core.calibration import save_calibration
-from smc_core.contracts import Clicks
+from smc_core.contracts import Atlas, Clicks, Landmark, Target, Vec3
 from smc_core.testing import (
     CAMERA_ID,
+    EXTENT_MM,
     INTRINSICS,
     POINTS_MM,
+    TARGET_ID,
     calibration,
     clicks_for,
     rendered_views,
@@ -120,3 +122,49 @@ def write_scene(root: Path, name: str = "cabinet") -> Path:
 def annotated(clicks: Clicks) -> Clicks:
     """The clicks as the annotator saves them, with its list of points."""
     return Clicks(camera_id=clicks.camera_id, points=list(POINTS_MM), views=clicks.views)
+
+
+def scene_atlas(asset_id: str = "home-cabinet") -> Atlas:
+    """The atlas of the synthetic scene, every point where it truly is."""
+
+    def vec(point: np.ndarray) -> Vec3:
+        return (float(point[0]), float(point[1]), float(point[2]))
+
+    return Atlas(
+        asset_id=asset_id,
+        version="1",
+        frame="board:rig_board_a",
+        landmarks=[
+            Landmark(id=point_id, position_mm=vec(point), sigma_mm=1.0)
+            for point_id, point in POINTS_MM.items()
+            if point_id != TARGET_ID
+        ],
+        target=Target(
+            id=TARGET_ID, position_mm=vec(POINTS_MM[TARGET_ID]), sigma_mm=5.0, extent_mm=EXTENT_MM
+        ),
+    )
+
+
+def write_atlas(root: Path, atlas: Atlas) -> Path:
+    """An atlas file as the CLI writes it, without a build report."""
+    path = root / "data" / "atlas" / f"{atlas.asset_id}.json"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(atlas.model_dump_json(indent=2) + "\n")
+    return path
+
+
+def write_viewpoints(
+    root: Path,
+    name: str = "cabinet-test",
+    clicks: Clicks | None = None,
+    size: tuple[int, int] = (1080, 1920),
+) -> Path:
+    """Viewpoints of the synthetic scene, every point clicked in the first three views.
+
+    The images are blank: localising reads the clicks and only the size of the image.
+    """
+    if clicks is None:
+        clicks = annotated(clicks_for(1.0, ["view_0.png", "view_1.png", "view_2.png"]))
+    folder = write_view_set(root, name, dict.fromkeys(clicks.views, size))
+    (folder / "clicks.json").write_text(clicks.model_dump_json(indent=2) + "\n")
+    return folder
