@@ -79,17 +79,25 @@ def build_atlas(
     def vec(position: np.ndarray) -> Vec3:
         return (float(position[0]), float(position[1]), float(position[2]))
 
+    def landmark(point_id: str, estimate: PointEstimate) -> Landmark:
+        seen_from, within_deg = _seen_from(
+            estimate["position_mm"], [pose for pose, _ in observations[point_id]]
+        )
+        return Landmark(
+            id=point_id,
+            position_mm=vec(estimate["position_mm"]),
+            sigma_mm=estimate["sigma_mm"],
+            seen_from=vec(seen_from),
+            seen_within_deg=within_deg,
+        )
+
     centre = points[target_id]
     atlas = Atlas(
         asset_id=asset_id,
         version=version,
         frame=frame,
         landmarks=[
-            Landmark(
-                id=point_id,
-                position_mm=vec(estimate["position_mm"]),
-                sigma_mm=estimate["sigma_mm"],
-            )
+            landmark(point_id, estimate)
             for point_id, estimate in points.items()
             if point_id != target_id
         ],
@@ -107,3 +115,19 @@ def build_atlas(
         "unposed_views": unposed,
     }
     return atlas, report
+
+
+def _seen_from(position: np.ndarray, poses: list[ViewPose]) -> tuple[np.ndarray, float]:
+    """The mean direction from a point to these cameras, and the widest angle off it.
+
+    A camera's centre in the board frame is -R^T t. The mean of the unit
+    directions, normalised, is where the point was seen from; the widest angle
+    between it and one of them bounds the cone those cameras stood in.
+    """
+    centres = np.array([-pose["rotation"].T @ pose["tvec"] for pose in poses])
+    directions = centres - position
+    directions /= np.linalg.norm(directions, axis=1, keepdims=True)
+    mean = directions.sum(axis=0)
+    mean /= np.linalg.norm(mean)
+    widest = float(np.degrees(np.arccos(np.clip(directions @ mean, -1.0, 1.0))).max())
+    return mean, widest

@@ -8,6 +8,7 @@ and it carries the Policy it applied, so the facts and the thresholds held
 against them never mix.
 """
 
+import math
 from enum import StrEnum
 from pathlib import Path
 from typing import Literal, Self
@@ -25,12 +26,35 @@ class Contract(BaseModel):
 
 
 class Landmark(Contract):
-    """A reference point on the asset, measured in the asset frame."""
+    """A reference point on the asset, measured in the asset frame.
+
+    seen_from and seen_within_deg say from where the landmark was seen while the
+    atlas was built: a camera outside that cone may be looking at its back.
+    Atlases built before they existed have neither.
+    """
 
     id: str
     position_mm: Vec3
     sigma_mm: float = Field(ge=0, description="1-sigma error of each coordinate")
     description: str = ""
+    seen_from: Vec3 | None = Field(
+        default=None,
+        description="unit vector: the mean direction from the landmark to the cameras that saw it",
+    )
+    seen_within_deg: float | None = Field(
+        default=None,
+        ge=0,
+        le=180,
+        description="the widest angle between seen_from and the direction to one of those cameras",
+    )
+
+    @model_validator(mode="after")
+    def _seen_from_is_a_direction(self) -> Self:
+        if (self.seen_from is None) != (self.seen_within_deg is None):
+            raise ValueError("seen_from and seen_within_deg are set together")
+        if self.seen_from is not None and abs(math.hypot(*self.seen_from) - 1.0) > 1e-6:
+            raise ValueError(f"seen_from must be a unit vector, not {self.seen_from}")
+        return self
 
 
 class Target(Contract):

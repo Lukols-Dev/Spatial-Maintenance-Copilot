@@ -205,6 +205,62 @@ def test_build_atlas_refuses_clicks_from_another_camera(board: cv.aruco.CharucoB
         build(poses, clicks)
 
 
+def directions_to_cameras(point: np.ndarray, viewpoints: list[int]) -> np.ndarray:
+    """Unit vectors from a point to the true centres of these cameras of the scene."""
+    directions = []
+    for index in viewpoints:
+        rotation, tvec = camera_pose(*VIEWPOINTS[index])
+        centre = -rotation.T @ tvec
+        directions.append((centre - point) / np.linalg.norm(centre - point))
+    return np.array(directions)
+
+
+def angle_deg(a: np.ndarray, b: np.ndarray) -> float:
+    cosine = np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b))
+    return float(np.degrees(np.arccos(np.clip(cosine, -1.0, 1.0))))
+
+
+def expected_seen_from(point_id: str, viewpoints: list[int]) -> tuple[np.ndarray, float]:
+    """The mean direction to the cameras, and the widest angle between it and one of them."""
+    directions = directions_to_cameras(POINTS_MM[point_id], viewpoints)
+    mean = directions.mean(axis=0)
+    mean /= np.linalg.norm(mean)
+    return mean, max(angle_deg(mean, direction) for direction in directions)
+
+
+def test_build_atlas_records_where_each_landmark_was_seen_from(
+    board: cv.aruco.CharucoBoard,
+) -> None:
+    """Every landmark is clicked in all eight views: it was seen from all eight cameras."""
+    atlas, _ = build(posed_views(board), clicks_for(sigma_px=1.0))
+
+    for landmark in atlas.landmarks:
+        assert landmark.seen_from is not None, landmark.id
+        assert landmark.seen_within_deg is not None, landmark.id
+        mean, widest = expected_seen_from(landmark.id, list(range(len(VIEWPOINTS))))
+        assert np.linalg.norm(landmark.seen_from) == pytest.approx(1.0, abs=1e-9), landmark.id
+        assert angle_deg(np.array(landmark.seen_from), mean) < 1.0, landmark.id
+        assert landmark.seen_within_deg == pytest.approx(widest, abs=1.0), landmark.id
+
+
+def test_seen_from_comes_only_from_the_views_a_landmark_was_clicked_in(
+    board: cv.aruco.CharucoBoard,
+) -> None:
+    clicks = clicks_for(sigma_px=1.0)
+    for index in range(3, len(VIEWPOINTS)):
+        del clicks.views[f"view_{index}.png"]["corner_top_left"]
+
+    atlas, _ = build(posed_views(board), clicks)
+
+    landmark = next(item for item in atlas.landmarks if item.id == "corner_top_left")
+    assert landmark.seen_from is not None and landmark.seen_within_deg is not None
+    mean, widest = expected_seen_from("corner_top_left", [0, 1, 2])
+    assert angle_deg(np.array(landmark.seen_from), mean) < 1.0
+    assert landmark.seen_within_deg == pytest.approx(widest, abs=1.0)
+    everywhere, _ = expected_seen_from("corner_top_left", list(range(len(VIEWPOINTS))))
+    assert angle_deg(np.array(landmark.seen_from), everywhere) > 2.0, "fewer views, other mean"
+
+
 def test_built_atlas_localises_a_new_view(board: cv.aruco.CharucoBoard) -> None:
     """The point of the atlas: a camera that never saw the board finds the target.
 

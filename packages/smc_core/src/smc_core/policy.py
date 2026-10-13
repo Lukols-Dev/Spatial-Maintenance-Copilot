@@ -4,7 +4,8 @@ The geometry measures and this module judges. Each Check holds one measurement
 of the Localisation against one limit of the Policy, and the Decision carries
 both, so a reader sees which threshold turned which fact into the verdict. The
 move follows from geometry as well: where the estimated pose puts the target
-and every landmark of the atlas relative to the frame.
+and every landmark of the atlas relative to the frame, and which landmarks the
+camera cannot see because it stands where the atlas never saw them from.
 
 decide() is pure: no I/O and no randomness, so a localisation always gets the
 same decision.
@@ -13,6 +14,9 @@ same decision.
 import math
 from collections import Counter
 from typing import Literal
+
+import cv2 as cv
+import numpy as np
 
 from smc_core.calibration import Intrinsics
 from smc_core.contracts import (
@@ -23,6 +27,7 @@ from smc_core.contracts import (
     Failure,
     Localisation,
     Policy,
+    Pose,
     Vec2,
     View,
 )
@@ -80,6 +85,12 @@ SIDES = {
     Action.MOVE_UP: "above",
     Action.MOVE_DOWN: "below",
 }
+FURTHER = {
+    Action.MOVE_LEFT: "left",
+    Action.MOVE_RIGHT: "right",
+    Action.MOVE_UP: "up",
+    Action.MOVE_DOWN: "down",
+}
 
 
 def decide(
@@ -111,7 +122,7 @@ def decide(
             policy=policy,
         )
 
-    action, move_reason = _move(localisation, atlas, intrinsics)
+    action, move_reason = _move(localisation, view, atlas, intrinsics)
     return Decision(
         reliable=False,
         action=action,
@@ -238,8 +249,11 @@ def _shown(value: float, limit: float, places: int) -> str:
 # ---- the move ----------------------------------------------------------------
 
 
-def _move(localisation: Localisation, atlas: Atlas, intrinsics: Intrinsics) -> tuple[Action, str]:
-    """The action rules in order: a failure, a target outside the frame, the framing."""
+def _move(
+    localisation: Localisation, view: View, atlas: Atlas, intrinsics: Intrinsics
+) -> tuple[Action, str]:
+    """The action rules in order: a failure, a target outside the frame, landmarks
+    turned away from the camera, the framing."""
     if localisation.failure is not None:
         _, action, fact = FAILURES[localisation.failure]
         return action, fact
@@ -251,8 +265,50 @@ def _move(localisation: Localisation, atlas: Atlas, intrinsics: Intrinsics) -> t
         return action, f"the target centre projects beyond the {EDGES[action]} edge of the frame"
 
     pose = localisation.pose
+    if pose is not None:
+        turned = _turned_away(pose, view, atlas)
+        if turned is not None:
+            return turned
+
     projections = {} if pose is None else project_landmarks(atlas, pose, intrinsics)
     return _framing(list(projections.values()), image_size)
+
+
+def _turned_away(pose: Pose, view: View, atlas: Atlas) -> tuple[Action, str] | None:
+    """The move toward where the unobserved landmarks facing away were seen from.
+
+    A landmark the view does not observe faces away when the camera stands
+    outside the cone it was seen within while the atlas was built. The move is
+    the mean change from each one's direction to the camera to the direction
+    it was seen from, in the camera frame; its larger image component picks
+    the side. None when no landmark faces away, or the atlas does not say.
+    """
+    observed = {observation.landmark_id for observation in view.observations}
+    rotation, _ = cv.Rodrigues(np.array(pose.rvec, np.float64))
+    centre = -rotation.T @ np.array(pose.tvec_mm, np.float64)
+
+    away: list[str] = []
+    changes: list[np.ndarray] = []
+    for landmark in atlas.landmarks:
+        if landmark.id in observed or landmark.seen_from is None:
+            continue
+        offset = centre - np.array(landmark.position_mm, np.float64)
+        distance = float(np.linalg.norm(offset))
+        if distance == 0 or landmark.seen_within_deg is None:
+            continue
+        to_camera: np.ndarray = offset / distance
+        seen_from = np.array(landmark.seen_from, np.float64)
+        off_deg = math.degrees(math.acos(max(-1.0, min(1.0, float(seen_from @ to_camera)))))
+        if off_deg > landmark.seen_within_deg:
+            away.append(landmark.id)
+            changes.append(seen_from - to_camera)
+    if not away:
+        return None
+
+    change = rotation @ np.mean(changes, axis=0)
+    action = _toward(float(change[0]), float(change[1]))
+    ids = ", ".join(sorted(away))
+    return action, f"{ids} face away from the camera, seen from further {FURTHER[action]}"
 
 
 def _framing(pixels: list[Vec2 | None], image_size: tuple[int, int]) -> tuple[Action, str]:

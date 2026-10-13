@@ -142,6 +142,10 @@ export interface Landmark {
   position_mm: Vec3;
   sigma_mm: number;
   description: string;
+  /** Unit vector: the mean direction from the landmark to the cameras that saw it. Older atlases have none. */
+  seen_from?: Vec3 | null;
+  /** The widest angle between seen_from and the direction to one of those cameras. */
+  seen_within_deg?: number | null;
 }
 
 export interface Target {

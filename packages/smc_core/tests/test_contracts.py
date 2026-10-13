@@ -3,7 +3,15 @@ from pathlib import Path
 
 import pytest
 from pydantic import ValidationError
-from smc_core.contracts import Atlas, Clicks, LandmarkObservation, View, load_atlas, load_clicks
+from smc_core.contracts import (
+    Atlas,
+    Clicks,
+    Landmark,
+    LandmarkObservation,
+    View,
+    load_atlas,
+    load_clicks,
+)
 
 ATLAS = {
     "asset_id": "test-car",
@@ -45,6 +53,39 @@ def test_atlas_rejects_duplicate_landmark_ids() -> None:
 
     with pytest.raises(ValidationError, match="duplicate landmark ids"):
         Atlas.model_validate(duplicated)
+
+
+def test_an_atlas_written_before_seen_from_still_loads() -> None:
+    atlas = Atlas.model_validate(ATLAS)
+
+    assert all(landmark.seen_from is None for landmark in atlas.landmarks)
+    assert all(landmark.seen_within_deg is None for landmark in atlas.landmarks)
+
+
+def test_a_landmark_says_where_it_was_seen_from() -> None:
+    landmark = Landmark.model_validate(
+        {**ATLAS["landmarks"][0], "seen_from": [0.6, 0.0, -0.8], "seen_within_deg": 35.0}
+    )
+
+    assert landmark.seen_from == (0.6, 0.0, -0.8)
+    assert landmark.seen_within_deg == 35.0
+
+
+@pytest.mark.parametrize(
+    ("fields", "message"),
+    [
+        ({"seen_from": [1.0, 1.0, 0.0], "seen_within_deg": 10.0}, "unit vector"),
+        ({"seen_from": [1.0, 0.0, 0.0]}, "set together"),
+        ({"seen_within_deg": 10.0}, "set together"),
+        ({"seen_from": [1.0, 0.0, 0.0], "seen_within_deg": 181.0}, "180"),
+        ({"seen_from": [1.0, 0.0, 0.0], "seen_within_deg": -1.0}, "greater than or equal to 0"),
+    ],
+)
+def test_a_landmark_refuses_a_seen_from_that_means_nothing(
+    fields: dict[str, object], message: str
+) -> None:
+    with pytest.raises(ValidationError, match=message):
+        Landmark.model_validate({**ATLAS["landmarks"][0], **fields})
 
 
 def test_view_rejects_a_landmark_observed_twice() -> None:

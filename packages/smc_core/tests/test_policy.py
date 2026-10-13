@@ -24,6 +24,7 @@ from smc_core.contracts import (
     Quality,
     Target,
     UncertaintyRegion,
+    Vec3,
     View,
 )
 from smc_core.localise import localise
@@ -426,7 +427,164 @@ def test_the_target_comes_before_the_framing() -> None:
     assert decision.action is Action.MOVE_RIGHT
 
 
-# ---- rule 3: the framing of every landmark -----------------------------------------
+# ---- rule 3: landmarks turned away from the camera ---------------------------------
+# The camera at POSE stands at (0, 0, -1000) in the asset frame and looks along +z,
+# so a landmark on the z = 0 plane that faces it was seen from about (0, 0, -1).
+
+FACING: Vec3 = (0.0, 0.0, -1.0)
+UNSEEN = ["left", "bottom_left"]
+SEEN = [landmark_id for landmark_id in FRAMED if landmark_id not in UNSEEN]
+SHORT = {"observed": 6, "inliers": 5}  # too few inliers: not reliable
+
+
+def turned(away: dict[str, Vec3], within_deg: float = 30.0) -> Atlas:
+    """atlas_at(FRAMED) with seen_from on every landmark.
+
+    The landmarks in `away` were seen from that direction, within within_deg;
+    every other one from FACING, within 60 degrees, which takes in POSE.
+    """
+    atlas = atlas_at(FRAMED)
+    landmarks = [
+        landmark.model_copy(
+            update={
+                "seen_from": away.get(landmark.id, FACING),
+                "seen_within_deg": within_deg if landmark.id in away else 60.0,
+            }
+        )
+        for landmark in atlas.landmarks
+    ]
+    return atlas.model_copy(update={"landmarks": landmarks})
+
+
+@pytest.mark.parametrize(
+    ("seen_from", "action", "word"),
+    [
+        ((-1.0, 0.0, 0.0), Action.MOVE_LEFT, "left"),
+        ((1.0, 0.0, 0.0), Action.MOVE_RIGHT, "right"),
+        ((0.0, -1.0, 0.0), Action.MOVE_UP, "up"),
+        ((0.0, 1.0, 0.0), Action.MOVE_DOWN, "down"),
+    ],
+)
+def test_landmarks_turned_away_bring_a_move_toward_where_they_were_seen_from(
+    seen_from: Vec3, action: Action, word: str
+) -> None:
+    """The cabinet's side marks, seen from the left in the atlas, hidden from the front."""
+    atlas = turned({landmark_id: seen_from for landmark_id in UNSEEN})
+
+    decision = decide(measured(**SHORT), view_of(SEEN), atlas, INTRINSICS)
+
+    assert not decision.reliable
+    assert decision.action is action
+    assert decision.move_reason == (
+        f"bottom_left, left face away from the camera, seen from further {word}"
+    )
+
+
+@pytest.mark.parametrize(
+    ("away", "action"),
+    [
+        ({"left": (-1.0, 0.0, 0.0), "bottom_left": (0.0, 0.6, 0.8)}, Action.MOVE_LEFT),
+        ({"left": (-0.6, 0.8, 0.0), "bottom_left": (0.0, 1.0, 0.0)}, Action.MOVE_DOWN),
+    ],
+)
+def test_the_move_follows_the_mean_direction_of_the_turned_away_landmarks(
+    away: dict[str, Vec3], action: Action
+) -> None:
+    decision = decide(measured(**SHORT), view_of(SEEN), turned(away), INTRINSICS)
+
+    assert decision.action is action
+
+
+def test_the_move_is_the_change_from_where_the_camera_is_to_where_they_were_seen_from() -> None:
+    """Seen from above and to the left, by a camera that is already about as high.
+
+    The direction they were seen from points more up than left, so it alone
+    would say MOVE_UP. The camera's own direction to them already points up,
+    and what is missing is the turn to the left. The cabinet: the atlas was
+    filmed from above, the viewpoints from the cabinet's height.
+    """
+    atlas = turned({landmark_id: (-0.48, -0.6, -0.64) for landmark_id in UNSEEN})
+
+    decision = decide(measured(**SHORT), view_of(SEEN), atlas, INTRINSICS)
+
+    assert decision.action is Action.MOVE_LEFT
+
+
+def test_the_move_is_taken_in_the_camera_frame_not_the_asset_frame() -> None:
+    """A camera turned 90 degrees about its axis sees the asset's -x as its -y: up."""
+    atlas = turned({landmark_id: (-1.0, 0.0, 0.0) for landmark_id in UNSEEN})
+    rolled = Pose(rvec=(0.0, 0.0, float(np.pi / 2)), tvec_mm=(0.0, 0.0, DISTANCE_MM))
+
+    localisation = measured(**SHORT).model_copy(update={"pose": rolled})
+    decision = decide(localisation, view_of(SEEN), atlas, INTRINSICS)
+
+    assert decision.action is Action.MOVE_UP
+    assert decision.move_reason.endswith("seen from further up")
+
+
+@pytest.mark.parametrize(("within_deg", "away"), [(70.0, True), (75.0, False)])
+def test_a_landmark_is_turned_away_only_beyond_the_angle_it_was_seen_within(
+    within_deg: float, away: bool
+) -> None:
+    """From POSE, "left" lies 72 degrees off (1, 0, 0) and "bottom_left" 74."""
+    atlas = turned({landmark_id: (1.0, 0.0, 0.0) for landmark_id in UNSEEN}, within_deg)
+
+    decision = decide(measured(**SHORT), view_of(SEEN), atlas, INTRINSICS)
+
+    assert decision.action is (Action.MOVE_RIGHT if away else Action.MOVE_CLOSER)
+
+
+def test_unseen_landmarks_that_face_the_camera_leave_the_move_to_the_framing() -> None:
+    decision = decide(measured(**SHORT), view_of(SEEN), turned({}), INTRINSICS)
+
+    assert decision.action is Action.MOVE_CLOSER
+    assert decision.move_reason == "landmarks fill 49 % of the frame"
+
+
+def test_landmarks_without_seen_from_are_left_to_the_framing() -> None:
+    """An atlas built before seen_from: the framing decides, as it did."""
+    decision = decide(measured(**SHORT), view_of(SEEN), atlas_at(FRAMED), INTRINSICS)
+
+    assert decision.action is Action.MOVE_CLOSER
+
+
+def test_only_landmarks_the_view_did_not_observe_can_be_turned_away() -> None:
+    atlas = turned({landmark_id: (-1.0, 0.0, 0.0) for landmark_id in FRAMED})
+
+    decision = decide(measured(**SHORT), view_of(SEEN), atlas, INTRINSICS)
+
+    assert decision.move_reason.startswith("bottom_left, left face away")
+
+
+def test_a_failure_comes_before_turned_away_landmarks() -> None:
+    atlas = turned({landmark_id: (-1.0, 0.0, 0.0) for landmark_id in UNSEEN})
+    localisation = failed(Failure.UNSTABLE_POSE, with_pose=True, with_target=True)
+
+    decision = decide(localisation, view_of(SEEN), atlas, INTRINSICS)
+
+    assert decision.action is Action.MOVE_CLOSER
+
+
+def test_the_target_outside_the_frame_comes_before_turned_away_landmarks() -> None:
+    atlas = turned({landmark_id: (-1.0, 0.0, 0.0) for landmark_id in UNSEEN})
+    localisation = measured(**SHORT, target_px=(1200.0, 1000.0))
+
+    decision = decide(localisation, view_of(SEEN), atlas, INTRINSICS)
+
+    assert decision.action is Action.MOVE_RIGHT
+    assert decision.move_reason == "the target centre projects beyond the right edge of the frame"
+
+
+def test_a_reliable_localisation_is_accepted_with_landmarks_turned_away() -> None:
+    atlas = turned({landmark_id: (-1.0, 0.0, 0.0) for landmark_id in UNSEEN})
+
+    decision = decide(measured(), view_of(SEEN), atlas, INTRINSICS)
+
+    assert decision.reliable
+    assert decision.action is Action.ACCEPT
+
+
+# ---- rule 4: the framing of every landmark -----------------------------------------
 
 
 @pytest.mark.parametrize(
