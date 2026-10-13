@@ -476,7 +476,7 @@ def test_landmarks_turned_away_bring_a_move_toward_where_they_were_seen_from(
     assert not decision.reliable
     assert decision.action is action
     assert decision.move_reason == (
-        f"bottom_left, left face away from the camera, seen from further {word}"
+        f"landmarks bottom_left, left face away from the camera, seen from further {word}"
     )
 
 
@@ -553,7 +553,7 @@ def test_only_landmarks_the_view_did_not_observe_can_be_turned_away() -> None:
 
     decision = decide(measured(**SHORT), view_of(SEEN), atlas, INTRINSICS)
 
-    assert decision.move_reason.startswith("bottom_left, left face away")
+    assert decision.move_reason.startswith("landmarks bottom_left, left face away")
 
 
 def test_a_failure_comes_before_turned_away_landmarks() -> None:

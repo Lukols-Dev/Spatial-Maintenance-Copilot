@@ -2,10 +2,10 @@ from fastapi import APIRouter
 
 from smc_perception.atlases import list_atlases
 from smc_perception.cameras import list_cameras
+from smc_perception.config import read_only
 from smc_perception.models import Workspace
 from smc_perception.rig_file import read_rig
 from smc_perception.routes import WorkspaceDep
-from smc_perception.settings import read_only
 from smc_perception.view_sets import list_view_sets
 
 router = APIRouter(tags=["workspace"])

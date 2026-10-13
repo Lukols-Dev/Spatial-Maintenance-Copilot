@@ -1,0 +1,527 @@
+{
+  "turn": {
+    "session_id": "5d7c0a3e9b6f4c21a8e04f6b2d913c57",
+    "asset_id": "home-cabinet",
+    "view_set": "cabinet-agent",
+    "located": {
+      "view": "A_close.png",
+      "localisation": {
+        "view_id": "A_close.png",
+        "failure": null,
+        "quality": {
+          "observed": 6,
+          "inliers": 6,
+          "inlier_ratio": 1.0,
+          "outlier_ids": [],
+          "rms_reprojection_px": 0.7633421930142061,
+          "max_reprojection_px": 1.2109750074432637,
+          "reprojection_px": {
+            "corner_top_left": 0.6437042562477061,
+            "corner_top_right": 1.2109750074432637,
+            "corner_bottom_left": 0.4330744450709249,
+            "corner_bottom_right": 1.170534831963884,
+            "handle_screw": 0.07602533833923464,
+            "box_on_top": 0.22769950322079646
+          },
+          "image_coverage": 0.3434855807238116,
+          "non_planarity": 0.3444297023932783
+        },
+        "pose": {
+          "rvec": [
+            0.35058917510355814,
+            0.10063237586445237,
+            -0.0003772020757351813
+          ],
+          "tvec_mm": [
+            -51.00305192224432,
+            -71.10694687586376,
+            629.0559671959015
+          ]
+        },
+        "target": {
+          "centre_px": [
+            614.2107367607629,
+            748.5004270507169
+          ],
+          "depth_mm": 1046.3734822217739,
+          "in_frame": true,
+          "outline_px": [
+            [
+              878.3953857421875,
+              505.6258544921875
+            ],
+            [
+              852.614013671875,
+              1006.4169921875
+            ],
+            [
+              374.62744140625,
+              996.9627075195312
+            ],
+            [
+              348.5662841796875,
+              510.52569580078125
+            ],
+            [
+              380.345947265625,
+              495.4938049316406
+            ],
+            [
+              862.8878784179688,
+              490.6072692871094
+            ]
+          ],
+          "radius_px": 285.6278672797836
+        },
+        "uncertainty": {
+          "confidence": 0.95,
+          "covariance_px": [
+            [
+              74.00760311167853,
+              -6.01667781706795
+            ],
+            [
+              -6.01667781706795,
+              74.41655813808754
+            ]
+          ],
+          "ellipse": {
+            "semi_major_px": 21.925067246796804,
+            "semi_minor_px": 20.21310283666635,
+            "angle_deg": 134.02677262329598
+          },
+          "pose_only": {
+            "semi_major_px": 7.712267019639126,
+            "semi_minor_px": 6.473813981874871,
+            "angle_deg": 140.37571142528046
+          },
+          "samples": 500,
+          "failed_samples": 0,
+          "seed": 0
+        }
+      },
+      "decision": {
+        "reliable": true,
+        "action": "ACCEPT",
+        "reasons": [],
+        "move_reason": "",
+        "checks": [
+          {
+            "name": "landmarks",
+            "value": 6.0,
+            "limit": 4.0,
+            "op": ">=",
+            "passed": true
+          },
+          {
+            "name": "inliers",
+            "value": 6.0,
+            "limit": 6.0,
+            "op": ">=",
+            "passed": true
+          },
+          {
+            "name": "inlier_ratio",
+            "value": 1.0,
+            "limit": 0.75,
+            "op": ">=",
+            "passed": true
+          },
+          {
+            "name": "rms_reprojection_px",
+            "value": 0.7633421930142061,
+            "limit": 3.0,
+            "op": "<=",
+            "passed": true
+          },
+          {
+            "name": "image_coverage",
+            "value": 0.3434855807238116,
+            "limit": 0.05,
+            "op": ">=",
+            "passed": true
+          },
+          {
+            "name": "target_in_frame",
+            "value": 1.0,
+            "limit": 1.0,
+            "op": ">=",
+            "passed": true
+          },
+          {
+            "name": "pose_stability",
+            "value": 0.0,
+            "limit": 0.05,
+            "op": "<=",
+            "passed": true
+          },
+          {
+            "name": "region_ratio",
+            "value": 0.076760952828599,
+            "limit": 0.5,
+            "op": "<=",
+            "passed": true
+          }
+        ],
+        "policy": {
+          "min_landmarks": 4,
+          "min_inliers": 6,
+          "min_inlier_ratio": 0.75,
+          "max_rms_reprojection_px": 3.0,
+          "min_image_coverage": 0.05,
+          "max_failed_sample_ratio": 0.05,
+          "max_region_ratio": 0.5
+        }
+      }
+    },
+    "awaiting": {
+      "kind": "approval",
+      "view": "A_close.png",
+      "explanation": "The drone sits behind the middle of the door, inside the highlighted region.",
+      "next_step": "Open the door and lift the drone out from behind the hinges."
+    },
+    "outcome": null,
+    "events": [
+      {
+        "step": 5,
+        "kind": "human",
+        "node": "await_view",
+        "summary": "the operator chose A_close.png",
+        "data": {
+          "view": "A_close.png"
+        }
+      },
+      {
+        "step": 6,
+        "kind": "perception",
+        "node": "localise",
+        "summary": "localised A_close.png",
+        "data": {
+          "view": "A_close.png"
+        }
+      },
+      {
+        "step": 7,
+        "kind": "decision",
+        "node": "localise",
+        "summary": "reliable",
+        "data": {
+          "reliable": true,
+          "action": "ACCEPT",
+          "move_reason": "",
+          "reasons": []
+        }
+      },
+      {
+        "step": 8,
+        "kind": "agent",
+        "node": "present",
+        "summary": "presented the result for approval",
+        "data": {
+          "next_step": "Open the door and lift the drone out from behind the hinges."
+        }
+      }
+    ]
+  },
+  "result": {
+    "request": {
+      "asset_id": "home-cabinet",
+      "view_set": "cabinet-agent",
+      "view": "A_close.png",
+      "truth_view": "A_open.png",
+      "samples": 500,
+      "seed": 0,
+      "sigma_px": 2.0
+    },
+    "camera_id": "phone-1x-portrait",
+    "image": {
+      "width": 1080,
+      "height": 1920
+    },
+    "localisation": {
+      "view_id": "A_close.png",
+      "failure": null,
+      "quality": {
+        "observed": 6,
+        "inliers": 6,
+        "inlier_ratio": 1.0,
+        "outlier_ids": [],
+        "rms_reprojection_px": 0.7633421930142061,
+        "max_reprojection_px": 1.2109750074432637,
+        "reprojection_px": {
+          "corner_top_left": 0.6437042562477061,
+          "corner_top_right": 1.2109750074432637,
+          "corner_bottom_left": 0.4330744450709249,
+          "corner_bottom_right": 1.170534831963884,
+          "handle_screw": 0.07602533833923464,
+          "box_on_top": 0.22769950322079646
+        },
+        "image_coverage": 0.3434855807238116,
+        "non_planarity": 0.3444297023932783
+      },
+      "pose": {
+        "rvec": [
+          0.35058917510355814,
+          0.10063237586445237,
+          -0.0003772020757351813
+        ],
+        "tvec_mm": [
+          -51.00305192224432,
+          -71.10694687586376,
+          629.0559671959015
+        ]
+      },
+      "target": {
+        "centre_px": [
+          614.2107367607629,
+          748.5004270507169
+        ],
+        "depth_mm": 1046.3734822217739,
+        "in_frame": true,
+        "outline_px": [
+          [
+            878.3953857421875,
+            505.6258544921875
+          ],
+          [
+            852.614013671875,
+            1006.4169921875
+          ],
+          [
+            374.62744140625,
+            996.9627075195312
+          ],
+          [
+            348.5662841796875,
+            510.52569580078125
+          ],
+          [
+            380.345947265625,
+            495.4938049316406
+          ],
+          [
+            862.8878784179688,
+            490.6072692871094
+          ]
+        ],
+        "radius_px": 285.6278672797836
+      },
+      "uncertainty": {
+        "confidence": 0.95,
+        "covariance_px": [
+          [
+            74.00760311167853,
+            -6.01667781706795
+          ],
+          [
+            -6.01667781706795,
+            74.41655813808754
+          ]
+        ],
+        "ellipse": {
+          "semi_major_px": 21.925067246796804,
+          "semi_minor_px": 20.21310283666635,
+          "angle_deg": 134.02677262329598
+        },
+        "pose_only": {
+          "semi_major_px": 7.712267019639126,
+          "semi_minor_px": 6.473813981874871,
+          "angle_deg": 140.37571142528046
+        },
+        "samples": 500,
+        "failed_samples": 0,
+        "seed": 0
+      }
+    },
+    "observations": [
+      {
+        "landmark_id": "corner_top_left",
+        "pixel": [
+          166.30968336407653,
+          321.82461323475474
+        ],
+        "inlier": true
+      },
+      {
+        "landmark_id": "corner_top_right",
+        "pixel": [
+          943.3018071565015,
+          329.6067139497645
+        ],
+        "inlier": true
+      },
+      {
+        "landmark_id": "corner_bottom_left",
+        "pixel": [
+          232.49434970216936,
+          1281.9342241852664
+        ],
+        "inlier": true
+      },
+      {
+        "landmark_id": "corner_bottom_right",
+        "pixel": [
+          870.8326587979616,
+          1312.88378268817
+        ],
+        "inlier": true
+      },
+      {
+        "landmark_id": "handle_screw",
+        "pixel": [
+          537.431987361268,
+          828.0290248848255
+        ],
+        "inlier": true
+      },
+      {
+        "landmark_id": "box_on_top",
+        "pixel": [
+          663.076112395025,
+          263.58893075603055
+        ],
+        "inlier": true
+      }
+    ],
+    "projections": [
+      {
+        "landmark_id": "corner_top_left",
+        "pixel": [
+          165.9906023399282,
+          321.26555825575906
+        ],
+        "in_frame": true,
+        "observed": true
+      },
+      {
+        "landmark_id": "corner_top_right",
+        "pixel": [
+          943.3060087699108,
+          330.8176816682017
+        ],
+        "in_frame": true,
+        "observed": true
+      },
+      {
+        "landmark_id": "corner_bottom_left",
+        "pixel": [
+          232.10438584489623,
+          1281.7458584107899
+        ],
+        "in_frame": true,
+        "observed": true
+      },
+      {
+        "landmark_id": "corner_bottom_right",
+        "pixel": [
+          871.9353157869954,
+          1312.4909731193256
+        ],
+        "in_frame": true,
+        "observed": true
+      },
+      {
+        "landmark_id": "handle_screw",
+        "pixel": [
+          537.3884695127383,
+          827.9666867028747
+        ],
+        "in_frame": true,
+        "observed": true
+      },
+      {
+        "landmark_id": "box_on_top",
+        "pixel": [
+          662.8696589141928,
+          263.4928889733563
+        ],
+        "in_frame": true,
+        "observed": true
+      }
+    ],
+    "ignored_points": [],
+    "truth": {
+      "source_view": "A_open.png",
+      "target_px": [
+        612.9442186461803,
+        748.4759020859738
+      ],
+      "error_px": 1.2667555440816134,
+      "inside_95": true
+    },
+    "decision": {
+      "reliable": true,
+      "action": "ACCEPT",
+      "reasons": [],
+      "move_reason": "",
+      "checks": [
+        {
+          "name": "landmarks",
+          "value": 6.0,
+          "limit": 4.0,
+          "op": ">=",
+          "passed": true
+        },
+        {
+          "name": "inliers",
+          "value": 6.0,
+          "limit": 6.0,
+          "op": ">=",
+          "passed": true
+        },
+        {
+          "name": "inlier_ratio",
+          "value": 1.0,
+          "limit": 0.75,
+          "op": ">=",
+          "passed": true
+        },
+        {
+          "name": "rms_reprojection_px",
+          "value": 0.7633421930142061,
+          "limit": 3.0,
+          "op": "<=",
+          "passed": true
+        },
+        {
+          "name": "image_coverage",
+          "value": 0.3434855807238116,
+          "limit": 0.05,
+          "op": ">=",
+          "passed": true
+        },
+        {
+          "name": "target_in_frame",
+          "value": 1.0,
+          "limit": 1.0,
+          "op": ">=",
+          "passed": true
+        },
+        {
+          "name": "pose_stability",
+          "value": 0.0,
+          "limit": 0.05,
+          "op": "<=",
+          "passed": true
+        },
+        {
+          "name": "region_ratio",
+          "value": 0.076760952828599,
+          "limit": 0.5,
+          "op": "<=",
+          "passed": true
+        }
+      ],
+      "policy": {
+        "min_landmarks": 4,
+        "min_inliers": 6,
+        "min_inlier_ratio": 0.75,
+        "max_rms_reprojection_px": 3.0,
+        "min_image_coverage": 0.05,
+        "max_failed_sample_ratio": 0.05,
+        "max_region_ratio": 0.5
+      }
+    }
+  },
+  "model": "anthropic.claude-opus-5-5 (eu-central-1)"
+}

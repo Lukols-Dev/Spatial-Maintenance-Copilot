@@ -308,7 +308,7 @@ def _turned_away(pose: Pose, view: View, atlas: Atlas) -> tuple[Action, str] | N
     change = rotation @ np.mean(changes, axis=0)
     action = _toward(float(change[0]), float(change[1]))
     ids = ", ".join(sorted(away))
-    return action, f"{ids} face away from the camera, seen from further {FURTHER[action]}"
+    return action, f"landmarks {ids} face away from the camera, seen from further {FURTHER[action]}"
 
 
 def _framing(pixels: list[Vec2 | None], image_size: tuple[int, int]) -> tuple[Action, str]:

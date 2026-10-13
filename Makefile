@@ -2,12 +2,16 @@
 .PHONY: help api web up api-build api-run api-stop logs setup lint format typecheck test web-check e2e check boards
 IMAGE := smc/perception:dev
 NAME  := smc-perception
+# The service's settings and keys. The service reads the file itself (config.py);
+# the container has no copy of it, so api-run passes it to Docker when it is there.
+API_ENV := services/perception/.env
+API_ENV_FILE = $(if $(wildcard $(API_ENV)),--env-file $(API_ENV))
 
 help:  ## Show this help
 	@grep -E '^[a-zA-Z0-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
 		awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-10s\033[0m %s\n", $$1, $$2}'
 
-api:  ## Run the perception service locally on :8000
+api:  ## Run the perception service locally on :8000, with services/perception/.env
 	SMC_WORKSPACE="$(CURDIR)" uv run uvicorn smc_perception.main:app --reload --reload-dir services --reload-dir packages --port 8000
 
 web:  ## Run the Next.js dev server on :3000
@@ -19,8 +23,8 @@ up:  ## Run api and web together
 api-build:  ## Build the perception container image
 	docker build -f services/perception/Dockerfile -t $(IMAGE) .
 
-api-run:  ## Run the perception container on :8000
-	docker run --rm --name $(NAME) -p 8000:8000 $(IMAGE)
+api-run:  ## Run the perception container on :8000, with services/perception/.env
+	docker run --rm --name $(NAME) -p 8000:8000 $(API_ENV_FILE) $(IMAGE)
 
 api-stop:  ## Stop and remove the perception container
 	-docker rm -f $(NAME)

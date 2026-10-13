@@ -1,6 +1,6 @@
 "use client";
 
-import { Crosshair, LoaderCircle, OctagonX } from "lucide-react";
+import { Crosshair, LoaderCircle, OctagonX, Sparkles } from "lucide-react";
 import Image from "next/image";
 
 import { ActionIcon } from "@/components/locate/action-icon";
@@ -40,6 +40,8 @@ function ViewpointButton({
   current,
   busy,
   latest,
+  suggested,
+  disabled,
   onSelect,
 }: {
   set: string;
@@ -47,6 +49,8 @@ function ViewpointButton({
   current: boolean;
   busy: boolean;
   latest: TraceStep | undefined;
+  suggested: boolean;
+  disabled: boolean;
   onSelect: (view: string) => void;
 }) {
   const { file, width, height } = viewpoint;
@@ -54,11 +58,14 @@ function ViewpointButton({
     <button
       type="button"
       onClick={() => onSelect(file)}
+      disabled={disabled}
       aria-current={current ? "true" : undefined}
       aria-busy={busy ? "true" : undefined}
       data-view={file}
+      data-suggested={suggested ? "true" : undefined}
       className={cn(
-        "flex w-60 shrink-0 items-start gap-3 rounded-lg border bg-card p-2 text-left transition-colors hover:bg-muted/60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid @5xl:w-full",
+        "flex w-60 shrink-0 items-start gap-3 rounded-lg border bg-card p-2 text-left transition-colors hover:bg-muted/60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid disabled:cursor-not-allowed disabled:opacity-60 @5xl:w-full",
+        suggested && "border-sky-500/60 bg-sky-500/5",
         current && "border-primary/60 bg-muted ring-1 ring-primary/40",
       )}
     >
@@ -87,6 +94,12 @@ function ViewpointButton({
               Truth
             </Badge>
           )}
+          {suggested && (
+            <Badge variant="outline" className="border-sky-500/50 text-sky-800 dark:text-sky-300">
+              <Sparkles aria-hidden />
+              Suggested
+            </Badge>
+          )}
           {latest && <OutcomeBadge step={latest} />}
         </span>
       </span>
@@ -105,6 +118,8 @@ export function ViewpointStrip({
   current,
   busy,
   latest,
+  suggested = [],
+  disabled = false,
   onSelect,
   className,
 }: {
@@ -116,6 +131,10 @@ export function ViewpointStrip({
   busy: string | null;
   /** The latest step of each view in this session. */
   latest: Map<string, TraceStep>;
+  /** Views the agent points to. */
+  suggested?: readonly string[];
+  /** No view can be chosen now. */
+  disabled?: boolean;
   onSelect: (view: string) => void;
   className?: string;
 }) {
@@ -133,6 +152,8 @@ export function ViewpointStrip({
               current={viewpoint.file === current}
               busy={viewpoint.file === busy}
               latest={latest.get(viewpoint.file)}
+              suggested={suggested.includes(viewpoint.file)}
+              disabled={disabled}
               onSelect={onSelect}
             />
           </li>

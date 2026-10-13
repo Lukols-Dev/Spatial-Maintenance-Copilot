@@ -1,0 +1,136 @@
+{
+  "name": "cabinet-agent",
+  "images": [
+    {
+      "file": "A_close.png",
+      "width": 1080,
+      "height": 1920,
+      "format": "png",
+      "error": null
+    },
+    {
+      "file": "A_open.png",
+      "width": 1080,
+      "height": 1920,
+      "format": "png",
+      "error": null
+    },
+    {
+      "file": "B_close.png",
+      "width": 1080,
+      "height": 1920,
+      "format": "png",
+      "error": null
+    },
+    {
+      "file": "C_close.png",
+      "width": 1080,
+      "height": 1920,
+      "format": "png",
+      "error": null
+    }
+  ],
+  "clicks": {
+    "camera_id": "phone-1x-portrait",
+    "points": [
+      "corner_top_left",
+      "corner_top_right",
+      "corner_bottom_left",
+      "corner_bottom_right",
+      "handle_screw",
+      "box_on_top",
+      "drone"
+    ],
+    "views": {
+      "A_close.png": {
+        "corner_top_left": [
+          166.30968336407653,
+          321.82461323475474
+        ],
+        "corner_top_right": [
+          943.3018071565015,
+          329.6067139497645
+        ],
+        "corner_bottom_left": [
+          232.49434970216936,
+          1281.9342241852664
+        ],
+        "corner_bottom_right": [
+          870.8326587979616,
+          1312.88378268817
+        ],
+        "handle_screw": [
+          537.431987361268,
+          828.0290248848255
+        ],
+        "box_on_top": [
+          663.076112395025,
+          263.58893075603055
+        ]
+      },
+      "A_open.png": {
+        "corner_top_left": [
+          166.30968336407653,
+          321.82461323475474
+        ],
+        "corner_top_right": [
+          943.3018071565015,
+          329.6067139497645
+        ],
+        "corner_bottom_left": [
+          232.49434970216936,
+          1281.9342241852664
+        ],
+        "corner_bottom_right": [
+          870.8326587979616,
+          1312.88378268817
+        ],
+        "handle_screw": [
+          537.431987361268,
+          828.0290248848255
+        ],
+        "box_on_top": [
+          663.076112395025,
+          263.58893075603055
+        ],
+        "drone": [
+          612.9442186461803,
+          748.4759020859738
+        ]
+      },
+      "B_close.png": {
+        "corner_top_left": [
+          301.2387100343498,
+          650.4178401464334
+        ],
+        "corner_top_right": [
+          900.6219240473621,
+          652.9864658544396
+        ],
+        "corner_bottom_left": [
+          166.07466197713364,
+          1454.6671371382845
+        ],
+        "corner_bottom_right": [
+          882.1340969074612,
+          1532.7376574423195
+        ]
+      },
+      "C_close.png": {
+        "corner_top_left": [
+          -19.503928940450496,
+          277.1705293063837
+        ],
+        "corner_top_right": [
+          763.4181278839834,
+          383.0173586994626
+        ],
+        "corner_bottom_left": [
+          47.49393999963335,
+          1441.5641926288806
+        ]
+      }
+    }
+  },
+  "clicks_error": null
+}

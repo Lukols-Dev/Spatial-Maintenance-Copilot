@@ -1,3 +1,6 @@
+from collections.abc import AsyncIterator
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI, Request
 from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import RequestValidationError
@@ -5,12 +8,21 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
+from smc_perception.config import allowed_origins, check, configure_logging
 from smc_perception.errors import WorkspaceError
 from smc_perception.middleware import ReadableErrors, ReadOnlyGuard
-from smc_perception.routes import atlases, boards, localisation, view_sets, workspace
-from smc_perception.settings import allowed_origins
+from smc_perception.routes import atlases, boards, localisation, sessions, view_sets, workspace
 
-app = FastAPI(title="Spatial Maintenance Copilot - perception", version="0.1.0")
+
+@asynccontextmanager
+async def lifespan(_app: FastAPI) -> AsyncIterator[None]:
+    """At startup: the settings checked and logged, or the start stopped with what is missing."""
+    configure_logging()
+    check()
+    yield
+
+
+app = FastAPI(title="Spatial Maintenance Copilot - perception", version="0.1.0", lifespan=lifespan)
 
 # The middleware added last runs first: CORS wraps the guard and the error
 # answer, so a refused write's 403 and an unexpected error's 500 still carry
@@ -24,7 +36,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-for module in (workspace, boards, view_sets, atlases, localisation):
+for module in (workspace, boards, view_sets, atlases, localisation, sessions):
     app.include_router(module.router)
 
 

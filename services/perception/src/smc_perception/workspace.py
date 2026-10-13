@@ -18,8 +18,8 @@ import stat
 from datetime import datetime
 from pathlib import Path
 
+from smc_perception.config import workspace_root
 from smc_perception.errors import Conflict, Invalid, NotFound
-from smc_perception.settings import workspace_root
 
 NAME_PATTERN = r"^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$"
 IMAGE_FILE_PATTERN = r"^[A-Za-z0-9][A-Za-z0-9._ -]*\.(?i:png|jpe?g)$"

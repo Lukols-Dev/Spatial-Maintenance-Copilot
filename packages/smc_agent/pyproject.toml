@@ -1,0 +1,22 @@
+[project]
+name = "smc-agent"
+version = "0.1.0"
+description = "The agent of the localisation loop: a LangGraph graph over smc_core, Amazon Nova or Claude on Amazon Bedrock"
+readme = "README.md"
+authors = [
+    { name = "Łukasz Olszewski", email = "lukaszolszewski96@gmail.com" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "anthropic[bedrock]>=1.13.0",
+    "boto3>=1.43.112",
+    "langgraph>=1.2.15",
+    "smc-core",
+]
+
+[build-system]
+requires = ["uv_build>=0.11.14,<0.12.0"]
+build-backend = "uv_build"
+
+[tool.uv.sources]
+smc-core = { workspace = true }

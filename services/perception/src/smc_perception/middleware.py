@@ -3,11 +3,14 @@
 from starlette.responses import JSONResponse
 from starlette.types import ASGIApp, Message, Receive, Scope, Send
 
-from smc_perception.settings import read_only
+from smc_perception.config import read_only
 
 SAFE_METHODS = {"GET", "HEAD", "OPTIONS"}
 # POSTs that compute an answer and write nothing: the read-only service serves them.
 READING_POSTS = {"/localise"}
+# Agent sessions write only their own state, never the workspace, so a read-only
+# service runs them too: visitors of the public demo play the operator.
+SESSION_PATHS = "/sessions"
 
 
 class ReadOnlyGuard:
@@ -30,8 +33,11 @@ class ReadOnlyGuard:
 
 
 def _reads(scope: Scope) -> bool:
-    method = scope["method"]
-    return method in SAFE_METHODS or (method == "POST" and scope["path"] in READING_POSTS)
+    method, path = scope["method"], scope["path"]
+    if method in SAFE_METHODS:
+        return True
+    sessions = path == SESSION_PATHS or path.startswith(f"{SESSION_PATHS}/")
+    return method == "POST" and (path in READING_POSTS or sessions)
 
 
 class ReadableErrors:

@@ -9,6 +9,7 @@ through its HTTP API, from the browser.
 | Path | What it is |
 |---|---|
 | `/` | Locate: pick an atlas and a recorded viewpoint; `POST /localise` draws the landmarks, the target region and its 95 % region on the image, with the decision (accept, or the move that should give a better view) and a trace of the viewpoints tried |
+| `/agent/` | Agent: a session of the agent on the viewpoints of a set with the target hidden; it asks for the policy's move, in its words, with the viewpoints that lie that way, or for approval of the next step, and its trace lists every event from perception to the operator's answer |
 | `/annotate/` | Point annotator on PNG files opened from disk: mark landmarks and the target, download `clicks.json` |
 | `/annotate/?set=<name>` | The same on a view set of the workspace: images from the service, every change saved to its `clicks.json` |
 | `/atlas/` | Atlas: import a video or photos as a view set, measure the rig board, build an atlas from a set's clicks and inspect it (points, σ, plan of the board frame) |
@@ -20,7 +21,8 @@ placeholder pages.
 
 `NEXT_PUBLIC_API_URL` is the service's address, `http://localhost:8000` when unset (see `.env.example`). It is
 baked in at build time. The service owns a workspace on its disk (`calib/` and `data/` under `SMC_WORKSPACE`);
-the web app keeps no data of its own beyond the local annotator session in `localStorage`.
+the web app keeps no data of its own beyond the local annotator session in `localStorage`, the Locate trace
+and the id of the agent's session in `sessionStorage`.
 
 - `lib/api.ts` is the only place that talks HTTP. A failed call rejects with an `ApiError`: `status` is the HTTP
   status, or `null` when no answer came, and the message is FastAPI's `detail` (a validation list becomes
@@ -42,6 +44,8 @@ the web app keeps no data of its own beyond the local annotator session in `loca
   | `saveClicks(name, clicks)` | `PUT /view-sets/{name}/clicks` |
   | `getAtlas(id)` | `/atlases/{id}` |
   | `buildAtlas(request)` | `POST /atlases`, up to 10 minutes |
+  | `localise(body)` in `lib/locate/api.ts` | `POST /localise` |
+  | `startSession`, `chooseView`, `answerApproval`, `getSession` in `lib/agent/api.ts` | `POST /sessions`, `POST /sessions/{id}/view`, `POST /sessions/{id}/approval`, `GET /sessions/{id}` |
 
   A change re-reads the workspace once it succeeds, except `saveClicks`, which runs on every edit and updates
   only its view set in the store from the answer.

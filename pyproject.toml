@@ -24,7 +24,12 @@ ignore = ["E501"]   # line length is enforced by the formatter
 docstring-code-format = true
 
 [tool.pytest.ini_options]
-testpaths = ["services/perception/tests", "packages/smc_core/tests", "tests"]
+testpaths = [
+    "services/perception/tests",
+    "packages/smc_core/tests",
+    "packages/smc_agent/tests",
+    "tests",
+]
 pythonpath = ["tools"]
 addopts = "-ra --strict-markers"
 
@@ -45,7 +50,7 @@ python_version = "3.14"
 strict = true
 warn_unreachable = true
 pretty = true
-files = ["services/perception/src", "packages/smc_core/src"]
+files = ["services/perception/src", "packages/smc_core/src", "packages/smc_agent/src"]
 
 [dependency-groups]
 dev = [
@@ -55,5 +60,6 @@ dev = [
     "pytest>=9.1.1",
     "reportlab>=5.0.1",
     "ruff>=0.16.7",
+    "types-boto3>=1.43.112",
     "types-pyyaml>=6.0.12.20260906",
 ]

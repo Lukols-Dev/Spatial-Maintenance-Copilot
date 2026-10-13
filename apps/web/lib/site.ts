@@ -14,6 +14,7 @@ export interface NavEntry {
 /** The pages the sidebar lists: only pages that work. */
 export const NAV: NavEntry[] = [
   { href: "/", title: "Locate" },
+  { href: "/agent", title: "Agent" },
   { href: "/annotate", title: "Annotate" },
   { href: "/atlas", title: "Atlas" },
 ];

@@ -1,0 +1,143 @@
+{
+  "read_only": false,
+  "cameras": [
+    {
+      "file": "phone.yml",
+      "camera_id": "phone-1x-portrait",
+      "image_width": 1080,
+      "image_height": 1920,
+      "frames": 1,
+      "rms_px": 0.3,
+      "fx": 1675.0,
+      "fy": 1677.4,
+      "cx": 531.6,
+      "cy": 956.2,
+      "dist_coeffs": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "std": {
+        "fx": 0.0,
+        "fy": 0.0,
+        "cx": 0.0,
+        "cy": 0.0,
+        "k1": 0.0,
+        "k2": 0.0,
+        "p1": 0.0,
+        "p2": 0.0,
+        "k3": 0.0
+      },
+      "calibrated_at": "2026-10-13T13:39:04",
+      "opencv_version": "5.0.0",
+      "error": null
+    }
+  ],
+  "rig": {
+    "dictionary": "DICT_5X5_100",
+    "boards": [
+      {
+        "id": "calibration_board",
+        "squares_x": 5,
+        "squares_y": 7,
+        "marker_ids": [
+          0,
+          16
+        ],
+        "square_nominal_mm": 30.0,
+        "marker_nominal_mm": 21.6,
+        "square_measured_mm": 30.0,
+        "marker_measured_mm": null,
+        "measurement_uncertainty_mm": 0.25,
+        "substrate": "A4 print taped with masking tape to paperboard",
+        "measured_on": "2026-09-17",
+        "measured": true
+      },
+      {
+        "id": "rig_board_a",
+        "squares_x": 4,
+        "squares_y": 6,
+        "marker_ids": [
+          20,
+          31
+        ],
+        "square_nominal_mm": 25.0,
+        "marker_nominal_mm": 18.0,
+        "square_measured_mm": null,
+        "marker_measured_mm": null,
+        "measurement_uncertainty_mm": null,
+        "substrate": null,
+        "measured_on": null,
+        "measured": false
+      },
+      {
+        "id": "rig_board_b",
+        "squares_x": 4,
+        "squares_y": 6,
+        "marker_ids": [
+          35,
+          46
+        ],
+        "square_nominal_mm": 25.0,
+        "marker_nominal_mm": 18.0,
+        "square_measured_mm": null,
+        "marker_measured_mm": null,
+        "measurement_uncertainty_mm": null,
+        "substrate": null,
+        "measured_on": null,
+        "measured": false
+      }
+    ],
+    "error": null
+  },
+  "view_sets": [
+    {
+      "name": "cabinet-agent",
+      "image_count": 4,
+      "jpeg_count": 0,
+      "image_size": [
+        1080,
+        1920
+      ],
+      "mixed_sizes": false,
+      "camera_ids": [
+        "phone-1x-portrait"
+      ],
+      "clicks": {
+        "camera_id": "phone-1x-portrait",
+        "point_count": 7,
+        "marked_images": 4,
+        "ready_points": 6,
+        "point_views": {
+          "corner_top_left": 4,
+          "corner_top_right": 4,
+          "corner_bottom_left": 4,
+          "corner_bottom_right": 3,
+          "handle_screw": 2,
+          "box_on_top": 2,
+          "drone": 1
+        },
+        "saved_at": "2026-10-13T13:39:04+02:00",
+        "error": null
+      },
+      "updated_at": "2026-10-13T13:39:04+02:00",
+      "error": null
+    }
+  ],
+  "atlases": [
+    {
+      "asset_id": "home-cabinet",
+      "file": "home-cabinet.json",
+      "version": "1",
+      "frame": "board:rig_board_a",
+      "landmarks": 6,
+      "target_id": "drone",
+      "target_sigma_mm": 5.0,
+      "built_at": "2026-10-13T13:39:04+02:00",
+      "has_report": false,
+      "error": null
+    }
+  ]
+}

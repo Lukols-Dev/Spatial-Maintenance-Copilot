@@ -1,6 +1,6 @@
 "use client";
 
-import { Crosshair, FileText, FolderGit2, LocateFixed, MapIcon, ScanEye } from "lucide-react";
+import { Bot, Crosshair, FileText, FolderGit2, LocateFixed, MapIcon, ScanEye } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type * as React from "react";
@@ -24,6 +24,7 @@ import { NAV, SITE, normalisePath } from "@/lib/site";
 // component, so they live here, next to the hook that needs them.
 const ICONS: Record<string, React.ComponentType> = {
   "/": LocateFixed,
+  "/agent": Bot,
   "/annotate": Crosshair,
   "/atlas": MapIcon,
 };

@@ -1,0 +1,97 @@
+{
+  "atlas": {
+    "asset_id": "home-cabinet",
+    "version": "1",
+    "frame": "board:rig_board_a",
+    "landmarks": [
+      {
+        "id": "corner_top_left",
+        "position_mm": [
+          -120.0,
+          -160.0,
+          150.0
+        ],
+        "sigma_mm": 1.0,
+        "description": "",
+        "seen_from": null,
+        "seen_within_deg": null
+      },
+      {
+        "id": "corner_top_right",
+        "position_mm": [
+          210.0,
+          -150.0,
+          140.0
+        ],
+        "sigma_mm": 1.0,
+        "description": "",
+        "seen_from": null,
+        "seen_within_deg": null
+      },
+      {
+        "id": "corner_bottom_left",
+        "position_mm": [
+          -110.0,
+          280.0,
+          90.0
+        ],
+        "sigma_mm": 1.0,
+        "description": "",
+        "seen_from": null,
+        "seen_within_deg": null
+      },
+      {
+        "id": "corner_bottom_right",
+        "position_mm": [
+          200.0,
+          290.0,
+          100.0
+        ],
+        "sigma_mm": 1.0,
+        "description": "",
+        "seen_from": null,
+        "seen_within_deg": null
+      },
+      {
+        "id": "handle_screw",
+        "position_mm": [
+          40.0,
+          60.0,
+          130.0
+        ],
+        "sigma_mm": 1.0,
+        "description": "",
+        "seen_from": null,
+        "seen_within_deg": null
+      },
+      {
+        "id": "box_on_top",
+        "position_mm": [
+          100.0,
+          -170.0,
+          -60.0
+        ],
+        "sigma_mm": 1.0,
+        "description": "",
+        "seen_from": null,
+        "seen_within_deg": null
+      }
+    ],
+    "target": {
+      "id": "drone",
+      "position_mm": [
+        60.0,
+        90.0,
+        420.0
+      ],
+      "sigma_mm": 5.0,
+      "extent_mm": [
+        300.0,
+        300.0,
+        100.0
+      ],
+      "description": ""
+    }
+  },
+  "report": null
+}

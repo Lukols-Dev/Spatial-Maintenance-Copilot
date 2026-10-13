@@ -1,0 +1,509 @@
+{
+  "turn": {
+    "session_id": "5d7c0a3e9b6f4c21a8e04f6b2d913c57",
+    "asset_id": "home-cabinet",
+    "view_set": "cabinet-agent",
+    "located": {
+      "view": "B_close.png",
+      "localisation": {
+        "view_id": "B_close.png",
+        "failure": null,
+        "quality": {
+          "observed": 4,
+          "inliers": 4,
+          "inlier_ratio": 1.0,
+          "outlier_ids": [],
+          "rms_reprojection_px": 0.238084004075888,
+          "max_reprojection_px": 0.3521785592586979,
+          "reprojection_px": {
+            "corner_top_left": 0.3521785592586979,
+            "corner_top_right": 0.2772758143166459,
+            "corner_bottom_left": 0.15110658777931432,
+            "corner_bottom_right": 0.05469146469451059
+          },
+          "image_coverage": 0.26856631744975823,
+          "non_planarity": 0.02249415480567322
+        },
+        "pose": {
+          "rvec": [
+            -0.35254790894387067,
+            0.15146960609584134,
+            0.049560992518845604
+          ],
+          "tvec_mm": [
+            -44.124973725174385,
+            -71.88515297850927,
+            732.8610957445336
+          ]
+        },
+        "target": {
+          "centre_px": [
+            635.0054239804844,
+            1203.7962953006977
+          ],
+          "depth_mm": 1082.3351082307383,
+          "in_frame": true,
+          "outline_px": [
+            [
+              876.8056640625,
+              964.1915283203125
+            ],
+            [
+              874.3973999023438,
+              1455.652587890625
+            ],
+            [
+              866.3443603515625,
+              1467.01611328125
+            ],
+            [
+              401.4619445800781,
+              1435.21923828125
+            ],
+            [
+              366.39129638671875,
+              1421.46044921875
+            ],
+            [
+              415.3762512207031,
+              953.9000244140625
+            ]
+          ],
+          "radius_px": 275.6246557202531
+        },
+        "uncertainty": {
+          "confidence": 0.95,
+          "covariance_px": [
+            [
+              78.14143868347608,
+              6.02160188812341
+            ],
+            [
+              6.02160188812341,
+              73.64411069605126
+            ]
+          ],
+          "ellipse": {
+            "semi_major_px": 22.208570475871944,
+            "semi_minor_px": 20.400910158347703,
+            "angle_deg": 34.761357966147386
+          },
+          "pose_only": {
+            "semi_major_px": 12.025880257473956,
+            "semi_minor_px": 10.014090341926108,
+            "angle_deg": 18.540925707433445
+          },
+          "samples": 500,
+          "failed_samples": 0,
+          "seed": 0
+        }
+      },
+      "decision": {
+        "reliable": false,
+        "action": "MOVE_CLOSER",
+        "reasons": [
+          "4 inliers, needs ≥ 6"
+        ],
+        "move_reason": "landmarks fill 41 % of the frame",
+        "checks": [
+          {
+            "name": "landmarks",
+            "value": 4.0,
+            "limit": 4.0,
+            "op": ">=",
+            "passed": true
+          },
+          {
+            "name": "inliers",
+            "value": 4.0,
+            "limit": 6.0,
+            "op": ">=",
+            "passed": false
+          },
+          {
+            "name": "inlier_ratio",
+            "value": 1.0,
+            "limit": 0.75,
+            "op": ">=",
+            "passed": true
+          },
+          {
+            "name": "rms_reprojection_px",
+            "value": 0.238084004075888,
+            "limit": 3.0,
+            "op": "<=",
+            "passed": true
+          },
+          {
+            "name": "image_coverage",
+            "value": 0.26856631744975823,
+            "limit": 0.05,
+            "op": ">=",
+            "passed": true
+          },
+          {
+            "name": "target_in_frame",
+            "value": 1.0,
+            "limit": 1.0,
+            "op": ">=",
+            "passed": true
+          },
+          {
+            "name": "pose_stability",
+            "value": 0.0,
+            "limit": 0.05,
+            "op": "<=",
+            "passed": true
+          },
+          {
+            "name": "region_ratio",
+            "value": 0.0805754130298585,
+            "limit": 0.5,
+            "op": "<=",
+            "passed": true
+          }
+        ],
+        "policy": {
+          "min_landmarks": 4,
+          "min_inliers": 6,
+          "min_inlier_ratio": 0.75,
+          "max_rms_reprojection_px": 3.0,
+          "min_image_coverage": 0.05,
+          "max_failed_sample_ratio": 0.05,
+          "max_region_ratio": 0.5
+        }
+      }
+    },
+    "awaiting": {
+      "kind": "view",
+      "view": "B_close.png",
+      "action": "MOVE_CLOSER",
+      "move_reason": "landmarks fill 41 % of the frame",
+      "guidance": "Only four marks are in view. Move so the marks on the other side of the door come in too.",
+      "suggested_views": []
+    },
+    "outcome": null,
+    "events": [
+      {
+        "step": 1,
+        "kind": "perception",
+        "node": "localise",
+        "summary": "localised B_close.png",
+        "data": {
+          "view": "B_close.png"
+        }
+      },
+      {
+        "step": 2,
+        "kind": "decision",
+        "node": "localise",
+        "summary": "not reliable: MOVE_CLOSER",
+        "data": {
+          "reliable": false,
+          "action": "MOVE_CLOSER",
+          "move_reason": "landmarks fill 41 % of the frame",
+          "reasons": [
+            "4 inliers, needs ≥ 6"
+          ]
+        }
+      },
+      {
+        "step": 3,
+        "kind": "tool",
+        "node": "guide",
+        "summary": "suggest_viewpoints MOVE_CLOSER",
+        "data": {
+          "tool": "suggest_viewpoints",
+          "views": []
+        }
+      },
+      {
+        "step": 4,
+        "kind": "agent",
+        "node": "guide",
+        "summary": "asked for MOVE_CLOSER",
+        "data": {
+          "action": "MOVE_CLOSER",
+          "views": []
+        }
+      }
+    ]
+  },
+  "result": {
+    "request": {
+      "asset_id": "home-cabinet",
+      "view_set": "cabinet-agent",
+      "view": "B_close.png",
+      "truth_view": null,
+      "samples": 500,
+      "seed": 0,
+      "sigma_px": 2.0
+    },
+    "camera_id": "phone-1x-portrait",
+    "image": {
+      "width": 1080,
+      "height": 1920
+    },
+    "localisation": {
+      "view_id": "B_close.png",
+      "failure": null,
+      "quality": {
+        "observed": 4,
+        "inliers": 4,
+        "inlier_ratio": 1.0,
+        "outlier_ids": [],
+        "rms_reprojection_px": 0.238084004075888,
+        "max_reprojection_px": 0.3521785592586979,
+        "reprojection_px": {
+          "corner_top_left": 0.3521785592586979,
+          "corner_top_right": 0.2772758143166459,
+          "corner_bottom_left": 0.15110658777931432,
+          "corner_bottom_right": 0.05469146469451059
+        },
+        "image_coverage": 0.26856631744975823,
+        "non_planarity": 0.02249415480567322
+      },
+      "pose": {
+        "rvec": [
+          -0.35254790894387067,
+          0.15146960609584134,
+          0.049560992518845604
+        ],
+        "tvec_mm": [
+          -44.124973725174385,
+          -71.88515297850927,
+          732.8610957445336
+        ]
+      },
+      "target": {
+        "centre_px": [
+          635.0054239804844,
+          1203.7962953006977
+        ],
+        "depth_mm": 1082.3351082307383,
+        "in_frame": true,
+        "outline_px": [
+          [
+            876.8056640625,
+            964.1915283203125
+          ],
+          [
+            874.3973999023438,
+            1455.652587890625
+          ],
+          [
+            866.3443603515625,
+            1467.01611328125
+          ],
+          [
+            401.4619445800781,
+            1435.21923828125
+          ],
+          [
+            366.39129638671875,
+            1421.46044921875
+          ],
+          [
+            415.3762512207031,
+            953.9000244140625
+          ]
+        ],
+        "radius_px": 275.6246557202531
+      },
+      "uncertainty": {
+        "confidence": 0.95,
+        "covariance_px": [
+          [
+            78.14143868347608,
+            6.02160188812341
+          ],
+          [
+            6.02160188812341,
+            73.64411069605126
+          ]
+        ],
+        "ellipse": {
+          "semi_major_px": 22.208570475871944,
+          "semi_minor_px": 20.400910158347703,
+          "angle_deg": 34.761357966147386
+        },
+        "pose_only": {
+          "semi_major_px": 12.025880257473956,
+          "semi_minor_px": 10.014090341926108,
+          "angle_deg": 18.540925707433445
+        },
+        "samples": 500,
+        "failed_samples": 0,
+        "seed": 0
+      }
+    },
+    "observations": [
+      {
+        "landmark_id": "corner_top_left",
+        "pixel": [
+          301.2387100343498,
+          650.4178401464334
+        ],
+        "inlier": true
+      },
+      {
+        "landmark_id": "corner_top_right",
+        "pixel": [
+          900.6219240473621,
+          652.9864658544396
+        ],
+        "inlier": true
+      },
+      {
+        "landmark_id": "corner_bottom_left",
+        "pixel": [
+          166.07466197713364,
+          1454.6671371382845
+        ],
+        "inlier": true
+      },
+      {
+        "landmark_id": "corner_bottom_right",
+        "pixel": [
+          882.1340969074612,
+          1532.7376574423195
+        ],
+        "inlier": true
+      }
+    ],
+    "projections": [
+      {
+        "landmark_id": "corner_top_left",
+        "pixel": [
+          301.55722510694034,
+          650.267580750274
+        ],
+        "in_frame": true,
+        "observed": true
+      },
+      {
+        "landmark_id": "corner_top_right",
+        "pixel": [
+          900.3446759289349,
+          652.9825469217376
+        ],
+        "in_frame": true,
+        "observed": true
+      },
+      {
+        "landmark_id": "corner_bottom_left",
+        "pixel": [
+          166.0013336266498,
+          1454.799258877168
+        ],
+        "in_frame": true,
+        "observed": true
+      },
+      {
+        "landmark_id": "corner_bottom_right",
+        "pixel": [
+          882.1877094959049,
+          1532.7268478784615
+        ],
+        "in_frame": true,
+        "observed": true
+      },
+      {
+        "landmark_id": "handle_screw",
+        "pixel": [
+          549.7794186159625,
+          1017.9123487356915
+        ],
+        "in_frame": true,
+        "observed": false
+      },
+      {
+        "landmark_id": "box_on_top",
+        "pixel": [
+          668.9112865219263,
+          373.5218999544897
+        ],
+        "in_frame": true,
+        "observed": false
+      }
+    ],
+    "ignored_points": [],
+    "truth": null,
+    "decision": {
+      "reliable": false,
+      "action": "MOVE_CLOSER",
+      "reasons": [
+        "4 inliers, needs ≥ 6"
+      ],
+      "move_reason": "landmarks fill 41 % of the frame",
+      "checks": [
+        {
+          "name": "landmarks",
+          "value": 4.0,
+          "limit": 4.0,
+          "op": ">=",
+          "passed": true
+        },
+        {
+          "name": "inliers",
+          "value": 4.0,
+          "limit": 6.0,
+          "op": ">=",
+          "passed": false
+        },
+        {
+          "name": "inlier_ratio",
+          "value": 1.0,
+          "limit": 0.75,
+          "op": ">=",
+          "passed": true
+        },
+        {
+          "name": "rms_reprojection_px",
+          "value": 0.238084004075888,
+          "limit": 3.0,
+          "op": "<=",
+          "passed": true
+        },
+        {
+          "name": "image_coverage",
+          "value": 0.26856631744975823,
+          "limit": 0.05,
+          "op": ">=",
+          "passed": true
+        },
+        {
+          "name": "target_in_frame",
+          "value": 1.0,
+          "limit": 1.0,
+          "op": ">=",
+          "passed": true
+        },
+        {
+          "name": "pose_stability",
+          "value": 0.0,
+          "limit": 0.05,
+          "op": "<=",
+          "passed": true
+        },
+        {
+          "name": "region_ratio",
+          "value": 0.0805754130298585,
+          "limit": 0.5,
+          "op": "<=",
+          "passed": true
+        }
+      ],
+      "policy": {
+        "min_landmarks": 4,
+        "min_inliers": 6,
+        "min_inlier_ratio": 0.75,
+        "max_rms_reprojection_px": 3.0,
+        "min_image_coverage": 0.05,
+        "max_failed_sample_ratio": 0.05,
+        "max_region_ratio": 0.5
+      }
+    }
+  },
+  "model": "anthropic.claude-opus-5-5 (eu-central-1)"
+}

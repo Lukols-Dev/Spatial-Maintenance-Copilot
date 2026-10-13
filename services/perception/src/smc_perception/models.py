@@ -13,6 +13,7 @@ from datetime import date
 from typing import Annotated, Literal, Self
 
 from pydantic import AwareDatetime, BaseModel, ConfigDict, Field, field_validator, model_validator
+from smc_agent.contracts import Turn
 from smc_core.contracts import Atlas, Clicks, Decision, Localisation
 
 from smc_perception.workspace import NAME_PATTERN
@@ -294,3 +295,32 @@ class LocaliseResult(ApiModel):
     )
     truth: Truth | None
     decision: Decision
+
+
+# ---- agent sessions ------------------------------------------------------------
+
+
+class SessionStart(ApiModel):
+    """A session of the agent on one atlas and one view set, at the operator's first viewpoint."""
+
+    asset_id: Name
+    view_set: Name
+    view: str = Field(min_length=1, description="a viewpoint of the set")
+
+
+class ViewChoice(ApiModel):
+    view: str = Field(min_length=1, description="the viewpoint the operator chose")
+
+
+class ApprovalAnswer(ApiModel):
+    approved: bool
+
+
+class SessionTurn(ApiModel):
+    """Where a session stands, and the localisation of its viewpoint to draw."""
+
+    turn: Turn
+    result: LocaliseResult | None = Field(
+        description="the localisation of turn.located's viewpoint, as POST /localise answers it"
+    )
+    model: str = Field(description="the language model that speaks for the agent, or why none does")

@@ -38,12 +38,15 @@ Currently exploring:
 
 ```
 apps/web/              Next.js static frontend (S3 + CloudFront)
-services/perception/   FastAPI service running the OpenCV pipeline (ECS Fargate)
+packages/smc_core/     Geometry: calibration, atlas, PnP, Monte Carlo region, decision policy
+packages/smc_agent/    The agent: a LangGraph loop over smc_core, Amazon Nova or Claude on Amazon Bedrock
+services/perception/   FastAPI service running the pipeline and the agent (ECS Fargate)
 tools/                 Bench utilities and git hooks
 ```
 
-Single uv workspace. Geometry will live in a standalone library imported by the
-service, never computed in the HTTP layer.
+Single uv workspace. The geometry lives in smc_core and the agent in smc_agent;
+the service reads and writes files and calls them, never computing in the HTTP
+layer.
 
 ## Running locally
 
@@ -51,6 +54,8 @@ Requirements: [uv](https://docs.astral.sh/uv/), Node.js 20.9+, Docker.
 
 ```bash
 make setup     # install the workspace and git hooks
+cp services/perception/.env.example services/perception/.env   # the service's settings and keys
+cp apps/web/.env.example apps/web/.env.local                    # the web app's API address
 make api       # perception service on :8000
 make web       # frontend on :3000
 make check     # lint, type check, tests

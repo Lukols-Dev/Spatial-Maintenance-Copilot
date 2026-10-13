@@ -64,14 +64,14 @@ test("the sidebar lists the working pages and reaches each one without a reload"
 
 test("the export redirects a folder to its slash, and unknown or removed pages are 404", async ({ page, request }) => {
   // The local server imitates an S3 website endpoint: a folder without its slash is redirected.
-  for (const folder of ["/annotate", "/atlas"]) {
+  for (const folder of ["/agent", "/annotate", "/atlas"]) {
     const redirect = await request.get(folder, { maxRedirects: 0 });
     expect(redirect.status()).toBe(302);
     expect(redirect.headers().location).toBe(`${folder}/`);
   }
 
   await stubApi(page);
-  for (const path of ["/no-such-page/", "/annotate/no-such-page/", "/atlas/no-such-page/", "/demo/", "/evaluation/"]) {
+  for (const path of ["/no-such-page/", "/annotate/no-such-page/", "/atlas/no-such-page/", "/agent/no-such-page/", "/demo/", "/evaluation/"]) {
     const missing = await page.goto(path);
     expect(missing?.status()).toBe(404);
     await expect(page.getByText("Page not found")).toBeVisible();
@@ -115,7 +115,7 @@ test("no page logs an error", async ({ page }) => {
     if (message.type() === "error") errors.push(message.text());
   });
   page.on("pageerror", (error) => errors.push(error.message));
-  for (const path of ["/", "/annotate/", "/atlas/"]) {
+  for (const path of ["/", "/agent/", "/annotate/", "/atlas/"]) {
     await page.goto(path);
     await page.waitForLoadState("networkidle");
   }

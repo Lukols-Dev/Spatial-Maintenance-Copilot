@@ -7,8 +7,8 @@ from pathlib import Path
 import pytest
 from fastapi.testclient import TestClient
 from smc_core.testing import CAMERA_ID
+from smc_perception.config import workspace_root
 from smc_perception.models import Workspace
-from smc_perception.settings import workspace_root
 from workspace_builder import write_image, write_rig, write_view_set
 
 

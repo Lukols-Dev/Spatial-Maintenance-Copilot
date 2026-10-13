@@ -7,15 +7,44 @@ geometry is in `smc_core`; this service reads and writes files and calls it.
 ## Running
 
 ```bash
-make api                     # :8000, the repository is the workspace
+cp services/perception/.env.example services/perception/.env   # once; git ignores .env
+make api                     # :8000, the repository is the workspace, settings from .env
 SMC_WORKSPACE=/path/to/ws uv run uvicorn smc_perception.main:app --port 8000
 ```
 
-| Variable               | Default                 | Meaning                                                        |
-| ---------------------- | ----------------------- | -------------------------------------------------------------- |
-| `SMC_WORKSPACE`        | the working directory   | Folder that holds `calib/` and `data/`. Read on every request. |
-| `SMC_READ_ONLY`        | unset                   | `1`, `true` or `yes`: every write is refused with 403.         |
-| `CORS_ALLOWED_ORIGINS` | `http://localhost:3000` | Comma-separated web origins allowed to call the API.           |
+
+Two kinds of setting:
+
+- **The agent's model and its keys**, in `services/perception/.env` (git ignores
+  it). `.env.example` lists exactly these, and every one is required: the
+  service does not start without them, and names the ones missing.
+
+  | Variable                | Meaning                                                                                                                           |
+  | ----------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+  | `SMC_BEDROCK_REGION`    | AWS region with access to the model, e.g. `eu-north-1`.                                                                           |
+  | `SMC_AGENT_MODEL`       | Bedrock model id: `eu.amazon.nova-2-lite-v1:0` (Amazon Nova, through Converse) or `anthropic.claude-opus-5-5` (Claude, Messages API). |
+  | `SMC_AGENT_EFFORT`      | How long the model may think per call: `low` to `max` (Nova has three levels: `xhigh` and `max` are its `high`).                  |
+  | `AWS_ACCESS_KEY_ID`     | Key of an IAM user allowed to invoke the model (`AKIA…`).                                                                         |
+  | `AWS_SECRET_ACCESS_KEY` | Its secret.                                                                                                                       |
+
+- **How the service runs**, from the environment, with local defaults; `make api`
+  sets the workspace and the deployment the rest. No secrets, so no file.
+
+  | Variable               | Default                 | Meaning                                                        |
+  | ---------------------- | ----------------------- | -------------------------------------------------------------- |
+  | `SMC_WORKSPACE`        | the working directory   | Folder that holds `calib/` and `data/`. Read on every request. |
+  | `SMC_READ_ONLY`        | unset                   | `1`, `true` or `yes`: every write is refused with 403.         |
+  | `CORS_ALLOWED_ORIGINS` | `http://localhost:3000` | Comma-separated web origins allowed to call the API.           |
+
+`src/smc_perception/config.py` reads both, a variable set in the shell winning
+over the file. At startup the service logs what is configured (the key id
+masked) and stops on anything missing or invalid, every variable named. The
+keys reach the Bedrock client from the settings; on ECS they come into the
+task's environment from Secrets Manager. The container has no copy of the
+file: `make api-run` passes it to Docker. The tests read no `.env`
+(`SMC_ENV_FILE` is empty in them) and never call Bedrock. When the model gives
+no answer, the reason is logged (`the model gave no answer: ...`), not shown in
+the trace.
 
 ## Workspace
 
@@ -49,6 +78,10 @@ it and renamed into place.
 | GET    | `/atlases/{asset_id}`              |                                          | `AtlasDetail`           |
 | POST   | `/atlases`                         | `AtlasBuildRequest`                      | `AtlasDetail`, 201      |
 | POST   | `/localise`                        | `LocaliseRequest`                        | `LocaliseResult`        |
+| POST   | `/sessions`                        | `SessionStart`                           | `SessionTurn`, 201      |
+| GET    | `/sessions/{id}`                   |                                          | `SessionTurn`, every event |
+| POST   | `/sessions/{id}/view`              | `ViewChoice`                             | `SessionTurn`           |
+| POST   | `/sessions/{id}/approval`          | `ApprovalAnswer`                         | `SessionTurn`           |
 
 The models are in `src/smc_perception/models.py`; `apps/web/lib/api-examples/`
 has an example of each, checked by `tests/test_api_examples.py`. Errors are
@@ -85,3 +118,16 @@ fails because one file is bad; that item carries an `error`.
   set or the image has no clicks, the target is not clicked in `truth_view`,
   the clicks' camera is not calibrated, or an image is not of the camera's
   size. It writes nothing, so a read-only service answers it.
+- **Sessions**: the agent of `smc_agent` on one atlas and one view set. Its
+  viewpoints are the images whose clicks mark atlas landmarks and not the
+  target, so the target is hidden in them; the truth of one is the image of
+  the same name up to the first `_` with the target clicked (`B1_close.png`
+  and `B1_open.png`). `POST /sessions` localises the first viewpoint and runs
+  the agent's turn; the answer asks for a viewpoint (`ViewRequest`, with the
+  policy's move and recorded viewpoints that lie that way) or for approval of
+  the next step (`ApprovalRequest`). A `SessionTurn` carries the turn, the
+  `/localise` answer of its viewpoint to draw, and the model's name. Sessions
+  live in memory: a restart ends them. 404 for an unknown session, 409 for an
+  answer it does not wait for, 422 for a view that is not one of its
+  viewpoints. Sessions write nothing to the workspace, so a read-only service
+  runs them.
