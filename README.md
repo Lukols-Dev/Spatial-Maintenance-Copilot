@@ -40,7 +40,10 @@ Currently exploring:
 apps/web/              Next.js static frontend (S3 + CloudFront)
 packages/smc_core/     Geometry: calibration, atlas, PnP, Monte Carlo region, decision policy
 packages/smc_agent/    The agent: a LangGraph loop over smc_core, Amazon Nova or Claude on Amazon Bedrock
+packages/smc_eval/     The evaluation: metrics, a simulated operator, injected faults
 services/perception/   FastAPI service running the pipeline and the agent (ECS Fargate)
+eval/datasets/         Frozen evaluation datasets: atlas, clicks, board poses, media hashes
+eval/results/          Evaluation results, report and agent traces
 tools/                 Bench utilities and git hooks
 ```
 
@@ -68,6 +71,27 @@ The containerised service, which is what gets deployed:
 ```bash
 make api-build
 make api-run
+```
+
+## Evaluation
+
+The evaluation runs the service's code on a frozen dataset. The atlas is scored on viewpoints recorded
+apart from the views it was built from, with the target hidden. The truth is the target clicked in the
+shot taken from the same spot with the target in sight.
+
+It measures:
+
+- localisation error, reprojection error and RANSAC inliers;
+- pose stability, against repeated shots and the rig board;
+- calibration of the 95% region, and the policy's decisions against the truth;
+- task success and the agent's next view, against a single view, the policy alone and a random view;
+- injected faults: missing landmarks, swapped labels, a gross click error, click noise.
+
+The latest results are in [eval/results/cabinet-2026-10-09/report.md](eval/results/cabinet-2026-10-09/report.md).
+
+```bash
+make eval        # run it: results.json, report.md and the agent's traces
+make eval-check  # run it again and compare with the stored results, within fixed tolerances
 ```
 
 ## Current stage

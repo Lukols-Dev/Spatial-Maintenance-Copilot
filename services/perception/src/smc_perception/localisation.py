@@ -11,11 +11,12 @@ import math
 from pathlib import Path
 
 from smc_core.calibration import Intrinsics
-from smc_core.contracts import Atlas, Clicks, LandmarkObservation, Localisation, Vec2, View
+from smc_core.contracts import Atlas, Clicks, Localisation, Vec2, View
 from smc_core.localise import localise
 from smc_core.policy import decide
 from smc_core.pose import in_frame, project_landmarks
 from smc_core.uncertainty import in_region
+from smc_core.viewpoints import observed_view
 
 from smc_perception.atlases import read_atlas
 from smc_perception.cameras import find_intrinsics
@@ -59,7 +60,7 @@ def localise_view(workspace: WorkspaceFiles, request: LocaliseRequest) -> Locali
     if sigma_px is None:
         built = detail.report
         sigma_px = DEFAULT_SIGMA_PX if built is None else built.request.click_sigma_px
-    view = _view(request.view, clicks.camera_id, marked, atlas, sigma_px)
+    view = observed_view(request.view, clicks, atlas, sigma_px)
     localisation = localise(atlas, view, intrinsics, request.samples, request.seed)
     truth = None
     if truth_view is not None:
@@ -78,28 +79,6 @@ def localise_view(workspace: WorkspaceFiles, request: LocaliseRequest) -> Locali
         ignored_points=[point for point in marked if point not in known],
         truth=truth,
         decision=decide(localisation, view, atlas, intrinsics),
-    )
-
-
-def _view(
-    file: str, camera_id: str, marked: dict[str, Vec2], atlas: Atlas, sigma_px: float
-) -> View:
-    """The clicked landmarks of the atlas, as localise() takes them.
-
-    They come in atlas order, not click order: RANSAC and the Monte Carlo draws
-    follow the rows, and the same clicks should give the same result however
-    they were made.
-    """
-    return View(
-        view_id=file,
-        camera_id=camera_id,
-        observations=[
-            LandmarkObservation(
-                landmark_id=landmark.id, pixel=marked[landmark.id], sigma_px=sigma_px
-            )
-            for landmark in atlas.landmarks
-            if landmark.id in marked
-        ],
     )
 
 

@@ -14,14 +14,18 @@ from smc_agent.bedrock import bedrock_model
 from smc_agent.contracts import Located
 from smc_agent.model import ChatModel
 from smc_agent.nova import nova_model
-from smc_core.contracts import Action, Atlas, Clicks, LandmarkObservation, Pose, View
-from smc_core.pose import MIN_CORRESPONDENCES, correspondences, fit_pose
-from smc_core.viewpoints import fitting_viewpoints
+from smc_core.contracts import Action, Atlas, Clicks, Pose
+from smc_core.viewpoints import (
+    fitting_viewpoints,
+    hidden_target_views,
+    poses_from_clicks,
+    truth_view,
+)
 
 from smc_perception.atlases import read_atlas
 from smc_perception.cameras import find_intrinsics
 from smc_perception.config import model_settings
-from smc_perception.localisation import DEFAULT_SIGMA_PX, localise_view
+from smc_perception.localisation import localise_view
 from smc_perception.models import LocaliseRequest, LocaliseResult
 from smc_perception.view_sets import required_clicks
 from smc_perception.workspace import WorkspaceFiles
@@ -61,13 +65,8 @@ def model_name() -> str:
 class WorkspacePerception:
     """One atlas and one view set of the workspace, as the agent asks about them.
 
-    A viewpoint is an image whose clicks mark landmarks of the atlas and not
-    the target: the target is clicked only where it is in sight, so those
-    images show it hidden. Its truth is the image of the same viewpoint with
-    the target clicked: the files share the name up to the first "_", as
-    B1_close.png and B1_open.png do.
-
-    Results are kept for the life of the object, one request.
+    Viewpoints and their truths are those of smc_core.viewpoints, the ones the
+    evaluation runs on. Results are kept for the life of the object, one request.
     """
 
     def __init__(self, workspace: WorkspaceFiles, asset_id: str, view_set: str) -> None:
@@ -92,13 +91,7 @@ class WorkspacePerception:
         return Located(view=view, localisation=result.localisation, decision=result.decision)
 
     def viewpoints(self) -> list[str]:
-        landmarks = {landmark.id for landmark in self.atlas.landmarks}
-        target = self.atlas.target.id
-        return sorted(
-            name
-            for name, marked in self.clicks.views.items()
-            if target not in marked and landmarks & marked.keys()
-        )
+        return hidden_target_views(self.clicks, self.atlas)
 
     def suggest(self, view: str, action: Action) -> list[str]:
         poses = self.poses
@@ -124,48 +117,10 @@ class WorkspacePerception:
 
     def truth_view(self, view: str) -> str | None:
         """The image of the same viewpoint with the target clicked, if the set has one."""
-        prefix = view.split("_", 1)[0]
-        target = self.atlas.target.id
-        paired = sorted(
-            name
-            for name, marked in self.clicks.views.items()
-            if name != view and name.split("_", 1)[0] == prefix and target in marked
-        )
-        return paired[0] if paired else None
+        return truth_view(view, self.clicks, self.atlas.target.id)
 
     @cached_property
     def poses(self) -> dict[str, Pose]:
-        """Where each viewpoint's camera stood: PnP with RANSAC on its clicks, nothing more.
-
-        No Monte Carlo region: placing viewpoints relative to each other needs
-        only the pose, and this runs for every viewpoint of the set.
-        """
+        """Where each viewpoint's camera stood, from its clicks alone."""
         intrinsics = find_intrinsics(self.workspace, self.clicks.camera_id)
-        poses: dict[str, Pose] = {}
-        for name in self.viewpoints():
-            marked = self.clicks.views[name]
-            view = View(
-                view_id=name,
-                camera_id=self.clicks.camera_id,
-                observations=[
-                    LandmarkObservation(
-                        landmark_id=landmark.id,
-                        pixel=marked[landmark.id],
-                        sigma_px=DEFAULT_SIGMA_PX,
-                    )
-                    for landmark in self.atlas.landmarks
-                    if landmark.id in marked
-                ],
-            )
-            pairs = correspondences(self.atlas, view)
-            if len(pairs["ids"]) < MIN_CORRESPONDENCES:
-                continue
-            fit = fit_pose(pairs, intrinsics)
-            if fit is None:
-                continue
-            rvec, tvec = fit["rvec"], fit["tvec"]
-            poses[name] = Pose(
-                rvec=(float(rvec[0]), float(rvec[1]), float(rvec[2])),
-                tvec_mm=(float(tvec[0]), float(tvec[1]), float(tvec[2])),
-            )
-        return poses
+        return poses_from_clicks(self.viewpoints(), self.clicks, self.atlas, intrinsics)

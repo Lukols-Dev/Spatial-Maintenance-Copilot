@@ -1,4 +1,11 @@
-"""Which recorded viewpoints lie in the direction of a move.
+"""Recorded viewpoints: which show the target hidden, which is the truth of which,
+where each camera stood, and which lie in the direction of a move.
+
+A set of recorded views is a Clicks file: the landmarks and the target clicked
+in each image. The target is clicked only where it is in sight, so a view whose
+clicks mark landmarks and not the target shows it hidden: a viewpoint. Its
+truth is the image of the same spot with the target in sight, the files sharing
+the name up to the first "_" (B1_close.png, B1_open.png).
 
 A camera's centre in the asset frame is -R^T t. The step from the current
 camera to another one, turned into the current camera's frame (x right, y
@@ -9,11 +16,14 @@ MIN_STEP_MM long: a second take from the same spot is no move at all.
 """
 
 import math
+from collections.abc import Iterable
 
 import cv2 as cv
 import numpy as np
 
-from smc_core.contracts import Action, Pose
+from smc_core.calibration import Intrinsics
+from smc_core.contracts import Action, Atlas, Clicks, LandmarkObservation, Pose, View
+from smc_core.pose import MIN_CORRESPONDENCES, correspondences, fit_pose
 
 DIRECTIONS: dict[Action, tuple[float, float, float]] = {
     Action.MOVE_LEFT: (-1.0, 0.0, 0.0),
@@ -64,3 +74,74 @@ def fitting_viewpoints(current: Pose, candidates: dict[str, Pose], action: Actio
         if cosine >= least_cosine:
             scored.append((-cosine, order, name))
     return [name for _, _, name in sorted(scored)]
+
+
+# ---- the views of a set --------------------------------------------------------------
+
+
+def observed_view(name: str, clicks: Clicks, atlas: Atlas, sigma_px: float) -> View:
+    """The landmarks of the atlas clicked in one image, as localise() takes them.
+
+    They come in atlas order, not click order: RANSAC and the Monte Carlo draws
+    follow the rows, and the same clicks should give the same result however
+    they were made. Clicked points that are not landmarks, the target among
+    them, are left out.
+    """
+    marked = clicks.views.get(name, {})
+    return View(
+        view_id=name,
+        camera_id=clicks.camera_id,
+        observations=[
+            LandmarkObservation(
+                landmark_id=landmark.id, pixel=marked[landmark.id], sigma_px=sigma_px
+            )
+            for landmark in atlas.landmarks
+            if landmark.id in marked
+        ],
+    )
+
+
+def hidden_target_views(clicks: Clicks, atlas: Atlas) -> list[str]:
+    """The viewpoints of a set: landmarks of the atlas clicked, the target not, in name order."""
+    landmarks = {landmark.id for landmark in atlas.landmarks}
+    target = atlas.target.id
+    return sorted(
+        name
+        for name, marked in clicks.views.items()
+        if target not in marked and landmarks & marked.keys()
+    )
+
+
+def truth_view(view: str, clicks: Clicks, target_id: str) -> str | None:
+    """The image of the same spot with the target clicked, if the set has one."""
+    prefix = view.split("_", 1)[0]
+    paired = sorted(
+        name
+        for name, marked in clicks.views.items()
+        if name != view and name.split("_", 1)[0] == prefix and target_id in marked
+    )
+    return paired[0] if paired else None
+
+
+def poses_from_clicks(
+    views: Iterable[str], clicks: Clicks, atlas: Atlas, intrinsics: Intrinsics
+) -> dict[str, Pose]:
+    """Where each view's camera stood: PnP with RANSAC on its clicks, nothing more.
+
+    No Monte Carlo region: placing viewpoints relative to each other needs only
+    the pose. A view no pose fits is left out.
+    """
+    poses: dict[str, Pose] = {}
+    for name in views:
+        pairs = correspondences(atlas, observed_view(name, clicks, atlas, sigma_px=1.0))
+        if len(pairs["ids"]) < MIN_CORRESPONDENCES:
+            continue
+        fit = fit_pose(pairs, intrinsics)
+        if fit is None:
+            continue
+        rvec, tvec = fit["rvec"], fit["tvec"]
+        poses[name] = Pose(
+            rvec=(float(rvec[0]), float(rvec[1]), float(rvec[2])),
+            tvec_mm=(float(tvec[0]), float(tvec[1]), float(tvec[2])),
+        )
+    return poses

@@ -10,6 +10,7 @@ resolution-markers = [
 members = [
     "smc-agent",
     "smc-core",
+    "smc-eval",
     "smc-perception",
 ]
 
@@ -1311,6 +1312,21 @@ requires-dist = [
     { name = "opencv-python-headless", specifier = "==5.0.0.93" },
     { name = "pydantic", specifier = ">=2.13.5" },
     { name = "pyyaml", specifier = ">=6.0.3" },
+]
+
+[[package]]
+name = "smc-eval"
+version = "0.1.0"
+source = { editable = "packages/smc_eval" }
+dependencies = [
+    { name = "smc-agent" },
+    { name = "smc-core" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "smc-agent", editable = "packages/smc_agent" },
+    { name = "smc-core", editable = "packages/smc_core" },
 ]
 
 [[package]]

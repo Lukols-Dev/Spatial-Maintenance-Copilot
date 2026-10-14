@@ -62,7 +62,7 @@ repos:
       - id: name-tests-test
         args: [--pytest-test-first]
         # Helpers the tests import, not test modules.
-        exclude: ^(services/perception/tests/workspace_builder|packages/smc_agent/tests/agent_scene)\.py$
+        exclude: ^(services/perception/tests/workspace_builder|packages/smc_agent/tests/agent_scene|packages/smc_eval/tests/eval_scene)\.py$
 
   - repo: https://github.com/gitleaks/gitleaks
     rev: v8.30.0

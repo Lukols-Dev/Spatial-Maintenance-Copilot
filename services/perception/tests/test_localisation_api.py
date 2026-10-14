@@ -11,10 +11,9 @@ from smc_core.calibration import load_calibration_record
 from smc_core.contracts import Clicks, LandmarkObservation, View, load_clicks
 from smc_core.localise import localise
 from smc_core.policy import decide
-from smc_core.testing import CAMERA_ID, EXTENT_MM, TARGET_ID, clicks_for
+from smc_core.testing import CAMERA_ID, EXTENT_MM, TARGET_ID, clicks_for, scene_atlas
 from smc_perception.models import LocaliseResult
 from workspace_builder import (
-    scene_atlas,
     write_atlas,
     write_image,
     write_scene,

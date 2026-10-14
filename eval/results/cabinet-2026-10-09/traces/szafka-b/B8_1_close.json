@@ -1,0 +1,45 @@
+[
+  {
+    "step": 1,
+    "kind": "perception",
+    "node": "localise",
+    "summary": "localised B8_1_close.png: too_few_correspondences",
+    "data": {
+      "view": "B8_1_close.png"
+    }
+  },
+  {
+    "step": 2,
+    "kind": "decision",
+    "node": "localise",
+    "summary": "not reliable: MOVE_BACK",
+    "data": {
+      "reliable": false,
+      "action": "MOVE_BACK",
+      "move_reason": "too few landmarks in view to fit a pose",
+      "reasons": [
+        "localisation failed: too few correspondences",
+        "3 landmarks matched, needs ≥ 4"
+      ]
+    }
+  },
+  {
+    "step": 3,
+    "kind": "fallback",
+    "node": "guide",
+    "summary": "the model gave no answer: unavailable",
+    "data": {
+      "reason": "unavailable"
+    }
+  },
+  {
+    "step": 4,
+    "kind": "agent",
+    "node": "guide",
+    "summary": "asked for MOVE_BACK",
+    "data": {
+      "action": "MOVE_BACK",
+      "views": []
+    }
+  }
+]

@@ -28,6 +28,7 @@ testpaths = [
     "services/perception/tests",
     "packages/smc_core/tests",
     "packages/smc_agent/tests",
+    "packages/smc_eval/tests",
     "tests",
 ]
 pythonpath = ["tools"]
@@ -50,7 +51,12 @@ python_version = "3.14"
 strict = true
 warn_unreachable = true
 pretty = true
-files = ["services/perception/src", "packages/smc_core/src", "packages/smc_agent/src"]
+files = [
+    "services/perception/src",
+    "packages/smc_core/src",
+    "packages/smc_agent/src",
+    "packages/smc_eval/src",
+]
 
 [dependency-groups]
 dev = [

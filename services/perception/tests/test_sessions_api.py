@@ -14,9 +14,9 @@ import pytest
 from fastapi.testclient import TestClient
 from smc_agent.model import ModelTurn, NoModel
 from smc_core.contracts import Clicks
-from smc_core.testing import POINTS_MM, TARGET_ID, clicks_for
+from smc_core.testing import POINTS_MM, TARGET_ID, clicks_for, scene_atlas
 from smc_perception.models import SessionTurn
-from workspace_builder import scene_atlas, write_atlas, write_view_set
+from workspace_builder import write_atlas, write_view_set
 
 LANDMARKS = [point for point in POINTS_MM if point != TARGET_ID]
 START = {"asset_id": "home-cabinet", "view_set": "cabinet-agent"}

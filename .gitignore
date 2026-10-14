@@ -11,8 +11,8 @@ credentials
 
 # ============================================================
 # Capture data
-# Media lives in a private S3 bucket and is referenced from
-# eval/datasets/*.manifest.json by key and SHA256, never committed.
+# Media stays private and is referenced from
+# eval/datasets/<name>/manifest.json by path and SHA-256, never committed.
 # ============================================================
 /data/
 *.mp4

@@ -13,7 +13,7 @@ import cv2 as cv
 import numpy as np
 
 from smc_core.calibration import Calibration, Intrinsics, create_board
-from smc_core.contracts import Clicks, Vec2, Vec3
+from smc_core.contracts import Atlas, Clicks, Landmark, Target, Vec2, Vec3
 
 CAMERA_ID = "phone-1x-portrait"
 INTRINSICS: Intrinsics = {
@@ -128,3 +128,24 @@ def clicks_for(sigma_px: float, names: list[str] | None = None) -> Clicks:
     if names is not None:
         marks = {name: marks[name] for name in names}
     return Clicks(camera_id=CAMERA_ID, views=marks)
+
+
+def scene_atlas(asset_id: str = "home-cabinet") -> Atlas:
+    """The atlas of the synthetic scene, every point where it truly is."""
+
+    def vec(point: np.ndarray) -> Vec3:
+        return (float(point[0]), float(point[1]), float(point[2]))
+
+    return Atlas(
+        asset_id=asset_id,
+        version="1",
+        frame="board:rig_board_a",
+        landmarks=[
+            Landmark(id=point_id, position_mm=vec(point), sigma_mm=1.0)
+            for point_id, point in POINTS_MM.items()
+            if point_id != TARGET_ID
+        ],
+        target=Target(
+            id=TARGET_ID, position_mm=vec(POINTS_MM[TARGET_ID]), sigma_mm=5.0, extent_mm=EXTENT_MM
+        ),
+    )
