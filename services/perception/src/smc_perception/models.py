@@ -18,10 +18,11 @@ from smc_core.contracts import (
     Atlas,
     Clicks,
     Decision,
-    Guidance,
+    FrameQuality,
     Localisation,
     TargetSighting,
 )
+from smc_core.markers import DEFAULT_TARGET_ID
 
 from smc_perception.workspace import NAME_PATTERN
 
@@ -70,9 +71,18 @@ class Board(ApiModel):
     measured: bool = Field(description="whether the square side is measured, which posing needs")
 
 
+class RigMarkers(ApiModel):
+    """The printed ArUco markers of calib/rig.yaml: landmarks stuck on the asset, a tag on the target."""
+
+    landmark_ids: tuple[int, int] = Field(description="first and last, inclusive")
+    target_id: int = Field(description="the marker id of the target's tag")
+    side_mm: float = Field(description="measured, else nominal")
+
+
 class Rig(ApiModel):
     dictionary: str | None
     boards: list[Board]
+    markers: RigMarkers | None = Field(description="None when the file names no printed markers")
     error: str | None
 
 
@@ -122,6 +132,36 @@ class ViewSetSummary(ApiModel):
     clicks: ClicksSummary | None
     updated_at: AwareDatetime = Field(description="when the newest file of the set changed")
     error: str | None
+
+
+class MarkersRequest(ApiModel):
+    """Find the printed markers in every image of a view set, and save them as its clicks."""
+
+    camera_id: str = Field(min_length=1, description="calibrated at the size of the set's images")
+    target_id: str = Field(
+        default=DEFAULT_TARGET_ID, min_length=1, description="the point the target's tag gives"
+    )
+    moving: list[int] = Field(
+        default=[],
+        description="landmark markers on a part that opens: left out where the target's tag shows",
+    )
+    replace: bool = Field(
+        default=False, description="replace the set's clicks; a set with clicks is refused without"
+    )
+
+
+class MarkerCount(ApiModel):
+    marker_id: int
+    images: int = Field(description="images it is marked in")
+
+
+class MarkersAnswer(ApiModel):
+    view_set: str
+    images: int
+    marked_images: int = Field(description="images with at least one marker of the rig")
+    tag_images: int = Field(description="images that show the target's tag")
+    markers: list[MarkerCount] = Field(description="every landmark marker of the rig, in id order")
+    clicks: ClicksSummary
 
 
 class ViewSetImage(ApiModel):
@@ -356,8 +396,8 @@ class FrameAnswer(ApiModel):
     observations: list[Observation] = Field(description="the atlas's landmarks found in the frame")
     localisation: Localisation
     decision: Decision
-    guidance: Guidance | None = Field(description="the way to the guide view; None without one")
     sighting: TargetSighting | None = Field(description="the target's tag, when the panel is open")
+    frame_quality: FrameQuality = Field(description="the frame's blur, measured on its markers")
     elapsed_ms: float
 
 

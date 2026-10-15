@@ -11,7 +11,7 @@ against them never mix.
 import math
 from enum import StrEnum
 from pathlib import Path
-from typing import Literal, Self
+from typing import Any, Literal, Self
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
@@ -103,10 +103,16 @@ class Atlas(Contract):
     panels: list[Panel] = Field(
         default_factory=list, description="the faces the target can be behind; none: not known"
     )
-    guide_view: Pose | None = Field(
-        default=None,
-        description="a recorded camera pose the target is well localised from: where guidance leads",
-    )
+
+    @model_validator(mode="before")
+    @classmethod
+    def _without_a_guide_view(cls, data: Any) -> Any:
+        # Atlases built before 2026-10-16 carry a guide view, a recorded pose the
+        # Guide page once drew the asset from. Nothing reads it now; the frozen
+        # datasets keep their files as they were, so the key is dropped on reading.
+        if isinstance(data, dict) and "guide_view" in data:
+            return {key: value for key, value in data.items() if key != "guide_view"}
+        return data
 
     @model_validator(mode="after")
     def _unique_ids(self) -> Self:
@@ -230,17 +236,6 @@ class ProjectedTarget(Contract):
     )
 
 
-class Guidance(Contract):
-    """How far the camera is from the atlas's guide view, and how the asset looks from there."""
-
-    outlines_px: list[list[Vec2]] = Field(description="the panels as the guide view sees them")
-    alignment_px: float | None = Field(
-        description="mean distance between the asset's points as this pose and the guide view "
-        "put them; None without a pose"
-    )
-    progress: float | None = Field(description="0 far from the guide view, 1 on it")
-
-
 class TargetSighting(Contract):
     """The target's tag in sight: the panel is open, and the prediction can be held against it."""
 
@@ -310,10 +305,12 @@ class Action(StrEnum):
     """What the operator does next: take the result, or move the camera and look again.
 
     A move is the camera's, as the operator holds it: MOVE_LEFT brings what
-    lies beyond the left edge of the frame into view.
+    lies beyond the left edge of the frame into view. HOLD_STILL asks for the
+    same view again without the camera moving while the frame is taken.
     """
 
     ACCEPT = "ACCEPT"
+    HOLD_STILL = "HOLD_STILL"
     MOVE_LEFT = "MOVE_LEFT"
     MOVE_RIGHT = "MOVE_RIGHT"
     MOVE_CLOSER = "MOVE_CLOSER"
@@ -349,6 +346,25 @@ class Policy(Contract):
     )
     max_region_ratio: float = Field(
         default=0.5, description="95% ellipse semi-major axis / projected target radius"
+    )
+    max_edge_width_px: float = Field(
+        default=5.5,
+        description="a camera frame's marker edges, smeared by motion: FrameQuality.edge_width_px",
+    )
+
+
+class FrameQuality(Contract):
+    """Whether a camera frame is sharp enough to trust its markers, measured on the markers.
+
+    The printed markers are the same black and white pattern in every frame,
+    so their edges measure the frame's blur whatever else is in view: a still
+    camera draws them a few pixels wide, a moving one smears them.
+    """
+
+    markers: int = Field(description="markers of the rig found and measured")
+    edge_width_px: float | None = Field(
+        description="the median over the markers of how many pixels an edge takes to rise "
+        "from dark to light, in its widest direction; None without a marker"
     )
 
 

@@ -133,7 +133,7 @@ def build(workspace: WorkspaceFiles, request: AtlasBuildRequest) -> AtlasDetail:
     intrinsics = find_intrinsics(workspace, request.camera_id)
     rig = measured_board(workspace, request.board)
     clicks = _clicks(workspace, folder, request)
-    _check_image_size(workspace, folder, request.view_set, intrinsics)
+    check_image_size(workspace, folder, request.view_set, intrinsics)
 
     board = create_board(
         rig["squares_x"],
@@ -192,7 +192,7 @@ def _clicks(workspace: WorkspaceFiles, folder: Path, request: AtlasBuildRequest)
     return clicks
 
 
-def _check_image_size(
+def check_image_size(
     workspace: WorkspaceFiles, folder: Path, name: str, intrinsics: Intrinsics
 ) -> None:
     """Fail unless every image has the size the camera was calibrated at."""

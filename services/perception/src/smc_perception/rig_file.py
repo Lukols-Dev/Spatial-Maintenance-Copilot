@@ -18,10 +18,11 @@ from typing import Any, NamedTuple
 import cv2 as cv
 import yaml
 from pydantic import ValidationError
+from smc_core.markers import marker_set_of
 from smc_core.rig import RigBoard, load_rig_board
 
 from smc_perception.errors import Conflict, Invalid, NotFound, WorkspaceError, describe
-from smc_perception.models import Board, BoardMeasurement, Rig
+from smc_perception.models import Board, BoardMeasurement, Rig, RigMarkers
 from smc_perception.workspace import WorkspaceFiles, write_atomic
 
 # A typed value further than this from the nominal square is most likely the
@@ -39,17 +40,17 @@ _lock = threading.Lock()
 
 
 def read_rig(workspace: WorkspaceFiles) -> Rig:
-    """Every board of the rig file; a problem with the file or a board is in error."""
+    """Every board and the markers of the rig file; a problem with the file or a part is in error."""
     try:
         _, data = _load(workspace)
     except (NotFound, Conflict) as error:
-        return Rig(dictionary=None, boards=[], error=str(error))
+        return Rig(dictionary=None, boards=[], markers=None, error=str(error))
     return _rig_from_yaml(data, workspace.relative(workspace.rig_file))
 
 
 def _rig_from_yaml(data: object, name: str) -> Rig:
     if not isinstance(data, dict) or not isinstance(data.get("boards"), dict):
-        return Rig(dictionary=None, boards=[], error=f"{name} has no boards")
+        return Rig(dictionary=None, boards=[], markers=None, error=f"{name} has no boards")
 
     problems = []
     dictionary = data.get("dictionary")
@@ -62,7 +63,32 @@ def _rig_from_yaml(data: object, name: str) -> Rig:
             boards.append(board_from_yaml(str(board_id), entry))
         except ValueError as error:
             problems.append(f"board {board_id}: {error}")
-    return Rig(dictionary=dictionary, boards=boards, error="; ".join(problems) or None)
+    markers = None
+    if dictionary is not None and "markers" in data:
+        try:
+            markers = markers_from_yaml(data)
+        except ValueError as error:
+            problems.append(f"markers: {error}")
+    return Rig(
+        dictionary=dictionary, boards=boards, markers=markers, error="; ".join(problems) or None
+    )
+
+
+def markers_from_yaml(data: dict[str, Any]) -> RigMarkers:
+    """The markers section, read as the frames and the marker search read it. Raises ValueError."""
+    try:
+        found = marker_set_of(data)
+    except KeyError as error:
+        raise ValueError(f"no {error.args[0]}") from error
+    except (TypeError, ValueError) as error:
+        raise ValueError("landmark_ids is not [first, last], or a number is not one") from error
+    if not found.landmark_ids:
+        raise ValueError("landmark_ids is an empty range")
+    return RigMarkers(
+        landmark_ids=(found.landmark_ids[0], found.landmark_ids[-1]),
+        target_id=found.target_id,
+        side_mm=found.side_mm,
+    )
 
 
 def board_from_yaml(board_id: str, entry: object) -> Board:

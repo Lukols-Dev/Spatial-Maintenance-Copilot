@@ -3,7 +3,8 @@ import { describe, expect, it } from "vitest";
 import openExample from "../api-examples/frame-answer-open.json";
 import moveExample from "../api-examples/frame-answer-move.json";
 import reliableExample from "../api-examples/frame-answer.json";
-import { IN_SIGHT, cueOf, moveOf, progressShown, progressTone, sightingWords, verdictOf, wordsOf } from "./moves";
+import { IN_SIGHT, cueOf, moveOf, sightingWords, verdictOf, wordsOf } from "./moves";
+import { landscape } from "./sources";
 import { guideOverlayOf } from "./overlay";
 import { Steady } from "./steady";
 import type { FrameAnswer, TargetSighting } from "./types";
@@ -25,25 +26,22 @@ function sightedOpen(change: Partial<TargetSighting>): FrameAnswer {
   return { ...frame, sighting: { ...(frame.sighting as TargetSighting), ...change } };
 }
 
+describe("the camera's size as asked for", () => {
+  it("is landscape whatever the calibration's orientation: phones turn it for a phone held upright", () => {
+    expect(landscape({ width: 1080, height: 1920 })).toEqual({ width: 1920, height: 1080 });
+    expect(landscape({ width: 1920, height: 1080 })).toEqual({ width: 1920, height: 1080 });
+    expect(landscape({ width: 640, height: 480 })).toEqual({ width: 640, height: 480 });
+  });
+});
+
 describe("the moves", () => {
   it("point the arrow the camera's way, and say it", () => {
     expect(moveOf("MOVE_LEFT")).toMatchObject({ words: "Move left", angle: 180 });
     expect(moveOf("MOVE_DOWN").angle).toBe(90);
     expect(moveOf("MOVE_CLOSER").angle).toBeNull();
     expect(moveOf("ACCEPT").words).toBe("Hold still");
-  });
-
-  it("fill the arrow with the progress toward the guide view, all of it once reliable", () => {
-    expect(progressShown("MOVE_LEFT", 0.4)).toBe(0.4);
-    expect(progressShown("MOVE_LEFT", 1.3)).toBe(1);
-    expect(progressShown("MOVE_LEFT", null)).toBeNull();
-    expect(progressShown("ACCEPT", 0.2)).toBe(1);
-    expect([progressTone(null), progressTone(0.3), progressTone(0.6), progressTone(0.9)]).toEqual([
-      "far",
-      "far",
-      "near",
-      "there",
-    ]);
+    // A blurred frame asks for the same view again, and says why.
+    expect(moveOf("HOLD_STILL")).toMatchObject({ words: "Hold steady, the frame is blurred", angle: null });
   });
 });
 
@@ -100,10 +98,9 @@ describe("a steady decision", () => {
 });
 
 describe("the overlay of a frame", () => {
-  it("draws the guide view's outline, the panel the target is behind, and the box through it", () => {
+  it("draws the panel the target is behind, and the box through it", () => {
     const overlay = guideOverlayOf(answer(reliableExample));
     expect(overlay.style).toBe("reliable");
-    expect(overlay.guide).toHaveLength(1);
     expect(overlay.occluder?.id).toBe("door");
     expect(overlay.target?.hidden).toBe(true);
     expect(overlay.target?.edges.match(/M/g)).toHaveLength(12);

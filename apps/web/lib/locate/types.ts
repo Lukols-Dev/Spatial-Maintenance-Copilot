@@ -105,7 +105,16 @@ export interface Localisation {
   occluder: ProjectedPanel | null;
 }
 
-export type Action = "ACCEPT" | "MOVE_LEFT" | "MOVE_RIGHT" | "MOVE_CLOSER" | "MOVE_BACK" | "MOVE_UP" | "MOVE_DOWN";
+/** HOLD_STILL: the frame is blurred, so the same view again with the camera still. */
+export type Action =
+  | "ACCEPT"
+  | "HOLD_STILL"
+  | "MOVE_LEFT"
+  | "MOVE_RIGHT"
+  | "MOVE_CLOSER"
+  | "MOVE_BACK"
+  | "MOVE_UP"
+  | "MOVE_DOWN";
 
 /** One measurement against its threshold. */
 export interface Check {
@@ -126,6 +135,8 @@ export interface Policy {
   min_image_coverage: number;
   max_failed_sample_ratio: number;
   max_region_ratio: number;
+  /** A camera frame's marker edges, smeared by motion. */
+  max_edge_width_px: number;
 }
 
 export interface Decision {

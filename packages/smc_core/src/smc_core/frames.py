@@ -1,8 +1,10 @@
 """One frame of a live camera or a video, localised from the printed markers in it.
 
-The markers give the observations, the same localisation and policy as a
-clicked view turn them into a result, and guidance measures how far the
-camera is from the atlas's guide view. When the target's tag is in sight the
+The markers give the observations, and the same localisation and policy as a
+clicked view turn them into a result. The markers' edges also measure the
+frame's blur (smc_core.blur), which the policy holds against its limit: a
+frame taken while the camera moved localises with a small reprojection error
+and a pose that is off all the same. When the target's tag is in sight the
 panel in front of it is open: the landmarks on that panel are not where the
 atlas has them and are left out, and the tag is held against the projected
 target, a check of the prediction as the operator sees the target.
@@ -14,17 +16,17 @@ from dataclasses import dataclass
 import cv2 as cv
 import numpy as np
 
+from smc_core.blur import frame_quality
 from smc_core.calibration import Intrinsics, check_frame_size
 from smc_core.contracts import (
     Atlas,
     Decision,
-    Guidance,
+    FrameQuality,
     LandmarkObservation,
     Localisation,
     TargetSighting,
     View,
 )
-from smc_core.guidance import guidance
 from smc_core.localise import localise
 from smc_core.markers import Detection, MarkerSet, detect, tag_centre
 from smc_core.policy import decide
@@ -40,8 +42,8 @@ class FrameResult:
     view: View
     localisation: Localisation
     decision: Decision
-    guidance: Guidance | None
     sighting: TargetSighting | None
+    quality: FrameQuality
 
 
 def observed(
@@ -73,20 +75,21 @@ def localise_frame(
     samples: int = FRAME_SAMPLES,
     seed: int = 0,
 ) -> FrameResult:
-    """The frame's markers localised, decided on, and held against the guide view and the target's tag.
+    """The frame's markers localised, decided on, and held against the target's tag.
 
     Raises ValueError for a frame of another size than the camera's calibration.
     """
     check_frame_size(intrinsics, frame)
     detection = detect(detector, markers, frame)
+    quality = frame_quality(frame, detection.quads)
     view = observed(detection, atlas, frame_id, intrinsics["camera_id"], sigma_px)
     localisation = localise(atlas, view, intrinsics, samples, seed)
     return FrameResult(
         view=view,
         localisation=localisation,
-        decision=decide(localisation, view, atlas, intrinsics),
-        guidance=guidance(localisation.pose, atlas, intrinsics),
+        decision=decide(localisation, view, atlas, intrinsics, frame=quality),
         sighting=sighting(detection, localisation),
+        quality=quality,
     )
 
 

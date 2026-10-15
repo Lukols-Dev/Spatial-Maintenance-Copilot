@@ -19,7 +19,10 @@ from smc_core.markers import (
     detect,
     landmark_id,
     load_marker_set,
+    mark_images,
     marker_detector,
+    marker_points,
+    marker_set_of,
     tag_centre,
     tag_point_ids,
 )
@@ -138,6 +141,46 @@ def test_a_detection_reads_as_clicks_with_the_target_and_its_tag() -> None:
         **dict(zip(tag_point_ids(TARGET), tag, strict=True)),
     }
     assert clicks_of(Detection(landmarks={}, tag=None), TARGET) == {}
+
+
+def test_a_rig_without_a_measured_side_uses_the_nominal_one() -> None:
+    rig = {
+        "dictionary": "DICT_5X5_100",
+        "markers": {"landmark_ids": [50, 52], "target_id": 70, "side_nominal_mm": 40},
+    }
+
+    assert marker_set_of(rig) == MarkerSet(cv.aruco.DICT_5X5_100, (50, 51, 52), 70, 40.0)
+    with pytest.raises(KeyError):
+        marker_set_of({"dictionary": "DICT_5X5_100", "markers": {"landmark_ids": [50, 52]}})
+
+
+def test_the_points_of_a_marker_set_are_its_corners_then_the_target() -> None:
+    points = marker_points(MARKERS, TARGET)
+
+    assert len(points) == 4 * 11 + 5
+    assert points[:5] == ["m50_0", "m50_1", "m50_2", "m50_3", "m51_0"]
+    assert points[-5:] == [TARGET, *tag_point_ids(TARGET)]
+
+
+def test_marked_images_are_the_clicks_of_each_frame_and_their_counts(
+    frames: list[tuple[str, np.ndarray]],
+) -> None:
+    detector = marker_detector(MARKERS)
+    blank = ("blank.png", np.full_like(frames[0][1], 255))
+
+    marked = mark_images([*frames, blank], MARKERS, TARGET, moving=[50])
+
+    assert marked.images == len(frames) + 1
+    assert sorted(marked.views) == sorted(name for name, _ in frames)
+    for name, frame in frames:
+        assert marked.views[name] == clicks_of(detect(detector, MARKERS, frame, [50]), TARGET)
+    with_tag = sum(TARGET in points for points in marked.views.values())
+    assert marked.tag_images == with_tag > 0
+    for marker in LANDMARK_MARKERS:
+        seen = sum(landmark_id(marker, 0) in points for points in marked.views.values())
+        assert marked.marker_images[marker] == seen
+    assert not any("m50_0" in points for points in marked.views.values() if TARGET in points)
+    assert marked.marker_images[50] > 0
 
 
 # ---- an atlas from markers ---------------------------------------------------------

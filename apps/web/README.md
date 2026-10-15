@@ -10,12 +10,14 @@ through its HTTP API, from the browser.
 |---|---|
 | `/` | Locate: pick an atlas and a recorded viewpoint; `POST /localise` draws the landmarks, the target region and its 95 % region on the image, with the decision (accept, or the move that should give a better view) and a trace of the viewpoints tried |
 | `/agent/` | Agent: a session of the agent on the viewpoints of a set with the target hidden; it asks for the policy's move, in its words, with the viewpoints that lie that way, or for approval of the next step, and its trace lists every event from perception to the operator's answer |
-| `/annotate/` | Point annotator on PNG files opened from disk: mark landmarks and the target, download `clicks.json` |
-| `/annotate/?set=<name>` | The same on a view set of the workspace: images from the service, every change saved to its `clicks.json` |
-| `/atlas/` | Atlas: import a video or photos as a view set, measure the rig board, build an atlas from a set's clicks and inspect it (points, σ, plan of the board frame) |
+| `/guide/` | Guide: frames of the phone's camera or of a video file, localised from their printed markers as they come, with the move, the hidden target and the agent |
+| `/atlas/` | Atlas: import a video or photos as a view set, give it its points (the printed markers found automatically, or clicks in the annotator), measure the rig board, build an atlas from the set and inspect it (points, σ, plan of the board frame) |
+| `/atlas/annotate/?set=<name>` | Annotate, a step of Atlas: the point annotator on a view set of the workspace, images from the service, every change saved to its `clicks.json` |
+| `/atlas/annotate/` | The same annotator on PNG files opened from disk, its `clicks.json` downloaded |
 
 The sidebar lists the pages of `NAV` in `lib/site.ts`. A page is listed only once it works; the site has no
-placeholder pages.
+placeholder pages. A page reached from inside another, such as the annotator, is in `SUB_PAGES`: the sidebar
+marks its parent, and the header links back to it.
 
 ## The perception service
 
@@ -42,6 +44,7 @@ and the id of the agent's session in `sessionStorage`.
   | `getViewSet(name)` | `/view-sets/{name}` |
   | `imageUrl(name, file)` in `lib/api.ts` | `/view-sets/{name}/images/{file}` |
   | `saveClicks(name, clicks)` | `PUT /view-sets/{name}/clicks` |
+  | `findMarkers(name, request)` | `POST /view-sets/{name}/markers`, up to 10 minutes |
   | `getAtlas(id)` | `/atlases/{id}` |
   | `buildAtlas(request)` | `POST /atlases`, up to 10 minutes |
   | `localise(body)` in `lib/locate/api.ts` | `POST /localise` |

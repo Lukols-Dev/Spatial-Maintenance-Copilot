@@ -36,20 +36,31 @@ function nextVideoFrame(video: HTMLVideoElement): Promise<void> {
   });
 }
 
+/**
+ * A camera's width and height as getUserMedia takes them: the longer side as the width. Browsers apply
+ * the two in landscape and turn the frames of a phone held upright, so a phone asked for 1920 × 1080 gives
+ * 1080 × 1920 upright; asked for 1080 × 1920 it gives the frames of the other orientation.
+ */
+export function landscape(size: { width: number; height: number }): { width: number; height: number } {
+  return { width: Math.max(size.width, size.height), height: Math.min(size.width, size.height) };
+}
+
 /** The camera facing away from the operator, asked for at the size its calibration has. */
 export async function cameraSource(
   video: HTMLVideoElement,
   want: { width: number; height: number },
 ): Promise<FrameSource> {
+  const asked = landscape(want);
   const stream = await navigator.mediaDevices.getUserMedia({
     audio: false,
-    video: { facingMode: { ideal: "environment" }, width: { ideal: want.width }, height: { ideal: want.height } },
+    video: { facingMode: { ideal: "environment" }, width: { ideal: asked.width }, height: { ideal: asked.height } },
   });
   video.srcObject = stream;
   video.muted = true;
   await video.play();
   const canvas = document.createElement("canvas");
   return {
+    live: true,
     size: () => (video.videoWidth > 0 ? { width: video.videoWidth, height: video.videoHeight } : null),
     async next(signal) {
       // Until the stream has a frame to draw, wait for the next one.
@@ -80,6 +91,7 @@ export async function fileSource(video: HTMLVideoElement, file: File): Promise<F
   const canvas = document.createElement("canvas");
   let time = 0;
   return {
+    live: false,
     size: () => (video.videoWidth > 0 ? { width: video.videoWidth, height: video.videoHeight } : null),
     async next(signal) {
       if (time > video.duration) return null;

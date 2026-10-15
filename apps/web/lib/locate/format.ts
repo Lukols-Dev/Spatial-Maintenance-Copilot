@@ -86,6 +86,7 @@ const CHECKS: Record<string, CheckFormat> = {
   target_in_frame: { label: "Target in frame", value: (value) => (value >= 1 ? "yes" : "no"), limit: "yes" },
   pose_stability: { label: "Failed samples", value: (value) => percent(value) },
   region_ratio: { label: "Region / target radius", value: (value) => fixed(value, 2) },
+  edge_width_px: { label: "Marker edge width", value: (value) => px(value, 1) },
 };
 
 function formatOf(name: string): CheckFormat {

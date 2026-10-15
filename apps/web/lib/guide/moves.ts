@@ -17,6 +17,7 @@ export interface Move {
 
 const MOVES: Record<Action, Move> = {
   ACCEPT: { action: "ACCEPT", words: "Hold still", angle: null },
+  HOLD_STILL: { action: "HOLD_STILL", words: "Hold steady, the frame is blurred", angle: null },
   MOVE_LEFT: { action: "MOVE_LEFT", words: "Move left", angle: 180 },
   MOVE_RIGHT: { action: "MOVE_RIGHT", words: "Move right", angle: 0 },
   MOVE_UP: { action: "MOVE_UP", words: "Move up", angle: 270 },
@@ -76,20 +77,4 @@ export function sightingWords(frame: FrameAnswer): string {
   if (verdict === "confirmed") return `${off}, inside the 95 % region`;
   if (verdict === "outside") return `${off}, outside the 95 % region`;
   return `${off}, too uncertain to tell`;
-}
-
-/**
- * The share of the arrow drawn as done: the progress toward the guide view, or
- * all of it once the result is reliable. Null when the progress is not known.
- */
-export function progressShown(action: Action, progress: number | null): number | null {
-  if (action === "ACCEPT") return 1;
-  if (progress === null) return null;
-  return Math.min(1, Math.max(0, progress));
-}
-
-/** The colour of the progress: from the warning amber, through yellow, to the reliable green. */
-export function progressTone(shown: number | null): "far" | "near" | "there" {
-  if (shown === null || shown < 0.5) return "far";
-  return shown < 0.85 ? "near" : "there";
 }

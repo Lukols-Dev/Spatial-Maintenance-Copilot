@@ -4,6 +4,7 @@ import {
   ArrowBigRight,
   ArrowBigUp,
   Check,
+  Hand,
   Maximize2,
   Minimize2,
   Move,
@@ -16,6 +17,7 @@ import type { Action } from "@/lib/locate/types";
 /** The way the camera should go. Closer and back point out of and into the frame. */
 const ICONS: Record<Action, LucideIcon> = {
   ACCEPT: Check,
+  HOLD_STILL: Hand,
   MOVE_LEFT: ArrowBigLeft,
   MOVE_RIGHT: ArrowBigRight,
   MOVE_UP: ArrowBigUp,

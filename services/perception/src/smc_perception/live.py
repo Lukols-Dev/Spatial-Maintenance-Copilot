@@ -132,8 +132,8 @@ def post_frame(
         ],
         localisation=result.localisation,
         decision=result.decision,
-        guidance=result.guidance,
         sighting=result.sighting,
+        frame_quality=result.quality,
         elapsed_ms=(time.perf_counter() - started) * 1000,
     )
     store.put(Kept(asset_id=asset_id, atlas=detail.atlas, result=result, answer=answer, image=data))

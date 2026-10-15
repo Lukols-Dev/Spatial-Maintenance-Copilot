@@ -8,9 +8,10 @@ target's tag gives the target's point, its centre, and its four corners,
 every frame that shows the tag: there the part is open and its markers are
 not where the atlas has them.
 
-The result is the folder's clicks.json, as the Annotate page writes it, so the
-atlas builder, the Annotate and Locate pages and the evaluation read it as
-they read clicks made by hand. Clicks already in the folder are kept unless
+The result is the folder's clicks.json, as the annotator writes it, so the
+atlas builder, the annotator, the Locate page and the evaluation read it as
+they read clicks made by hand. The Atlas page runs the same search
+(POST /view-sets/{name}/markers). Clicks already in the folder are kept unless
 --force replaces them.
 
     uv run tools/annotate_markers.py data/views/szafka2-atlas \\
@@ -18,19 +19,11 @@ they read clicks made by hand. Clicks already in the folder are kept unless
 """
 
 import argparse
-from collections import Counter
 from pathlib import Path
 
-from smc_core.contracts import Clicks, Vec2
+from smc_core.contracts import Clicks
 from smc_core.images import read_images
-from smc_core.markers import (
-    clicks_of,
-    detect,
-    landmark_id,
-    load_marker_set,
-    marker_detector,
-    tag_point_ids,
-)
+from smc_core.markers import DEFAULT_TARGET_ID, load_marker_set, mark_images, marker_points
 
 RIG_FILE = Path(__file__).resolve().parents[1] / "calib" / "rig.yaml"
 
@@ -42,7 +35,7 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument("folder", type=Path, help="a folder of frames (see export_views.py)")
     parser.add_argument("--camera-id", required=True, help="the camera the frames were taken with")
     parser.add_argument("--rig", type=Path, default=RIG_FILE, help="the rig file with the markers")
-    parser.add_argument("--target-id", default="cel", help="the target's point id")
+    parser.add_argument("--target-id", default=DEFAULT_TARGET_ID, help="the target's point id")
     parser.add_argument(
         "--moving", type=int, nargs="*", default=[], help="markers on a part that opens"
     )
@@ -60,30 +53,18 @@ def main(argv: list[str] | None = None) -> None:
     if unknown:
         raise SystemExit(f"--moving {unknown}: not landmark markers of {args.rig}")
 
-    detector = marker_detector(markers)
-    views: dict[str, dict[str, Vec2]] = {}
-    frames = 0
-    seen: Counter[str] = Counter()
-    for name, frame in read_images(args.folder):
-        frames += 1
-        marked = clicks_of(detect(detector, markers, frame, args.moving), args.target_id)
-        if marked:
-            views[name] = marked
-            seen.update({point.rsplit("_", 1)[0] for point in marked if point.startswith("m")})
-            if args.target_id in marked:
-                seen["tag"] += 1
-    if not views:
-        raise SystemExit(f"{args.folder}: no marker of {args.rig} in {frames} frames")
+    marked = mark_images(read_images(args.folder), markers, args.target_id, args.moving)
+    if not marked.views:
+        raise SystemExit(f"{args.folder}: no marker of {args.rig} in {marked.images} frames")
 
-    points = [landmark_id(marker, corner) for marker in markers.landmark_ids for corner in range(4)]
-    points += [args.target_id, *tag_point_ids(args.target_id)]
-    clicks = Clicks(camera_id=args.camera_id, points=points, views=views)
+    points = marker_points(markers, args.target_id)
+    clicks = Clicks(camera_id=args.camera_id, points=points, views=marked.views)
     out.write_text(clicks.model_dump_json(indent=2) + "\n", encoding="utf-8")
 
-    print(f"{out}: {len(views)} of {frames} frames with markers")
+    print(f"{out}: {len(marked.views)} of {marked.images} frames with markers")
     for marker in markers.landmark_ids:
-        print(f"  marker {marker}: {seen[f'm{marker}']} frames")
-    print(f"  target's tag {markers.target_id}: {seen['tag']} frames")
+        print(f"  marker {marker}: {marked.marker_images[marker]} frames")
+    print(f"  target's tag {markers.target_id}: {marked.tag_images} frames")
 
 
 if __name__ == "__main__":

@@ -167,3 +167,37 @@ export function routeJson(page: Page, method: string, urlGlob: string, json: unk
 export function stubWorkspace(page: Page, data: Workspace | "offline"): Promise<Stub> {
   return stub(page, "GET", "**/workspace", data === "offline" ? "offline" : { json: data, status: 200 });
 }
+
+/**
+ * A camera of this size in place of getUserMedia: a canvas stream, drawn on every animation frame so it
+ * sends frames. Chrome's fake camera crops its file to what the page asks for, so it cannot stand for a
+ * phone, which turns the frames instead. What the page asked for is kept in window.__cameraAsked.
+ */
+export async function stubCamera(page: Page, width: number, height: number) {
+  await page.addInitScript(
+    ({ width, height }) => {
+      navigator.mediaDevices.getUserMedia = async (constraints) => {
+        (window as unknown as { __cameraAsked?: unknown }).__cameraAsked = constraints;
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        const context = canvas.getContext("2d");
+        const draw = () => {
+          if (context) {
+            context.fillStyle = "#808080";
+            context.fillRect(0, 0, width, height);
+          }
+          requestAnimationFrame(draw);
+        };
+        draw();
+        return canvas.captureStream(30);
+      };
+    },
+    { width, height },
+  );
+}
+
+/** What the page last asked getUserMedia for. */
+export function cameraAsked(page: Page): Promise<unknown> {
+  return page.evaluate(() => (window as unknown as { __cameraAsked?: unknown }).__cameraAsked);
+}

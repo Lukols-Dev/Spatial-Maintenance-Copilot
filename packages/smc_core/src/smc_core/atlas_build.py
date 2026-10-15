@@ -6,7 +6,6 @@ import numpy as np
 from smc_core.board_pose import ViewPose
 from smc_core.calibration import Intrinsics
 from smc_core.contracts import Atlas, Clicks, Landmark, Pose, Target, Vec3
-from smc_core.guidance import choose_guide_view
 from smc_core.markers import tag_point_ids
 from smc_core.triangulate import PointEstimate, locate_point
 
@@ -51,9 +50,6 @@ def build_atlas(
     stands behind the tag: target_extent_mm runs along the tag's width, its
     height and into the box, and the depth is target_tag_depth_mm. Those
     corners are never landmarks; without the option they are left out too.
-
-    The atlas's guide view is the posed view that saw the most landmarks, the
-    target nearest the middle among equals (guidance.choose_guide_view).
 
     Raises ValueError when the target cannot be located, since an atlas
     without a target has no use, or when its tag cannot orient its box.
@@ -135,10 +131,6 @@ def build_atlas(
             box_offset_mm=offset,
         ),
     )
-    guide = choose_guide_view(
-        {name: board_pose(pose) for name, pose in poses.items()}, clicks, atlas, intrinsics
-    )
-    atlas = atlas.model_copy(update={"guide_view": guide})
     report: AtlasReport = {
         "points": points,
         "views_per_point": {pid: len(observations[pid]) for pid in points},

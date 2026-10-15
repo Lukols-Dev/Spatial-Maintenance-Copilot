@@ -26,15 +26,8 @@ from smc_core.testing import (
 )
 from smc_perception.live import STORE
 from smc_perception.models import FrameAnswer, InspectAnswer
-from workspace_builder import RIG_YAML, write_atlas, write_calibration, write_rig
+from workspace_builder import MARKERS_YAML, RIG_YAML, write_atlas, write_calibration, write_rig
 
-MARKERS_SECTION = """\
-markers:
-  landmark_ids: [50, 60]
-  target_id: 70
-  side_nominal_mm: 40.0
-  side_measured_mm: null
-"""
 WITHOUT_TAG = {marker: corners for marker, corners in MARKERS_MM.items() if marker != TAG_ID}
 
 
@@ -55,7 +48,7 @@ def no_model(monkeypatch: pytest.MonkeyPatch) -> None:
 @pytest.fixture
 def marked(root: Path) -> Path:
     write_calibration(root)
-    write_rig(root, RIG_YAML + MARKERS_SECTION)
+    write_rig(root, RIG_YAML + MARKERS_YAML)
     write_atlas(root, marker_atlas())
     return root
 
@@ -89,10 +82,28 @@ def test_a_frame_is_localised_from_its_markers(marked: Path, client: TestClient)
     assert answer.decision.action == "ACCEPT"
     assert answer.localisation.occluder is not None
     assert answer.localisation.occluder.panel_id == "door"
-    assert answer.guidance is not None and answer.guidance.progress is not None
     assert answer.sighting is None
     assert (answer.image.width, answer.image.height) == (1080, 1920)
     assert len(answer.frame_id) == 12
+    assert answer.frame_quality.markers == len(WITHOUT_TAG)
+    assert answer.decision.checks[-1].name == "edge_width_px"
+
+
+def test_a_frame_taken_while_the_camera_moved_is_held_still(
+    marked: Path, client: TestClient
+) -> None:
+    sharp = cv.imdecode(np.frombuffer(png(0, WITHOUT_TAG), np.uint8), cv.IMREAD_COLOR)
+    smeared = cv.filter2D(sharp, -1, np.full((9, 1), 1 / 9, np.float32))
+    ok, encoded = cv.imencode(".png", smeared)
+    assert ok
+
+    answer = answer_of(post(client, encoded.tobytes()))
+
+    assert answer.frame_quality.edge_width_px is not None
+    assert answer.frame_quality.edge_width_px > 8
+    assert answer.decision.action == "HOLD_STILL"
+    assert answer.decision.reliable is False
+    assert answer.decision.move_reason.startswith("marker edges smeared over")
 
 
 def test_an_open_frame_is_held_against_the_target_s_tag(marked: Path, client: TestClient) -> None:

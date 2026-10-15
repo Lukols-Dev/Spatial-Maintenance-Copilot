@@ -12,14 +12,23 @@ import type { FrameAnswer, FrameQuery, InspectAnswer, TargetSighting } from "@/l
 // for the move, then for approval of the next step, opening the panel. Once
 // approved, the target's tag in a frame confirms the prediction, and the
 // vision model is asked for a second opinion, once.
+//
+// A phone's camera gives frames in the orientation the phone is held in, and
+// turns them when the phone turns, tilted toward the floor included. Frames of
+// the calibration's size turned by a quarter are not sent: the page says the
+// phone is sideways and waits for upright frames. Any other size stops the run.
 
 /** The view set name of the frames, for the agent's session. */
 export const LIVE = "live";
 /** The agent is told of a new steady move at most this often: its model allows a few calls a minute. */
 export const AGENT_GAP_MS = 4000;
+/** Between two looks at a camera held sideways: no frame is sent, so none needs to be encoded at full rate. */
+export const SIDEWAYS_PAUSE_MS = 300;
 
 /** Where frames come from: a camera, or a video stepped through. */
 export interface FrameSource {
+  /** A camera, whose frames turn with the phone; a video file's size never changes. */
+  live: boolean;
   /** The size of the frames, once known. */
   size(): { width: number; height: number } | null;
   /** The next frame to localise; null once the source has ended. */
@@ -43,6 +52,8 @@ export interface GuideState {
   phase: Phase;
   /** Why the frames stopped; null when nothing failed. */
   failure: string | null;
+  /** The size of a camera's frames while they come turned by a quarter: the phone is held sideways. */
+  sideways: { width: number; height: number } | null;
   frame: FrameAnswer | null;
   frames: number;
   /** The cue that has held for a few frames: the decision's move, or the target in sight. */
@@ -60,6 +71,7 @@ export interface GuideState {
 export const IDLE: GuideState = {
   phase: "idle",
   failure: null,
+  sideways: null,
   frame: null,
   frames: 0,
   steady: null,
@@ -73,7 +85,10 @@ export const IDLE: GuideState = {
 export interface GuideStore {
   state(): GuideState;
   subscribe(listener: () => void): () => void;
-  /** Localise the source's frames against the atlas; frames of another size than expected stop it. */
+  /**
+   * Localise the source's frames against the atlas. A camera's frames turned by a quarter wait for the
+   * phone to be upright; frames of any other size than expected stop it.
+   */
   start(source: FrameSource, query: FrameQuery, expected: { width: number; height: number }): void;
   stop(): void;
   /** The operator's answer to the next step the agent proposed. */
@@ -82,7 +97,32 @@ export interface GuideStore {
   inspect(): void;
 }
 
-export function createGuideStore({ calls, now }: { calls: GuideCalls; now: () => number }): GuideStore {
+/** A pause that ends early, rejecting, when the signal aborts. */
+function pause(ms: number, signal: AbortSignal): Promise<void> {
+  return new Promise((resolve, reject) => {
+    if (signal.aborted) reject(signal.reason);
+    const timer = setTimeout(resolve, ms);
+    signal.addEventListener(
+      "abort",
+      () => {
+        clearTimeout(timer);
+        reject(signal.reason);
+      },
+      { once: true },
+    );
+  });
+}
+
+export function createGuideStore({
+  calls,
+  now,
+  wait = pause,
+}: {
+  calls: GuideCalls;
+  now: () => number;
+  /** The pause between looks at a sideways camera; the tests make it instant. */
+  wait?: (ms: number, signal: AbortSignal) => Promise<void>;
+}): GuideStore {
   let current = IDLE;
   const listeners = new Set<() => void>();
   let run = 0;
@@ -149,12 +189,19 @@ export function createGuideStore({ calls, now }: { calls: GuideCalls; now: () =>
         }
         const size = frames.size();
         if (size && (size.width !== expected.width || size.height !== expected.height)) {
-          stopWith(
-            `The frames are ${size.width} × ${size.height} px; ${asked.camera_id} was calibrated at ` +
-              `${expected.width} × ${expected.height} px`,
-          );
-          return;
+          const turned = size.width === expected.height && size.height === expected.width;
+          if (!frames.live || !turned) {
+            stopWith(
+              `The frames are ${size.width} × ${size.height} px; ${asked.camera_id} was calibrated at ` +
+                `${expected.width} × ${expected.height} px`,
+            );
+            return;
+          }
+          if (current.sideways === null) set({ sideways: size });
+          await wait(SIDEWAYS_PAUSE_MS, signal);
+          continue;
         }
+        if (current.sideways !== null) set({ sideways: null });
         answer = await calls.postFrame(image, asked, { signal });
       } catch (error) {
         if (mine === run && !signal.aborted) stopWith(errorMessage(error));

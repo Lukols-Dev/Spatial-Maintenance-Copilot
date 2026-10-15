@@ -12,15 +12,20 @@ them only while it is shut. The target's tag is in sight only when it is open,
 so in a frame that shows the tag those markers are left out.
 """
 
-from collections.abc import Iterable
+from collections import Counter
+from collections.abc import Iterable, Mapping
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Any
 
 import cv2 as cv
 import numpy as np
 import yaml
 
 from smc_core.contracts import Vec2
+
+# The target's point id when none is given: the name the cabinet's atlases use.
+DEFAULT_TARGET_ID = "cel"
 
 
 @dataclass(frozen=True)
@@ -39,20 +44,39 @@ class Detection:
 
     landmarks: dict[str, Vec2]
     tag: tuple[Vec2, Vec2, Vec2, Vec2] | None
+    # Every marker of the set found once, as its 4x2 corners, those left out of
+    # the landmarks included: what the frame's sharpness is measured on (blur).
+    quads: tuple[np.ndarray, ...] = ()
+
+
+@dataclass(frozen=True)
+class MarkedImages:
+    """The markers of a run of images as an annotator's clicks, and how often each was found."""
+
+    views: dict[str, dict[str, Vec2]]
+    images: int
+    # Landmark marker id -> images it is marked in; a moving one is not counted where left out.
+    marker_images: Counter[int]
+    tag_images: int
 
 
 def load_marker_set(path: Path) -> MarkerSet:
     """The markers section of calib/rig.yaml."""
     with path.open(encoding="utf-8") as file:
         rig = yaml.safe_load(file)
-    if "markers" not in rig:
+    if not isinstance(rig, Mapping) or "markers" not in rig:
         raise ValueError(f"{path}: no markers section")
+    return marker_set_of(rig)
+
+
+def marker_set_of(rig: Mapping[str, Any]) -> MarkerSet:
+    """The markers section of a loaded rig file; KeyError, TypeError or ValueError when it is wrong."""
     markers = rig["markers"]
     first, last = markers["landmark_ids"]  # inclusive range
     measured = markers.get("side_measured_mm")
     return MarkerSet(
         dictionary_id=getattr(cv.aruco, rig["dictionary"]),
-        landmark_ids=tuple(range(first, last + 1)),
+        landmark_ids=tuple(range(int(first), int(last) + 1)),
         target_id=int(markers["target_id"]),
         side_mm=float(measured if measured is not None else markers["side_nominal_mm"]),
     )
@@ -102,7 +126,11 @@ def detect(
         if marker_id in markers.landmark_ids and marker_id not in skipped and len(quad) == 4
         for corner, (x, y) in enumerate(quad)
     }
-    return Detection(landmarks=landmarks, tag=tag)
+    ours = (*markers.landmark_ids, markers.target_id)
+    quads = tuple(
+        quad for marker_id, quad in sorted(found.items()) if marker_id in ours and len(quad) == 4
+    )
+    return Detection(landmarks=landmarks, tag=tag, quads=quads)
 
 
 def tag_centre(tag: tuple[Vec2, Vec2, Vec2, Vec2]) -> Vec2:
@@ -123,6 +151,37 @@ def clicks_of(detection: Detection, target_id: str) -> dict[str, Vec2]:
         marked[target_id] = tag_centre(detection.tag)
         marked.update(zip(tag_point_ids(target_id), detection.tag, strict=True))
     return marked
+
+
+def marker_points(markers: MarkerSet, target_id: str) -> list[str]:
+    """Every point the set's markers can give, as an annotator lists them: corners, then the target."""
+    points = [landmark_id(marker, corner) for marker in markers.landmark_ids for corner in range(4)]
+    return [*points, target_id, *tag_point_ids(target_id)]
+
+
+def mark_images(
+    images: Iterable[tuple[str, np.ndarray]],
+    markers: MarkerSet,
+    target_id: str,
+    moving: Iterable[int] = (),
+) -> MarkedImages:
+    """The set's markers in every image, as clicks; an image with none of them is left out."""
+    detector = marker_detector(markers)
+    moving = tuple(moving)
+    views: dict[str, dict[str, Vec2]] = {}
+    count = 0
+    found: Counter[int] = Counter()
+    tags = 0
+    for name, image in images:
+        count += 1
+        detection = detect(detector, markers, image, moving)
+        marked = clicks_of(detection, target_id)
+        if not marked:
+            continue
+        views[name] = marked
+        found.update({int(point[1:].rsplit("_", 1)[0]) for point in detection.landmarks})
+        tags += detection.tag is not None
+    return MarkedImages(views=views, images=count, marker_images=found, tag_images=tags)
 
 
 def _quad(quad: np.ndarray) -> tuple[Vec2, Vec2, Vec2, Vec2]:

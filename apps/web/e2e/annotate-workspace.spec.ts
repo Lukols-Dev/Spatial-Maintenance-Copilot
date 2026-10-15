@@ -75,7 +75,7 @@ async function serve(page: Page, options: { viewSet?: ViewSet | null; workspace?
 }
 
 async function openCabinet(page: Page) {
-  await page.goto("/annotate/?set=cabinet");
+  await page.goto("/atlas/annotate/?set=cabinet");
   await waitForImage(page, FILES[0]);
 }
 
@@ -123,7 +123,7 @@ function saveProblem(page: Page) {
 test("a view set opens with its images, its points in order and its clicks", async ({ page }) => {
   const service = await serve(page);
   const release = service.holdImage(FILES[2]);
-  await page.goto("/annotate/?set=cabinet");
+  await page.goto("/atlas/annotate/?set=cabinet");
   await expect(page.getByText("Loading 2 / 3")).toBeVisible();
   await expect(page.getByRole("progressbar", { name: "Images loaded" })).toHaveAttribute("aria-valuetext", "2 of 3");
   release();
@@ -263,12 +263,12 @@ test("an unknown view set says so, with Retry and a way to files from disk", asy
   await stubHealth(page);
   await stubWorkspace(page, example("workspace.json"));
   const nope = await routeJson(page, "GET", "**/view-sets/nope", { detail: "no view set named 'nope'" }, 404);
-  await page.goto("/annotate/?set=nope");
+  await page.goto("/atlas/annotate/?set=nope");
   const failure = page.getByRole("alert").filter({ hasText: "Cannot open nope" });
   await expect(failure).toHaveText(/^Cannot open nope.*no view set named 'nope'$/);
 
   await page.getByRole("link", { name: "Local files" }).click();
-  await expect(page).toHaveURL(/\/annotate\/$/);
+  await expect(page).toHaveURL(/\/atlas\/annotate\/$/);
   await expect(page.getByLabel("New point id")).toBeVisible();
   await expect(page.getByRole("button", { name: "Open images…" }).first()).toBeVisible();
 
@@ -289,7 +289,7 @@ test("a name that cannot be a view set is not asked for", async ({ page }) => {
     asked.push(route.request().url());
     await route.abort("connectionrefused");
   });
-  await page.goto(`/annotate/?set=${encodeURIComponent("../calib")}`);
+  await page.goto(`/atlas/annotate/?set=${encodeURIComponent("../calib")}`);
   await expect(page.getByRole("alert").filter({ hasText: "Invalid view set name" })).toHaveText(
     "Invalid view set name../calib",
   );
@@ -300,7 +300,7 @@ test("a name that cannot be a view set is not asked for", async ({ page }) => {
 
 test("a view set leaves the local session alone, and the local session still comes back", async ({ page }) => {
   await serve(page);
-  await page.goto("/annotate/");
+  await page.goto("/atlas/annotate/");
   await page.getByLabel("Camera id").fill("phone-0.5x");
   await page.getByLabel("New point id").fill("local_point");
   await page.getByLabel("New point id").press("Enter");
@@ -318,7 +318,7 @@ test("a view set leaves the local session alone, and the local session still com
   await expect(page.getByText(SAVED)).toBeVisible();
   expect(await session()).toBe(before);
 
-  await page.goto("/annotate/");
+  await page.goto("/atlas/annotate/");
   await expect(page.getByText(/Restored 1 point\(s\) from your last session/)).toBeVisible();
   await expect(page.getByLabel("Camera id")).toHaveValue("phone-0.5x");
   await expect(pointButton(page, "local_point")).toBeVisible();
@@ -353,7 +353,7 @@ test("files from disk can be neither opened nor dropped on a view set", async ({
     { effect: "none", cancelled: true },
     { effect: "none", cancelled: true },
   ]);
-  await expect(page).toHaveURL(/\/annotate\/\?set=cabinet$/);
+  await expect(page).toHaveURL(/\/atlas\/annotate\/\?set=cabinet$/);
   await expect(canvas(page)).toHaveAttribute("data-image", FILES[0]);
   await expect(page.getByRole("button", { name: /^(frame_|other)/ })).toHaveCount(3);
 });
@@ -396,15 +396,13 @@ test("a change not yet sent goes out at once when the tab is hidden, the page go
   await page.evaluate(() => window.dispatchEvent(new PageTransitionEvent("pagehide", { persisted: false })));
   await sent();
 
-  // A link inside the app removes the annotator without unloading the page.
+  // A link inside the app removes the annotator without unloading the page: the header's way back to Atlas.
   sent = await sentMark([140, 1520], 3);
-  await page.getByRole("navigation", { name: "Pages" }).getByRole("link", { name: "Annotate" }).click();
-  await expect(page).toHaveURL(/\/annotate\/$/);
+  await page.locator("header").getByRole("link", { name: "Atlas" }).click();
+  await expect(page).toHaveURL(/\/atlas\/$/);
   await sent();
-  // The annotator for files from disk waits for timers to load.
   await page.clock.resume();
-  await expect(page.getByLabel("New point id")).toBeVisible();
-  await expect(page.getByRole("button", { name: "Open images…" }).first()).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Atlas");
 });
 
 test("leaving the page asks first only while a change is not saved", async ({ page }) => {
@@ -424,7 +422,7 @@ test("leaving the page asks first only while a change is not saved", async ({ pa
   // A full page load of the home page, which the visitor then cancels.
   await page.evaluate(() => window.location.assign(window.location.origin));
   await expect.poll(() => dialogs).toEqual(["beforeunload"]);
-  await expect(page).toHaveURL(/\/annotate\/\?set=cabinet$/);
+  await expect(page).toHaveURL(/\/atlas\/annotate\/\?set=cabinet$/);
 
   service.clicks.release();
   await expect(page.getByText(SAVED)).toBeVisible();

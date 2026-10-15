@@ -62,6 +62,15 @@ def test_an_atlas_written_before_seen_from_still_loads() -> None:
     assert all(landmark.seen_within_deg is None for landmark in atlas.landmarks)
 
 
+def test_an_atlas_written_with_a_guide_view_still_loads_without_it() -> None:
+    guide = {"rvec": [0.1, 0.2, 0.3], "tvec_mm": [10.0, 20.0, 900.0]}
+
+    atlas = Atlas.model_validate({**ATLAS, "guide_view": guide})
+
+    assert "guide_view" not in atlas.model_dump()
+    assert atlas == Atlas.model_validate(ATLAS)
+
+
 def test_a_landmark_says_where_it_was_seen_from() -> None:
     landmark = Landmark.model_validate(
         {**ATLAS["landmarks"][0], "seen_from": [0.6, 0.0, -0.8], "seen_within_deg": 35.0}

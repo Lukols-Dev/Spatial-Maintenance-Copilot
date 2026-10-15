@@ -70,7 +70,8 @@ system is built around one narrow, measurable question from the proposal:
    pose gives the target's projection, the panel it is behind and a 95% uncertainty region.
 3. **Deciding.** The policy holds every measurement against a threshold. If all pass, the result is
    reliable. Otherwise it picks one move (MOVE_LEFT, MOVE_RIGHT, MOVE_CLOSER, MOVE_BACK, MOVE_UP or
-   MOVE_DOWN) from the geometry, for example the side from which turned-away landmarks were seen.
+   MOVE_DOWN) from the geometry, for example the side from which turned-away landmarks were seen. A
+   camera frame smeared by motion gets HOLD_STILL instead: the same view again, with the camera still.
 4. **Acting.** The agent asks the operator for the move and names recorded viewpoints that lie that way,
    or presents a reliable result with the next maintenance step for approval. Every step is written to a
    trace.
@@ -78,12 +79,10 @@ system is built around one narrow, measurable question from the proposal:
 The Guide page runs this on a stream: the phone's camera, or a recorded video stepped through. Each frame
 is localised from the printed markers in it, in well under a second. Over the image it shows:
 
-- the guide view's outline, which the asset should come to fill;
 - the panel the target is behind, tinted and named;
 - the target's box, dashed through that panel;
 - the 95% region;
-- an arrow with the policy's move, filling as the camera nears the guide view, and the move spoken
-  aloud on request;
+- an arrow with the policy's move and the fact it follows from, the move spoken aloud on request;
 - once the panel is open and the target's tag is found, the tag in the arrow's place: how many pixels
   it lies from the prediction, and whether it confirms it by falling inside a 95% region the policy
   finds stable and tight. Any tag lies inside a wide enough region, so a wide one confirms nothing. The
@@ -101,7 +100,7 @@ the same steps on recorded viewpoints, with every landmark and quality check.
 ```mermaid
 flowchart LR
   subgraph browser["Browser"]
-    web["Web app<br/>Next.js static export<br/>Guide · Locate · Agent · Annotate · Atlas"]
+    web["Web app<br/>Next.js static export<br/>Guide · Locate · Agent · Atlas"]
   end
   subgraph service["Perception service · FastAPI · Docker"]
     api["HTTP API<br/>/frames · /localise · /sessions · /atlases · /view-sets"]
@@ -181,8 +180,8 @@ directions it was seen from. The target is located the same way and gets a box:
 - *Manual baseline (built):* the operator clicks six pen-drawn crosses and the target in 154 frames; the
   landmarks come out with σ of 1.0–1.7 mm.
 - *Markers (built, validated on synthetic frames):* printed 40 mm ArUco markers replace the crosses, and
-  each corner is a landmark. `tools/annotate_markers.py` writes the clicks with no clicking. A tag on the
-  target orients its box and places it behind the tag.
+  each corner is a landmark. The Atlas page (or `tools/annotate_markers.py`) writes the clicks with no
+  clicking. A tag on the target orients its box and places it behind the tag.
 
 **Localisation.** `cv.solvePnPRansac` (SQPnP, 8 px threshold), then `cv.solvePnPRefineLM` on the inliers
 and `cv.projectPoints` for the target's point and box. Quality measures:
@@ -206,10 +205,12 @@ better viewpoint can shrink.
 - inlier coverage ≥ 5% of the frame;
 - ≤ 5% failed Monte Carlo samples;
 - 95% region's semi-major axis ≤ 0.5 × the target's projected radius;
-- target in frame.
+- target in frame;
+- for a frame of a camera or a video, its markers' edges ≤ 5.5 px wide (below).
 
 The move comes from geometry: a failure asks to step back, a target out of frame asks to bring it in, and
-landmarks that face away from the camera ask to move toward where the atlas saw them from.
+landmarks that face away from the camera ask to move toward where the atlas saw them from. A blurred
+frame comes first and asks to hold the camera still: whatever else it shows is smeared too.
 
 **X-ray view.** The atlas lists the asset's panels, flat faces such as the flap and the sides. The panel
 that the line of sight from the camera to the target crosses is the one the target is behind; it is found
@@ -218,10 +219,40 @@ geometrically and outlined in the frame. The target is drawn as its 3D box, dash
 **Frames of a camera or a video.** Each frame's ArUco markers are found
 (`cv.aruco.ArucoDetector`, sub-pixel corners), and the landmarks on an opening panel are left out while
 the target's tag is in sight. The frame is then localised and decided on as above, with 200 Monte Carlo
-samples. The atlas keeps a guide view: the recorded pose that saw the most landmarks with the target
-nearest the middle of the frame. Progress toward it is the mean pixel distance between the asset's
-points as the current pose and the guide view put them. With the tag in sight, its centre (the crossing
-of its diagonals) is held against the projected target, and that check is reported.
+samples. With the tag in sight, its centre (the crossing of its diagonals) is held against the projected
+target, and that check is reported.
+
+**Motion blur.** A frame taken while the camera moves localises with a small reprojection error and a
+pose that is off all the same: every marker is smeared the same way, so the fit stays consistent while
+the target jumps. No check of the fit sees it, so the frame's blur is measured on its markers. A marker
+is the same black and white print in every frame, so the width of its edges measures the frame, not the
+scene, unlike the variance of the Laplacian, which grows with texture and falls with resolution. Around
+each marker found, the rise from its black to its white (5th to 95th intensity percentile) is divided by
+the steepest slope (98th percentile of the Sobel derivative) along eight directions, and the widest is
+kept; the frame's width is the median over its markers (`smc_core.blur`). On rendered frames a still
+camera reads 2.8 px, and a motion of n pixels in any direction reads within 15% of n.
+
+The limit is calibrated on two walk-arounds of the cabinet (`tools/blur_limit.py`, 846 frames with
+markers). The target's jitter is its distance from the mean of the frames before and after, which a
+smooth camera path cancels:
+
+| Edge width (px) | Frames | RMS reprojection, median (px) | Jitter, median (px) | Jitter, p90 (px) | Accepted without the blur check |
+|---|---|---|---|---|---|
+| below 3.5 | 285 | 0.56 | 0.35 | 0.77 | 49% |
+| 3.5–4 | 170 | 0.70 | 0.58 | 2.92 | 71% |
+| 4–4.5 | 127 | 1.11 | 0.74 | 2.62 | 81% |
+| 4.5–5 | 95 | 2.34 | 0.76 | 2.56 | 63% |
+| 5–5.5 | 55 | 1.02 | 0.81 | 3.35 | 65% |
+| 5.5–6 | 33 | 1.30 | 1.56 | 10.01 | 52% |
+| 6–7 | 53 | 1.72 | 2.24 | 7.14 | 43% |
+| 7–8 | 13 | 1.01 | 4.07 | 16.06 | 46% |
+| 8–10 | 13 | 0.55 | 9.25 | 25.89 | 8% |
+| 10 and over | 2 | 0.50 | 13.69 | 15.14 | 0% |
+
+The reprojection error does not grow with blur; the jitter does. From 5.5 px its 90th percentile leaves
+the 95% region of these frames (a semi-major axis of 6.0 to 8.6 px between its quartiles), while the
+policy without this check accepted 43–52% of the frames between 5.5 and 8 px: overlays in the wrong
+place. With `max_edge_width_px = 5.5` the policy holds 114 of the 846 frames still.
 
 **Model-based tracking (tried, not used).** `cv.rapid` (Rapid, OLS and GOS trackers from opencv-contrib
 5.0) was tried for markerless tracking of the cabinet from its box shape. It is the idea behind Vuforia
@@ -331,21 +362,25 @@ Seeds, versions and the dataset's manifest hash are recorded in `results.json`.
 |---|---|---|
 | A vehicle with a hidden washer-fluid pump | A cabinet with a box behind its flap | A rigid asset at home allows repeatable viewpoints, open and closed states for ground truth, and many sessions. The pipeline only needs a new atlas to change asset (proposal §11). |
 | Manual landmark selection first, automation after validation | Done in that order: the manual baseline is evaluated (§8); printed ArUco landmarks now replace clicks | The proposal's own order (§5). Markers are found in every frame with sub-pixel corners, so live and video use become possible. |
-| Recorded viewpoints chosen by the judge | Kept; a guided screen for live camera, uploaded video and recorded walk-arounds is being built | Choosing frames does not show the loop well. Continuous guidance with a progress arrow does, and it also serves a live smartphone session. |
+| Recorded viewpoints chosen by the judge | Kept; a guided screen for live camera, uploaded video and recorded walk-arounds is being built | Choosing frames does not show the loop well. The policy's move on every frame does, and it also serves a live smartphone session. |
 | Claude through Bedrock | Amazon Nova 2 Lite through the Converse API | The account's credits do not cover Claude (Marketplace). The adapter for Claude stays in the code. |
 | Markerless tracking | Evaluated with `cv.rapid` and rejected for this asset (§6) | Measured, not assumed. |
+| An outline of the asset from a recorded "guide view" to line up with, as in Vuforia's Guide View | Built, then removed | A second source of direction beside the policy's measured move, which it could contradict; on the phone it read as an object in the scene. |
 | Third-party model targets (Vuforia) | Not used | OpenCV must stay the core. Its pose has no measurable uncertainty, it is a native SDK rather than a web endpoint, and publishing needs a paid plan. |
 
 ## 10. Limitations
 
 - **One asset, one recording day.** The test set has 19 viewpoints, so every rate carries a wide interval.
   The intervals are reported, not hidden.
+- **Blur is measured on markers.** A frame so blurred that no marker is found reads as too few landmarks
+  and asks to step back, not to hold still. The blur limit comes from two walk-arounds of one session
+  with one phone, and is in pixels of that camera's frames.
 - **The region is conservative and the policy cautious.** The policy asked to move in all 8 viewpoints
   whose truth was already inside the region. Four-landmark views can never be accepted under
   `min_inliers = 6`.
 - **Without a pose, the agent leans on what was recorded.** From a viewpoint that does not localise (B6,
   B8, B9), the agent sends the operator to the recorded viewpoints that see the most landmarks. On a
-  live camera there are none: the page shows the guide view to move toward instead.
+  live camera there are none, and the policy can only ask to step back until enough markers are in view.
 - **A camera must be the calibrated one.** Frames are refused unless they have the calibrated size. The
   intrinsics hold for the iPhone 11's 1× 1080p video; a browser camera in another mode, or a laptop's
   webcam, needs its own calibration (`tools/calibrate_camera.py`).
@@ -397,14 +432,16 @@ AWS stack.
 **Built and tested:**
 - calibration, rig boards, atlas building, localisation, uncertainty, decision policy;
 - the agent loop with Nova, guards, fallbacks and trace;
-- the sessions API and the Locate, Agent, Annotate and Atlas pages;
+- the sessions API and the Locate, Agent and Atlas pages; the Atlas page gives a view set its points
+  from the printed markers or from clicks in its annotator;
 - the evaluation (§8);
 - the X-ray view;
 - printed ArUco landmarks with automatic annotation and a tag-oriented target, validated on synthetic
   frames;
-- the frames pipeline, the guide view and the Guide page (camera and video file), tested in Chrome with
+- the frames pipeline and the Guide page (camera and video file), tested in Chrome with
   a fake camera;
 - confirming the target when the panel opens, with Nova's second opinion;
+- motion blur measured on every frame's markers, held against a calibrated limit, with HOLD_STILL;
 - the AWS stack as code, with tests of its template and a local run of its image.
 
 **In progress:**

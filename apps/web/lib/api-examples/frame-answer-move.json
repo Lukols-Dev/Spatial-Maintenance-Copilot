@@ -228,7 +228,7 @@
     "reliable": false,
     "action": "MOVE_DOWN",
     "reasons": [
-      "landmarks cover 2.8 % of the frame, needs \u2265 5 %"
+      "landmarks cover 2.8 % of the frame, needs ≥ 5 %"
     ],
     "move_reason": "landmarks m51_0, m51_1, m51_2, m51_3 face away from the camera, seen from further down",
     "checks": [
@@ -287,6 +287,13 @@
         "limit": 0.5,
         "op": "<=",
         "passed": true
+      },
+      {
+        "name": "edge_width_px",
+        "value": 3.7,
+        "limit": 5.5,
+        "op": "<=",
+        "passed": true
       }
     ],
     "policy": {
@@ -296,33 +303,14 @@
       "max_rms_reprojection_px": 3.0,
       "min_image_coverage": 0.05,
       "max_failed_sample_ratio": 0.05,
-      "max_region_ratio": 0.5
+      "max_region_ratio": 0.5,
+      "max_edge_width_px": 5.5
     }
   },
-  "guidance": {
-    "outlines_px": [
-      [
-        [
-          509.85669365105747,
-          762.9711622017036
-        ],
-        [
-          800.537247251754,
-          764.356200707345
-        ],
-        [
-          778.8750018021477,
-          1067.8623900787416
-        ],
-        [
-          497.69989057724274,
-          1089.2277307374547
-        ]
-      ]
-    ],
-    "alignment_px": 209.47367149760947,
-    "progress": 0.8098207002614788
-  },
   "sighting": null,
+  "frame_quality": {
+    "markers": 2,
+    "edge_width_px": 3.7
+  },
   "elapsed_ms": 64.0
 }

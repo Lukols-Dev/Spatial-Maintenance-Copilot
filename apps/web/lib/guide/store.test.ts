@@ -16,11 +16,12 @@ const clone = <T>(value: unknown) => structuredClone(value) as T;
 const SIZE = { width: 1080, height: 1920 };
 const QUERY = { asset_id: "home-cabinet", camera_id: "phone-1x-portrait" };
 
-/** A source of `count` frames of the given size, then the end. */
-function source(count: number, size = SIZE): FrameSource & { stopped: boolean } {
+/** A source of `count` frames of the given size, then the end: a video file unless `live`. */
+function source(count: number, size = SIZE, live = false): FrameSource & { stopped: boolean } {
   let left = count;
   return {
     stopped: false,
+    live,
     size: () => size,
     next: async () => (left-- > 0 ? new Blob(["frame"], { type: "image/jpeg" }) : null),
     stop() {
@@ -75,6 +76,59 @@ describe("the frames of a source", () => {
     expect(frames.stopped).toBe(true);
   });
 
+  it("send nothing while a camera is held sideways, say so, and go on once it is upright", async () => {
+    const service = calls([clone(reliableExample)]);
+    const store = createGuideStore({ calls: service, now: () => 0, wait: async () => {} });
+    const sideways = { width: 1920, height: 1080 };
+    const sizes = [sideways, sideways, SIZE, SIZE];
+    let shown = SIZE;
+    const seen: (typeof sideways | null)[] = [];
+    const camera: FrameSource = {
+      live: true,
+      size: () => shown,
+      next: async () => {
+        seen.push(store.state().sideways);
+        const next = sizes.shift();
+        if (!next) return null;
+        shown = next;
+        return new Blob(["frame"]);
+      },
+      stop() {},
+    };
+
+    store.start(camera, QUERY, SIZE);
+    await settle(store);
+
+    expect(service.postFrame).toHaveBeenCalledTimes(2);
+    // Asked for the third frame while sideways, for the end once upright again.
+    expect(seen).toEqual([null, sideways, sideways, null, null]);
+    expect(store.state()).toMatchObject({ phase: "ended", failure: null, sideways: null, frames: 2 });
+  });
+
+  it("stop at a video file of turned frames: its size will not change", async () => {
+    const service = calls([clone(reliableExample)]);
+    const store = createGuideStore({ calls: service, now: () => 0, wait: async () => {} });
+
+    store.start(source(3, { width: 1920, height: 1080 }), QUERY, SIZE);
+    await settle(store);
+
+    expect(service.postFrame).not.toHaveBeenCalled();
+    expect(store.state().failure).toBe(
+      "The frames are 1920 × 1080 px; phone-1x-portrait was calibrated at 1080 × 1920 px",
+    );
+  });
+
+  it("stop at a camera of another size than the calibration turned: no way of holding it fits", async () => {
+    const service = calls([clone(reliableExample)]);
+    const store = createGuideStore({ calls: service, now: () => 0, wait: async () => {} });
+
+    store.start(source(3, { width: 640, height: 480 }, true), QUERY, SIZE);
+    await settle(store);
+
+    expect(store.state().phase).toBe("failed");
+    expect(service.postFrame).not.toHaveBeenCalled();
+  });
+
   it("stop when the service refuses a frame, with its words", async () => {
     const service = calls([]);
     service.postFrame.mockRejectedValue(new Error("calib/rig.yaml names no printed markers"));
@@ -107,6 +161,7 @@ describe("the agent on the frames", () => {
     const service = calls(frames);
     const store = createGuideStore({ calls: service, now: () => clock });
     const slow: FrameSource = {
+      live: true,
       size: () => SIZE,
       next: async () => {
         clock += AGENT_GAP_MS / 2;
@@ -150,6 +205,7 @@ describe("the agent on the frames", () => {
     let left = 8;
     store.start(
       {
+        live: true,
         size: () => SIZE,
         next: async () => {
           await new Promise((r) => setTimeout(r, 0));

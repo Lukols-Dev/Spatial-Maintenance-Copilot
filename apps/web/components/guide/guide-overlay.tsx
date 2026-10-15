@@ -8,10 +8,9 @@ import { guideOverlayOf } from "@/lib/guide/overlay";
 import type { FrameAnswer } from "@/lib/guide/types";
 import { cn } from "@/lib/utils";
 
-// The answer for a frame drawn over the video: the guide view's outline to
-// line the asset up with, the panel the target is behind, the target's box
-// through it, its 95 % region, the landmarks found, and the target's tag once
-// the panel is open. The <svg> has the frame as its viewBox and sits on the
+// The answer for a frame drawn over the video: the panel the target is
+// behind, the target's box through it, its 95 % region, the landmarks found,
+// and the target's tag once the panel is open. The <svg> has the frame as its viewBox and sits on the
 // <video> with the same fit, so every position is a frame pixel.
 
 const REGION_STROKE = { reliable: "stroke-emerald-400", unreliable: "stroke-amber-400" } as const;
@@ -33,17 +32,6 @@ export function GuideOverlay({ answer, width, height }: { answer: FrameAnswer | 
     >
       {overlay && (
         <>
-          {overlay.guide.map((outline, index) => (
-            <path
-              key={index}
-              data-part="guide-outline"
-              d={outline}
-              className="fill-none stroke-white/80"
-              strokeWidth={2 * k}
-              strokeDasharray={`${svgNumber(3 * k)} ${svgNumber(5 * k)}`}
-              strokeLinejoin="round"
-            />
-          ))}
           {overlay.occluder && (
             <g data-layer="occluder">
               <path

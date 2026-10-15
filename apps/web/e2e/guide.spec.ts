@@ -1,45 +1,12 @@
-import { mkdirSync, writeFileSync } from "node:fs";
-import { tmpdir } from "node:os";
-import { join } from "node:path";
-
 import { expect, test, type Page } from "@playwright/test";
 
 import type { FrameAnswer } from "../lib/guide/types";
-import { example, routeJson, stubHealth, stubWorkspace, type Stub } from "./helpers";
+import { cameraAsked, example, routeJson, stubCamera, stubHealth, stubWorkspace, type Stub } from "./helpers";
 
-// The Guide page with Chrome's fake camera, which plays a .y4m file: grey
-// frames at the size the synthetic phone was calibrated at, written here. The
-// service is stubbed: its frame answers are the examples, the move first, then
-// the reliable frame, then the open panel with the target's tag.
-
-function y4m(width: number, height: number, frames: number): string {
-  const folder = join(tmpdir(), "smc-guide-e2e");
-  mkdirSync(folder, { recursive: true });
-  const path = join(folder, `grey-${width}x${height}.y4m`);
-  const header = Buffer.from(`YUV4MPEG2 W${width} H${height} F30:1 Ip A1:1 C420jpeg\n`);
-  const frame = Buffer.concat([
-    Buffer.from("FRAME\n"),
-    Buffer.alloc(width * height, 128),
-    Buffer.alloc((width / 2) * (height / 2) * 2, 128),
-  ]);
-  writeFileSync(path, Buffer.concat([header, ...Array<Buffer>(frames).fill(frame)]));
-  return path;
-}
-
-const CAMERA = y4m(1080, 1920, 2);
-
-function fakeCamera(file?: string) {
-  return {
-    permissions: ["camera"],
-    launchOptions: {
-      args: [
-        "--use-fake-ui-for-media-stream",
-        "--use-fake-device-for-media-stream",
-        ...(file ? [`--use-file-for-fake-video-capture=${file}`] : []),
-      ],
-    },
-  };
-}
+// The Guide page with a camera giving frames at the size the synthetic phone
+// was calibrated at, upright. The service is stubbed: its frame answers are
+// the examples, the move first, then the reliable frame, then the open panel
+// with the target's tag.
 
 interface Service {
   frames: { count: number; answer: FrameAnswer };
@@ -70,7 +37,9 @@ function hud(page: Page) {
   return page.getByRole("status");
 }
 
-test.use(fakeCamera(CAMERA));
+test.beforeEach(async ({ page }) => {
+  await stubCamera(page, 1080, 1920);
+});
 
 test("the camera's frames are guided to a reliable result, approved, and the target confirmed", async ({ page }) => {
   test.setTimeout(60_000);
@@ -79,11 +48,11 @@ test("the camera's frames are guided to a reliable result, approved, and the tar
 
   await page.getByRole("button", { name: "Camera" }).click();
 
+  // Asked in landscape: a phone held upright turns it into the calibration's 1080 × 1920.
+  await expect.poll(() => cameraAsked(page)).toMatchObject({ video: { width: { ideal: 1920 }, height: { ideal: 1080 } } });
   await expect(hud(page)).toHaveAttribute("data-cue", "MOVE_DOWN");
   await expect(hud(page)).toContainText("Move down");
-  await expect(page.getByRole("progressbar", { name: "Toward the guide view" })).toBeVisible();
   const overlay = page.locator("svg[data-frame]");
-  await expect(overlay.locator("[data-part=guide-outline]")).toHaveCount(1);
   await expect(overlay.locator("[data-part=occluder-label]")).toHaveText("Target behind: door");
   await expect(overlay.locator("[data-part=target-box]")).toHaveAttribute("data-hidden", "true");
   // The agent is told of the steady move with the frame that made it steady.
@@ -111,7 +80,6 @@ test("the camera's frames are guided to a reliable result, approved, and the tar
   await expect(hud(page)).toHaveAttribute("data-cue", "IN_SIGHT");
   await expect(hud(page)).toContainText("Target in sight");
   await expect(hud(page)).toContainText("1.1 px from the prediction, inside the 95 % region");
-  await expect(page.getByRole("progressbar", { name: "Toward the guide view" })).toHaveCount(0);
 
   await page.getByRole("button", { name: "Stop" }).click();
   await expect(page.getByRole("button", { name: "Camera" })).toBeVisible();

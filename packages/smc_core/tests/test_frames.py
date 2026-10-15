@@ -1,5 +1,6 @@
 """A frame of a camera or a video, localised from its markers, on the synthetic marked scene."""
 
+import cv2 as cv
 import numpy as np
 import pytest
 from smc_core.contracts import Action
@@ -65,24 +66,21 @@ def test_with_the_tag_in_sight_the_door_s_markers_are_left_out_and_the_target_is
     assert len(found.sighting.tag_px) == 4
 
 
-def test_the_guidance_measures_the_way_to_the_guide_view() -> None:
-    atlas = marker_atlas()
-    poses = [camera_pose(*viewpoint) for viewpoint in VIEWPOINTS]
-    guide = next(
-        index
-        for index, (rotation, tvec) in enumerate(poses)
-        if np.allclose(tvec, atlas.guide_view.tvec_mm, atol=1.0)  # type: ignore[union-attr]
-    )
-
-    at_guide = run(frame(guide, WITHOUT_TAG)).guidance
-    elsewhere = run(frame((guide + 1) % len(VIEWPOINTS), WITHOUT_TAG)).guidance
-
-    assert at_guide is not None and elsewhere is not None
-    assert at_guide.progress is not None and elsewhere.progress is not None
-    assert at_guide.alignment_px is not None and at_guide.alignment_px < 5.0
-    assert at_guide.progress > elsewhere.progress
-
-
 def test_a_frame_of_another_size_is_refused() -> None:
     with pytest.raises(ValueError):
         run(np.full((1080, 1920), 255, np.uint8))
+
+
+def test_a_frame_measures_its_blur_on_its_markers_and_a_smeared_one_is_held_still() -> None:
+    sharp = frame(0, WITHOUT_TAG)
+    # A camera moving 9 px sideways during the exposure.
+    smeared = cv.filter2D(sharp, -1, np.full((1, 9), 1 / 9, np.float32))
+
+    still, moved = run(sharp), run(smeared)
+
+    assert still.quality.markers == len(WITHOUT_TAG)
+    assert still.quality.edge_width_px is not None and still.quality.edge_width_px < 4
+    assert still.decision.checks[-1].name == "edge_width_px"
+    assert moved.quality.edge_width_px is not None and moved.quality.edge_width_px > 8
+    assert moved.localisation.failure is None
+    assert moved.decision.action is Action.HOLD_STILL

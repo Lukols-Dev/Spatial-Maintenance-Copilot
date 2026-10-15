@@ -4,16 +4,6 @@ import type { Decision, Localisation, Observation, Vec2 } from "@/lib/locate/typ
 // smc_perception.models.FrameAnswer and InspectAnswer, field for field. Each
 // type matches its example in lib/api-examples/ one to one.
 
-/** How far the camera is from the atlas's guide view, and how the asset looks from there. */
-export interface Guidance {
-  /** The panels as the guide view sees them. */
-  outlines_px: Vec2[][];
-  /** Mean distance between the asset's points as this pose and the guide view put them; null without a pose. */
-  alignment_px: number | null;
-  /** 0 far from the guide view, 1 on it; null without a pose. */
-  progress: number | null;
-}
-
 /** The target's tag in sight: the panel is open, and the prediction is held against it. */
 export interface TargetSighting {
   tag_px: Vec2[];
@@ -33,9 +23,18 @@ export interface FrameAnswer {
   observations: Observation[];
   localisation: Localisation;
   decision: Decision;
-  guidance: Guidance | null;
   sighting: TargetSighting | null;
+  /** The frame's blur, measured on its markers. */
+  frame_quality: FrameQuality;
   elapsed_ms: number;
+}
+
+/** How wide the markers' edges are: a still camera draws them about three pixels wide, a moving one smears them. */
+export interface FrameQuality {
+  /** Markers of the rig found and measured. */
+  markers: number;
+  /** Median over the markers; null without a marker. */
+  edge_width_px: number | null;
 }
 
 /** A vision-language model's look at the target's region of a frame: words, never geometry. */

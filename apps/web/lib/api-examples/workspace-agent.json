@@ -90,6 +90,14 @@
         "measured": false
       }
     ],
+    "markers": {
+      "landmark_ids": [
+        50,
+        60
+      ],
+      "target_id": 70,
+      "side_mm": 40.0
+    },
     "error": null
   },
   "view_sets": [

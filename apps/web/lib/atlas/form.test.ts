@@ -11,6 +11,7 @@ import {
   cameraOptions,
   checkForm,
   initialForm,
+  isTagTarget,
   nextVersion,
   previousBuild,
   setOptions,
@@ -49,6 +50,7 @@ describe("initialForm", () => {
       board: "rig_board_a",
       target_id: "drone",
       target_extent_mm: NOTHING,
+      target_tag_depth_mm: "",
       // No atlas read yet: the set's own name.
       asset_id: "cabinet",
       version: "1",
@@ -250,6 +252,30 @@ describe("checkForm", () => {
       [{ target_measured_mm: ["10", "20", "far"] }, "Measured target z not a number"],
     ];
     for (const [draft, text] of cases) expect(missingOf(workspace(), { ...filled, ...draft })).toEqual([text]);
+  });
+
+  it("asks for the depth of a tag's box, sends it, and repeats it from the last build", () => {
+    const data = workspace();
+    const clicks = data.view_sets[0].clicks!;
+    clicks.point_views = { ...clicks.point_views, drone_0: 2, drone_1: 2, drone_2: 2, drone_3: 2 };
+    expect(isTagTarget(data, "cabinet", "drone")).toBe(true);
+    expect(isTagTarget(data, "cabinet", "handle")).toBe(false);
+    expect(isTagTarget(workspace(), "cabinet", "drone")).toBe(false);
+
+    const filled: FormDraft = { target_extent_mm: ["300", "300", "100"] };
+    expect(missingOf(data, filled)).toEqual(["Tag depth missing"]);
+    expect(missingOf(data, { ...filled, target_tag_depth_mm: "0" })).toEqual(["Tag depth 0 mm, needs > 0"]);
+    expect(checkForm(data, initialForm(data, [], { ...filled, target_tag_depth_mm: "140" })).request).toMatchObject({
+      target_id: "drone",
+      target_tag_depth_mm: 140,
+    });
+    // A target that is a point sends no depth, whatever was typed.
+    const point = checkForm(workspace(), initialForm(workspace(), [], { ...filled, target_tag_depth_mm: "140" }));
+    expect(point.request).not.toHaveProperty("target_tag_depth_mm");
+
+    const last = atlas();
+    last.report.request = { ...last.report.request, target_tag_depth_mm: 140 };
+    expect(initialForm(data, [last]).target_tag_depth_mm).toBe("140");
   });
 
   it("sends the measured target, and the asset id and version without spaces", () => {

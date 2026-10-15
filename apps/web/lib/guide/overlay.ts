@@ -13,8 +13,6 @@ export interface GuideOverlay {
   height: number;
   /** Reliable when the policy accepts the frame or, with the target's tag in sight, when the tag confirms the prediction. */
   style: RegionStyle;
-  /** Where the asset's panels should sit: the guide view's outline. */
-  guide: string[];
   /** The panel the target is behind, and where its name goes. */
   occluder: { id: string; outline: string; label: Vec2 } | null;
   /** The target's box: its 12 edges, dashed while hidden, and its point. */
@@ -37,7 +35,6 @@ export function guideOverlayOf(answer: FrameAnswer): GuideOverlay {
     width: answer.image.width,
     height: answer.image.height,
     style: reliable ? "reliable" : "unreliable",
-    guide: (answer.guidance?.outlines_px ?? []).map((outline) => outlinePath(outline)),
     occluder: occluder && {
       id: occluder.panel_id,
       outline: outlinePath(occluder.outline_px),

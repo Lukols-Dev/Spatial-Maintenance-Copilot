@@ -3,7 +3,7 @@
 import { Boxes, Camera as CameraIcon, CircleAlert, FileVideo, LoaderCircle, ServerOff, Square } from "lucide-react";
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore, type ChangeEvent } from "react";
 
-import { GuideHud } from "@/components/guide/guide-hud";
+import { GuideHud, SIDEWAYS_WORDS, SidewaysHud } from "@/components/guide/guide-hud";
 import { GuideOverlay } from "@/components/guide/guide-overlay";
 import {
   AtlasLink,
@@ -92,10 +92,12 @@ function Guide({ workspace, problem }: { workspace: Workspace; problem: string |
 
   useEffect(() => () => store.stop(), [store]);
   useEffect(() => {
-    if (!voice || state.steady === null || typeof speechSynthesis === "undefined") return;
+    if (!voice || typeof speechSynthesis === "undefined") return;
+    const words = state.sideways ? SIDEWAYS_WORDS : state.steady === null ? null : wordsOf(state.steady);
+    if (words === null) return;
     speechSynthesis.cancel();
-    speechSynthesis.speak(new SpeechSynthesisUtterance(wordsOf(state.steady)));
-  }, [voice, state.steady]);
+    speechSynthesis.speak(new SpeechSynthesisUtterance(words));
+  }, [voice, state.steady, state.sideways]);
 
   async function begin(open: (video: HTMLVideoElement) => Promise<Parameters<GuideStore["start"]>[0]>) {
     const video = videoRef.current;
@@ -205,8 +207,15 @@ function Guide({ workspace, problem }: { workspace: Workspace; problem: string |
             aria-label="Frames being localised"
             className="absolute inset-0 size-full object-contain"
           />
-          <GuideOverlay answer={state.frame} width={width} height={height} />
-          {state.frame && <GuideHud frame={state.frame} steady={state.steady} sighted={state.sighted} />}
+          {/* While the phone is sideways no frame is localised: the last overlay would stand still on a moving image. */}
+          {state.sideways ? (
+            <SidewaysHud size={state.sideways} expected={{ width, height }} />
+          ) : (
+            <>
+              <GuideOverlay answer={state.frame} width={width} height={height} />
+              {state.frame && <GuideHud frame={state.frame} steady={state.steady} sighted={state.sighted} />}
+            </>
+          )}
           {failure && (
             <div role="alert" className="absolute inset-x-3 top-3 flex items-start gap-2 rounded-md bg-red-950/85 p-3 text-sm text-red-50">
               <CircleAlert aria-hidden className="mt-0.5 size-4 shrink-0" />
@@ -319,13 +328,13 @@ function TargetCard({ state, onAsk }: { state: GuideState; onAsk: () => void }) 
 function facts(frame: FrameAnswer): [string, string][] {
   const quality = frame.localisation.quality;
   const region = frame.localisation.uncertainty;
-  const progress = frame.guidance?.progress ?? null;
+  const edge = frame.frame_quality.edge_width_px;
   return [
     ["Landmarks found", String(frame.observations.length)],
     ["Inliers", quality ? String(quality.inliers) : "-"],
     ["RMS reprojection", quality ? `${quality.rms_reprojection_px.toFixed(2)} px` : "-"],
+    ["Marker edge width", edge === null ? "-" : `${edge.toFixed(1)} px`],
     ["95 % region", region ? `${region.ellipse.semi_major_px.toFixed(1)} px` : "-"],
-    ["Toward the guide view", progress === null ? "-" : `${Math.round(progress * 100)} %`],
     ["Localised in", `${Math.round(frame.elapsed_ms)} ms`],
   ];
 }

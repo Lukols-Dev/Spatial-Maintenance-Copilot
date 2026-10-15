@@ -107,7 +107,7 @@ describe("atlasReadiness", () => {
     expect(atlasReadiness(workspace(), { ...BUILD, board: "rig_board_z" })).toEqual({ board: "Unknown board" });
 
     const data = workspace();
-    data.rig = { dictionary: null, boards: [], error: "calib/rig.yaml not found" };
+    data.rig = { dictionary: null, boards: [], markers: null, error: "calib/rig.yaml not found" };
     expect(atlasReadiness(data)).toEqual({ board: "calib/rig.yaml not found" });
     data.rig = { ...workspace().rig, boards: workspace().rig.boards.map((board) => ({ ...board, measured: false })) };
     expect(atlasReadiness(data)).toEqual({ board: "No board measured" });

@@ -29,7 +29,7 @@ async function stubApi(page: Page, online = true) {
   await stubWorkspace(page, online ? example("workspace-empty.json") : "offline");
 }
 
-/** Where a page lives once exported: "/" for the home page, "/annotate/" for the rest. */
+/** Where a page lives once exported: "/" for the home page, "/atlas/" for the rest. */
 function urlOf(href: string) {
   return href === "/" ? /:\d+\/$/ : new RegExp(`${href}/$`);
 }
@@ -62,16 +62,34 @@ test("the sidebar lists the working pages and reaches each one without a reload"
   expect(await windowStillMarked(page)).toBe(true);
 });
 
+test("the annotator is a page of Atlas: the sidebar marks Atlas and the header leads back to it", async ({ page }) => {
+  await stubApi(page);
+  await page.goto("/atlas/annotate/");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Annotate");
+  await expect(page).toHaveTitle(`Annotate · ${SITE.name}`);
+  await expect(current(page)).toHaveText("Atlas");
+
+  await markWindow(page);
+  // The header is in <main>, so it has no banner role.
+  const header = page.locator("header");
+  await header.getByRole("link", { name: "Atlas" }).click();
+  await expect(page).toHaveURL(urlOf("/atlas"));
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Atlas");
+  await expect(header.getByRole("link")).toHaveCount(0);
+  expect(await windowStillMarked(page)).toBe(true);
+});
+
 test("the export redirects a folder to its slash, and unknown or removed pages are 404", async ({ page, request }) => {
   // The local server imitates an S3 website endpoint: a folder without its slash is redirected.
-  for (const folder of ["/agent", "/annotate", "/atlas"]) {
+  for (const folder of ["/agent", "/atlas", "/atlas/annotate"]) {
     const redirect = await request.get(folder, { maxRedirects: 0 });
     expect(redirect.status()).toBe(302);
     expect(redirect.headers().location).toBe(`${folder}/`);
   }
 
   await stubApi(page);
-  for (const path of ["/no-such-page/", "/annotate/no-such-page/", "/atlas/no-such-page/", "/agent/no-such-page/", "/demo/", "/evaluation/"]) {
+  // /annotate/ moved under the Atlas page.
+  for (const path of ["/no-such-page/", "/annotate/", "/atlas/annotate/no-such-page/", "/atlas/no-such-page/", "/agent/no-such-page/", "/demo/", "/evaluation/"]) {
     const missing = await page.goto(path);
     expect(missing?.status()).toBe(404);
     await expect(page.getByText("Page not found")).toBeVisible();
@@ -115,7 +133,7 @@ test("no page logs an error", async ({ page }) => {
     if (message.type() === "error") errors.push(message.text());
   });
   page.on("pageerror", (error) => errors.push(error.message));
-  for (const path of ["/", "/agent/", "/annotate/", "/atlas/"]) {
+  for (const path of ["/", "/agent/", "/atlas/annotate/", "/atlas/"]) {
     await page.goto(path);
     await page.waitForLoadState("networkidle");
   }

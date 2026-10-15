@@ -393,6 +393,13 @@
         "limit": 0.5,
         "op": "<=",
         "passed": true
+      },
+      {
+        "name": "edge_width_px",
+        "value": 3.3,
+        "limit": 5.5,
+        "op": "<=",
+        "passed": true
       }
     ],
     "policy": {
@@ -402,32 +409,9 @@
       "max_rms_reprojection_px": 3.0,
       "min_image_coverage": 0.05,
       "max_failed_sample_ratio": 0.05,
-      "max_region_ratio": 0.5
+      "max_region_ratio": 0.5,
+      "max_edge_width_px": 5.5
     }
-  },
-  "guidance": {
-    "outlines_px": [
-      [
-        [
-          509.85669365105747,
-          762.9711622017036
-        ],
-        [
-          800.537247251754,
-          764.356200707345
-        ],
-        [
-          778.8750018021477,
-          1067.8623900787416
-        ],
-        [
-          497.69989057724274,
-          1089.2277307374547
-        ]
-      ]
-    ],
-    "alignment_px": 187.61725947236738,
-    "progress": 0.8296639440640994
   },
   "sighting": {
     "tag_px": [
@@ -454,6 +438,10 @@
     ],
     "error_px": 1.0589335347525775,
     "inside_95": true
+  },
+  "frame_quality": {
+    "markers": 6,
+    "edge_width_px": 3.3
   },
   "elapsed_ms": 64.0
 }
