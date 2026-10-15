@@ -40,6 +40,26 @@ describe("the overlay of a result", () => {
     expect(overlay.unobserved).toEqual([]);
   });
 
+  it("draws the target as its box of twelve edges, dashed behind the panel the line of sight crosses", () => {
+    const overlay = overlayOf(RELIABLE(), null, 20);
+    expect(overlay.target?.edges.match(/M/g)).toHaveLength(12);
+    expect(overlay.target?.hidden).toBe(true);
+    expect(overlay.occluder?.id).toBe("door");
+    expect(overlay.occluder?.outline.match(/[ML]/g)).toHaveLength(4);
+    // The name goes across the middle of the panel, at its top.
+    const xs = RELIABLE().localisation.occluder?.outline_px.map(([x]) => x) ?? [];
+    expect(overlay.occluder?.label[0]).toBeCloseTo((Math.min(...xs) + Math.max(...xs)) / 2 + 0.5, 9);
+  });
+
+  it("draws the box in plain sight when no panel of the atlas hides it", () => {
+    const reliable = RELIABLE();
+    reliable.localisation.occluder = null;
+    const overlay = overlayOf(reliable, null, 20);
+    expect(overlay.occluder).toBeNull();
+    expect(overlay.target?.hidden).toBe(false);
+    expect(overlayOf(FAILURE(), null, 20).occluder).toBeNull();
+  });
+
   it("draws a result the decision does not accept in the warning style", () => {
     expect(overlayOf(MOVE(), null, 20).style).toBe("unreliable");
     expect(overlayOf(FAILURE(), null, 20).style).toBe("unreliable");

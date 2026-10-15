@@ -20,5 +20,9 @@ class Perception(Protocol):
         ...
 
     def suggest(self, view: str, action: Action) -> list[str]:
-        """Recorded viewpoints that lie in the direction of the move from view, best first."""
+        """Recorded viewpoints to go to from view, best first.
+
+        Those that lie the move's way, or, when view gives no pose, those that
+        see the most landmarks.
+        """
         ...

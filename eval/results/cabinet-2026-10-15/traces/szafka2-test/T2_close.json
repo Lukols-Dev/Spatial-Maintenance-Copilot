@@ -1,0 +1,161 @@
+[
+  {
+    "step": 1,
+    "kind": "perception",
+    "node": "localise",
+    "summary": "localised T2_close.png",
+    "data": {
+      "view": "T2_close.png"
+    }
+  },
+  {
+    "step": 2,
+    "kind": "decision",
+    "node": "localise",
+    "summary": "not reliable: MOVE_LEFT",
+    "data": {
+      "reliable": false,
+      "action": "MOVE_LEFT",
+      "move_reason": "landmarks m56_0, m56_1, m56_2, m56_3, m57_0, m57_1, m57_2, m57_3 face away from the camera, seen from further left",
+      "reasons": [
+        "4 inliers, needs ≥ 6",
+        "landmarks cover 0.3 % of the frame, needs ≥ 5 %"
+      ]
+    }
+  },
+  {
+    "step": 3,
+    "kind": "fallback",
+    "node": "guide",
+    "summary": "the model gave no answer: unavailable",
+    "data": {
+      "reason": "unavailable"
+    }
+  },
+  {
+    "step": 4,
+    "kind": "agent",
+    "node": "guide",
+    "summary": "asked for MOVE_LEFT",
+    "data": {
+      "action": "MOVE_LEFT",
+      "views": [
+        "T1_close.png"
+      ]
+    }
+  },
+  {
+    "step": 5,
+    "kind": "human",
+    "node": "await_view",
+    "summary": "the operator chose T1_close.png",
+    "data": {
+      "view": "T1_close.png"
+    }
+  },
+  {
+    "step": 6,
+    "kind": "perception",
+    "node": "localise",
+    "summary": "localised T1_close.png",
+    "data": {
+      "view": "T1_close.png"
+    }
+  },
+  {
+    "step": 7,
+    "kind": "decision",
+    "node": "localise",
+    "summary": "not reliable: MOVE_RIGHT",
+    "data": {
+      "reliable": false,
+      "action": "MOVE_RIGHT",
+      "move_reason": "landmarks m51_0, m51_1, m51_2, m51_3, m55_0, m55_1, m55_2, m55_3 face away from the camera, seen from further right",
+      "reasons": [
+        "RMS reprojection 4.24 px, needs ≤ 3 px"
+      ]
+    }
+  },
+  {
+    "step": 8,
+    "kind": "fallback",
+    "node": "guide",
+    "summary": "the model gave no answer: unavailable",
+    "data": {
+      "reason": "unavailable"
+    }
+  },
+  {
+    "step": 9,
+    "kind": "agent",
+    "node": "guide",
+    "summary": "asked for MOVE_RIGHT",
+    "data": {
+      "action": "MOVE_RIGHT",
+      "views": [
+        "T6_close.png",
+        "T5_close.png",
+        "T4_close.png",
+        "T2_close.png",
+        "T3_close.png"
+      ]
+    }
+  },
+  {
+    "step": 10,
+    "kind": "human",
+    "node": "await_view",
+    "summary": "the operator chose T6_close.png",
+    "data": {
+      "view": "T6_close.png"
+    }
+  },
+  {
+    "step": 11,
+    "kind": "perception",
+    "node": "localise",
+    "summary": "localised T6_close.png",
+    "data": {
+      "view": "T6_close.png"
+    }
+  },
+  {
+    "step": 12,
+    "kind": "decision",
+    "node": "localise",
+    "summary": "reliable",
+    "data": {
+      "reliable": true,
+      "action": "ACCEPT",
+      "move_reason": "",
+      "reasons": []
+    }
+  },
+  {
+    "step": 13,
+    "kind": "fallback",
+    "node": "present",
+    "summary": "the model gave no answer: unavailable",
+    "data": {
+      "reason": "unavailable"
+    }
+  },
+  {
+    "step": 14,
+    "kind": "agent",
+    "node": "present",
+    "summary": "presented the result for approval",
+    "data": {
+      "next_step": "Remove the cover in front of the highlighted region and check the component."
+    }
+  },
+  {
+    "step": 15,
+    "kind": "human",
+    "node": "await_approval",
+    "summary": "the operator approved",
+    "data": {
+      "approved": true
+    }
+  }
+]

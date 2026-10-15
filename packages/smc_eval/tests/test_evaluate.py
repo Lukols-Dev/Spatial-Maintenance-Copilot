@@ -96,7 +96,7 @@ def test_every_strategy_runs_from_every_start(results: Results) -> None:
 
     assert len(strategies) == 12
     agent = strategies["agent", "every viewpoint"]
-    assert (agent.success.k, agent.success.n, agent.refused.k, agent.unscored) == (2, 3, 1, 1)
+    assert (agent.success.k, agent.success.n, agent.refused.k, agent.unscored) == (3, 3, 0, 1)
     assert strategies["policy_only", "localised"].success.k == 1
     assert strategies["agent", "not localised"].starts == 1
     assert strategies["random", "every viewpoint"].runs_per_start == 100

@@ -14,7 +14,14 @@ from typing import Annotated, Literal, Self
 
 from pydantic import AwareDatetime, BaseModel, ConfigDict, Field, field_validator, model_validator
 from smc_agent.contracts import Turn
-from smc_core.contracts import Atlas, Clicks, Decision, Localisation
+from smc_core.contracts import (
+    Atlas,
+    Clicks,
+    Decision,
+    Guidance,
+    Localisation,
+    TargetSighting,
+)
 
 from smc_perception.workspace import NAME_PATTERN
 
@@ -157,6 +164,11 @@ class AtlasBuildRequest(ApiModel):
     )
     click_sigma_px: float = Field(default=2.0, gt=0)
     target_centre_sigma_mm: float = Field(default=5.0, ge=0)
+    target_tag_depth_mm: PositiveMm | None = Field(
+        default=None,
+        description="the target is a box with a tag on its face (markers.clicks_of), this deep; "
+        "None: target_id is the box's centre",
+    )
     samples: int = Field(default=200, ge=10, le=2000)
     seed: int = Field(default=0, ge=0)
     version: str = "1"
@@ -324,3 +336,45 @@ class SessionTurn(ApiModel):
         description="the localisation of turn.located's viewpoint, as POST /localise answers it"
     )
     model: str = Field(description="the language model that speaks for the agent, or why none does")
+
+
+# ---- frames of a camera or a video -------------------------------------------
+
+
+class FrameAnswer(ApiModel):
+    """One frame localised from its printed markers, as POST /frames answers it.
+
+    The frame is kept a while under frame_id: an agent session reads it as a
+    viewpoint of the view set "live", and POST /frames/{frame_id}/inspect looks
+    at it again.
+    """
+
+    frame_id: str
+    asset_id: str
+    camera_id: str
+    image: ImageSize
+    observations: list[Observation] = Field(description="the atlas's landmarks found in the frame")
+    localisation: Localisation
+    decision: Decision
+    guidance: Guidance | None = Field(description="the way to the guide view; None without one")
+    sighting: TargetSighting | None = Field(description="the target's tag, when the panel is open")
+    elapsed_ms: float
+
+
+class InspectRequest(ApiModel):
+    question: str | None = Field(
+        default=None,
+        max_length=300,
+        description="what to ask about the target's region; None: whether the target is there",
+    )
+
+
+class InspectAnswer(ApiModel):
+    """A vision-language model's look at the target's region of a frame: words, never geometry."""
+
+    frame_id: str
+    region_px: tuple[int, int, int, int] = Field(description="left, top, right, bottom")
+    question: str
+    verdict: Literal["yes", "no", "unclear"]
+    answer: str
+    model: str

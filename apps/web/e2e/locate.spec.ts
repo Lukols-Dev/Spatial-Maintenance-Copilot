@@ -258,6 +258,11 @@ test("the overlay draws the landmarks, the target and its regions at the example
   await expect(poseOnly).toHaveAttribute("transform", "rotate(171.236 533.321 1084.505)");
   await expect(poseOnly).toHaveAttribute("stroke-dasharray", /\d/);
   await expect(svg.locator("[data-part=target-centre]")).toHaveAttribute("transform", "translate(533.321 1084.505)");
+  // The door of the atlas stands between the camera and the target: tinted, named, and the box dashed through it.
+  await expect(svg.locator("[data-part=occluder][data-panel=door]")).toBeAttached();
+  await expect(svg.locator("[data-part=occluder-label]")).toHaveText("Target behind: door");
+  await expect(svg.locator("[data-part=target-box]")).toHaveAttribute("data-hidden", "true");
+  await expect(svg.locator("[data-part=target-box]")).toHaveAttribute("stroke-dasharray", /\d/);
   await expect(svg.locator("[data-part=truth]")).toHaveAttribute("transform", "translate(532.03 1084.81)");
   await expect(svg.locator("[data-part=landmark][data-kind=inlier]")).toHaveCount(7);
   await expect(svg.locator("[data-part=landmark][data-landmark=handle]")).toHaveAttribute(
@@ -440,6 +445,7 @@ test("each layer of the overlay is switched off and on by its checkbox", async (
     ["Landmarks", "[data-part=landmark]"],
     ["Residuals", "[data-part=residual]"],
     ["Labels", "[data-label]"],
+    ["Hidden behind", "[data-part=occluder]"],
     ["Target", "[data-part=target-outline]"],
     ["95 % region", "[data-part=region]"],
     ["Pose-only region", "[data-part=pose-only]"],

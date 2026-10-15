@@ -10,12 +10,16 @@ from smc_core.pose import (
     project_target,
 )
 from smc_core.uncertainty import target_region
+from smc_core.xray import occluder
 
 
 def localise(
     atlas: Atlas, view: View, intrinsics: Intrinsics, samples: int = 500, seed: int = 0
 ) -> Localisation:
     """Pose, target projection, quality and uncertainty region for one view.
+
+    With the pose and the target comes the atlas panel the target is behind,
+    seen from this camera, when the atlas has panels.
 
     A view taken in another capture mode than the intrinsics, or one that
     names a landmark the atlas does not know, is a wiring error and raises.
@@ -56,6 +60,7 @@ def localise(
         return Localisation(
             view_id=view.view_id, failure=Failure.TARGET_BEHIND_CAMERA, quality=quality, pose=pose
         )
+    hidden_by = occluder(atlas.panels, atlas.target.position_mm, pose, intrinsics)
 
     region = target_region(pairs, fit, atlas.target, intrinsics, samples, seed)
     if region is None:
@@ -65,8 +70,14 @@ def localise(
             quality=quality,
             pose=pose,
             target=target,
+            occluder=hidden_by,
         )
 
     return Localisation(
-        view_id=view.view_id, quality=quality, pose=pose, target=target, uncertainty=region
+        view_id=view.view_id,
+        quality=quality,
+        pose=pose,
+        target=target,
+        uncertainty=region,
+        occluder=hidden_by,
     )

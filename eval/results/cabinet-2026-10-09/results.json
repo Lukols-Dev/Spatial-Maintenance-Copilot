@@ -19,9 +19,9 @@
     "max_failed_sample_ratio": 0.05,
     "max_region_ratio": 0.5
   },
-  "evaluated_at": "2026-10-14T01:19:46+02:00",
+  "evaluated_at": "2026-10-14T19:02:16+02:00",
   "environment": {
-    "git_commit": "2e6bd904bb246d7ab223dcca058b555fb6b60697",
+    "git_commit": "4036635aafdb872101938dcadc5ae7c5140a36f2",
     "git_dirty": true,
     "python": "3.14.5",
     "numpy": "2.5.3",
@@ -1341,11 +1341,11 @@
       "starts": 19,
       "runs_per_start": 1,
       "success": {
-        "k": 12,
+        "k": 19,
         "n": 19,
-        "rate": 0.631578947368421,
-        "low": 0.41039533164803066,
-        "high": 0.8085048725486492
+        "rate": 1.0,
+        "low": 0.8318207759473837,
+        "high": 1.0
       },
       "false_accept": {
         "k": 0,
@@ -1355,25 +1355,25 @@
         "high": 0.16817922405261626
       },
       "refused": {
-        "k": 7,
+        "k": 0,
         "n": 19,
-        "rate": 0.3684210526315789,
-        "low": 0.19149512745135072,
-        "high": 0.5896046683519693
+        "rate": 0.0,
+        "low": 0.0,
+        "high": 0.16817922405261626
       },
       "unscored": 0,
       "views": {
         "n": 19,
-        "mean": 1.736842105263158,
-        "median": 1.0,
+        "mean": 2.473684210526316,
+        "median": 3.0,
         "p90": 3.1999999999999993,
         "max": 4.0
       },
       "views_to_success": {
-        "n": 12,
-        "mean": 2.1666666666666665,
-        "median": 2.0,
-        "p90": 3.9000000000000004,
+        "n": 19,
+        "mean": 2.473684210526316,
+        "median": 3.0,
+        "p90": 3.1999999999999993,
         "max": 4.0
       }
     },
@@ -1685,11 +1685,11 @@
       "starts": 7,
       "runs_per_start": 1,
       "success": {
-        "k": 0,
+        "k": 7,
         "n": 7,
-        "rate": 0.0,
-        "low": 5.551115123125783e-17,
-        "high": 0.35433043506668743
+        "rate": 1.0,
+        "low": 0.6456695649333126,
+        "high": 1.0
       },
       "false_accept": {
         "k": 0,
@@ -1699,26 +1699,26 @@
         "high": 0.35433043506668743
       },
       "refused": {
-        "k": 7,
+        "k": 0,
         "n": 7,
-        "rate": 1.0,
-        "low": 0.6456695649333126,
-        "high": 1.0
+        "rate": 0.0,
+        "low": 5.551115123125783e-17,
+        "high": 0.35433043506668743
       },
       "unscored": 0,
       "views": {
         "n": 7,
-        "mean": 1.0,
-        "median": 1.0,
-        "p90": 1.0,
-        "max": 1.0
+        "mean": 3.0,
+        "median": 3.0,
+        "p90": 3.0,
+        "max": 3.0
       },
       "views_to_success": {
-        "n": 0,
-        "mean": null,
-        "median": null,
-        "p90": null,
-        "max": null
+        "n": 7,
+        "mean": 3.0,
+        "median": 3.0,
+        "p90": 3.0,
+        "max": 3.0
       }
     },
     {
@@ -2297,15 +2297,17 @@
       "view_set": "szafka-b",
       "start": "B6_1_close.png",
       "views": [
-        "B6_1_close.png"
+        "B6_1_close.png",
+        "B2_1_close.png",
+        "B5_1_close.png"
       ],
-      "outcome": "refused",
-      "final_view": null,
-      "error_px": null,
-      "inside_95": null,
-      "success": false,
+      "outcome": "accepted",
+      "final_view": "B5_1_close.png",
+      "error_px": 2.379359832302954,
+      "inside_95": true,
+      "success": true,
       "guards": 0,
-      "fallbacks": 1,
+      "fallbacks": 3,
       "trace": "traces/szafka-b/B6_1_close.json"
     },
     {
@@ -2345,15 +2347,17 @@
       "view_set": "szafka-b",
       "start": "B6_close.png",
       "views": [
-        "B6_close.png"
+        "B6_close.png",
+        "B2_1_close.png",
+        "B5_1_close.png"
       ],
-      "outcome": "refused",
-      "final_view": null,
-      "error_px": null,
-      "inside_95": null,
-      "success": false,
+      "outcome": "accepted",
+      "final_view": "B5_1_close.png",
+      "error_px": 2.379359832302954,
+      "inside_95": true,
+      "success": true,
       "guards": 0,
-      "fallbacks": 1,
+      "fallbacks": 3,
       "trace": "traces/szafka-b/B6_close.json"
     },
     {
@@ -2393,15 +2397,17 @@
       "view_set": "szafka-b",
       "start": "B6_open.png",
       "views": [
-        "B6_open.png"
+        "B6_open.png",
+        "B2_1_close.png",
+        "B5_1_close.png"
       ],
-      "outcome": "refused",
-      "final_view": null,
-      "error_px": null,
-      "inside_95": null,
-      "success": false,
+      "outcome": "accepted",
+      "final_view": "B5_1_close.png",
+      "error_px": 2.379359832302954,
+      "inside_95": true,
+      "success": true,
       "guards": 0,
-      "fallbacks": 1,
+      "fallbacks": 3,
       "trace": "traces/szafka-b/B6_open.json"
     },
     {
@@ -2537,15 +2543,17 @@
       "view_set": "szafka-b",
       "start": "B8_1_close.png",
       "views": [
-        "B8_1_close.png"
+        "B8_1_close.png",
+        "B2_1_close.png",
+        "B5_1_close.png"
       ],
-      "outcome": "refused",
-      "final_view": null,
-      "error_px": null,
-      "inside_95": null,
-      "success": false,
+      "outcome": "accepted",
+      "final_view": "B5_1_close.png",
+      "error_px": 2.379359832302954,
+      "inside_95": true,
+      "success": true,
       "guards": 0,
-      "fallbacks": 1,
+      "fallbacks": 3,
       "trace": "traces/szafka-b/B8_1_close.json"
     },
     {
@@ -2585,15 +2593,17 @@
       "view_set": "szafka-b",
       "start": "B8_close.png",
       "views": [
-        "B8_close.png"
+        "B8_close.png",
+        "B2_1_close.png",
+        "B5_1_close.png"
       ],
-      "outcome": "refused",
-      "final_view": null,
-      "error_px": null,
-      "inside_95": null,
-      "success": false,
+      "outcome": "accepted",
+      "final_view": "B5_1_close.png",
+      "error_px": 2.379359832302954,
+      "inside_95": true,
+      "success": true,
       "guards": 0,
-      "fallbacks": 1,
+      "fallbacks": 3,
       "trace": "traces/szafka-b/B8_close.json"
     },
     {
@@ -2633,15 +2643,17 @@
       "view_set": "szafka-b",
       "start": "B9_1_close.png",
       "views": [
-        "B9_1_close.png"
+        "B9_1_close.png",
+        "B2_1_close.png",
+        "B5_1_close.png"
       ],
-      "outcome": "refused",
-      "final_view": null,
-      "error_px": null,
-      "inside_95": null,
-      "success": false,
+      "outcome": "accepted",
+      "final_view": "B5_1_close.png",
+      "error_px": 2.379359832302954,
+      "inside_95": true,
+      "success": true,
       "guards": 0,
-      "fallbacks": 1,
+      "fallbacks": 3,
       "trace": "traces/szafka-b/B9_1_close.json"
     },
     {
@@ -2681,15 +2693,17 @@
       "view_set": "szafka-b",
       "start": "B9_close.png",
       "views": [
-        "B9_close.png"
+        "B9_close.png",
+        "B2_1_close.png",
+        "B5_1_close.png"
       ],
-      "outcome": "refused",
-      "final_view": null,
-      "error_px": null,
-      "inside_95": null,
-      "success": false,
+      "outcome": "accepted",
+      "final_view": "B5_1_close.png",
+      "error_px": 2.379359832302954,
+      "inside_95": true,
+      "success": true,
       "guards": 0,
-      "fallbacks": 1,
+      "fallbacks": 3,
       "trace": "traces/szafka-b/B9_close.json"
     }
   ],

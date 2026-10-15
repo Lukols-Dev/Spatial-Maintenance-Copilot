@@ -4,37 +4,62 @@ The agent (smc_agent) runs its loop over a Perception. Here that is the
 workspace: one atlas and one view set, localised by the code /localise runs,
 so a session and the Locate page give the same answer for the same view.
 
-Sessions live in CHECKPOINTER, in memory: a restart of the service ends them.
+Sessions live in the checkpointer: in memory, where a restart of the service
+ends them, or in the DynamoDB table SMC_SESSIONS_TABLE names, on AWS.
 """
 
 from functools import cache, cached_property
+from typing import Any, cast
 
+import boto3
+from botocore.config import Config
+from langgraph.checkpoint.base import BaseCheckpointSaver
 from langgraph.checkpoint.memory import InMemorySaver
+from langgraph_checkpoint_aws import DynamoDBSaver
 from smc_agent.bedrock import bedrock_model
 from smc_agent.contracts import Located
 from smc_agent.model import ChatModel
 from smc_agent.nova import nova_model
+from smc_agent.vision import NovaVision, NoVision, VisionModel
 from smc_core.contracts import Action, Atlas, Clicks, Pose
+from smc_core.policy import DEFAULT_POLICY
 from smc_core.viewpoints import (
-    fitting_viewpoints,
     hidden_target_views,
     poses_from_clicks,
+    suggested_viewpoints,
     truth_view,
 )
 
 from smc_perception.atlases import read_atlas
 from smc_perception.cameras import find_intrinsics
-from smc_perception.config import model_settings
+from smc_perception.config import model_settings, service_settings
 from smc_perception.localisation import localise_view
 from smc_perception.models import LocaliseRequest, LocaliseResult
 from smc_perception.view_sets import required_clicks
 from smc_perception.workspace import WorkspaceFiles
 
-CHECKPOINTER = InMemorySaver()
+# Sessions kept on AWS expire a week after their last step.
+SESSION_TTL_S = 7 * 24 * 3600
 
 
 @cache
-def _model(region: str, model_id: str, effort: str, access_key: str, secret_key: str) -> ChatModel:
+def _checkpointer(table: str | None) -> BaseCheckpointSaver[Any]:
+    if table is None:
+        return InMemorySaver()
+    return cast(
+        BaseCheckpointSaver[Any], DynamoDBSaver(table_name=table, ttl_seconds=SESSION_TTL_S)
+    )
+
+
+def checkpointer() -> BaseCheckpointSaver[Any]:
+    """Where sessions are kept between requests: the settings' DynamoDB table, else memory."""
+    return _checkpointer(service_settings().smc_sessions_table)
+
+
+@cache
+def _model(
+    region: str, model_id: str, effort: str, access_key: str | None, secret_key: str | None
+) -> ChatModel:
     """Claude (anthropic.…, eu.anthropic.…) through the Messages API, Amazon Nova through Converse."""
     make = bedrock_model if "anthropic." in model_id else nova_model
     return make(region, model_id, effort, access_key=access_key, secret_key=secret_key)
@@ -44,16 +69,41 @@ def agent_model() -> ChatModel:
     """The model the settings name, one client per setting for the life of the process.
 
     The keys go to the client from the settings: a .env file is read into them,
-    not into the environment botocore looks at.
+    not into the environment botocore looks at. Without keys (SMC_AWS_AUTH=role)
+    the client signs with the platform's credentials.
     """
     found = model_settings()
+    access_key, secret_key = found.keys or (None, None)
     return _model(
         found.smc_bedrock_region,
         found.smc_agent_model,
         found.smc_agent_effort,
-        found.aws_access_key_id.get_secret_value(),
-        found.aws_secret_access_key.get_secret_value(),
+        access_key,
+        secret_key,
     )
+
+
+@cache
+def _vision(
+    region: str, model_id: str, access_key: str | None, secret_key: str | None
+) -> VisionModel:
+    if "anthropic." in model_id:
+        return NoVision("the second look runs on Amazon Nova, and the agent's model is Claude")
+    client = boto3.client(
+        "bedrock-runtime",
+        region_name=region,
+        aws_access_key_id=access_key,
+        aws_secret_access_key=secret_key,
+        config=Config(read_timeout=120, retries={"total_max_attempts": 3}),
+    )
+    return NovaVision(client, model_id)
+
+
+def vision_model() -> VisionModel:
+    """The model that takes a second look at a frame: the agent's own Nova, one client per setting."""
+    found = model_settings()
+    access_key, secret_key = found.keys or (None, None)
+    return _vision(found.smc_bedrock_region, found.smc_agent_model, access_key, secret_key)
 
 
 def model_name() -> str:
@@ -94,12 +144,9 @@ class WorkspacePerception:
         return hidden_target_views(self.clicks, self.atlas)
 
     def suggest(self, view: str, action: Action) -> list[str]:
-        poses = self.poses
-        current = poses.get(view)
-        if current is None:
-            return []
-        others = {name: pose for name, pose in poses.items() if name != view}
-        return fitting_viewpoints(current, others, action)
+        return suggested_viewpoints(
+            view, action, self.poses, self.clicks, self.atlas, DEFAULT_POLICY.min_inliers
+        )
 
     # ---- for the HTTP answer -------------------------------------------------------
 

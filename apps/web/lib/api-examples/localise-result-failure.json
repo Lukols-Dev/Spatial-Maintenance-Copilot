@@ -19,7 +19,8 @@
     "quality": null,
     "pose": null,
     "target": null,
-    "uncertainty": null
+    "uncertainty": null,
+    "occluder": null
   },
   "observations": [
     {

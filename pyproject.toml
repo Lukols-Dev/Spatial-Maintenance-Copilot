@@ -58,6 +58,11 @@ files = [
     "packages/smc_eval/src",
 ]
 
+# langgraph-checkpoint-aws ships no types.
+[[tool.mypy.overrides]]
+module = ["langgraph_checkpoint_aws"]
+ignore_missing_imports = true
+
 [dependency-groups]
 dev = [
     "httpx2>=2.13.0",

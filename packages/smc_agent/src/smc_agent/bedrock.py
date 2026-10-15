@@ -61,10 +61,10 @@ def bedrock_model(
     model_id: str = DEFAULT_MODEL_ID,
     effort: str = DEFAULT_EFFORT,
     *,
-    access_key: str,
-    secret_key: str,
+    access_key: str | None,
+    secret_key: str | None,
 ) -> BedrockChatModel:
-    """The model in this AWS region, called with the keys of an IAM user."""
+    """The model in this AWS region, called with the keys of an IAM user, or the platform's credentials."""
     client = anthropic.AnthropicBedrockMantle(
         aws_region=region, aws_access_key=access_key, aws_secret_key=secret_key
     )

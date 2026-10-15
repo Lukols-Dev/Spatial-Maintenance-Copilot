@@ -10,9 +10,12 @@ from collections.abc import Callable
 from fastapi import APIRouter
 from smc_agent.contracts import Turn
 from smc_agent.copilot import Copilot, NoSession, NotAViewpoint, NotWaiting, SessionExists
+from smc_agent.perception import Perception
 
-from smc_perception.agent import CHECKPOINTER, WorkspacePerception, agent_model, model_name
+from smc_perception.agent import WorkspacePerception, agent_model, checkpointer, model_name
 from smc_perception.errors import Conflict, Invalid, NotFound
+from smc_perception.live import LivePerception
+from smc_perception.live_names import LIVE
 from smc_perception.models import ApprovalAnswer, SessionStart, SessionTurn, ViewChoice
 from smc_perception.routes import WorkspaceDep
 from smc_perception.workspace import WorkspaceFiles
@@ -26,9 +29,15 @@ class _Agent:
     def __init__(self, workspace: WorkspaceFiles) -> None:
         self.workspace = workspace
         self.opened: dict[tuple[str, str], WorkspacePerception] = {}
-        self.copilot = Copilot(agent_model(), self.perception, CHECKPOINTER)
+        self.copilot = Copilot(agent_model(), self.perception, checkpointer())
 
-    def perception(self, asset_id: str, view_set: str) -> WorkspacePerception:
+    def perception(self, asset_id: str, view_set: str) -> Perception:
+        """The view set's recorded viewpoints, or for LIVE the frames posted to /frames."""
+        if view_set == LIVE:
+            return LivePerception(asset_id)
+        return self.workspace_perception(asset_id, view_set)
+
+    def workspace_perception(self, asset_id: str, view_set: str) -> WorkspacePerception:
         key = (asset_id, view_set)
         if key not in self.opened:
             self.opened[key] = WorkspacePerception(self.workspace, asset_id, view_set)
@@ -43,9 +52,12 @@ class _Agent:
             raise Conflict(str(error)) from error
         except NotAViewpoint as error:
             raise Invalid(str(error)) from error
+        # A frame's own answer came from POST /frames; a viewpoint's is drawn from here.
         result = None
-        if turn.located is not None:
-            result = self.perception(turn.asset_id, turn.view_set).result(turn.located.view)
+        if turn.located is not None and turn.view_set != LIVE:
+            result = self.workspace_perception(turn.asset_id, turn.view_set).result(
+                turn.located.view
+            )
         return SessionTurn(turn=turn, result=result, model=model_name())
 
 

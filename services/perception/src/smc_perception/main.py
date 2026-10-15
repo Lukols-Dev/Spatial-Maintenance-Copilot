@@ -1,6 +1,7 @@
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 
+import boto3
 from fastapi import FastAPI, Request
 from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import RequestValidationError
@@ -8,16 +9,29 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
-from smc_perception.config import allowed_origins, check, configure_logging
+from smc_perception.config import allowed_origins, check, configure_logging, service_settings
 from smc_perception.errors import WorkspaceError
 from smc_perception.middleware import ReadableErrors, ReadOnlyGuard
-from smc_perception.routes import atlases, boards, localisation, sessions, view_sets, workspace
+from smc_perception.routes import (
+    atlases,
+    boards,
+    frames,
+    localisation,
+    sessions,
+    view_sets,
+    workspace,
+)
+from smc_perception.workspace_sync import copy_workspace
 
 
 @asynccontextmanager
 async def lifespan(_app: FastAPI) -> AsyncIterator[None]:
-    """At startup: the settings checked and logged, or the start stopped with what is missing."""
+    """At startup: the workspace copied from S3 if it lives there, then the settings checked and logged."""
     configure_logging()
+    settings = service_settings()
+    if settings.smc_workspace_s3:
+        settings.workspace_root.mkdir(parents=True, exist_ok=True)
+        copy_workspace(boto3.client("s3"), settings.smc_workspace_s3, settings.workspace_root)
     check()
     yield
 
@@ -36,7 +50,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-for module in (workspace, boards, view_sets, atlases, localisation, sessions):
+for module in (workspace, boards, view_sets, atlases, localisation, sessions, frames):
     app.include_router(module.router)
 
 

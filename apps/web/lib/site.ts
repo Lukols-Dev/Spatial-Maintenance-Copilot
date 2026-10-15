@@ -13,6 +13,7 @@ export interface NavEntry {
 
 /** The pages the sidebar lists: only pages that work. */
 export const NAV: NavEntry[] = [
+  { href: "/guide", title: "Guide" },
   { href: "/", title: "Locate" },
   { href: "/agent", title: "Agent" },
   { href: "/annotate", title: "Annotate" },

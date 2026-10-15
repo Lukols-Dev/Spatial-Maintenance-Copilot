@@ -27,6 +27,8 @@ from smc_perception.models import (
     Board,
     BoardMeasurement,
     ClicksSummary,
+    FrameAnswer,
+    InspectAnswer,
     LocaliseRequest,
     LocaliseResult,
     SessionTurn,
@@ -60,6 +62,10 @@ MODELS: dict[str, type[BaseModel]] = {
     "session-turn-move.json": SessionTurn,
     "session-turn-approval.json": SessionTurn,
     "session-turn-accepted.json": SessionTurn,
+    "frame-answer.json": FrameAnswer,
+    "frame-answer-move.json": FrameAnswer,
+    "frame-answer-open.json": FrameAnswer,
+    "inspect-answer.json": InspectAnswer,
 }
 
 

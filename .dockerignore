@@ -14,3 +14,13 @@ eval
 fixtures
 docs
 tools
+# The image is built from the repository root but takes only the Python
+# workspace (services/perception/Dockerfile copies what it needs): the media,
+# the web app and the infrastructure stay out of the build context.
+data
+apps
+infra
+calib
+tests
+packages/*/tests
+services/*/tests

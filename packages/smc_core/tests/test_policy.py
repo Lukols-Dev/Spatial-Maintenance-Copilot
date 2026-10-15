@@ -123,6 +123,7 @@ def measured(
             in_frame=in_frame(target_px, INTRINSICS["image_size"]),
             outline_px=[],
             radius_px=radius_px,
+            corners_px=[],
         ),
         uncertainty=UncertaintyRegion(
             confidence=0.95,

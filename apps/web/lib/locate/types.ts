@@ -64,6 +64,14 @@ export interface ProjectedTarget {
   outline_px: Vec2[];
   /** Radius of a circle with the outline's area. */
   radius_px: number;
+  /** The 8 corners of the extent box, in the order BOX_EDGES indexes them. */
+  corners_px: Vec2[];
+}
+
+/** The atlas panel the line of sight to the target crosses: the target is behind it. */
+export interface ProjectedPanel {
+  panel_id: string;
+  outline_px: Vec2[];
 }
 
 export interface Ellipse {
@@ -93,6 +101,8 @@ export interface Localisation {
   pose: Pose | null;
   target: ProjectedTarget | null;
   uncertainty: UncertaintyRegion | null;
+  /** The atlas panel between the camera and the target, if any. */
+  occluder: ProjectedPanel | null;
 }
 
 export type Action = "ACCEPT" | "MOVE_LEFT" | "MOVE_RIGHT" | "MOVE_CLOSER" | "MOVE_BACK" | "MOVE_UP" | "MOVE_DOWN";

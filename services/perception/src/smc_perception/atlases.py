@@ -117,10 +117,11 @@ def _report_of(workspace: WorkspaceFiles, asset_id: str, atlas: Atlas) -> AtlasB
         report = AtlasBuildReport.model_validate_json(workspace.report_file(asset_id).read_bytes())
     except OSError, ValidationError, WorkspaceError:
         return None
+    # The report also lists points that are no landmark, the corners of the target's tag.
     located = {point.id: point.position_mm for point in report.points}
     stored = {landmark.id: landmark.position_mm for landmark in atlas.landmarks}
     stored[atlas.target.id] = atlas.target.position_mm
-    return report if located == stored else None
+    return report if all(located.get(key) == value for key, value in stored.items()) else None
 
 
 # ---- building ----------------------------------------------------------------
@@ -166,6 +167,7 @@ def build(workspace: WorkspaceFiles, request: AtlasBuildRequest) -> AtlasDetail:
             click_sigma_px=request.click_sigma_px,
             target_centre_sigma_mm=request.target_centre_sigma_mm,
             seed=request.seed,
+            target_tag_depth_mm=request.target_tag_depth_mm,
         )
     except ValueError as error:
         raise Conflict(str(error)) from error

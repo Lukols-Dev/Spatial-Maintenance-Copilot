@@ -30,6 +30,31 @@ export function outlinePath(points: readonly Vec2[]): string {
   return `${steps.join(" ")} Z`;
 }
 
+/**
+ * The 12 edges of a box whose 8 corners come in the order of smc_core.xray.BOX_SIGNS
+ * (x, then y, then z, each from - to +): the corner pairs that differ along one axis.
+ */
+export const BOX_EDGES: readonly (readonly [number, number])[] = [
+  [0, 1],
+  [0, 2],
+  [0, 4],
+  [1, 3],
+  [1, 5],
+  [2, 3],
+  [2, 6],
+  [3, 7],
+  [4, 5],
+  [4, 6],
+  [5, 7],
+  [6, 7],
+];
+
+/** The edges of a projected box as one <path d> of separate segments; empty without its 8 corners. */
+export function boxEdgesPath(corners: readonly Vec2[]): string {
+  if (corners.length !== 8) return "";
+  return BOX_EDGES.map(([a, b]) => `M${svgPoint(corners[a]).join(" ")} L${svgPoint(corners[b]).join(" ")}`).join(" ");
+}
+
 /** An <ellipse> in user units, with the rotation it is drawn with. */
 export interface EllipseShape {
   cx: number;

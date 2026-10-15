@@ -1,4 +1,4 @@
-import { edgeMarker, ellipseShape, outlinePath, toSvg, type EllipseShape } from "@/lib/locate/geometry";
+import { boxEdgesPath, edgeMarker, ellipseShape, outlinePath, toSvg, type EllipseShape } from "@/lib/locate/geometry";
 import type { LocaliseResult, Truth, Vec2 } from "@/lib/locate/types";
 
 // What the overlay draws for one answer of POST /localise, in the user units
@@ -39,8 +39,13 @@ export interface Overlay {
   style: RegionStyle;
   observed: ObservedMark[];
   unobserved: ProjectedMark[];
-  /** The projected extent box of the target and its centre; null after a failure. */
-  target: { outline: string; centre: Vec2 } | null;
+  /**
+   * The projected extent box of the target: its outline, its 12 edges and its centre;
+   * hidden when a panel of the atlas stands between the camera and it. Null after a failure.
+   */
+  target: { outline: string; edges: string; centre: Vec2; hidden: boolean } | null;
+  /** The panel the target is behind, and where its name goes: the middle of its top edge. */
+  occluder: { id: string; outline: string; label: Vec2 } | null;
   /** The 95 % region of the target centre. */
   region: EllipseShape | null;
   /** The same with the target held at its atlas position: the part another viewpoint can shrink. */
@@ -133,7 +138,7 @@ export function placeLabels(overlay: Overlay, fontSize: number, gap: number, mar
  */
 export function overlayOf(result: LocaliseResult, truth: Truth | null, inset: number): Overlay {
   const { width, height } = result.image;
-  const { quality, target, uncertainty } = result.localisation;
+  const { quality, target, uncertainty, occluder } = result.localisation;
   const projected = new Map(result.projections.map((projection) => [projection.landmark_id, projection]));
 
   const observed = result.observations.map((observation): ObservedMark => {
@@ -168,9 +173,26 @@ export function overlayOf(result: LocaliseResult, truth: Truth | null, inset: nu
     style: result.decision.reliable ? "reliable" : "unreliable",
     observed,
     unobserved,
-    target: target && { outline: outlinePath(target.outline_px), centre: toSvg(target.centre_px) },
+    target: target && {
+      outline: outlinePath(target.outline_px),
+      edges: boxEdgesPath(target.corners_px),
+      centre: toSvg(target.centre_px),
+      hidden: occluder !== null,
+    },
+    occluder: occluder && {
+      id: occluder.panel_id,
+      outline: outlinePath(occluder.outline_px),
+      label: panelLabel(occluder.outline_px),
+    },
     region: target && uncertainty ? ellipseShape(target.centre_px, uncertainty.ellipse) : null,
     poseOnly: target && uncertainty ? ellipseShape(target.centre_px, uncertainty.pose_only) : null,
     truth: truth && toSvg(truth.target_px),
   };
+}
+
+/** Where a panel's name goes, in user units: across the middle of its width, at its top. */
+function panelLabel(outline: readonly Vec2[]): Vec2 {
+  const xs = outline.map(([x]) => x);
+  const top = Math.min(...outline.map(([, y]) => y));
+  return toSvg([(Math.min(...xs) + Math.max(...xs)) / 2, top]);
 }

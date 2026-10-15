@@ -47,6 +47,10 @@ class Landmark(Contract):
         le=180,
         description="the widest angle between seen_from and the direction to one of those cameras",
     )
+    moves_with: str | None = Field(
+        default=None,
+        description="the panel it is on, when that panel opens: then it is not where the atlas has it",
+    )
 
     @model_validator(mode="after")
     def _seen_from_is_a_direction(self) -> Self:
@@ -58,30 +62,67 @@ class Landmark(Contract):
 
 
 class Target(Contract):
-    """The hidden component: where its centre is and how much space it takes."""
+    """The hidden component: the point of it that is located, and the box it takes.
+
+    position_mm is the point the localisation projects and the evaluation
+    scores: the box's centre, or the centre of a tag on its face. The box sits
+    around it: turned by rvec in the asset frame, its centre box_offset_mm from
+    the point along the box's own axes, extent_mm along those axes. Both
+    default to nothing, a box around the point along the asset's axes.
+    """
 
     id: str
     position_mm: Vec3
-    sigma_mm: float = Field(ge=0, description="1-sigma error of each coordinate of the centre")
-    extent_mm: Vec3 = Field(description="full size of a box around it, along x, y and z")
+    sigma_mm: float = Field(ge=0, description="1-sigma error of each coordinate of the point")
+    extent_mm: Vec3 = Field(description="full size of the box, along its x, y and z")
+    rvec: Vec3 = Field(
+        default=(0.0, 0.0, 0.0), description="the box's axes in the asset frame, a Rodrigues vector"
+    )
+    box_offset_mm: Vec3 = Field(
+        default=(0.0, 0.0, 0.0), description="the box's centre from the point, along the box's axes"
+    )
+    description: str = ""
+
+
+class Panel(Contract):
+    """A flat face of the asset that can stand between the camera and the target: a door, a side."""
+
+    id: str
+    corners_mm: list[Vec3] = Field(min_length=3, description="its outline, in order around it")
     description: str = ""
 
 
 class Atlas(Contract):
-    """What the system knows about one asset: its landmarks and the target."""
+    """What the system knows about one asset: its landmarks, the target, and what hides it."""
 
     asset_id: str
     version: str
     frame: str = Field(description="how the asset frame is defined, e.g. by which board")
     landmarks: list[Landmark]
     target: Target
+    panels: list[Panel] = Field(
+        default_factory=list, description="the faces the target can be behind; none: not known"
+    )
+    guide_view: Pose | None = Field(
+        default=None,
+        description="a recorded camera pose the target is well localised from: where guidance leads",
+    )
 
     @model_validator(mode="after")
-    def _unique_landmark_ids(self) -> Self:
-        ids = [landmark.id for landmark in self.landmarks]
-        duplicates = sorted({landmark_id for landmark_id in ids if ids.count(landmark_id) > 1})
-        if duplicates:
-            raise ValueError(f"duplicate landmark ids: {duplicates}")
+    def _unique_ids(self) -> Self:
+        for kind, ids in (
+            ("landmark", [landmark.id for landmark in self.landmarks]),
+            ("panel", [panel.id for panel in self.panels]),
+        ):
+            duplicates = sorted({item for item in ids if ids.count(item) > 1})
+            if duplicates:
+                raise ValueError(f"duplicate {kind} ids: {duplicates}")
+        panels = {panel.id for panel in self.panels}
+        unknown = sorted(
+            {landmark.moves_with for landmark in self.landmarks if landmark.moves_with} - panels
+        )
+        if unknown:
+            raise ValueError(f"landmarks move with panels the atlas does not have: {unknown}")
         return self
 
 
@@ -184,6 +225,36 @@ class ProjectedTarget(Contract):
     in_frame: bool
     outline_px: list[Vec2] = Field(description="convex hull of the projected extent box")
     radius_px: float = Field(description="radius of a circle with the outline's area")
+    corners_px: list[Vec2] = Field(
+        description="the 8 corners of the extent box, in the order of xray.BOX_SIGNS"
+    )
+
+
+class Guidance(Contract):
+    """How far the camera is from the atlas's guide view, and how the asset looks from there."""
+
+    outlines_px: list[list[Vec2]] = Field(description="the panels as the guide view sees them")
+    alignment_px: float | None = Field(
+        description="mean distance between the asset's points as this pose and the guide view "
+        "put them; None without a pose"
+    )
+    progress: float | None = Field(description="0 far from the guide view, 1 on it")
+
+
+class TargetSighting(Contract):
+    """The target's tag in sight: the panel is open, and the prediction can be held against it."""
+
+    tag_px: list[Vec2] = Field(description="its corners, in OpenCV's order")
+    centre_px: Vec2
+    error_px: float | None = Field(description="from the projected target point; None without one")
+    inside_95: bool | None
+
+
+class ProjectedPanel(Contract):
+    """The panel the line of sight to the target crosses: the target is behind it."""
+
+    panel_id: str
+    outline_px: list[Vec2]
 
 
 class Ellipse(Contract):
@@ -230,6 +301,9 @@ class Localisation(Contract):
     pose: Pose | None = None
     target: ProjectedTarget | None = None
     uncertainty: UncertaintyRegion | None = None
+    occluder: ProjectedPanel | None = Field(
+        default=None, description="the atlas panel between the camera and the target, if any"
+    )
 
 
 class Action(StrEnum):

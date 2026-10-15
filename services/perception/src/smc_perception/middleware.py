@@ -6,8 +6,10 @@ from starlette.types import ASGIApp, Message, Receive, Scope, Send
 from smc_perception.config import read_only
 
 SAFE_METHODS = {"GET", "HEAD", "OPTIONS"}
-# POSTs that compute an answer and write nothing: the read-only service serves them.
-READING_POSTS = {"/localise"}
+# POSTs that compute an answer and write nothing to the workspace: the read-only
+# service serves them. A posted frame is kept in memory only, never on disk.
+READING_POSTS = {"/localise", "/frames"}
+FRAME_PATHS = "/frames/"
 # Agent sessions write only their own state, never the workspace, so a read-only
 # service runs them too: visitors of the public demo play the operator.
 SESSION_PATHS = "/sessions"
@@ -37,7 +39,8 @@ def _reads(scope: Scope) -> bool:
     if method in SAFE_METHODS:
         return True
     sessions = path == SESSION_PATHS or path.startswith(f"{SESSION_PATHS}/")
-    return method == "POST" and (path in READING_POSTS or sessions)
+    frames = path.startswith(FRAME_PATHS)
+    return method == "POST" and (path in READING_POSTS or sessions or frames)
 
 
 class ReadableErrors:
