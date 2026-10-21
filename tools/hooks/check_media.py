@@ -5,8 +5,9 @@ Three rules, all of them about a repository that anyone on the internet can read
 
 1. Video and camera-raw files never belong in git. They belong in S3, referenced
    from eval/datasets/*.manifest.json by key and SHA256.
-2. Still images are allowed only under an explicit allowlist of directories.
-   Everything else is capture data and follows rule 1.
+2. Still images are allowed only under an explicit allowlist of directories,
+   and as the web app's icons, named one by one. Everything else is capture
+   data and follows rule 1.
 3. An allowed still image must not carry EXIF GPS data and must be small.
    A frame of an engine bay is harmless. The same frame tagged with the
    coordinates of the garage it was shot in is not.
@@ -43,11 +44,21 @@ BLOCKED_EXT = {
     ".rw2",
 }
 
-# Allowed, but only inside ALLOWED_DIRS and only after the EXIF and size checks.
+# Allowed, but only inside ALLOWED_DIRS or as ALLOWED_FILES, and only after the EXIF and size checks.
 IMAGE_EXT = {".jpg", ".jpeg", ".png", ".tif", ".tiff", ".bmp", ".webp", ".heic"}
 
 # Directories where a still image is a deliberate artefact rather than capture data.
 ALLOWED_DIRS = ("fixtures/", "docs/", "tools/hooks/testdata/")
+
+# The web app's icons, drawn by code. Named one by one, so that a frame dropped
+# into apps/web/public/ is still refused.
+ALLOWED_FILES = frozenset(
+    {
+        "apps/web/app/apple-icon.png",
+        "apps/web/public/icon-192.png",
+        "apps/web/public/icon-512.png",
+    }
+)
 
 # EXIF tag 0x8825 is the GPS IFD pointer. Its presence means coordinates are embedded.
 EXIF_GPS_IFD = 0x8825
@@ -153,10 +164,10 @@ def main() -> int:
         if ext not in IMAGE_EXT:
             continue
 
-        if not norm.startswith(ALLOWED_DIRS):
+        if not (norm.startswith(ALLOWED_DIRS) or norm in ALLOWED_FILES):
             problems.append(
                 f"{norm}\n"
-                f"    Still images are allowed only under: {', '.join(ALLOWED_DIRS)}\n"
+                f"    Still images are allowed only under: {', '.join(ALLOWED_DIRS)}, and as the web app's icons\n"
                 f"    Capture data belongs in S3 with a manifest entry, not in the repo."
             )
             continue

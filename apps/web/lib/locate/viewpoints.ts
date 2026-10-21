@@ -22,11 +22,23 @@ export function atlasOptions(workspace: Workspace): AtlasSummary[] {
   return newestFirst(workspace.atlases, (atlas) => atlas.built_at);
 }
 
-/** The wanted atlas when it can be read, else the newest one that can. */
-export function pickAtlas(atlases: readonly AtlasSummary[], wanted: string | null): string | null {
+/**
+ * The wanted atlas when it can be read, else the newest one that can and is
+ * not passed over: the Demo passes over an atlas no view set has viewpoints
+ * of. When every one is passed over, the newest, to say why.
+ */
+export function pickAtlas(
+  atlases: readonly AtlasSummary[],
+  wanted: string | null,
+  passedOver: readonly string[] = [],
+): string | null {
   const readable = atlases.filter((atlas) => atlas.error === null);
-  return (readable.find((atlas) => atlas.asset_id === wanted) ?? newestFirst(readable, (atlas) => atlas.built_at)[0])
-    ?.asset_id ?? null;
+  const newest = newestFirst(readable, (atlas) => atlas.built_at);
+  return (
+    readable.find((atlas) => atlas.asset_id === wanted) ??
+    newest.find((atlas) => !passedOver.includes(atlas.asset_id)) ??
+    newest[0]
+  )?.asset_id ?? null;
 }
 
 function landmarkIds(atlas: Atlas): Set<string> {

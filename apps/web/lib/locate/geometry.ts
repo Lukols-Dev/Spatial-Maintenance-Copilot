@@ -93,9 +93,17 @@ export function ellipsePoint(shape: EllipseShape, t: number): Vec2 {
  * box of boxWidth × boxHeight with preserveAspectRatio "meet". Markers and
  * labels are sized with it, so they keep their size on screen at any scale.
  */
-export function imagePixelsPerScreenPixel(width: number, height: number, boxWidth: number, boxHeight: number): number {
+export function imagePixelsPerScreenPixel(
+  width: number,
+  height: number,
+  boxWidth: number,
+  boxHeight: number,
+  fit: "contain" | "cover" = "contain",
+): number {
   if (boxWidth <= 0 || boxHeight <= 0) return 1;
-  return Math.max(width / boxWidth, height / boxHeight);
+  // Contained, the image's larger ratio fits the box; covering it, the smaller one does.
+  const ratios = [width / boxWidth, height / boxHeight];
+  return fit === "contain" ? Math.max(...ratios) : Math.min(...ratios);
 }
 
 /**

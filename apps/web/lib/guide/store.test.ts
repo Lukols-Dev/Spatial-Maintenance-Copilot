@@ -9,7 +9,17 @@ import moveExample from "../api-examples/frame-answer-move.json";
 import reliableExample from "../api-examples/frame-answer.json";
 import type { SessionTurn } from "../agent/types";
 import { IN_SIGHT } from "./moves";
-import { AGENT_GAP_MS, LIVE, createGuideStore, type FrameSource, type GuideCalls, type GuideStore } from "./store";
+import { FALLBACK_MS, MOVING_ABOVE, SETTLE_MS, STILL_BELOW } from "./motion";
+import {
+  AGENT_GAP_MS,
+  LIVE,
+  MAX_ANALYSED,
+  createGuideStore,
+  type FrameSource,
+  type GuideCalls,
+  type GuideStore,
+  type Step,
+} from "./store";
 import type { FrameAnswer, InspectAnswer } from "./types";
 
 const clone = <T>(value: unknown) => structuredClone(value) as T;
@@ -45,6 +55,173 @@ async function settle(store: GuideStore) {
   for (let i = 0; i < 50 && store.state().phase === "running"; i += 1) await new Promise((r) => setTimeout(r, 0));
   await new Promise((r) => setTimeout(r, 0));
 }
+
+// Small grey pictures: a camera seeing A twice is still, A then B is moving, A then A2 is a hand's
+// tremor, a change between the steady and the moving thresholds.
+const A = Uint8ClampedArray.from({ length: 16 }, (_, i) => (i % 2 === 0 ? 0 : 200));
+const B = Uint8ClampedArray.from({ length: 16 }, (_, i) => (i % 2 === 0 ? 200 : 0));
+const TREMOR = (STILL_BELOW + MOVING_ABOVE) / 2;
+const A2 = Uint8ClampedArray.from(A, (value) => (value === 0 ? TREMOR : 200 - TREMOR));
+/** Looks a tenth of a second apart. */
+const LOOK_MS = 100;
+/**
+ * Looks from a stop until the camera is still: the change's median over the window lags the stop
+ * by up to three looks, then the camera is steady for SETTLE_MS.
+ */
+const TO_SETTLE = 3 + Math.ceil(SETTLE_MS / LOOK_MS);
+/** A stop long enough to settle and send every frame it may. */
+const STILL = Array<Uint8ClampedArray>(TO_SETTLE + MAX_ANALYSED + 4).fill(A);
+
+/**
+ * A live camera seeing these pictures one after the other, then ending. It keeps, for each
+ * frame it gives, how many pictures it had shown by then, and every step the store was at.
+ */
+function steppedCamera(pictures: Uint8ClampedArray[], store: () => GuideStore) {
+  let index = 0;
+  const sentAt: number[] = [];
+  const steps: (Step | null)[] = [];
+  const camera: FrameSource = {
+    live: true,
+    size: () => SIZE,
+    look: async () => {
+      steps.push(store().state().step);
+      if (index >= pictures.length) return null;
+      index += 1;
+      return { pixels: pictures[index - 1], at: index * LOOK_MS };
+    },
+    next: async () => {
+      sentAt.push(index);
+      return new Blob(["frame"]);
+    },
+    stop() {},
+  };
+  return { camera, sentAt, steps };
+}
+
+describe("a live camera, step by step", () => {
+  it("sends nothing while it moves, and from where it stops only until a cue holds", async () => {
+    const service = calls([clone(moveExample)]);
+    let store: GuideStore | null = null;
+    store = createGuideStore({ calls: service, now: () => 0 });
+    const moving = [A, B, A, B];
+    const { camera, sentAt, steps } = steppedCamera([...moving, ...STILL, B, A, B, ...STILL], () => store!);
+
+    store.start(camera, QUERY, SIZE);
+    await settle(store);
+
+    // Three frames at each stop, none while moving, before it has been steady, or after the instruction held.
+    expect(service.postFrame).toHaveBeenCalledTimes(6);
+    expect(sentAt[0]).toBeGreaterThan(moving.length + SETTLE_MS / LOOK_MS);
+    expect(sentAt.slice(0, 3)).toEqual([sentAt[0], sentAt[0] + 1, sentAt[0] + 2]);
+    expect(sentAt[3]).toBeGreaterThan(moving.length + STILL.length + 3);
+    expect(store.state()).toMatchObject({ phase: "ended", steady: "MOVE_DOWN", instruction: 2 });
+    expect(new Set(steps)).toEqual(new Set([null, "moving", "settling", "analysing", "ready"]));
+  });
+
+  it("analyses a camera held with a tremor once it has not moved for the fallback time", async () => {
+    const service = calls([clone(moveExample)]);
+    let store: GuideStore | null = null;
+    store = createGuideStore({ calls: service, now: () => 0 });
+    const shaking = Array.from({ length: FALLBACK_MS / LOOK_MS + 10 }, (_, i) => (i % 2 === 0 ? A2 : A));
+    const { camera, sentAt } = steppedCamera([B, ...shaking], () => store!);
+
+    store.start(camera, QUERY, SIZE);
+    await settle(store);
+
+    expect(service.postFrame).toHaveBeenCalledTimes(3);
+    expect(sentAt[0]).toBeGreaterThanOrEqual(FALLBACK_MS / LOOK_MS);
+    expect(store.state()).toMatchObject({ steady: "MOVE_DOWN", step: "ready" });
+  });
+
+  it("gives the last frame's cue when the frames from one stop never agree", async () => {
+    const service = calls([]);
+    let turn = 0;
+    service.postFrame.mockImplementation(async () => clone(turn++ % 2 === 0 ? moveExample : reliableExample));
+    let store: GuideStore | null = null;
+    store = createGuideStore({ calls: service, now: () => 0 });
+    const { camera } = steppedCamera([B, ...STILL], () => store!);
+
+    store.start(camera, QUERY, SIZE);
+    await settle(store);
+
+    expect(service.postFrame).toHaveBeenCalledTimes(MAX_ANALYSED);
+    expect(store.state()).toMatchObject({ steady: "ACCEPT", instruction: 1 });
+  });
+
+  it("tells the agent once per stop, not once per frame: the session, then the operator's new view", async () => {
+    const service = calls([clone(moveExample)]);
+    let store: GuideStore | null = null;
+    let clock = 0;
+    store = createGuideStore({ calls: service, now: () => (clock += AGENT_GAP_MS) });
+    const { camera } = steppedCamera([B, ...STILL, B, ...STILL], () => store!);
+
+    store.start(camera, QUERY, SIZE);
+    await settle(store);
+
+    expect(service.postFrame).toHaveBeenCalledTimes(6);
+    expect(service.start).toHaveBeenCalledTimes(1);
+    expect(service.choose).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe("the session's log", () => {
+  it("keeps each instruction with its frame, what the agent did and that the operator moved on", async () => {
+    const service = calls([clone(moveExample)]);
+    let clock = 0;
+    let store: GuideStore | null = null;
+    store = createGuideStore({ calls: service, now: () => (clock += AGENT_GAP_MS) });
+    const { camera } = steppedCamera([B, ...STILL, B, ...STILL], () => store!);
+
+    store.start(camera, QUERY, SIZE);
+    await settle(store);
+
+    const log = store.state().log;
+    expect(log.map((entry) => [entry.n, entry.cue, entry.operator])).toEqual([
+      [1, "MOVE_DOWN", "Moved"],
+      [2, "MOVE_DOWN", null],
+    ]);
+    expect(log[0].frame.frame_id).toBe(clone<FrameAnswer>(moveExample).frame_id);
+    expect(log[0].at).toBeGreaterThan(0);
+    // The agent's first turn asks for the move: it is logged against the instruction it answered.
+    expect(log[0].agent).toMatchObject({ did: expect.stringMatching(/^Asked: /) });
+  });
+
+  it("records the operator's answer to the agent's next step", async () => {
+    const service = calls([clone(reliableExample)], { start: clone(approvalExample) });
+    const store = createGuideStore({ calls: service, now: () => 0 });
+    store.start(source(3, SIZE, true), QUERY, SIZE);
+    await settle(store);
+    await new Promise((r) => setTimeout(r, 0));
+
+    expect(store.state().log.at(-1)?.agent?.did).toMatch(/^Proposed: /);
+    store.answer(true);
+    expect(store.state().log.at(-1)?.operator).toBe("Approved");
+  });
+});
+
+describe("an instruction the agent cannot be told of at once", () => {
+  it("is told once the agent's gap has passed, though no frame follows it", async () => {
+    const service = calls([clone(moveExample)]);
+    let clock = 0;
+    let store: GuideStore | null = null;
+    store = createGuideStore({
+      calls: service,
+      now: () => clock,
+      wait: async (ms) => {
+        clock += ms;
+      },
+    });
+    const { camera } = steppedCamera([B, ...STILL, B, ...STILL], () => store!);
+
+    store.start(camera, QUERY, SIZE);
+    await settle(store);
+
+    // The second stop came within the gap of the first: its view is handed over after the gap.
+    expect(service.start).toHaveBeenCalledTimes(1);
+    expect(service.choose).toHaveBeenCalledTimes(1);
+    expect(clock).toBe(AGENT_GAP_MS);
+  });
+});
 
 describe("the frames of a source", () => {
   it("are localised one by one until the source ends, the last answer shown", async () => {

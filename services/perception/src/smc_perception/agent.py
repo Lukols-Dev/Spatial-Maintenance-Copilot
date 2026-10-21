@@ -17,6 +17,7 @@ from langgraph.checkpoint.base import BaseCheckpointSaver
 from langgraph.checkpoint.memory import InMemorySaver
 from langgraph_checkpoint_aws import DynamoDBSaver
 from smc_agent.bedrock import bedrock_model
+from smc_agent.budget import BudgetedModel, BudgetedVision, DailyBudget
 from smc_agent.contracts import Located
 from smc_agent.model import ChatModel
 from smc_agent.nova import nova_model
@@ -65,22 +66,36 @@ def _model(
     return make(region, model_id, effort, access_key=access_key, secret_key=secret_key)
 
 
+@cache
+def _budget(limit: int) -> DailyBudget:
+    return DailyBudget(limit)
+
+
+def budget() -> DailyBudget | None:
+    """The day's cap on model calls the settings name, one for the process; None without one."""
+    limit = service_settings().smc_model_calls_per_day
+    return None if limit is None else _budget(limit)
+
+
 def agent_model() -> ChatModel:
     """The model the settings name, one client per setting for the life of the process.
 
     The keys go to the client from the settings: a .env file is read into them,
     not into the environment botocore looks at. Without keys (SMC_AWS_AUTH=role)
-    the client signs with the platform's credentials.
+    the client signs with the platform's credentials. With a daily cap, each
+    call is taken from it first.
     """
     found = model_settings()
     access_key, secret_key = found.keys or (None, None)
-    return _model(
+    model = _model(
         found.smc_bedrock_region,
         found.smc_agent_model,
         found.smc_agent_effort,
         access_key,
         secret_key,
     )
+    cap = budget()
+    return model if cap is None else BudgetedModel(model, cap)
 
 
 @cache
@@ -103,7 +118,9 @@ def vision_model() -> VisionModel:
     """The model that takes a second look at a frame: the agent's own Nova, one client per setting."""
     found = model_settings()
     access_key, secret_key = found.keys or (None, None)
-    return _vision(found.smc_bedrock_region, found.smc_agent_model, access_key, secret_key)
+    model = _vision(found.smc_bedrock_region, found.smc_agent_model, access_key, secret_key)
+    cap = budget()
+    return model if cap is None else BudgetedVision(model, cap)
 
 
 def model_name() -> str:

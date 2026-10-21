@@ -1,7 +1,7 @@
 import { expect, test, type Page } from "@playwright/test";
 
 import type { FrameAnswer } from "../lib/guide/types";
-import { cameraAsked, example, routeJson, stubCamera, stubHealth, stubWorkspace, type Stub } from "./helpers";
+import { cameraAsked, example, moveCamera, routeJson, stubCamera, stubHealth, stubWorkspace, type Stub } from "./helpers";
 
 // The Guide page with a camera giving frames at the size the synthetic phone
 // was calibrated at, upright. The service is stubbed: its frame answers are
@@ -44,7 +44,7 @@ test.beforeEach(async ({ page }) => {
 test("the camera's frames are guided to a reliable result, approved, and the target confirmed", async ({ page }) => {
   test.setTimeout(60_000);
   const service = await serve(page);
-  await page.goto("/guide");
+  await page.goto("/localise");
 
   await page.getByRole("button", { name: "Camera" }).click();
 
@@ -59,7 +59,12 @@ test("the camera's frames are guided to a reliable result, approved, and the tar
   await expect.poll(() => service.start.bodies.length).toBe(1);
   expect(service.start.bodies[0]).toEqual({ asset_id: "home-cabinet", view_set: "live", view: "0f1e2d3c4b5a" });
 
+  // The camera holds still after its instruction: the next view comes when it moves and stops again.
+  const sent = service.frames.count;
+  await page.waitForTimeout(1500);
+  expect(service.frames.count).toBe(sent);
   service.frames.answer = example<FrameAnswer>("frame-answer.json");
+  await moveCamera(page);
   await expect(hud(page)).toHaveAttribute("data-cue", "ACCEPT");
   await expect(hud(page)).toContainText("Hold still");
   await expect.poll(() => service.view.bodies.length, { timeout: 15_000 }).toBe(1);
@@ -70,6 +75,7 @@ test("the camera's frames are guided to a reliable result, approved, and the tar
   expect(service.approval.bodies).toEqual([{ approved: true }]);
 
   service.frames.answer = example<FrameAnswer>("frame-answer-open.json");
+  await moveCamera(page);
   const target = page.locator("[data-part=sighting]");
   await expect(target).toContainText("Inside the 95 % region");
   await expect(target).toContainText("yes");

@@ -1,6 +1,6 @@
 "use client";
 
-import { Bot, Compass, FileText, FolderGit2, LocateFixed, MapIcon, ScanEye } from "lucide-react";
+import { Camera, FileText, FolderGit2, MapIcon, MonitorPlay, ScanEye } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type * as React from "react";
@@ -23,9 +23,8 @@ import { NAV, SITE, sectionFor } from "@/lib/site";
 // Icons are components, which cannot cross from a server layout into a client
 // component, so they live here, next to the hook that needs them.
 const ICONS: Record<string, React.ComponentType> = {
-  "/guide": Compass,
-  "/": LocateFixed,
-  "/agent": Bot,
+  "/": MonitorPlay,
+  "/localise": Camera,
   "/atlas": MapIcon,
 };
 
@@ -40,7 +39,7 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            {/* The home page is also Locate in the list below, which carries aria-current. */}
+            {/* The home page is also Demo in the list below, which carries aria-current. */}
             <SidebarMenuButton size="lg" asChild tooltip={SITE.name} className="h-auto py-2">
               <Link href="/">
                 <div className="flex aspect-square size-8 shrink-0 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">

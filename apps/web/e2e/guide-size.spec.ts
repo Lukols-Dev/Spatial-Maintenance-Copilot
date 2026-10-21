@@ -18,7 +18,7 @@ test("frames of another size than the calibration are refused before they are se
     sent += 1;
     await route.fulfill({ status: 201, json: example("frame-answer.json") });
   });
-  await page.goto("/guide");
+  await page.goto("/localise");
 
   await page.getByRole("button", { name: "Camera" }).click();
 

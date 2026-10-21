@@ -26,7 +26,7 @@ function workspace(withSite: boolean): string {
   return root;
 }
 
-function synth(withSite = true): Template {
+function synth(withSite = true, budget?: { usd: number; email: string }): Template {
   const app = new App();
   const stack = new SmcStack(app, "Test", {
     env: { account: "123456789012", region: "eu-north-1" },
@@ -34,6 +34,8 @@ function synth(withSite = true): Template {
     atlases: ["szafka"],
     viewSets: ["szafka-b"],
     model: "eu.amazon.nova-2-lite-v1:0",
+    modelCallsPerDay: 1000,
+    budget,
     image: ContainerImage.fromRegistry("public.ecr.aws/docker/library/python:3.14-slim"),
   });
   return Template.fromStack(stack);
@@ -62,6 +64,7 @@ describe("the service", () => {
       SMC_ENV_FILE: "",
       SMC_AGENT_MODEL: "eu.amazon.nova-2-lite-v1:0",
       SMC_BEDROCK_REGION: "eu-north-1",
+      SMC_MODEL_CALLS_PER_DAY: "1000",
     });
     expect(environment).not.toHaveProperty("AWS_ACCESS_KEY_ID");
     expect(environment).not.toHaveProperty("AWS_SECRET_ACCESS_KEY");
@@ -159,5 +162,29 @@ describe("the web app", () => {
     // The camera, the rig, the atlas and the view set, then the site.
     expect(Object.keys(template.findResources("Custom::CDKBucketDeployment"))).toHaveLength(5);
     expect(Object.keys(synth(false).findResources("Custom::CDKBucketDeployment"))).toHaveLength(4);
+  });
+});
+
+describe("the cost", () => {
+  it("has no budget unless an address is given for its alerts", () => {
+    template.resourceCountIs("AWS::Budgets::Budget", 0);
+  });
+
+  it("tells by email when the month's cost passes 80 % of the budget, or is forecast to pass it", () => {
+    const budgeted = synth(true, { usd: 30, email: "owner@example.com" });
+
+    budgeted.hasResourceProperties("AWS::Budgets::Budget", {
+      Budget: { BudgetType: "COST", TimeUnit: "MONTHLY", BudgetLimit: { Amount: 30, Unit: "USD" } },
+      NotificationsWithSubscribers: [
+        {
+          Notification: { NotificationType: "ACTUAL", Threshold: 80, ThresholdType: "PERCENTAGE" },
+          Subscribers: [{ SubscriptionType: "EMAIL", Address: "owner@example.com" }],
+        },
+        {
+          Notification: { NotificationType: "FORECASTED", Threshold: 100, ThresholdType: "PERCENTAGE" },
+          Subscribers: [{ SubscriptionType: "EMAIL", Address: "owner@example.com" }],
+        },
+      ],
+    });
   });
 });

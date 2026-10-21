@@ -14,6 +14,7 @@ import {
   OriginRequestPolicy,
   ViewerProtocolPolicy,
 } from "aws-cdk-lib/aws-cloudfront";
+import { CfnBudget } from "aws-cdk-lib/aws-budgets";
 import { HttpOrigin, S3BucketOrigin } from "aws-cdk-lib/aws-cloudfront-origins";
 import { Dashboard, GraphWidget, Metric } from "aws-cdk-lib/aws-cloudwatch";
 import { AttributeType, Billing, TableV2 } from "aws-cdk-lib/aws-dynamodb";
@@ -55,6 +56,10 @@ export interface SmcStackProps extends StackProps {
   viewSets: string[];
   /** The agent's model on Bedrock: an inference profile of the stack's region. */
   model: string;
+  /** Calls to the agent's and the vision model a UTC day, past which the agent uses the policy's words. */
+  modelCallsPerDay: number;
+  /** A monthly cost budget of the account, and who is told by email at 80 % of it and at forecast 100 %. */
+  budget?: { usd: number; email: string };
   /** The service's image; by default built from services/perception/Dockerfile for ARM64. */
   image?: ContainerImage;
 }
@@ -65,7 +70,7 @@ const SERVICE_PORT = 8000;
 const CONTAINER_WORKSPACE = "/home/app/workspace";
 const WORKSPACE_PREFIX = "workspace";
 
-// The export has one index.html per page (/guide/index.html): CloudFront asks
+// The export has one index.html per page (/localise/index.html): CloudFront asks
 // S3 for objects, so a page's path is completed to its file.
 const INDEX_REWRITE = `
 function handler(event) {
@@ -150,6 +155,8 @@ export class SmcStack extends Stack {
         SMC_AGENT_MODEL: props.model,
         SMC_AGENT_EFFORT: "low",
         SMC_AWS_AUTH: "role",
+        // The public demo's model calls are capped: past the cap the agent uses the policy's words.
+        SMC_MODEL_CALLS_PER_DAY: String(props.modelCallsPerDay),
       },
     });
     workspace.grantRead(task.taskRole, `${WORKSPACE_PREFIX}/*`);
@@ -294,6 +301,31 @@ export class SmcStack extends Stack {
         ],
       ],
     });
+
+    // ---- cost ----------------------------------------------------------------------
+
+    // The account's monthly cost, told by email before it runs over: a public demo is called by anyone.
+    if (props.budget) {
+      const subscribers = [{ subscriptionType: "EMAIL", address: props.budget.email }];
+      new CfnBudget(this, "CostBudget", {
+        budget: {
+          budgetName: `${id}-monthly`,
+          budgetType: "COST",
+          timeUnit: "MONTHLY",
+          budgetLimit: { amount: props.budget.usd, unit: "USD" },
+        },
+        notificationsWithSubscribers: [
+          {
+            notification: { notificationType: "ACTUAL", comparisonOperator: "GREATER_THAN", threshold: 80, thresholdType: "PERCENTAGE" },
+            subscribers,
+          },
+          {
+            notification: { notificationType: "FORECASTED", comparisonOperator: "GREATER_THAN", threshold: 100, thresholdType: "PERCENTAGE" },
+            subscribers,
+          },
+        ],
+      });
+    }
 
     new CfnOutput(this, "SiteUrl", { value: `https://${distribution.distributionDomainName}` });
     new CfnOutput(this, "WorkspaceBucket", { value: workspace.bucketName });

@@ -76,8 +76,14 @@ system is built around one narrow, measurable question from the proposal:
    or presents a reliable result with the next maintenance step for approval. Every step is written to a
    trace.
 
-The Guide page runs this on a stream: the phone's camera, or a recorded video stepped through. Each frame
-is localised from the printed markers in it, in well under a second. Over the image it shows:
+The Localise page runs this on a stream: the phone's camera, or a recorded video stepped through. A frame
+is localised from the printed markers in it, in well under a second. A live camera goes step by step:
+while it moves nothing is sent; once it has held steady for 0.6 s, or not moved for 2 s, frames are sent
+until three in a row give the same move, and that move stands until the camera moves again (below). On a
+phone the running camera takes the whole screen, as an app does, with Exit and the settings over its top
+and the instruction, the agent and its buttons over its bottom; the settings hide or show each layer and
+turn the voice on. Added to the home screen, the page opens without the browser's bars. Over the image it
+shows:
 
 - the panel the target is behind, tinted and named;
 - the target's box, dashed through that panel;
@@ -89,18 +95,21 @@ is localised from the printed markers in it, in well under a second. Over the im
   verdict then sets the colour of the box: the policy's checks judge a hidden target, a target in sight
   is judged by its tag.
 
-The agent is told of a move once it has held for three frames, at most every four seconds, and never
-while the target's tag is in sight. It asks for the move in its own words and then for approval of the
-next step, opening the panel. Once the panel is open, the target's tag confirms the prediction in the
-frame, and Amazon Nova looks at the target's region as a second opinion. The Locate and Agent pages show
-the same steps on recorded viewpoints, with every landmark and quality check.
+The agent is told of a move once it has held for three frames, at most every four seconds, and never while
+the target's tag is in sight; a move that comes sooner is told when the four seconds have passed. It asks
+for the move in its own words and then for approval of the next step, opening the panel. Once the panel is
+open, the target's tag confirms the prediction in the frame, and Amazon Nova looks at the target's region
+as a second opinion. The Demo page shows the same steps on recorded viewpoints, with every landmark and
+quality check: the judge is the operator and picks the next view. Both end in a summary of the session,
+one row per view or instruction: what OpenCV measured, what the policy decided from it, what the agent did
+with that decision and what the operator did next.
 
 ## 4. Architecture
 
 ```mermaid
 flowchart LR
   subgraph browser["Browser"]
-    web["Web app<br/>Next.js static export<br/>Guide · Locate · Agent · Atlas"]
+    web["Web app<br/>Next.js static export<br/>Demo · Localise · Atlas"]
   end
   subgraph service["Perception service · FastAPI · Docker"]
     api["HTTP API<br/>/frames · /localise · /sessions · /atlases · /view-sets"]
@@ -156,8 +165,9 @@ flowchart TD
 - **Human control.** The graph stops (`interrupt`) for every move and for the final approval. A
   checkpointer keeps the session between requests: in memory today, DynamoDB on AWS.
 - **Observability.** Every node appends numbered trace events (`perception`, `decision`, `agent`, `tool`,
-  `guard`, `fallback`, `human`). The Agent page shows them, and the evaluation saves them for every
-  session ([eval/results/cabinet-2026-10-09/traces](../eval/results/cabinet-2026-10-09/traces)).
+  `guard`, `fallback`, `human`). The Demo page shows them under the session's summary, and the evaluation
+  saves them for every session
+  ([eval/results/cabinet-2026-10-09/traces](../eval/results/cabinet-2026-10-09/traces)).
 
 ## 6. OpenCV 5 implementation
 
@@ -221,6 +231,37 @@ geometrically and outlined in the frame. The target is drawn as its 3D box, dash
 the target's tag is in sight. The frame is then localised and decided on as above, with 200 Monte Carlo
 samples. With the tag in sight, its centre (the crossing of its diagonals) is held against the projected
 target, and that check is reported.
+
+**Step by step.** A hand-held camera never stops quite still, and the policy's move flips at its own
+thresholds: an asset a little past a quarter of the frame off centre is to the left, a little short of it
+is in the middle. Analysing every frame turned that into an arrow flicking left and right as the
+operator's hand shook. The page therefore tells the camera's motion from its own picture, before
+anything is sent: each video frame drawn 160 px on its longer side, in grey, and its change from the
+frame before, the mean absolute difference of the two less their mean brightness, since a phone facing a
+white cabinet keeps changing its exposure. On the two walk-arounds (`tools/motion_limit.py`, 1673 pairs
+of consecutive frames with markers) the change ranks the pairs as the markers' own motion does
+(Spearman 0.94):
+
+| Markers' motion between frames (px) | Pairs | Change, p10 | Median | p90 |
+|---|---|---|---|---|
+| 0–0.5 | 145 | 0.46 | 0.55 | 0.68 |
+| 0.5–1 | 257 | 0.57 | 0.71 | 1.04 |
+| 1–2 | 330 | 0.80 | 1.05 | 1.55 |
+| 2–4 | 384 | 1.41 | 1.94 | 2.77 |
+| 4–8 | 371 | 2.23 | 3.02 | 4.08 |
+| 8–16 | 183 | 3.47 | 4.61 | 5.63 |
+
+The thresholds were first set from this table alone, steady below 1.0, and on the phone the page never
+analysed a view. Those videos come from the Camera app, which steadies the picture; a browser's camera
+does not, and a hand holding a phone "still" moves it a few pixels a frame. The camera now counts as
+moving only above 3.5 (89% of the pairs whose markers moved 8 px or more) and as steady below 2.5 (94% of
+those that moved under 4 px), the change taken as its median over the last 0.3 s so that one shaken frame
+is no move. Steady for 0.6 s, or not moving for 2 s whatever its tremor, the view is analysed: frames are
+sent until a move holds for three in a row, at most six, and the move then stands, spoken once and handed
+to the agent once, until the camera moves again. While it moves or settles the overlay is not drawn, as
+the last frame's would stand still on a moving picture, and the last move is shown faded. The settings
+show the camera's change as it is measured, against both thresholds, so they can be set from a phone's own
+stream. A recorded video cannot hold still on request, so each of its steps is sent as before.
 
 **Motion blur.** A frame taken while the camera moves localises with a small reprojection error and a
 pose that is off all the same: every marker is smeared the same way, so the fit stays consistent while
@@ -289,6 +330,7 @@ flowchart LR
 | Model inference | Amazon Bedrock (Nova 2 Lite), signed by the task role, allowed this model only |
 | Logs and metrics | CloudWatch: container logs, Container Insights, a dashboard of requests, errors, latency, CPU and memory |
 | Credentials | IAM roles only: no long-lived key is stored in AWS, so Secrets Manager has nothing to hold |
+| Cost | A cap of 1000 model calls a UTC day (`SMC_MODEL_CALLS_PER_DAY`), past which the agent speaks with the policy's words; an AWS Budgets alert by email at 80% of a monthly budget and at a forecast 100% |
 
 The image built from `services/perception/Dockerfile` for ARM64 starts with the task role's signing,
 read-only, and answers `/health` and `/frames`.
@@ -432,14 +474,14 @@ AWS stack.
 **Built and tested:**
 - calibration, rig boards, atlas building, localisation, uncertainty, decision policy;
 - the agent loop with Nova, guards, fallbacks and trace;
-- the sessions API and the Locate, Agent and Atlas pages; the Atlas page gives a view set its points
-  from the printed markers or from clicks in its annotator;
+- the sessions API and the Demo, Localise and Atlas pages, with a summary of every session; the Atlas page
+  gives a view set its points from the printed markers or from clicks in its annotator;
 - the evaluation (§8);
 - the X-ray view;
 - printed ArUco landmarks with automatic annotation and a tag-oriented target, validated on synthetic
   frames;
-- the frames pipeline and the Guide page (camera and video file), tested in Chrome with
-  a fake camera;
+- the frames pipeline and the Localise page (camera and video file), step by step on a live camera and
+  full screen on a phone, tested in Chrome with a stand-in camera;
 - confirming the target when the panel opens, with Nova's second opinion;
 - motion blur measured on every frame's markers, held against a calibrated limit, with HOLD_STILL;
 - the AWS stack as code, with tests of its template and a local run of its image.

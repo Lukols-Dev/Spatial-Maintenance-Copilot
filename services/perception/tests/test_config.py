@@ -430,3 +430,22 @@ def test_the_workspace_s3_url_is_checked(monkeypatch: pytest.MonkeyPatch, url: s
 
     with pytest.raises(ValidationError, match="smc_workspace_s3"):
         service_settings()
+
+
+# ---- the daily cap on model calls ---------------------------------------------------
+
+
+def test_without_a_cap_the_models_are_called_as_they_are(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.delenv("SMC_MODEL_CALLS_PER_DAY", raising=False)
+
+    assert agent.budget() is None
+
+
+def test_a_cap_is_one_budget_for_the_process(monkeypatch: pytest.MonkeyPatch) -> None:
+    agent._budget.cache_clear()
+    monkeypatch.setenv("SMC_MODEL_CALLS_PER_DAY", "1000")
+
+    first, again = agent.budget(), agent.budget()
+
+    assert first is not None and first.limit == 1000
+    assert first is again

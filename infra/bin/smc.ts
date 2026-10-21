@@ -8,6 +8,10 @@ import { SmcStack } from "../lib/smc-stack";
 // in cdk.json's context, or with -c on the command line:
 //
 //   npx cdk deploy -c atlases='["szafka"]' -c viewSets='["szafka-b"]'
+//
+// A cost budget with an email alert is set only when an address is given:
+//
+//   npx cdk deploy -c budgetEmail=you@example.com -c budgetUsd=30
 
 const app = new App();
 const context = (key: string) => app.node.tryGetContext(key) as unknown;
@@ -20,6 +24,13 @@ const list = (key: string): string[] => {
   return parsed;
 };
 
+const number = (key: string): number => {
+  const value = Number(context(key));
+  if (!Number.isFinite(value) || value <= 0) throw new Error(`context ${key} must be a positive number`);
+  return value;
+};
+const budgetEmail = context("budgetEmail");
+
 new SmcStack(app, "SpatialMaintenanceCopilot", {
   env: { account: process.env.CDK_DEFAULT_ACCOUNT, region: String(context("region")) },
   description: "Spatial Maintenance Copilot: web app, perception service and agent",
@@ -27,4 +38,6 @@ new SmcStack(app, "SpatialMaintenanceCopilot", {
   atlases: list("atlases"),
   viewSets: list("viewSets"),
   model: String(context("model")),
+  modelCallsPerDay: number("modelCallsPerDay"),
+  budget: typeof budgetEmail === "string" && budgetEmail ? { usd: number("budgetUsd"), email: budgetEmail } : undefined,
 });

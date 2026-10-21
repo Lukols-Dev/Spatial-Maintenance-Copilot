@@ -128,6 +128,12 @@ class ServiceSettings(BaseSettings):
     smc_sessions_table: str | None = Field(
         default=None, description="the DynamoDB table of the agent's sessions; None: in memory"
     )
+    smc_model_calls_per_day: int | None = Field(
+        default=None,
+        ge=1,
+        description="calls to the agent's and the vision model a UTC day (smc_agent.budget); "
+        "None: no cap",
+    )
 
     @field_validator("smc_read_only", mode="before")
     @classmethod

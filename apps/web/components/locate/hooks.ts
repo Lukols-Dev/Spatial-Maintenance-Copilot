@@ -1,11 +1,9 @@
 "use client";
 
-import { useCallback, useEffect, useState, useSyncExternalStore } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { errorMessage } from "@/lib/api";
-import { localise } from "@/lib/locate/api";
-import { createSession, IDLE, type Shown } from "@/lib/locate/session";
-import { createTraceStore, type StorageLike, type TraceStep } from "@/lib/locate/trace";
+import type { StorageLike } from "@/lib/locate/trace";
 
 /** sessionStorage, or null where the browser blocks it. */
 export function sessionStore(): StorageLike | null {
@@ -14,31 +12,6 @@ export function sessionStore(): StorageLike | null {
   } catch {
     return null;
   }
-}
-
-/** The traces of this tab, shared by every component that shows one. */
-export const traces = createTraceStore(sessionStore);
-
-/** The localisations of this page. */
-export const session = createSession({ localise, traces, now: () => new Date().toISOString() });
-
-const NO_STEPS: readonly TraceStep[] = [];
-
-export function useTraceSteps(key: string): readonly TraceStep[] {
-  return useSyncExternalStore(
-    traces.subscribe,
-    () => traces.steps(key),
-    () => NO_STEPS,
-  );
-}
-
-/** What the session shows for the trace under `key`. The prerendered HTML shows nothing. */
-export function useShown(key: string): Shown {
-  return useSyncExternalStore(
-    session.subscribe,
-    () => session.shown(key),
-    () => IDLE,
-  );
 }
 
 export type Loaded<T> = { status: "loading" } | { status: "ready"; data: T } | { status: "error"; message: string };

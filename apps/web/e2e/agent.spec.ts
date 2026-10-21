@@ -1,6 +1,7 @@
 import { expect, test, type Page } from "@playwright/test";
 
 import type { SessionTurn } from "../lib/agent/types";
+import type { AtlasDetail, Workspace } from "../lib/workspace";
 import { example, makeViews, routeJson, stubHealth, stubWorkspace, type Stub } from "./helpers";
 
 // workspace-agent.json has the synthetic cabinet's atlas, home-cabinet, and one
@@ -64,7 +65,7 @@ async function kinds(page: Page): Promise<string[]> {
 }
 
 async function startAtB(page: Page) {
-  await page.goto("/agent/");
+  await page.goto("/");
   await expect(agent(page)).toHaveAttribute("data-status", "none");
   await viewpoint(page, "B_close.png").click();
   await expect(agent(page)).toHaveAttribute("data-status", "view");
@@ -101,6 +102,19 @@ test("a session runs from the policy's move to the operator's approval, every st
   await expect(agent(page).getByRole("status")).toHaveText("Accepted");
   await expect(traceRows(page)).toHaveCount(9);
 
+  // The session view by view: each measurement next to the decision and the action it led to.
+  const summary = page.getByRole("region", { name: "Session" });
+  const rows = summary.locator("tbody tr");
+  await expect(rows).toHaveCount(2);
+  await expect(summary.locator("[data-part=session-headline]")).toContainText("2 views · accepted at view 2");
+  await expect(summary.locator("[data-part=session-headline]")).toContainText("next step approved");
+  await expect(rows.nth(0)).toContainText("B_close.png");
+  await expect(rows.nth(0)).toContainText("Move closer");
+  await expect(rows.nth(0)).toContainText("Asked: move closer");
+  await expect(rows.nth(0)).toContainText("Chose A_close.png");
+  await expect(rows.nth(1)).toContainText("Reliable");
+  await expect(rows.nth(1)).toContainText("Approved");
+
   await agent(page).getByRole("button", { name: "New session" }).click();
   await expect(agent(page)).toHaveAttribute("data-status", "none");
   await expect(traceRows(page)).toHaveCount(0);
@@ -108,7 +122,7 @@ test("a session runs from the policy's move to the operator's approval, every st
 
 test("the strip offers only viewpoints with the target hidden, and starts a session from the first", async ({ page }) => {
   const service = await serve(page);
-  await page.goto("/agent/");
+  await page.goto("/");
 
   await expect(page.locator("button[data-view]")).toHaveCount(3);
   await expect(viewpoint(page, "A_open.png")).toHaveCount(0);
@@ -116,6 +130,30 @@ test("the strip offers only viewpoints with the target hidden, and starts a sess
 
   await expect(agent(page)).toHaveAttribute("data-status", "view");
   expect(service.start.bodies).toEqual([{ asset_id: "home-cabinet", view_set: SET, view: "A_close.png" }]);
+});
+
+test("the page opens on the newest atlas with viewpoints, and still offers a newer one without", async ({ page }) => {
+  await serve(page);
+  // As a deployment serves view sets of some atlases only: no set marks a landmark of the newer one.
+  const data = example<Workspace>("workspace-agent.json");
+  const [cabinet] = data.atlases;
+  data.atlases = [
+    { ...cabinet, asset_id: "marker-cabinet", file: "marker-cabinet.json", built_at: "2026-10-15T16:00:19+02:00" },
+    cabinet,
+  ];
+  await stubWorkspace(page, data);
+  const markers = example<AtlasDetail>("atlas-agent.json");
+  markers.atlas.asset_id = "marker-cabinet";
+  markers.atlas.landmarks = markers.atlas.landmarks.map((landmark, index) => ({ ...landmark, id: `m${50 + index}_0` }));
+  await routeJson(page, "GET", "**/atlases/marker-cabinet", markers);
+
+  await page.goto("/");
+
+  await expect(page.locator("#agent-asset")).toHaveText("home-cabinet");
+  await expect(page.locator("button[data-view]")).toHaveCount(3);
+  await page.locator("#agent-asset").click();
+  await page.getByRole("option", { name: "marker-cabinet" }).click();
+  await expect(page.getByText("No viewpoints with the target hidden")).toBeVisible();
 });
 
 test("the viewpoints the agent suggests are marked, and one is chosen from the agent's panel", async ({ page }) => {
@@ -141,7 +179,7 @@ test("a reload reads the session back from the service", async ({ page }) => {
 
   await expect(agent(page)).toHaveAttribute("data-status", "view");
   expect(service.session.bodies).toHaveLength(1);
-  await expect(page).toHaveURL(/\/agent\/$/);
+  await expect(page).toHaveURL(/:\d+\/$/);
   expect(await page.evaluate(() => Object.values(sessionStorage))).toContain(ID);
 });
 
@@ -165,7 +203,7 @@ test("the page shows facts and controls, no instructions, and logs no error", as
   page.on("console", (message) => {
     // The sidebar prefetches every page it lists; only this page's errors count.
     const where = new URL(message.location().url || "about:blank").pathname;
-    if (message.type() === "error" && (where === "/agent/" || where === "about:blank")) errors.push(message.text());
+    if (message.type() === "error" && (where === "/" || where === "about:blank")) errors.push(message.text());
   });
   page.on("pageerror", (error) => errors.push(error.message));
   await serve(page);

@@ -16,10 +16,14 @@ describe("titleFor", () => {
       expect(titleFor(href)).toBe(title);
       expect(titleFor(`${href}/`)).toBe(title);
     }
-    expect(titleFor("/")).toBe("Locate");
+    expect(titleFor("/")).toBe("Demo");
+    expect(titleFor("/localise/")).toBe("Localise");
     expect(titleFor("/atlas/annotate/")).toBe("Annotate");
     expect(titleFor("/annotate/")).toBe("Not found");
     expect(titleFor("/demo/")).toBe("Not found");
+    // The pages Demo and Localise replaced are gone.
+    expect(titleFor("/agent/")).toBe("Not found");
+    expect(titleFor("/guide/")).toBe("Not found");
     expect(titleFor("/atlas/no-such-page/")).toBe("Not found");
   });
 });
@@ -27,6 +31,7 @@ describe("titleFor", () => {
 describe("sectionFor", () => {
   it("is the page itself for a listed page, the parent for a sub-page, and nothing otherwise", () => {
     expect(sectionFor("/")).toBe("/");
+    expect(sectionFor("/localise/")).toBe("/localise");
     expect(sectionFor("/atlas/")).toBe("/atlas");
     expect(sectionFor("/atlas/annotate/")).toBe("/atlas");
     expect(sectionFor("/atlas/no-such-page/")).toBeUndefined();

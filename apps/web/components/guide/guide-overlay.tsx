@@ -5,19 +5,33 @@ import { useMemo } from "react";
 import { useElementSize } from "@/components/locate/hooks";
 import { ellipseTransform, imagePixelsPerScreenPixel, svgNumber } from "@/lib/locate/geometry";
 import { guideOverlayOf } from "@/lib/guide/overlay";
+import { DEFAULT_SETTINGS, type GuideLayer } from "@/lib/guide/settings";
 import type { FrameAnswer } from "@/lib/guide/types";
 import { cn } from "@/lib/utils";
 
 // The answer for a frame drawn over the video: the panel the target is
 // behind, the target's box through it, its 95 % region, the landmarks found,
 // and the target's tag once the panel is open. The <svg> has the frame as its viewBox and sits on the
-// <video> with the same fit, so every position is a frame pixel.
+// <video> with the same fit, contained or covering, so every position is a frame pixel.
 
 const REGION_STROKE = { reliable: "stroke-emerald-400", unreliable: "stroke-amber-400" } as const;
 
-export function GuideOverlay({ answer, width, height }: { answer: FrameAnswer | null; width: number; height: number }) {
+export function GuideOverlay({
+  answer,
+  width,
+  height,
+  fit = "contain",
+  layers = DEFAULT_SETTINGS.layers,
+}: {
+  answer: FrameAnswer | null;
+  width: number;
+  height: number;
+  /** As the <video> under it is fitted: whole in its box, or filling it with the edges cut. */
+  fit?: "contain" | "cover";
+  layers?: Record<GuideLayer, boolean>;
+}) {
   const [boxRef, box] = useElementSize<SVGSVGElement>();
-  const k = box ? imagePixelsPerScreenPixel(width, height, box.width, box.height) : 2;
+  const k = box ? imagePixelsPerScreenPixel(width, height, box.width, box.height, fit) : 2;
   const overlay = useMemo(() => (answer ? guideOverlayOf(answer) : null), [answer]);
   const dash = `${svgNumber(8 * k)} ${svgNumber(6 * k)}`;
 
@@ -25,14 +39,14 @@ export function GuideOverlay({ answer, width, height }: { answer: FrameAnswer | 
     <svg
       ref={boxRef}
       viewBox={`0 0 ${width} ${height}`}
-      preserveAspectRatio="xMidYMid meet"
+      preserveAspectRatio={fit === "contain" ? "xMidYMid meet" : "xMidYMid slice"}
       className="pointer-events-none absolute inset-0 size-full"
       aria-hidden
       data-frame={answer?.frame_id ?? ""}
     >
       {overlay && (
         <>
-          {overlay.occluder && (
+          {layers.occluder && overlay.occluder && (
             <g data-layer="occluder">
               <path
                 data-part="occluder"
@@ -58,7 +72,7 @@ export function GuideOverlay({ answer, width, height }: { answer: FrameAnswer | 
               </text>
             </g>
           )}
-          {overlay.region && (
+          {layers.region && overlay.region && (
             <ellipse
               data-part="region"
               data-style={overlay.style}
@@ -72,7 +86,7 @@ export function GuideOverlay({ answer, width, height }: { answer: FrameAnswer | 
               strokeDasharray={overlay.style === "unreliable" ? dash : undefined}
             />
           )}
-          {overlay.target && (
+          {layers.target && overlay.target && (
             <path
               data-part="target-box"
               data-hidden={overlay.target.hidden ? "true" : "false"}
@@ -83,7 +97,7 @@ export function GuideOverlay({ answer, width, height }: { answer: FrameAnswer | 
               strokeLinecap="round"
             />
           )}
-          {overlay.marks.map((mark, index) => (
+          {(layers.landmarks ? overlay.marks : []).map((mark, index) => (
             <circle
               key={index}
               data-part="landmark"

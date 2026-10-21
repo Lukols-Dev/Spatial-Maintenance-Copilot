@@ -1,3 +1,4 @@
+import { grey, sampleSize } from "@/lib/guide/motion";
 import type { FrameSource } from "@/lib/guide/store";
 
 // The frames of the Guide page, from a <video> element: the camera as it
@@ -36,6 +37,23 @@ function nextVideoFrame(video: HTMLVideoElement): Promise<void> {
   });
 }
 
+/** Draws a video's current picture small and grey, as lib/guide/motion measures motion on. */
+function sampler(): (video: HTMLVideoElement) => Uint8ClampedArray | null {
+  const canvas = document.createElement("canvas");
+  const context = canvas.getContext("2d", { willReadFrequently: true });
+  return (video) => {
+    if (!context || video.videoWidth === 0 || video.videoHeight === 0) return null;
+    const size = sampleSize(video.videoWidth, video.videoHeight);
+    if (canvas.width !== size.width) canvas.width = size.width;
+    if (canvas.height !== size.height) canvas.height = size.height;
+    // Averaged down rather than picked, as the thresholds were measured.
+    context.imageSmoothingEnabled = true;
+    context.imageSmoothingQuality = "high";
+    context.drawImage(video, 0, 0, size.width, size.height);
+    return grey(context.getImageData(0, 0, size.width, size.height).data);
+  };
+}
+
 /**
  * A camera's width and height as getUserMedia takes them: the longer side as the width. Browsers apply
  * the two in landscape and turn the frames of a phone held upright, so a phone asked for 1920 × 1080 gives
@@ -59,9 +77,17 @@ export async function cameraSource(
   video.muted = true;
   await video.play();
   const canvas = document.createElement("canvas");
+  const sample = sampler();
   return {
     live: true,
     size: () => (video.videoWidth > 0 ? { width: video.videoWidth, height: video.videoHeight } : null),
+    async look(signal) {
+      for (;;) {
+        await Promise.race([nextVideoFrame(video), aborted(signal)]);
+        const pixels = sample(video);
+        if (pixels) return { pixels, at: performance.now() };
+      }
+    },
     async next(signal) {
       // Until the stream has a frame to draw, wait for the next one.
       for (;;) {

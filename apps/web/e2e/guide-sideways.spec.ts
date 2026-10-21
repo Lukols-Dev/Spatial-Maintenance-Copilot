@@ -19,7 +19,7 @@ test("a camera held sideways sends no frame and asks for the phone upright, stil
     sent += 1;
     await route.fulfill({ status: 201, json: example("frame-answer.json") });
   });
-  await page.goto("/guide");
+  await page.goto("/localise");
 
   await page.getByRole("button", { name: "Camera" }).click();
 

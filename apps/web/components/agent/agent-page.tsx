@@ -6,6 +6,8 @@ import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { agent, useAgentView } from "@/components/agent/hooks";
 import { AgentPanel } from "@/components/agent/agent-panel";
 import { AgentTrace } from "@/components/agent/agent-trace";
+import { SessionSummaryCard } from "@/components/agent/session-summary";
+import { summarise } from "@/lib/agent/summary";
 import { DecisionPanel } from "@/components/locate/decision-panel";
 import { useLoaded } from "@/components/locate/hooks";
 import { LayerToggles } from "@/components/locate/layer-toggles";
@@ -45,9 +47,11 @@ import {
 import { cn } from "@/lib/utils";
 import { getAtlas, getViewSet, refreshWorkspace, useWorkspace, type Workspace } from "@/lib/workspace";
 
-// A session of the agent on recorded viewpoints: the operator gives a view,
-// the geometry localises the hidden target, the policy decides, and the agent
-// asks for the move the policy chose, or for approval of the next step.
+// The Demo: a session of the agent on recorded viewpoints of the cabinet. The
+// operator gives a view, the geometry localises the hidden target, the policy
+// decides, and the agent asks for the move the policy chose, or for approval
+// of the next step. The session's summary puts each view's measurement next to
+// the decision and the action it led to.
 
 const loadAtlas = (id: string, signal: AbortSignal) => getAtlas(id, { signal });
 const loadViewSet = (name: string, signal: AbortSignal) => getViewSet(name, { signal });
@@ -77,14 +81,25 @@ export function AgentPage() {
 function Agent({ workspace, problem }: { workspace: Workspace; problem: string | null }) {
   const [wanted, setWanted] = useState<{ asset: string | null; set: string | null }>({ asset: null, set: null });
   const [layers, setLayers] = useState<Layers>(ALL_LAYERS);
+  // Atlases the page opened on its own and found no viewpoints of. A deployment
+  // serves the view sets of some atlases only; the page goes on to the next newest.
+  const [passedOver, setPassedOver] = useState<readonly string[]>([]);
 
   const atlases = useMemo(() => atlasOptions(workspace), [workspace]);
-  const assetId = pickAtlas(atlases, wanted.asset);
+  const assetId = pickAtlas(atlases, wanted.asset, passedOver);
   const summary = atlases.find((atlas) => atlas.asset_id === assetId) ?? null;
   const atlasRead = useLoaded(assetId, summary?.built_at ?? "", loadAtlas);
   const detail = atlasRead.state.status === "ready" ? atlasRead.state.data : null;
 
   const sets = useMemo(() => (detail ? viewpointSets(workspace, detail.atlas) : []), [workspace, detail]);
+  const passOver =
+    wanted.asset === null &&
+    assetId !== null &&
+    detail !== null &&
+    sets.length === 0 &&
+    atlases.some((atlas) => atlas.error === null && atlas.asset_id !== assetId && !passedOver.includes(atlas.asset_id));
+  // Set while rendering, as React adjusts state from what a render found: the next render opens the next atlas.
+  if (passOver && assetId !== null && !passedOver.includes(assetId)) setPassedOver([...passedOver, assetId]);
   const buildSet = detail ? buildSetOf(detail) : null;
   const setName = detail ? pickViewSet(sets, buildSet, wanted.asset === assetId ? wanted.set : null) : null;
   const setSummary = sets.find((set) => set.name === setName) ?? null;
@@ -157,7 +172,7 @@ function Agent({ workspace, problem }: { workspace: Workspace; problem: string |
       />,
     );
   }
-  if (!detail) return frame(<BodySkeleton />);
+  if (!detail || passOver) return frame(<BodySkeleton />);
   if (setName === null || (viewpoints !== null && viewpoints.length === 0)) {
     return frame(
       <State
@@ -246,7 +261,15 @@ function Session({
   }
 
   return (
-    <Page toolbar={toolbar} below={<AgentTrace events={state.events} className="m-3 @5xl:m-4" />}>
+    <Page
+      toolbar={toolbar}
+      below={
+        <div className="space-y-3 p-3 @5xl:space-y-4 @5xl:p-4">
+          <SessionSummaryCard summary={summarise(state.events, state.steps)} model={state.model} />
+          <AgentTrace events={state.events} />
+        </div>
+      }
+    >
       <div className={GRID}>
         <ViewpointStrip
           set={set}
