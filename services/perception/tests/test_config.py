@@ -24,16 +24,25 @@ MODEL_VARIABLES = [
     "SMC_BEDROCK_REGION",
     "SMC_AGENT_MODEL",
     "SMC_AGENT_EFFORT",
+    "SMC_AWS_AUTH",
     "AWS_ACCESS_KEY_ID",
     "AWS_SECRET_ACCESS_KEY",
 ]
-SERVICE_VARIABLES = ["SMC_WORKSPACE", "SMC_READ_ONLY", "CORS_ALLOWED_ORIGINS"]
+REQUIRED_VARIABLES = MODEL_VARIABLES[:4]
+SERVICE_VARIABLES = [
+    "SMC_WORKSPACE",
+    "SMC_READ_ONLY",
+    "CORS_ALLOWED_ORIGINS",
+    "SMC_WORKSPACE_S3",
+    "SMC_SESSIONS_TABLE",
+]
 # AWS's documented example key: gitleaks passes it, and any other AKIA… id looks real to it.
 KEY_ID = "AKIAIOSFODNN7EXAMPLE"
 SECRET = "wJalrXUtnFEMIK7MDENGbPxRfiCYEXAMPLEKEY01"
 COMPLETE = (
     "SMC_BEDROCK_REGION=eu-central-1\nSMC_AGENT_MODEL=anthropic.claude-opus-5-5\n"
-    f"SMC_AGENT_EFFORT=low\nAWS_ACCESS_KEY_ID={KEY_ID}\nAWS_SECRET_ACCESS_KEY={SECRET}\n"
+    "SMC_AGENT_EFFORT=low\nSMC_AWS_AUTH=keys\n"
+    f"AWS_ACCESS_KEY_ID={KEY_ID}\nAWS_SECRET_ACCESS_KEY={SECRET}\n"
 )
 
 
@@ -106,13 +115,14 @@ def test_the_env_file_is_the_service_s_unless_another_is_named(
 
 
 def test_with_nothing_set_every_model_setting_is_missing() -> None:
+    """The keys are asked for once SMC_AWS_AUTH says they sign: see the start's tests."""
     with pytest.raises(ValidationError) as caught:
         model_settings()
 
     missing = [
         problem["loc"][0] for problem in caught.value.errors() if problem["type"] == "missing"
     ]
-    assert [str(name).upper() for name in missing] == MODEL_VARIABLES
+    assert [str(name).upper() for name in missing] == REQUIRED_VARIABLES
 
 
 def test_an_empty_value_is_a_missing_value(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
@@ -209,8 +219,9 @@ def test_the_start_logs_what_is_configured_and_never_a_secret(
     assert f"workspace {tmp_path.resolve()}" in logged
     assert (
         "agent model anthropic.claude-opus-5-5 in eu-central-1, effort low, "
-        f"AWS key AKIA…MPLE, from {env}"
+        f"signed by AWS key AKIA…MPLE, from {env}"
     ) in logged
+    assert "agent sessions in memory" in logged
     assert SECRET not in logged
     assert KEY_ID not in logged
 
@@ -225,8 +236,8 @@ def test_the_start_stops_and_lists_every_missing_variable(
         check()
 
     assert str(caught.value) == (
-        f"{env} is missing: SMC_BEDROCK_REGION, SMC_AGENT_EFFORT, AWS_ACCESS_KEY_ID, "
-        "AWS_SECRET_ACCESS_KEY - see services/perception/.env.example"
+        f"{env} is missing: SMC_BEDROCK_REGION, SMC_AGENT_EFFORT, SMC_AWS_AUTH "
+        "- see services/perception/.env.example"
     )
 
 
@@ -238,7 +249,7 @@ def test_the_start_names_the_missing_and_the_invalid_apart(
         monkeypatch,
         complete_but(
             ("SMC_BEDROCK_REGION=eu-central-1", "SMC_BEDROCK_REGION=Frankfurt"),
-            (f"AWS_SECRET_ACCESS_KEY={SECRET}\n", ""),
+            ("SMC_AGENT_EFFORT=low\n", ""),
         ),
     )
     monkeypatch.setenv("SMC_WORKSPACE", str(tmp_path))
@@ -247,9 +258,57 @@ def test_the_start_names_the_missing_and_the_invalid_apart(
         check()
 
     assert (
-        "is missing: AWS_SECRET_ACCESS_KEY - invalid: SMC_BEDROCK_REGION should be an AWS region"
+        "is missing: SMC_AGENT_EFFORT - invalid: SMC_BEDROCK_REGION should be an AWS region"
         in str(caught.value)
     )
+
+
+# ---- how the calls are signed ------------------------------------------------------------
+
+
+def test_signing_with_keys_needs_both_keys(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    env = use_env_file(
+        tmp_path, monkeypatch, complete_but((f"AWS_SECRET_ACCESS_KEY={SECRET}\n", ""))
+    )
+    monkeypatch.setenv("SMC_WORKSPACE", str(tmp_path))
+
+    with pytest.raises(ConfigError) as caught:
+        check()
+
+    assert str(caught.value) == (
+        f"{env} is missing: AWS_SECRET_ACCESS_KEY - see services/perception/.env.example"
+    )
+
+
+def test_the_task_role_signs_without_keys(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, caplog: pytest.LogCaptureFixture
+) -> None:
+    use_env_file(
+        tmp_path,
+        monkeypatch,
+        "SMC_BEDROCK_REGION=eu-north-1\nSMC_AGENT_MODEL=eu.amazon.nova-2-lite-v1:0\n"
+        "SMC_AGENT_EFFORT=low\nSMC_AWS_AUTH=role\n",
+    )
+    monkeypatch.setenv("SMC_WORKSPACE", str(tmp_path))
+    caplog.set_level(logging.INFO)
+
+    assert check().keys is None
+    assert "signed by the task role" in messages(caplog)
+
+
+def test_the_task_role_takes_no_keys(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    use_env_file(tmp_path, monkeypatch, complete_but(("SMC_AWS_AUTH=keys", "SMC_AWS_AUTH=role")))
+    monkeypatch.setenv("SMC_WORKSPACE", str(tmp_path))
+
+    with pytest.raises(ConfigError, match="takes no keys"):
+        check()
+
+
+def test_only_keys_or_the_role_sign(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    use_env_file(tmp_path, monkeypatch, complete_but(("SMC_AWS_AUTH=keys", "SMC_AWS_AUTH=profile")))
+
+    with pytest.raises(ValidationError, match="smc_aws_auth"):
+        model_settings()
 
 
 def test_a_missing_workspace_stops_the_start(
@@ -316,3 +375,77 @@ def test_a_nova_model_goes_to_the_converse_client(
             "secret_key": SECRET,
         }
     ]
+
+
+def test_with_the_role_the_model_client_gets_no_keys(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    made: list[dict[str, Any]] = []
+    monkeypatch.setattr(
+        agent, "nova_model", lambda *args, **kwargs: made.append({"args": args, **kwargs})
+    )
+    agent._model.cache_clear()
+    use_env_file(
+        tmp_path,
+        monkeypatch,
+        "SMC_BEDROCK_REGION=eu-north-1\nSMC_AGENT_MODEL=eu.amazon.nova-2-lite-v1:0\n"
+        "SMC_AGENT_EFFORT=low\nSMC_AWS_AUTH=role\n",
+    )
+
+    agent.agent_model()
+    agent._model.cache_clear()
+
+    assert made == [
+        {
+            "args": ("eu-north-1", "eu.amazon.nova-2-lite-v1:0", "low"),
+            "access_key": None,
+            "secret_key": None,
+        }
+    ]
+
+
+# ---- where sessions and the workspace live ------------------------------------------------
+
+
+def test_sessions_live_in_memory_unless_a_table_is_named(monkeypatch: pytest.MonkeyPatch) -> None:
+    from langgraph.checkpoint.memory import InMemorySaver
+    from langgraph_checkpoint_aws import DynamoDBSaver
+
+    agent._checkpointer.cache_clear()
+    assert isinstance(agent.checkpointer(), InMemorySaver)
+
+    monkeypatch.setenv("SMC_SESSIONS_TABLE", "smc-sessions")
+    monkeypatch.setenv("AWS_DEFAULT_REGION", "eu-north-1")
+    monkeypatch.setenv("AWS_ACCESS_KEY_ID", KEY_ID)
+    monkeypatch.setenv("AWS_SECRET_ACCESS_KEY", SECRET)
+    found = agent.checkpointer()
+    agent._checkpointer.cache_clear()
+
+    assert isinstance(found, DynamoDBSaver)
+
+
+@pytest.mark.parametrize("url", ["https://bucket/prefix", "s3://", "s3://Bucket_Name/x"])
+def test_the_workspace_s3_url_is_checked(monkeypatch: pytest.MonkeyPatch, url: str) -> None:
+    monkeypatch.setenv("SMC_WORKSPACE_S3", url)
+
+    with pytest.raises(ValidationError, match="smc_workspace_s3"):
+        service_settings()
+
+
+# ---- the daily cap on model calls ---------------------------------------------------
+
+
+def test_without_a_cap_the_models_are_called_as_they_are(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.delenv("SMC_MODEL_CALLS_PER_DAY", raising=False)
+
+    assert agent.budget() is None
+
+
+def test_a_cap_is_one_budget_for_the_process(monkeypatch: pytest.MonkeyPatch) -> None:
+    agent._budget.cache_clear()
+    monkeypatch.setenv("SMC_MODEL_CALLS_PER_DAY", "1000")
+
+    first, again = agent.budget(), agent.budget()
+
+    assert first is not None and first.limit == 1000
+    assert first is again

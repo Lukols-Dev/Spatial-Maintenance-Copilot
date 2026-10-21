@@ -5,6 +5,7 @@ import numpy as np
 
 from smc_core.calibration import Intrinsics
 from smc_core.contracts import Atlas, Pose, ProjectedTarget, Quality, Target, Vec2, View
+from smc_core.xray import target_box
 
 # PnP has a unique solution from four points in general position. Three points
 # can have up to four.
@@ -143,14 +144,13 @@ def measure_quality(pairs: Correspondences, fit: PoseFit, intrinsics: Intrinsics
 
 
 def project_target(target: Target, fit: PoseFit, intrinsics: Intrinsics) -> ProjectedTarget | None:
-    """Put the target centre and the box of its extent into the frame.
+    """Put the target's point and its box into the frame.
 
     Returns None when any corner of the box is behind the camera: OpenCV still
     projects such points, to positions that mean nothing.
     """
     centre = np.array(target.position_mm, np.float64)
-    signs = np.array([[x, y, z] for x in (-1, 1) for y in (-1, 1) for z in (-1, 1)], np.float64)
-    points = np.vstack([centre, centre + signs * np.array(target.extent_mm) / 2])
+    points = np.vstack([centre, target_box(target)])
 
     rotation, _ = cv.Rodrigues(fit["rvec"])
     depth = (points @ rotation.T + fit["tvec"])[:, 2]
@@ -170,6 +170,7 @@ def project_target(target: Target, fit: PoseFit, intrinsics: Intrinsics) -> Proj
         in_frame=in_frame(centre_px, intrinsics["image_size"]),
         outline_px=[(float(x), float(y)) for x, y in outline],
         radius_px=float(np.sqrt(cv.contourArea(outline) / np.pi)),
+        corners_px=[(float(x), float(y)) for x, y in projected[1:]],
     )
 
 

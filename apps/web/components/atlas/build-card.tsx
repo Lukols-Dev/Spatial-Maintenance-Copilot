@@ -2,8 +2,10 @@
 
 import { ChevronRight, Crosshair, Hammer, LoaderCircle } from "lucide-react";
 import Link from "next/link";
-import { Fragment, useEffect, useState, useSyncExternalStore, type FormEvent } from "react";
+import { Fragment, useEffect, useState, type FormEvent } from "react";
 
+import { Elapsed } from "@/components/atlas/elapsed";
+import { FindMarkersDialog } from "@/components/atlas/find-markers-dialog";
 import { ImportViewsDialog } from "@/components/atlas/import-views-dialog";
 import { MeasureBoardDialog } from "@/components/atlas/measure-board-dialog";
 import { Button } from "@/components/ui/button";
@@ -21,6 +23,7 @@ import {
   cameraOptions,
   checkForm,
   initialForm,
+  isTagTarget,
   setOptions,
   targetOptions,
   withViewSet,
@@ -35,7 +38,7 @@ import type { AtlasBuildRequest, Board, Camera, ViewSetSummary, Workspace } from
 const AXES = ["x", "y", "z"] as const;
 
 function annotateHref(set: string): string {
-  return `/annotate/?set=${encodeURIComponent(set)}`;
+  return `/atlas/annotate/?set=${encodeURIComponent(set)}`;
 }
 
 // Each helper gives the facts of one control: a list read as "a · b · c", or one
@@ -101,24 +104,6 @@ function replaced(triple: Triple, index: number, value: string): Triple {
 
 function sameRequest(a: AtlasBuildRequest, b: AtlasBuildRequest | null): boolean {
   return b !== null && JSON.stringify(a) === JSON.stringify(b);
-}
-
-// ---- time ------------------------------------------------------------------------
-
-function everySecond(onTick: () => void) {
-  const timer = setInterval(onTick, 250);
-  return () => clearInterval(timer);
-}
-
-function currentSecond() {
-  return Math.floor(Date.now() / 1000);
-}
-
-/** Whole seconds since `since` (ms), counting while shown. */
-function Elapsed({ since }: { since: number }) {
-  const start = Math.floor(since / 1000);
-  const now = useSyncExternalStore(everySecond, currentSecond, () => start);
-  return <span className="tabular-nums">{Math.max(0, now - start)} s</span>;
 }
 
 // ---- fields ----------------------------------------------------------------------
@@ -225,12 +210,14 @@ function NumberField({
   value,
   onChange,
   integer,
+  describedBy,
 }: {
   id: string;
   label: string;
   value: string;
   onChange: (value: string) => void;
   integer?: boolean;
+  describedBy?: string;
 }) {
   return (
     <div className="min-w-0 space-y-1.5">
@@ -242,6 +229,7 @@ function NumberField({
         step={integer ? 1 : "any"}
         value={value}
         onChange={(event) => onChange(event.target.value)}
+        aria-describedby={describedBy}
         className="tabular-nums"
       />
     </div>
@@ -285,6 +273,8 @@ export function BuildCard({ workspace, onBuilt }: { workspace: Workspace; onBuil
   const existing = workspace.atlases.find((atlas) => atlas.asset_id === form.asset_id.trim());
   const failure = job.status === "failed" && sameRequest(job.request, request) ? job.message : "";
   const targets = targetOptions(workspace, form.view_set);
+  const tag = isTagTarget(workspace, form.view_set, form.target_id);
+  const details = readAtlases();
 
   /** Every change goes through the kept draft, so a dialog finishing later never works on an old one. */
   function change(next: FormDraft) {
@@ -328,13 +318,6 @@ export function BuildCard({ workspace, onBuilt }: { workspace: Workspace; onBuil
                   onChange={(value) => change(withViewSet(keptDraft(), value))}
                   className="flex-1 basis-48"
                 />
-                {set && (
-                  <Button asChild variant="outline">
-                    <Link href={annotateHref(set.name)}>
-                      <Crosshair /> Annotate
-                    </Link>
-                  </Button>
-                )}
                 <ImportViewsDialog
                   workspace={workspace}
                   onImported={(imported) => change(withViewSet(keptDraft(), imported.name))}
@@ -342,6 +325,30 @@ export function BuildCard({ workspace, onBuilt }: { workspace: Workspace; onBuil
               </div>
               <Facts id="atlas-view-set-facts" facts={set ? setFacts(set) : null} />
             </div>
+
+            {set && (
+              <div role="group" aria-labelledby="atlas-points" className="space-y-1.5">
+                <p id="atlas-points" className="text-sm leading-none font-medium">
+                  Points
+                </p>
+                <div className="flex flex-wrap items-center gap-2">
+                  {/* Keyed by set: each set's dialog starts from that set. */}
+                  <FindMarkersDialog
+                    key={set.name}
+                    workspace={workspace}
+                    set={set}
+                    details={details}
+                    form={form}
+                    onMarked={(marked) => edit(marked)}
+                  />
+                  <Button asChild variant="outline">
+                    <Link href={annotateHref(set.name)}>
+                      <Crosshair /> Annotate
+                    </Link>
+                  </Button>
+                </div>
+              </div>
+            )}
 
             <div className="space-y-1.5">
               <Label htmlFor="atlas-camera">Camera</Label>
@@ -393,6 +400,19 @@ export function BuildCard({ workspace, onBuilt }: { workspace: Workspace; onBuil
               values={form.target_extent_mm}
               onChange={(values) => edit({ target_extent_mm: values })}
             />
+
+            {tag && (
+              <div className="space-y-1.5">
+                <NumberField
+                  id="atlas-tag-depth"
+                  label="Tag depth (mm)"
+                  value={form.target_tag_depth_mm}
+                  onChange={(value) => edit({ target_tag_depth_mm: value })}
+                  describedBy="atlas-tag-depth-facts"
+                />
+                <Facts id="atlas-tag-depth-facts" facts={`The box behind the tag of ${form.target_id}`} />
+              </div>
+            )}
 
             <div className="space-y-1.5">
               <div className="grid grid-cols-[minmax(0,1fr)_6rem] gap-2">

@@ -60,6 +60,15 @@ boards:
     measured_on: null
 """
 
+# The markers section gen_markers.py asks for, its side not yet measured.
+MARKERS_YAML = """\
+markers:
+  landmark_ids: [50, 60]
+  target_id: 70
+  side_nominal_mm: 40.0
+  side_measured_mm: null
+"""
+
 # The smallest valid EXIF block: a TIFF header and Orientation = 6 ("rotate 90
 # degrees for display"), what a phone held upright writes.
 EXIF_ROTATE_90 = np.frombuffer(

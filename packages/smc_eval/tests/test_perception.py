@@ -37,7 +37,8 @@ def test_the_suggestions_lie_in_the_direction_of_the_move(dataset: Dataset) -> N
     found = perception(dataset)
 
     assert found.suggest(MOVES, Action.MOVE_CLOSER) == [ACCEPTED]
-    assert found.suggest(BLIND, Action.MOVE_BACK) == []
+    # Without a pose: the viewpoints that see every landmark, by name.
+    assert found.suggest(BLIND, Action.MOVE_BACK) == [ACCEPTED, UNSCORED]
 
 
 def test_a_located_view_scores_against_its_truth(dataset: Dataset) -> None:

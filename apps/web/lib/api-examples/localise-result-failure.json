@@ -19,7 +19,8 @@
     "quality": null,
     "pose": null,
     "target": null,
-    "uncertainty": null
+    "uncertainty": null,
+    "occluder": null
   },
   "observations": [
     {
@@ -123,7 +124,8 @@
       "max_rms_reprojection_px": 3.0,
       "min_image_coverage": 0.05,
       "max_failed_sample_ratio": 0.05,
-      "max_region_ratio": 0.5
+      "max_region_ratio": 0.5,
+      "max_edge_width_px": 5.5
     }
   }
 }

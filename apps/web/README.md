@@ -8,21 +8,22 @@ through its HTTP API, from the browser.
 
 | Path | What it is |
 |---|---|
-| `/` | Locate: pick an atlas and a recorded viewpoint; `POST /localise` draws the landmarks, the target region and its 95 % region on the image, with the decision (accept, or the move that should give a better view) and a trace of the viewpoints tried |
-| `/agent/` | Agent: a session of the agent on the viewpoints of a set with the target hidden; it asks for the policy's move, in its words, with the viewpoints that lie that way, or for approval of the next step, and its trace lists every event from perception to the operator's answer |
-| `/annotate/` | Point annotator on PNG files opened from disk: mark landmarks and the target, download `clicks.json` |
-| `/annotate/?set=<name>` | The same on a view set of the workspace: images from the service, every change saved to its `clicks.json` |
-| `/atlas/` | Atlas: import a video or photos as a view set, measure the rig board, build an atlas from a set's clicks and inspect it (points, σ, plan of the board frame) |
+| `/` | Demo: a session of the agent on recorded viewpoints of a set with the target hidden. The geometry localises each view and the policy decides; the agent asks for the policy's move, in its words, with the viewpoints that lie that way, or for approval of the next step. The session's summary puts each view's measurement next to the decision and the action it led to, and its trace lists every event from perception to the operator's answer |
+| `/localise/` | Localise: frames of the phone's camera or of a video file, localised from their printed markers, with the move, the hidden target and the agent. A live camera goes step by step: frames are sent once it has held still, until a move holds (`lib/guide/motion.ts`). On a phone the running camera takes the whole screen, with Exit, Settings (layers, voice) and the agent's buttons over the picture; added to the home screen it opens without the browser's bars (`app/manifest.ts`) |
+| `/atlas/` | Atlas: import a video or photos as a view set, give it its points (the printed markers found automatically, or clicks in the annotator), measure the rig board, build an atlas from the set and inspect it (points, σ, plan of the board frame) |
+| `/atlas/annotate/?set=<name>` | Annotate, a step of Atlas: the point annotator on a view set of the workspace, images from the service, every change saved to its `clicks.json` |
+| `/atlas/annotate/` | The same annotator on PNG files opened from disk, its `clicks.json` downloaded |
 
 The sidebar lists the pages of `NAV` in `lib/site.ts`. A page is listed only once it works; the site has no
-placeholder pages.
+placeholder pages. A page reached from inside another, such as the annotator, is in `SUB_PAGES`: the sidebar
+marks its parent, and the header links back to it.
 
 ## The perception service
 
 `NEXT_PUBLIC_API_URL` is the service's address, `http://localhost:8000` when unset (see `.env.example`). It is
 baked in at build time. The service owns a workspace on its disk (`calib/` and `data/` under `SMC_WORKSPACE`);
-the web app keeps no data of its own beyond the local annotator session in `localStorage`, the Locate trace
-and the id of the agent's session in `sessionStorage`.
+the web app keeps no data of its own beyond the local annotator session and the Localise settings in
+`localStorage`, and the id of the agent's session in `sessionStorage`.
 
 - `lib/api.ts` is the only place that talks HTTP. A failed call rejects with an `ApiError`: `status` is the HTTP
   status, or `null` when no answer came, and the message is FastAPI's `detail` (a validation list becomes
@@ -42,6 +43,7 @@ and the id of the agent's session in `sessionStorage`.
   | `getViewSet(name)` | `/view-sets/{name}` |
   | `imageUrl(name, file)` in `lib/api.ts` | `/view-sets/{name}/images/{file}` |
   | `saveClicks(name, clicks)` | `PUT /view-sets/{name}/clicks` |
+  | `findMarkers(name, request)` | `POST /view-sets/{name}/markers`, up to 10 minutes |
   | `getAtlas(id)` | `/atlases/{id}` |
   | `buildAtlas(request)` | `POST /atlases`, up to 10 minutes |
   | `localise(body)` in `lib/locate/api.ts` | `POST /localise` |

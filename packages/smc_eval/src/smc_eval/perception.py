@@ -13,12 +13,12 @@ from smc_agent.contracts import Located
 from smc_core.calibration import Intrinsics
 from smc_core.contracts import Action, Atlas, Pose, Vec2, View
 from smc_core.localise import localise
-from smc_core.policy import decide
+from smc_core.policy import DEFAULT_POLICY, decide
 from smc_core.viewpoints import (
-    fitting_viewpoints,
     hidden_target_views,
     observed_view,
     poses_from_clicks,
+    suggested_viewpoints,
     truth_view,
 )
 
@@ -96,8 +96,6 @@ class FrozenPerception:
         return hidden_target_views(self.clicks, self.dataset.atlas)
 
     def suggest(self, view: str, action: Action) -> list[str]:
-        current = self.poses.get(view)
-        if current is None:
-            return []
-        others = {name: pose for name, pose in self.poses.items() if name != view}
-        return fitting_viewpoints(current, others, action)
+        return suggested_viewpoints(
+            view, action, self.poses, self.clicks, self.dataset.atlas, DEFAULT_POLICY.min_inliers
+        )

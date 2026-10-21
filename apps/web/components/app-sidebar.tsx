@@ -1,6 +1,6 @@
 "use client";
 
-import { Bot, Crosshair, FileText, FolderGit2, LocateFixed, MapIcon, ScanEye } from "lucide-react";
+import { Camera, FileText, FolderGit2, MapIcon, MonitorPlay, ScanEye } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type * as React from "react";
@@ -18,29 +18,28 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import { NAV, SITE, normalisePath } from "@/lib/site";
+import { NAV, SITE, sectionFor } from "@/lib/site";
 
 // Icons are components, which cannot cross from a server layout into a client
 // component, so they live here, next to the hook that needs them.
 const ICONS: Record<string, React.ComponentType> = {
-  "/": LocateFixed,
-  "/agent": Bot,
-  "/annotate": Crosshair,
+  "/": MonitorPlay,
+  "/localise": Camera,
   "/atlas": MapIcon,
 };
 
 export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
-  // Exact matches only: no page has sub-pages, and the exported 404 page is
-  // served for any unknown path, so a prefix match would highlight a page the
-  // prerendered HTML does not.
-  const current = normalisePath(usePathname());
+  // A page or one of its listed sub-pages, never a prefix: the exported 404
+  // page is served for any unknown path, so a prefix match would highlight a
+  // page the prerendered HTML does not.
+  const current = sectionFor(usePathname());
 
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            {/* The home page is also Locate in the list below, which carries aria-current. */}
+            {/* The home page is also Demo in the list below, which carries aria-current. */}
             <SidebarMenuButton size="lg" asChild tooltip={SITE.name} className="h-auto py-2">
               <Link href="/">
                 <div className="flex aspect-square size-8 shrink-0 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">

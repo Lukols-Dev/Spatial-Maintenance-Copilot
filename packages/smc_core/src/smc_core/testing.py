@@ -8,12 +8,14 @@ Nothing in the pipeline imports this module.
 """
 
 from collections.abc import Iterator
+from functools import cache
 
 import cv2 as cv
 import numpy as np
 
 from smc_core.calibration import Calibration, Intrinsics, create_board
-from smc_core.contracts import Atlas, Clicks, Landmark, Target, Vec2, Vec3
+from smc_core.contracts import Atlas, Clicks, Landmark, Panel, Target, Vec2, Vec3
+from smc_core.markers import MarkerSet
 
 CAMERA_ID = "phone-1x-portrait"
 INTRINSICS: Intrinsics = {
@@ -108,6 +110,131 @@ def rendered_views(board: cv.aruco.CharucoBoard) -> Iterator[tuple[str, np.ndarr
     """(file name, frame) of every viewpoint, named the way clicks_for names them."""
     for index, (rvec, distance) in enumerate(VIEWPOINTS):
         yield f"view_{index}.png", render(board, *camera_pose(rvec, distance))
+
+
+# Printed markers stuck around the board, 40 mm, facing the cameras: corners in
+# OpenCV's order (top-left, top-right, bottom-right, bottom-left) as a camera of
+# VIEWPOINTS sees them upright. 50 to 55 are landmarks; 70 is the target's tag,
+# behind the board's plane, on the face of a box MARKER_BOX_DEPTH_MM deep.
+MARKER_SIDE_MM = 40.0
+MARKER_BOX_DEPTH_MM = 60.0
+TAG_ID = 70
+
+
+def _square(left: float, top: float, z: float) -> np.ndarray:
+    side = MARKER_SIDE_MM
+    return np.array(
+        [[left, top, z], [left + side, top, z], [left + side, top + side, z], [left, top + side, z]]
+    )
+
+
+MARKERS_MM: dict[int, np.ndarray] = {
+    50: _square(-130.0, -60.0, -30.0),
+    51: _square(190.0, -60.0, -30.0),
+    52: _square(-130.0, 170.0, -30.0),
+    53: _square(190.0, 170.0, -30.0),
+    54: _square(30.0, -110.0, -80.0),
+    55: _square(30.0, 220.0, 20.0),
+    TAG_ID: _square(140.0, 60.0, 200.0),
+}
+
+
+def render_markers(
+    frame: np.ndarray, placed: dict[int, np.ndarray], rotation: np.ndarray, tvec: np.ndarray
+) -> np.ndarray:
+    """The frame with each marker of DICT_5X5_100 drawn where its corners land, over what was there."""
+    dictionary = cv.aruco.getPredefinedDictionary(cv.aruco.DICT_5X5_100)
+    size = (frame.shape[1], frame.shape[0])
+    out = frame.copy()
+    px = 210  # a multiple of the 7 modules of a 5x5 marker with its border
+    # The marker's corners are the outer edges of its image's corner pixels.
+    source = np.array(
+        [[-0.5, -0.5], [px - 0.5, -0.5], [px - 0.5, px - 0.5], [-0.5, px - 0.5]], np.float32
+    )
+    for marker_id, corners in placed.items():
+        image = cv.aruco.generateImageMarker(dictionary, marker_id, px, borderBits=1)
+        homography = cv.getPerspectiveTransform(
+            source, project(corners, rotation, tvec).astype(np.float32)
+        )
+        warped = cv.warpPerspective(image, homography, size, flags=cv.INTER_LINEAR, borderValue=255)
+        inside = cv.warpPerspective(np.full_like(image, 255), homography, size) > 127
+        out[inside] = warped[inside]
+    return out
+
+
+def rendered_marker_views(
+    board: cv.aruco.CharucoBoard, placed: dict[int, np.ndarray]
+) -> Iterator[tuple[str, np.ndarray]]:
+    """(file name, frame) of every viewpoint: the board with those markers in front of it."""
+    for index, (rvec, distance) in enumerate(VIEWPOINTS):
+        rotation, tvec = camera_pose(rvec, distance)
+        yield (
+            f"view_{index}.png",
+            render_markers(render(board, rotation, tvec), placed, rotation, tvec),
+        )
+
+
+# A door in front of the target's box, between it and the cameras; marker 50 is stuck on it.
+DOOR_MM = [(100.0, 20.0, 150.0), (250.0, 20.0, 150.0), (250.0, 170.0, 150.0), (100.0, 170.0, 150.0)]
+MARKER_SET = MarkerSet(cv.aruco.DICT_5X5_100, tuple(range(50, 61)), TAG_ID, MARKER_SIDE_MM)
+
+
+@cache
+def marker_atlas() -> Atlas:
+    """The atlas of the marked scene, as the builder makes it from the rendered frames.
+
+    Every marker corner is a landmark, the target is the tag's box, the door is
+    its panel, and marker 50 moves with the door. Built once: it is the same
+    every time.
+    """
+    from smc_core.atlas_build import build_atlas
+    from smc_core.board_pose import pose_views
+    from smc_core.markers import clicks_of, detect, marker_detector
+
+    frames = list(rendered_marker_views(rig_board(), MARKERS_MM))
+    detector = marker_detector(MARKER_SET)
+    clicks = Clicks(
+        camera_id=CAMERA_ID,
+        views={
+            name: clicks_of(detect(detector, MARKER_SET, frame), TARGET_ID)
+            for name, frame in frames
+        },
+    )
+    board = rig_board()
+    poses = pose_views(
+        frames,
+        cv.aruco.CharucoDetector(board),
+        board,
+        INTRINSICS,
+        np.random.default_rng(0),
+        samples=20,
+    )
+    atlas, _ = build_atlas(
+        poses,
+        clicks,
+        INTRINSICS,
+        asset_id="home-cabinet",
+        version="1",
+        frame="board:rig_board_a",
+        target_id=TARGET_ID,
+        target_extent_mm=(30.0, 30.0, MARKER_BOX_DEPTH_MM),
+        click_sigma_px=0.5,
+        target_centre_sigma_mm=1.0,
+        target_tag_depth_mm=MARKER_BOX_DEPTH_MM,
+    )
+    landmarks = [
+        landmark.model_copy(
+            update={"moves_with": "door" if landmark.id.startswith("m50_") else None}
+        )
+        for landmark in atlas.landmarks
+    ]
+    return Atlas.model_validate(
+        atlas.model_dump()
+        | {
+            "landmarks": [landmark.model_dump() for landmark in landmarks],
+            "panels": [Panel(id="door", corners_mm=DOOR_MM).model_dump()],
+        }
+    )
 
 
 def clicks_for(sigma_px: float, names: list[str] | None = None) -> Clicks:

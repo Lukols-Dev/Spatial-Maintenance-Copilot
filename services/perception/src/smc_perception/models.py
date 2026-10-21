@@ -14,7 +14,15 @@ from typing import Annotated, Literal, Self
 
 from pydantic import AwareDatetime, BaseModel, ConfigDict, Field, field_validator, model_validator
 from smc_agent.contracts import Turn
-from smc_core.contracts import Atlas, Clicks, Decision, Localisation
+from smc_core.contracts import (
+    Atlas,
+    Clicks,
+    Decision,
+    FrameQuality,
+    Localisation,
+    TargetSighting,
+)
+from smc_core.markers import DEFAULT_TARGET_ID
 
 from smc_perception.workspace import NAME_PATTERN
 
@@ -63,9 +71,18 @@ class Board(ApiModel):
     measured: bool = Field(description="whether the square side is measured, which posing needs")
 
 
+class RigMarkers(ApiModel):
+    """The printed ArUco markers of calib/rig.yaml: landmarks stuck on the asset, a tag on the target."""
+
+    landmark_ids: tuple[int, int] = Field(description="first and last, inclusive")
+    target_id: int = Field(description="the marker id of the target's tag")
+    side_mm: float = Field(description="measured, else nominal")
+
+
 class Rig(ApiModel):
     dictionary: str | None
     boards: list[Board]
+    markers: RigMarkers | None = Field(description="None when the file names no printed markers")
     error: str | None
 
 
@@ -117,6 +134,36 @@ class ViewSetSummary(ApiModel):
     error: str | None
 
 
+class MarkersRequest(ApiModel):
+    """Find the printed markers in every image of a view set, and save them as its clicks."""
+
+    camera_id: str = Field(min_length=1, description="calibrated at the size of the set's images")
+    target_id: str = Field(
+        default=DEFAULT_TARGET_ID, min_length=1, description="the point the target's tag gives"
+    )
+    moving: list[int] = Field(
+        default=[],
+        description="landmark markers on a part that opens: left out where the target's tag shows",
+    )
+    replace: bool = Field(
+        default=False, description="replace the set's clicks; a set with clicks is refused without"
+    )
+
+
+class MarkerCount(ApiModel):
+    marker_id: int
+    images: int = Field(description="images it is marked in")
+
+
+class MarkersAnswer(ApiModel):
+    view_set: str
+    images: int
+    marked_images: int = Field(description="images with at least one marker of the rig")
+    tag_images: int = Field(description="images that show the target's tag")
+    markers: list[MarkerCount] = Field(description="every landmark marker of the rig, in id order")
+    clicks: ClicksSummary
+
+
 class ViewSetImage(ApiModel):
     file: str
     width: int | None
@@ -157,6 +204,11 @@ class AtlasBuildRequest(ApiModel):
     )
     click_sigma_px: float = Field(default=2.0, gt=0)
     target_centre_sigma_mm: float = Field(default=5.0, ge=0)
+    target_tag_depth_mm: PositiveMm | None = Field(
+        default=None,
+        description="the target is a box with a tag on its face (markers.clicks_of), this deep; "
+        "None: target_id is the box's centre",
+    )
     samples: int = Field(default=200, ge=10, le=2000)
     seed: int = Field(default=0, ge=0)
     version: str = "1"
@@ -324,3 +376,45 @@ class SessionTurn(ApiModel):
         description="the localisation of turn.located's viewpoint, as POST /localise answers it"
     )
     model: str = Field(description="the language model that speaks for the agent, or why none does")
+
+
+# ---- frames of a camera or a video -------------------------------------------
+
+
+class FrameAnswer(ApiModel):
+    """One frame localised from its printed markers, as POST /frames answers it.
+
+    The frame is kept a while under frame_id: an agent session reads it as a
+    viewpoint of the view set "live", and POST /frames/{frame_id}/inspect looks
+    at it again.
+    """
+
+    frame_id: str
+    asset_id: str
+    camera_id: str
+    image: ImageSize
+    observations: list[Observation] = Field(description="the atlas's landmarks found in the frame")
+    localisation: Localisation
+    decision: Decision
+    sighting: TargetSighting | None = Field(description="the target's tag, when the panel is open")
+    frame_quality: FrameQuality = Field(description="the frame's blur, measured on its markers")
+    elapsed_ms: float
+
+
+class InspectRequest(ApiModel):
+    question: str | None = Field(
+        default=None,
+        max_length=300,
+        description="what to ask about the target's region; None: whether the target is there",
+    )
+
+
+class InspectAnswer(ApiModel):
+    """A vision-language model's look at the target's region of a frame: words, never geometry."""
+
+    frame_id: str
+    region_px: tuple[int, int, int, int] = Field(description="left, top, right, bottom")
+    question: str
+    verdict: Literal["yes", "no", "unclear"]
+    answer: str
+    model: str

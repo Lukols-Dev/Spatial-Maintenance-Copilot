@@ -27,6 +27,12 @@ class Invalid(WorkspaceError):
     status_code = 422
 
 
+class Unavailable(WorkspaceError):
+    """A service the answer depends on, the model on Bedrock, gave none."""
+
+    status_code = 503
+
+
 def describe(error: ValidationError) -> str:
     """A validation error on one line: where, then what, for every problem.
 

@@ -28,6 +28,8 @@ export interface AtlasForm {
   board: string;
   target_id: string;
   target_extent_mm: Triple;
+  /** Asked only when the target is a tag: how deep its box reaches behind the tag. */
+  target_tag_depth_mm: string;
   asset_id: string;
   version: string;
   click_sigma_px: string;
@@ -70,7 +72,7 @@ const CALIBRATION_BOARD = "calibration_board";
 /** The hidden component of this project's test object: the target when a set has it marked. */
 const USUAL_TARGET = "drone";
 /** The fields a view set decides: another set brings its own. */
-const SET_FIELDS = ["camera_id", "target_id", "asset_id", "version"] as const;
+const SET_FIELDS = ["camera_id", "target_id", "target_tag_depth_mm", "asset_id", "version"] as const;
 
 const EMPTY: Triple = ["", "", ""];
 
@@ -139,6 +141,17 @@ function defaultTarget(set: ViewSetSummary | undefined, candidates: readonly (st
   return candidates.find((id): id is string => typeof id === "string" && Object.hasOwn(points, id)) ?? "";
 }
 
+/**
+ * Whether the set's target is a printed tag: its four corners are points of
+ * the set, <target>_0 to <target>_3, as the marker search names them. The
+ * target is then a box behind the tag, and the build needs its depth.
+ */
+export function isTagTarget(workspace: Workspace, viewSet: string, targetId: string): boolean {
+  if (!targetId) return false;
+  const points = workspace.view_sets.find((candidate) => candidate.name === viewSet)?.clicks?.point_views ?? {};
+  return [0, 1, 2, 3].every((corner) => Object.hasOwn(points, `${targetId}_${corner}`));
+}
+
 function triple(values: Vec3 | null | undefined): Triple {
   return values ? [String(values[0]), String(values[1]), String(values[2])] : EMPTY;
 }
@@ -167,6 +180,8 @@ export function initialForm(workspace: Workspace, details: readonly AtlasDetail[
     board: draft.board ?? defaultBoard(workspace.rig.boards, last?.board),
     target_id: draft.target_id ?? defaultTarget(set, [last?.target_id, USUAL_TARGET, newestTarget]),
     target_extent_mm: draft.target_extent_mm ?? triple(detail?.atlas.target.extent_mm),
+    target_tag_depth_mm:
+      draft.target_tag_depth_mm ?? (typeof last?.target_tag_depth_mm === "number" ? String(last.target_tag_depth_mm) : ""),
     asset_id,
     version: draft.version ?? (existing ? nextVersion(existing.version ?? BUILD_DEFAULTS.version) : BUILD_DEFAULTS.version),
     click_sigma_px: draft.click_sigma_px ?? String(last?.click_sigma_px ?? BUILD_DEFAULTS.click_sigma_px),
@@ -285,6 +300,9 @@ export function checkForm(workspace: Workspace, form: AtlasForm): Checked {
     }
   }
 
+  const tag = isTagTarget(workspace, form.view_set, form.target_id);
+  if (tag) read("target_tag_depth_mm", form.target_tag_depth_mm, "Tag depth", { above: 0, unit: "mm" });
+
   const asset_id = form.asset_id.trim();
   const assetProblem = nameProblem(asset_id, "Asset id");
   if (assetProblem) add("asset_id", assetProblem);
@@ -320,6 +338,8 @@ export function checkForm(workspace: Workspace, form: AtlasForm): Checked {
       target_id: form.target_id,
       target_extent_mm: [extent[0], extent[1], extent[2]],
       target_measured_mm: measured,
+      // Sent only for a tag: without it the target is the point itself, as before tags.
+      ...(tag ? { target_tag_depth_mm: numbers.target_tag_depth_mm } : {}),
       click_sigma_px: numbers.click_sigma_px,
       target_centre_sigma_mm: numbers.target_centre_sigma_mm,
       samples: numbers.samples,

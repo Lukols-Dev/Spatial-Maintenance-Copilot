@@ -13,6 +13,7 @@ const NAMES: Record<Layer, string> = {
   residuals: "Residuals",
   projections: "Projections",
   labels: "Labels",
+  occluder: "Hidden behind",
   target: "Target",
   region: "95 % region",
   poseOnly: "Pose-only region",
@@ -46,6 +47,9 @@ function Swatch({ layer, style }: { layer: Layer; style: RegionStyle }) {
       <text x="10" y="13" textAnchor="middle" fontSize="9" className="fill-white font-sans font-medium">
         Aa
       </text>
+    ),
+    occluder: (
+      <path d="M2 3 L18 3 L18 16 L2 16 Z" className="fill-sky-400/25 stroke-sky-300" strokeWidth="1.4" />
     ),
     target: (
       <>

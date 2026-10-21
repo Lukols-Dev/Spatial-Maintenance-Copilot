@@ -109,13 +109,14 @@ def test_a_whole_session_runs_to_the_operator_s_approval(
     assert [event["step"] for event in trace] == list(range(1, 11))
 
 
-def test_a_view_too_poor_to_pose_asks_to_step_back_with_no_suggestion(
+def test_a_view_too_poor_to_pose_asks_to_step_back_towards_the_best_seen_viewpoint(
     agent_set: Path, client: TestClient
 ) -> None:
+    """Without a pose there is no "that way": the viewpoint that sees enough landmarks is suggested."""
     request = turn_of(start(client, "C_close.png"))["turn"]["awaiting"]
 
     assert request["action"] == "MOVE_BACK"
-    assert request["suggested_views"] == []
+    assert request["suggested_views"] == ["A_close.png"]
 
 
 def test_suggestions_are_viewpoints_of_the_set(agent_set: Path, client: TestClient) -> None:

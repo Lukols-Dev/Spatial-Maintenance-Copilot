@@ -1,0 +1,11 @@
+{
+  "camera_id": "iphone11-1x-1080p-portrait",
+  "target_id": "cel",
+  "moving": [
+    50,
+    51,
+    52,
+    53
+  ],
+  "replace": true
+}

@@ -6,7 +6,13 @@ from smc_core.contracts import Clicks
 
 from smc_perception.cameras import list_cameras
 from smc_perception.image_headers import image_format
-from smc_perception.models import ClicksSummary, ViewSet, ViewSetSummary
+from smc_perception.models import (
+    ClicksSummary,
+    MarkersAnswer,
+    MarkersRequest,
+    ViewSet,
+    ViewSetSummary,
+)
 from smc_perception.routes import WorkspaceDep
 from smc_perception.thumbnails import (
     MAX_WIDTH,
@@ -17,6 +23,7 @@ from smc_perception.thumbnails import (
     thumbnail_width,
 )
 from smc_perception.view_set_import import Upload, import_view_set
+from smc_perception.view_set_markers import find_markers
 from smc_perception.view_sets import read_view_set, save_clicks, summarise
 
 router = APIRouter(tags=["view sets"])
@@ -75,3 +82,9 @@ def get_image(
 @router.put("/view-sets/{name}/clicks")
 def put_clicks(name: str, clicks: Clicks, workspace: WorkspaceDep) -> ClicksSummary:
     return save_clicks(workspace, name, clicks)
+
+
+@router.post("/view-sets/{name}/markers")
+def post_markers(name: str, request: MarkersRequest, workspace: WorkspaceDep) -> MarkersAnswer:
+    """Mark the printed markers of every image as the set's clicks; may take tens of seconds."""
+    return find_markers(workspace, name, request)

@@ -23,6 +23,7 @@ from smc_core.images import read_images
 from smc_core.video import read_video_frames, sharpest_per_window
 
 from smc_perception.errors import Conflict, Invalid, WorkspaceError
+from smc_perception.live_names import LIVE
 from smc_perception.workspace import WorkspaceFiles, check_name, is_image_file
 
 VIDEO_SUFFIXES = (".mov", ".mp4", ".m4v", ".avi", ".mkv")
@@ -45,6 +46,8 @@ def import_view_set(
 ) -> Path:
     """Create data/views/<name>/ from the uploads and return its folder."""
     check_name(name, "view set")
+    if name == LIVE:
+        raise Invalid(f"{LIVE!r} names the frames of a camera; a view set takes another name")
     plan = _plan(uploads)
     views_dir = workspace.folder_for_writing(workspace.views_dir)
     target = views_dir / name

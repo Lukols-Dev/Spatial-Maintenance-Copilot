@@ -75,6 +75,7 @@ it and renamed into place.
 | GET    | `/view-sets/{name}`                |                                          | `ViewSet`               |
 | GET    | `/view-sets/{name}/images/{file}`  |                                          | the image; `?width=N`: a thumbnail |
 | PUT    | `/view-sets/{name}/clicks`         | `Clicks`                                 | `ClicksSummary`         |
+| POST   | `/view-sets/{name}/markers`        | `MarkersRequest`                         | `MarkersAnswer`         |
 | GET    | `/atlases/{asset_id}`              |                                          | `AtlasDetail`           |
 | POST   | `/atlases`                         | `AtlasBuildRequest`                      | `AtlasDetail`, 201      |
 | POST   | `/localise`                        | `LocaliseRequest`                        | `LocaliseResult`        |
@@ -99,6 +100,13 @@ fails because one file is bad; that item carries an `error`.
 - **Import**: one video (`.mov .mp4 .m4v .avi .mkv`), whose sharpest frame of
   every `window` frames is kept, or photos (`.png .jpg .jpeg`), read in the
   sensor grid. Both become PNG files, as `tools/export_views.py` writes them.
+- **Markers**: finds the rig's printed markers (the `markers` section of
+  `calib/rig.yaml`) in every image of the set and saves them as its clicks,
+  with the code `tools/annotate_markers.py` runs. Markers listed in `moving`
+  are left out of the images that show the target's tag. 409 when the set
+  already has clicks and `replace` is not set, when the rig names no markers,
+  or when no image shows one; 422 for a moving id that is not a landmark
+  marker. It can take tens of seconds.
 - **Atlas build**: poses every image of the set on the board and triangulates
   the clicks with the code `tools/build_atlas.py` runs, so both give the same
   atlas for the same files and seed. It can take tens of seconds.

@@ -35,6 +35,7 @@ next to your words and are not yours to state.
 """
 
 MOVES = {
+    Action.HOLD_STILL: "Hold the camera still",
     Action.MOVE_LEFT: "Move the camera to the left",
     Action.MOVE_RIGHT: "Move the camera to the right",
     Action.MOVE_UP: "Raise the camera",

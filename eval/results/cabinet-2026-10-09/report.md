@@ -8,9 +8,9 @@ Atlas szafka v2, scored on the held-out view set szafka-b. Every viewpoint shows
 | Monte Carlo | 500 samples, seed 0 |
 | click sigma | 2 px |
 | agent's model | none |
-| code | `2e6bd904bb246d7ab223dcca058b555fb6b60697` with uncommitted changes |
+| code | `4036635aafdb872101938dcadc5ae7c5140a36f2` with uncommitted changes |
 | versions | Python 3.14.5, NumPy 2.5.3, OpenCV 5.0.0, LangGraph 1.2.15, arm64 |
-| run | 2026-10-14T01:19:46+02:00 |
+| run | 2026-10-14T19:02:16+02:00 |
 
 ## Localisation
 
@@ -123,7 +123,7 @@ From every viewpoint:
 |---|---|---|---|---|---|
 | single_view | 19 x 1 | 12/19 (63%, CI 41-81%) | 0/19 (0%, CI 0-17%) | 7/19 (37%, CI 19-59%) | 1.0 |
 | policy_only | 19 x 1 | 4/19 (21%, CI 9-43%) | 0/19 (0%, CI 0-17%) | 15/19 (79%, CI 57-91%) | 1.0 |
-| agent | 19 x 1 | 12/19 (63%, CI 41-81%) | 0/19 (0%, CI 0-17%) | 7/19 (37%, CI 19-59%) | 2.2 |
+| agent | 19 x 1 | 19/19 (100%, CI 83-100%) | 0/19 (0%, CI 0-17%) | 0/19 (0%, CI 0-17%) | 2.5 |
 | random | 19 x 100 | 1218/1900 (64%) | 0/1900 (0%) | 682/1900 (36%) | 2.2 |
 
 From the localised starts:
@@ -141,12 +141,12 @@ From the not localised starts:
 |---|---|---|---|---|---|
 | single_view | 7 x 1 | 0/7 (0%, CI 0-35%) | 0/7 (0%, CI 0-35%) | 7/7 (100%, CI 65-100%) | - |
 | policy_only | 7 x 1 | 0/7 (0%, CI 0-35%) | 0/7 (0%, CI 0-35%) | 7/7 (100%, CI 65-100%) | - |
-| agent | 7 x 1 | 0/7 (0%, CI 0-35%) | 0/7 (0%, CI 0-35%) | 7/7 (100%, CI 65-100%) | - |
+| agent | 7 x 1 | 7/7 (100%, CI 65-100%) | 0/7 (0%, CI 0-35%) | 0/7 (0%, CI 0-35%) | 3.0 |
 | random | 7 x 100 | 391/700 (56%) | 0/700 (0%) | 309/700 (44%) | 2.8 |
 
 Random runs share their start, so no interval is given for them.
 
-The agent's model: none. Across its 19 sessions the guards corrected 0 of its outputs, and 33 turns took the policy's own words.
+The agent's model: none. Across its 19 sessions the guards corrected 0 of its outputs, and 47 turns took the policy's own words.
 
 ## The agent's next view
 

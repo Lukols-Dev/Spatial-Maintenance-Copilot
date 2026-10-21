@@ -1,5 +1,5 @@
 .DEFAULT_GOAL := help
-.PHONY: help api web up api-build api-run api-stop logs setup lint format typecheck test web-check e2e check boards eval eval-check
+.PHONY: help api web up api-build api-run api-stop logs setup lint format typecheck test web-check e2e check boards markers eval eval-check synth infra-check deploy
 IMAGE := smc/perception:dev
 NAME  := smc-perception
 # The service's settings and keys. The service reads the file itself (config.py);
@@ -34,9 +34,10 @@ api-stop:  ## Stop and remove the perception container
 logs:  ## Follow container logs
 	docker logs -f $(NAME)
 
-setup:  ## Install the workspace, the web app and the git hooks
+setup:  ## Install the workspace, the web app, the AWS stack's tools and the git hooks
 	uv sync --all-packages
 	cd apps/web && npm ci
+	cd infra && npm ci
 	uv run pre-commit install
 	uv run pre-commit install --hook-type pre-push
 
@@ -58,7 +59,7 @@ web-check:  ## Lint, type check and unit test the web app
 e2e:  ## Build the web app and run its browser tests (needs Google Chrome)
 	cd apps/web && npm run test:e2e
 
-check: lint typecheck test web-check  ## Everything CI runs
+check: lint typecheck test web-check infra-check  ## Everything CI runs
 
 eval:  ## Evaluate on the frozen dataset: eval/results/<dataset>/
 	uv run tools/evaluate.py $(EVAL_DATASET)
@@ -66,5 +67,18 @@ eval:  ## Evaluate on the frozen dataset: eval/results/<dataset>/
 eval-check:  ## Run the evaluation again and compare it with the stored results
 	uv run tools/evaluate.py $(EVAL_DATASET) --check
 
+infra-check:  ## Type check and test the AWS stack
+	cd infra && npm run typecheck && npm test
+
+synth:  ## Synthesize the AWS stack into infra/cdk.out
+	cd infra && npx cdk synth --quiet
+
+deploy:  ## Build the web app for CloudFront and deploy the stack (AWS credentials, cdk bootstrap, Docker)
+	cd apps/web && NEXT_PUBLIC_API_URL=/api npm run build
+	cd infra && npx cdk deploy
+
 boards:  ## Generate the printable ChArUco rig boards
 	uv run tools/gen_charuco_boards.py --out calib/charuco_boards_A4.pdf --yaml calib/rig_nominal.yaml
+
+markers:  ## Generate the printable ArUco landmark and target markers
+	uv run tools/gen_markers.py --out calib/markers_A4.pdf

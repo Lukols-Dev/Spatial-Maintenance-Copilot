@@ -27,8 +27,12 @@ from smc_perception.models import (
     Board,
     BoardMeasurement,
     ClicksSummary,
+    FrameAnswer,
+    InspectAnswer,
     LocaliseRequest,
     LocaliseResult,
+    MarkersAnswer,
+    MarkersRequest,
     SessionTurn,
     ViewSet,
     ViewSetSummary,
@@ -47,6 +51,8 @@ MODELS: dict[str, type[BaseModel]] = {
     "view-set-agent.json": ViewSet,
     "view-set-summary.json": ViewSetSummary,
     "clicks-summary.json": ClicksSummary,
+    "markers-request.json": MarkersRequest,
+    "markers-answer.json": MarkersAnswer,
     "board.json": Board,
     "board-measurement.json": BoardMeasurement,
     "atlas.json": AtlasDetail,
@@ -60,6 +66,10 @@ MODELS: dict[str, type[BaseModel]] = {
     "session-turn-move.json": SessionTurn,
     "session-turn-approval.json": SessionTurn,
     "session-turn-accepted.json": SessionTurn,
+    "frame-answer.json": FrameAnswer,
+    "frame-answer-move.json": FrameAnswer,
+    "frame-answer-open.json": FrameAnswer,
+    "inspect-answer.json": InspectAnswer,
 }
 
 

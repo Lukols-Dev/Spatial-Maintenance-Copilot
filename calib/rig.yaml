@@ -37,3 +37,10 @@ boards:
     measurement_uncertainty_mm: 0.25
     substrate: "A4 glued to foam board"
     measured_on: 2026-10-09
+# Printed ArUco markers (tools/gen_markers.py): landmarks stuck on the asset,
+# and the tag stuck on the target. Their positions come from the atlas build.
+markers:
+  landmark_ids: [50, 60] # inclusive range
+  target_id: 70
+  side_nominal_mm: 40.0
+  side_measured_mm: 40.0

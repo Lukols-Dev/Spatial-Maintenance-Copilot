@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
 import { AppSidebar } from "@/components/app-sidebar";
@@ -23,6 +23,15 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: { template: `%s · ${SITE.name}`, default: SITE.name },
   description: SITE.description,
+  // Opened from a phone's home screen, the site runs without the browser's bars (app/manifest.ts).
+  appleWebApp: { capable: true, title: "Copilot", statusBarStyle: "default" },
+};
+
+// The page reaches under a phone's notch and home indicator; the Guide's
+// full-screen camera keeps its buttons inside the safe area.
+export const viewport: Viewport = {
+  viewportFit: "cover",
+  themeColor: "#18181b",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

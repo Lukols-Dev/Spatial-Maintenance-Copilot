@@ -2,10 +2,12 @@
 
 The geometry measures and this module judges. Each Check holds one measurement
 of the Localisation against one limit of the Policy, and the Decision carries
-both, so a reader sees which threshold turned which fact into the verdict. The
-move follows from geometry as well: where the estimated pose puts the target
-and every landmark of the atlas relative to the frame, and which landmarks the
-camera cannot see because it stands where the atlas never saw them from.
+both, so a reader sees which threshold turned which fact into the verdict. A
+camera frame adds the measurement of its blur. The move follows from geometry
+as well: where the estimated pose puts the target and every landmark of the
+atlas relative to the frame, and which landmarks the camera cannot see because
+it stands where the atlas never saw them from. A blurred frame asks for the
+camera to be held still before any move.
 
 decide() is pure: no I/O and no randomness, so a localisation always gets the
 same decision.
@@ -25,6 +27,7 @@ from smc_core.contracts import (
     Check,
     Decision,
     Failure,
+    FrameQuality,
     Localisation,
     Policy,
     Pose,
@@ -99,12 +102,14 @@ def decide(
     atlas: Atlas,
     intrinsics: Intrinsics,
     policy: Policy = DEFAULT_POLICY,
+    frame: FrameQuality | None = None,
 ) -> Decision:
     """Hold the localisation of view against the policy and choose the next action.
 
     view gives the number of landmarks matched when the localisation failed
     before measuring anything. atlas and intrinsics give where the pose puts
-    every landmark, observed or not, which the framing of a move needs.
+    every landmark, observed or not, which the framing of a move needs. frame
+    is the blur of a camera frame; a view clicked by hand has none.
 
     Every check is listed, passed or not. The result is reliable only without
     a failure and with every check passed, and then the action is ACCEPT.
@@ -112,6 +117,8 @@ def decide(
     known = {landmark.id for landmark in atlas.landmarks}
     matched = sum(observation.landmark_id in known for observation in view.observations)
     checks = _checks(localisation, matched, policy)
+    if frame is not None:
+        checks.append(_check("edge_width_px", frame.edge_width_px, policy.max_edge_width_px, "<="))
     if localisation.failure is None and all(check.passed for check in checks):
         return Decision(
             reliable=True,
@@ -122,7 +129,7 @@ def decide(
             policy=policy,
         )
 
-    action, move_reason = _move(localisation, view, atlas, intrinsics)
+    action, move_reason = _move(localisation, view, atlas, intrinsics, _blurred(checks))
     return Decision(
         reliable=False,
         action=action,
@@ -228,6 +235,8 @@ def _reason(name: str, value: float, limit: float) -> str:
             ratio = _shown(value, limit, 2)
             times = "\N{MULTIPLICATION SIGN}"
             return f"95 % region is {ratio} {times} the target radius, needs ≤ {limit:g}"
+        case "edge_width_px":
+            return f"marker edges {_shown(value, limit, 1)} px wide, needs ≤ {limit:g} px"
         case _:
             raise ValueError(f"no reason worded for check {name!r}")
 
@@ -249,11 +258,33 @@ def _shown(value: float, limit: float, places: int) -> str:
 # ---- the move ----------------------------------------------------------------
 
 
+def _blurred(checks: list[Check]) -> float | None:
+    """The edge width of a frame the policy finds blurred; None for a sharp frame or a clicked view."""
+    for check in checks:
+        if check.name == "edge_width_px" and check.value is not None and not check.passed:
+            return check.value
+    return None
+
+
 def _move(
-    localisation: Localisation, view: View, atlas: Atlas, intrinsics: Intrinsics
+    localisation: Localisation,
+    view: View,
+    atlas: Atlas,
+    intrinsics: Intrinsics,
+    blurred: float | None = None,
 ) -> tuple[Action, str]:
-    """The action rules in order: a failure, a target outside the frame, landmarks
-    turned away from the camera, the framing."""
+    """The action rules in order: a blurred frame, a failure, a target outside the
+    frame, landmarks turned away from the camera, the framing.
+
+    Blur comes first: it moves the markers a still camera would see sharp, and
+    may hide some, so whatever else a blurred frame shows says little about
+    where the camera should go.
+    """
+    if blurred is not None:
+        return (
+            Action.HOLD_STILL,
+            f"marker edges smeared over {blurred:.1f} px: the camera moved while the frame was taken",
+        )
     if localisation.failure is not None:
         _, action, fact = FAILURES[localisation.failure]
         return action, fact

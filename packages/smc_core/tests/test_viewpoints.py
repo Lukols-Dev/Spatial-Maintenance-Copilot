@@ -27,6 +27,7 @@ from smc_core.viewpoints import (
     observed_view,
     poses_from_clicks,
     step_in_camera,
+    suggested_viewpoints,
     truth_view,
 )
 
@@ -210,3 +211,34 @@ def test_a_view_with_too_few_landmarks_has_no_pose() -> None:
     assert list(poses_from_clicks(["B1_close.png", "B2_close.png"], clicks, ATLAS, INTRINSICS)) == [
         "B1_close.png"
     ]
+
+
+def test_without_a_pose_the_best_seen_viewpoints_are_suggested() -> None:
+    clicks = recorded(
+        {
+            "B1_close.png": LANDMARKS[:3],
+            "B2_close.png": LANDMARKS,
+            "B3_close.png": LANDMARKS[:5],
+            "B4_close.png": LANDMARKS[:4],
+        }
+    )
+    poses = {
+        name: camera((0.0, 0.0, -1000.0))
+        for name in ("B2_close.png", "B3_close.png", "B4_close.png")
+    }
+
+    found = suggested_viewpoints(
+        "B1_close.png", Action.MOVE_BACK, poses, clicks, ATLAS, min_landmarks=5
+    )
+
+    assert found == ["B2_close.png", "B3_close.png"]
+
+
+def test_with_a_pose_the_suggestions_lie_the_move_s_way() -> None:
+    clicks = recorded({"here.png": LANDMARKS, "left.png": LANDMARKS})
+    poses = {"here.png": HERE, "left.png": camera((-400.0, 0.0, -1000.0))}
+
+    assert suggested_viewpoints("here.png", Action.MOVE_LEFT, poses, clicks, ATLAS, 6) == [
+        "left.png"
+    ]
+    assert suggested_viewpoints("here.png", Action.MOVE_RIGHT, poses, clicks, ATLAS, 6) == []

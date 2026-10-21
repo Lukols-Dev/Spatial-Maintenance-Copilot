@@ -3,6 +3,8 @@ import { describe, expect, it } from "vitest";
 import reliableExample from "../api-examples/localise-result-reliable.json";
 import moveExample from "../api-examples/localise-result.json";
 import {
+  BOX_EDGES,
+  boxEdgesPath,
   edgeMarker,
   ellipsePoint,
   ellipseShape,
@@ -38,6 +40,24 @@ describe("OpenCV pixels on the image's viewBox", () => {
     const outline = RELIABLE.localisation.target?.outline_px ?? [];
     expect(outlinePath(outline)).toBe("M688.234 1241.302 L377.288 1241.428 L380.194 931.235 L685.789 931.136 Z");
     expect(outlinePath([])).toBe("");
+  });
+});
+
+describe("the target's box", () => {
+  it("has twelve edges, each between corners that differ along one axis", () => {
+    expect(BOX_EDGES).toHaveLength(12);
+    for (const [a, b] of BOX_EDGES) {
+      const differs = a ^ b;
+      expect([1, 2, 4]).toContain(differs);
+    }
+  });
+
+  it("draws each edge as its own segment through the corners, half a pixel on", () => {
+    const corners: Vec2[] = Array.from({ length: 8 }, (_, index) => [index * 10, index]);
+    const path = boxEdgesPath(corners);
+    expect(path.startsWith("M0.5 0.5 L10.5 1.5 M0.5 0.5 L20.5 2.5")).toBe(true);
+    expect(path.match(/M/g)).toHaveLength(12);
+    expect(boxEdgesPath(corners.slice(1))).toBe("");
   });
 });
 

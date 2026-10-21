@@ -1,0 +1,2844 @@
+{
+  "name": "cabinet-2026-10-15",
+  "frozen_at": "2026-10-15T16:01:20+02:00",
+  "git_commit": "4036635aafdb872101938dcadc5ae7c5140a36f2",
+  "asset_id": "szafka2",
+  "atlas_version": "1",
+  "camera_id": "iphone11-1x-1080p-portrait",
+  "board": "rig_board_b",
+  "camera": {
+    "path": "calib/intrinsics/iphone11-1x-1080p-portrait.yml",
+    "sha256": "50990f540d65d129b8180c8283bb985638b3d8f311bcd830928cf93b0432e791",
+    "bytes": 931,
+    "size_px": null
+  },
+  "rig": {
+    "path": "calib/rig.yaml",
+    "sha256": "861974d8d8b2ec3492a3529807d09061b93374e9f2601a370c3ee6c35ebbafbc",
+    "bytes": 1444,
+    "size_px": null
+  },
+  "videos": [
+    {
+      "path": "data/atlas2/atlas_close.MOV",
+      "sha256": "1cbabfde8a9824c807a8d4304597ce6cd1258688420e648746ed207410060f04",
+      "bytes": 72768651,
+      "size_px": null
+    },
+    {
+      "path": "data/atlas2/atlas_open.MOV",
+      "sha256": "bda87dda31c8fc559db016e059517e181febf3a49957fc8a6f08cf5ffc8deab6",
+      "bytes": 77289171,
+      "size_px": null
+    },
+    {
+      "path": "data/szafka2_test/test_1_close.MOV",
+      "sha256": "88044cbcce9b28945953feb7f80e3f12a37b936e1f45837431e3a975503f29bf",
+      "bytes": 6900169,
+      "size_px": null
+    },
+    {
+      "path": "data/szafka2_test/test_1_open.MOV",
+      "sha256": "40ca059cff1e55cd8e39a4144761a15f5f3d9c90423918715fe7a7cce7b0e57d",
+      "bytes": 4952996,
+      "size_px": null
+    },
+    {
+      "path": "data/szafka2_test/test_2_close.MOV",
+      "sha256": "28ae39c488b4a26dc48acab1aadc8d7483dc26f8910ad17d7788af305b5be60c",
+      "bytes": 4735745,
+      "size_px": null
+    },
+    {
+      "path": "data/szafka2_test/test_2_open.MOV",
+      "sha256": "e9837f2ee06e7d18f84eac5522e2a648d737023bbb41ff4e220c0fbf257010d8",
+      "bytes": 5688050,
+      "size_px": null
+    },
+    {
+      "path": "data/szafka2_test/test_3_close.MOV",
+      "sha256": "09368864ed3017ea27d287f7af6266b24f41299a61de7c845e030953b32c10cf",
+      "bytes": 4820594,
+      "size_px": null
+    },
+    {
+      "path": "data/szafka2_test/test_3_open.MOV",
+      "sha256": "7700f79ce44e0ed95a423900bc3cc25af62a5f97ba823d53f1bc1b21a48ca5f2",
+      "bytes": 4818670,
+      "size_px": null
+    },
+    {
+      "path": "data/szafka2_test/test_4_close.MOV",
+      "sha256": "306d78b663c1c892f5f5c038db480943450e9c7ab18c803d0ce05892d13bcda9",
+      "bytes": 5012774,
+      "size_px": null
+    },
+    {
+      "path": "data/szafka2_test/test_4_open.MOV",
+      "sha256": "dfabd181fc237e2d6e4cee60063f87c07a871e987ae2fd53dbd3f0f511753b76",
+      "bytes": 5237390,
+      "size_px": null
+    },
+    {
+      "path": "data/szafka2_test/test_5_close.MOV",
+      "sha256": "ef97ba65580c21953ab2616b489645367a196de11858091a282118317fbceb0e",
+      "bytes": 5285905,
+      "size_px": null
+    },
+    {
+      "path": "data/szafka2_test/test_5_open.MOV",
+      "sha256": "5fb9f7a7084887b4f53d3bfdbdaa99a674b2eac9c1196d8497a07d6cb30df5b3",
+      "bytes": 5987888,
+      "size_px": null
+    },
+    {
+      "path": "data/szafka2_test/test_6_close.MOV",
+      "sha256": "bb1f839ca03002248556b97ccb701343652502b876466f7b8e53b4687b3deafb",
+      "bytes": 5253583,
+      "size_px": null
+    },
+    {
+      "path": "data/szafka2_test/test_6_open.MOV",
+      "sha256": "a98c1e91252f09da64a97d30a54cea7d3aaf649b3638ac97429de3ff8b16492c",
+      "bytes": 5186333,
+      "size_px": null
+    },
+    {
+      "path": "data/szafka2_demo/demo_1.MOV",
+      "sha256": "ba62587163d731037626781f5b929bae33ef681625d5c77b214bde6389260cb9",
+      "bytes": 39910734,
+      "size_px": null
+    },
+    {
+      "path": "data/szafka2_demo/demo_2.MOV",
+      "sha256": "423843601acd4d656fc378a04103fbd3e70ceaa9da2a02d9ee2b28bcd889c87e",
+      "bytes": 37985220,
+      "size_px": null
+    },
+    {
+      "path": "data/szafka2_demo/demo_3.MOV",
+      "sha256": "915a51b8e268060b52c030958540010f940e7591faa57efeaf4d04dccb6664e9",
+      "bytes": 38366303,
+      "size_px": null
+    },
+    {
+      "path": "data/szafka2_demo/demo_4.MOV",
+      "sha256": "fda4126490178ecb624854e83e75219748a1001d16489d3a6edb0fc730960d56",
+      "bytes": 45699835,
+      "size_px": null
+    }
+  ],
+  "sets": [
+    {
+      "name": "szafka2-test",
+      "role": "test",
+      "frames": [
+        {
+          "path": "data/views/szafka2-test/T1_close.png",
+          "sha256": "aada31a00674755209c0c9626e2872da03281f2acc3a2d04bd17cec369bdfb4c",
+          "bytes": 2649207,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-test/T1_open.png",
+          "sha256": "5ffbd0c37a6962f969ee6d218c08eb159a8bf870dcdf3af428b4b6d0b3362c42",
+          "bytes": 2570409,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-test/T2_close.png",
+          "sha256": "057f5c66b6b0a19eb769b8e2982a5b7fc31b82f70eb676f525d1b47d8d9a575e",
+          "bytes": 2470102,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-test/T2_open.png",
+          "sha256": "683b5c391c5231d8140c4eb9c4a373ae8ff86b0933b1557abea1c12fdeb3465b",
+          "bytes": 2800818,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-test/T3_close.png",
+          "sha256": "75205dd11b420c1ab6b380018ced9495953d81830980e606a109e6ebe6956685",
+          "bytes": 2740705,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-test/T3_open.png",
+          "sha256": "13d2c9fddf7d6ddddb1e6f0f5926dc1a4ce59b9d80b46e6456f5edc38f77e984",
+          "bytes": 2785668,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-test/T4_close.png",
+          "sha256": "54267d9bc27a56c182fac8d606ea3599c44792e3f6eed0c1cab5cc9aa51ece5f",
+          "bytes": 3086118,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-test/T4_open.png",
+          "sha256": "5f944d7c81d0be77cf6a54dea2425f313a231d6d27d0f4e450eb94e3ce9ef35c",
+          "bytes": 2770556,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-test/T5_close.png",
+          "sha256": "91ee8e8d91be8224cffd69466f273e8c837706f66a3b33b0548bbe5d9faf3b47",
+          "bytes": 3039547,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-test/T5_open.png",
+          "sha256": "9ff10f00eb5f616625dc412ad907e58512f55615804730d98a5ff84cb39f8d7f",
+          "bytes": 3094509,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-test/T6_close.png",
+          "sha256": "6acee26257a5ac79dfeefed2aaea28442c05481214325eb37857cb934ffda8f2",
+          "bytes": 2776598,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-test/T6_open.png",
+          "sha256": "70521dfcc36bd32e75eb29bbc5c3e4b6712caf83a00ca82763623471c613b437",
+          "bytes": 2927582,
+          "size_px": [
+            1080,
+            1920
+          ]
+        }
+      ]
+    },
+    {
+      "name": "szafka2-atlas",
+      "role": "build",
+      "frames": [
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000174.png",
+          "sha256": "f14cfc47fa976997bc512220224d3e335bfe64c9d4a9e48fcda3413923144d08",
+          "bytes": 2406284,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000204.png",
+          "sha256": "5d582e68a81e580d0aa1e99ce4f993266a64977c6f0d59dae3867ba63ac88aef",
+          "bytes": 2717274,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000230.png",
+          "sha256": "b6ba1bcbdb3ad0930c05ad9a94a23108127414203dcacccc3012085766dffd95",
+          "bytes": 2368856,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000269.png",
+          "sha256": "2830c74fb4640a62e98fcf681adc92690d5a5c34329ec0d0df97e147dc4cc508",
+          "bytes": 2510314,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000276.png",
+          "sha256": "c378657008c09847d7947c9d29897b084b822f74eba49b879a9cb492f474a707",
+          "bytes": 2632663,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000288.png",
+          "sha256": "4b5c933a7779253f8dab7f7afb429260e842798300fc69263b22d353fdc79042",
+          "bytes": 2588145,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000290.png",
+          "sha256": "db21a9087a0097d97b952c6b950096030946a5a7b08271f9ec1291a939e54e1c",
+          "bytes": 2258327,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000308.png",
+          "sha256": "f20b8dcf6884c799853002090b0cda68d909ec61a3a5f3224717793ddf2c0227",
+          "bytes": 2665396,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000312.png",
+          "sha256": "d32d4db2a6d9b88830801ae254ec230a793681a37c33d8d354897deb8d77be46",
+          "bytes": 2656745,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000328.png",
+          "sha256": "e01feb57ff62ca48745151f9e1b19d6e6b47cabf8ada4b4a7d33d44d3ce9fe39",
+          "bytes": 2567534,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000338.png",
+          "sha256": "27bcd14a75dc9a72d15b3ec3cb558999a6312906f1d91b6b988df214bdce79ac",
+          "bytes": 2190390,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000340.png",
+          "sha256": "78a46b1e0d40e476fc3578964128c33939c41d29eb9fa6c57fb3ccd45f015c1f",
+          "bytes": 2540816,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000359.png",
+          "sha256": "e98d07f2a3f03a23e4fd1a92712bf590b4f8124fa008db9a470d91161eb0f9f2",
+          "bytes": 2132044,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000368.png",
+          "sha256": "9de111e87a77b4d2e06662530cdc2bf9d1f6179e7948d5f417cd46dcdd84d532",
+          "bytes": 2442199,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000372.png",
+          "sha256": "f58f17ced3d2f412bd3844a7dd87db1cc909b86da1d2a3cff41ce2df2416d1d6",
+          "bytes": 2454259,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000384.png",
+          "sha256": "b077bdbac50a860ede4ada78d0748ac99a0cfba8301acbf72d801b0d3d90e34d",
+          "bytes": 2419646,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000396.png",
+          "sha256": "455cd1bbab842ead76bc6fa1ed86c73a2e10662da309487cebb623a122506f21",
+          "bytes": 2419335,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000400.png",
+          "sha256": "d22735ccc74d12be04f540fc472788716464677b3e9f4104902bafb530d93cb9",
+          "bytes": 2420602,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000416.png",
+          "sha256": "d2cfc7c2305123a33840bfcde33e21d0e640279bf631d17e9b9f6207d0748eb7",
+          "bytes": 2497783,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000420.png",
+          "sha256": "df424c18e4e0f0a013b5c1339b9a955d429e74c115176c7e77f4f0611f5ae820",
+          "bytes": 2665692,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000432.png",
+          "sha256": "6548c36cce78e092f6a1efa368f9afc1e0807b1fb51aab761599a638cd00513f",
+          "bytes": 2422276,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000448.png",
+          "sha256": "5afd534563a6c4a8899ee68c166153ed5b0b66ce091a814c18c809644badb916",
+          "bytes": 2549178,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000456.png",
+          "sha256": "474ed113396227a8b68e4d08960869e12d273639845b4cc29fbbfb0eab1d352e",
+          "bytes": 2512338,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000460.png",
+          "sha256": "6526b71c0bbcefb522b9afb775d2fd29bcb9a2b2f878523312ceec411273c58c",
+          "bytes": 2510201,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000472.png",
+          "sha256": "55518afdd939f5a29af7b9f77fce5c5b4f028897c2098a0e41cf873600c7f07d",
+          "bytes": 2469516,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000480.png",
+          "sha256": "a39e81859f1cfd10d70d3988bc8eddb78a0da749102f47d9200df4058e1c4d23",
+          "bytes": 2321306,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000492.png",
+          "sha256": "63d26384e6a35cd4ba35f262207f2d9f74e5dd90d4ca1774317a1e9ccfb40294",
+          "bytes": 2455831,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000504.png",
+          "sha256": "6175df5bb3a01b59b266814001321cc912aad9a24dea4572cc169d135c8653d9",
+          "bytes": 2603089,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000516.png",
+          "sha256": "66237cabce965afc815fa58d758441e7d00003df706b51cf7c1e0a90b815f9e1",
+          "bytes": 2450457,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000528.png",
+          "sha256": "5a5226bee68aa492bd806c64274c2160012ba0bdb274159288467638076ea214",
+          "bytes": 2468336,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000532.png",
+          "sha256": "404708ee3634f6edd7176a3da3286cecb31e9d1ce6a9c9cd39422c7b3908e1ec",
+          "bytes": 2595109,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000540.png",
+          "sha256": "ea1cb09e3c115f9d78acdaf1b992b04a03e4af11fcfd24e548b828ffc5bbfe92",
+          "bytes": 2487331,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000556.png",
+          "sha256": "e8480a4cb64e5c69e3c33b3646bafaba42d6beb39a161ecf2425a2c1f2158a87",
+          "bytes": 2500778,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000560.png",
+          "sha256": "818610c52dd6a64a4c65cdc0dbad1cce0b63e93612ea616946246f64ac85ce4a",
+          "bytes": 2580795,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000576.png",
+          "sha256": "dff80f179077ea665a0d15b208d601a81d1334583bd3289637ddb9ee173bc668",
+          "bytes": 2559211,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000584.png",
+          "sha256": "13f2911ef16bb0306908f0c45eb734837cc5a73130dd75f077db6ca21beabb6e",
+          "bytes": 2492828,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000596.png",
+          "sha256": "5cd5089bf9b6d9dd9b107d21ffd7968b42be14acd34d3d8478ff098be48fec0f",
+          "bytes": 2539059,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000600.png",
+          "sha256": "4956feb6a6faad68291a5800e5fb8a19ddf859f6200f848e487b25da3d2f46a8",
+          "bytes": 2566253,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000612.png",
+          "sha256": "e448289e0f7467aa890980a91d2c09222b299ee3f7ef1213f612be6848ac980a",
+          "bytes": 2461976,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000623.png",
+          "sha256": "e62677c5209411167679bf98bd631993f20f13eace6b054482823af931f31328",
+          "bytes": 2205849,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000636.png",
+          "sha256": "87dae752005dbb7882fc0ebc1442f41dc73b78fbaddb017f39e3020f80b43ffb",
+          "bytes": 2644996,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000640.png",
+          "sha256": "ab3741d0d19e24ab1de6c0576a09059fb42caa438e85daf27fdaa7458a29ca4c",
+          "bytes": 2650802,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000656.png",
+          "sha256": "afca700ff04fff9e21ccb178930233436a5fffbe6cdf6fea9238eb1c23034385",
+          "bytes": 2663170,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000664.png",
+          "sha256": "188754aab57cf89b124fc068c3ef9729483b1ee1cbbc117f4e249d312115f70b",
+          "bytes": 2685811,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000676.png",
+          "sha256": "a52a43ba0e5ca8335c69100b36011230eb71e834d9722b1e4799bb7fa5623314",
+          "bytes": 2578597,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000688.png",
+          "sha256": "6c9e6de542fd5e9ec165dc67b07298d134c554793c4086ab0ed876dfa6672e2c",
+          "bytes": 2680967,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000696.png",
+          "sha256": "ab9d5e0516ef878d8536f8d48614690b6e0be9be413d09f50142bd1b93fc4420",
+          "bytes": 2663513,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000708.png",
+          "sha256": "32cac099f8f613adc29fba51529284992709ac2b71ca2a31624e967c1eef6655",
+          "bytes": 2737218,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000716.png",
+          "sha256": "774cad5cbda796408bb9ca07eefb3a40cdabca0217780506ae0aba52eefc5c8f",
+          "bytes": 2772987,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000728.png",
+          "sha256": "d6df2b94fa84fb8d1cb7e28d9de07aad47b7e7ae0c5119dfdbb4d0e474d0b6fd",
+          "bytes": 2862171,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000736.png",
+          "sha256": "75959281f84dc1ae4aaf188bef8378bb24535541884293e196ce2b633f9f6dc4",
+          "bytes": 2774243,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000748.png",
+          "sha256": "704ae0b5f32af9a8f05499a8225405e089386f36083c96fe9efe66b5bdbc061a",
+          "bytes": 2853760,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000756.png",
+          "sha256": "fb43bd80ce99c379368142c1e12bc6de540862e9955c982cd5eb432c99a3e0fe",
+          "bytes": 2906391,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000768.png",
+          "sha256": "4ab2a46c4b1cb92ac81d8ed6885fce6e9aeb3ae0614c6d1ba3470d2f79407026",
+          "bytes": 2874745,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000776.png",
+          "sha256": "e7bce0448e2e1b5a019c63ff22ae9ca6c3901e48d1da09da6aeb622411fb0d6a",
+          "bytes": 2905615,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000784.png",
+          "sha256": "4432217caf69468ba6fdecd2977d6f528f837cfc77d0a096ff0f821ca6bfbb33",
+          "bytes": 3035423,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000792.png",
+          "sha256": "bf210fd78d99de66c6f1e625ad17b1c696b194af8ceabd5f1e2e397eddd93c52",
+          "bytes": 2899015,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000804.png",
+          "sha256": "a96594a49362d744ea1a744717fe0d672ea73760818a516b6d4999170e21a365",
+          "bytes": 2886360,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000816.png",
+          "sha256": "dfa812b5d1bf1296b11d4dd255649959a5521dc23c77455e6c0b59db5162e0ce",
+          "bytes": 2829176,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000820.png",
+          "sha256": "d346fc6d64094faf9b6e39d7b99977107c1e844c8ee591e4ed2d5ceeb3167c2f",
+          "bytes": 2812885,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000859.png",
+          "sha256": "b5a47360833687a9ecfe538a9d89cb544cb3b8941bba976d9f7ee4a36a4ab444",
+          "bytes": 2535459,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000868.png",
+          "sha256": "0d52ea566dc5bebdcc6a15b76c7a225d95d87bafdc501f03f28c719d9b7e93b4",
+          "bytes": 2869673,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000876.png",
+          "sha256": "2a47c4ea9e0005286239b5e0a8928dbe8d5bbebcf84f7ccbf89b72d6595ba279",
+          "bytes": 2691556,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000880.png",
+          "sha256": "5984df69d929dde1015a03b634e1b94dd841ce901d089d0780c0cefb6400333a",
+          "bytes": 2698790,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000896.png",
+          "sha256": "51e277999cbb7d8c09e8717fc9c4e79992f47bf065eb7b44f0e2567b1fa35166",
+          "bytes": 2704138,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000900.png",
+          "sha256": "616d97ee60bd9a680cdfa917253beb291f649e7e2cb87f9f5f0e1b5d5eca04e0",
+          "bytes": 2587580,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000912.png",
+          "sha256": "6da659d5c02fd9b6fe2f04e355f16b2919941a47df89b34f55e7ccd7e16b4aad",
+          "bytes": 2608303,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000924.png",
+          "sha256": "a88ded9e4d3fea20dfa1a1b53a514873e1ddc760761e189421435a36422e9cdc",
+          "bytes": 2686526,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000932.png",
+          "sha256": "b2db511325de2e1b62833ee68c6896e166467ea676becb46bfaa95ed5aa08bef",
+          "bytes": 2645643,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000944.png",
+          "sha256": "6b1f56543b4534ecdc5bd03c25f0f711d4b73bf13c2fed4cac96c7492349ccc9",
+          "bytes": 2590632,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000959.png",
+          "sha256": "de616a105dc389d147a1acb1ca27da242aad1974ea3ce933367a7bbc3e1893c0",
+          "bytes": 2286886,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000960.png",
+          "sha256": "74e1341b1f1e447058cf36813a2fb0e4e74573be22b2a2fb8fd99839329d1744",
+          "bytes": 2639497,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000972.png",
+          "sha256": "c2064388fdfe8ff65b2525e62f16f806edeb55749e0a6bea832b20d8fe7ac537",
+          "bytes": 2626647,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000988.png",
+          "sha256": "12d8ae47417d63602e75029fe2d6b4399ce9224ca9a65f7f3925fecc21e455f8",
+          "bytes": 2550348,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_000992.png",
+          "sha256": "bef52a854c9f4f8d0b1f980554f20d5ac2b0aa14861a05f32dfa0257b86c531a",
+          "bytes": 2556284,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001004.png",
+          "sha256": "70d9d7bc7b512d0302ff56ac9415aeec4129c2206f7e7039a7b1fb06e46f2bf5",
+          "bytes": 2530862,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001016.png",
+          "sha256": "e00e56edebd5836751cf23a01da7c8a6b5738c8cbe73a70addfc8e86911915da",
+          "bytes": 2528768,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001020.png",
+          "sha256": "9f989cccd8849ed3a3c6c2bf9acd054a9af18f75f44bccd70e3cc71236f3a28c",
+          "bytes": 2541098,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001036.png",
+          "sha256": "4d3b8b21414c08eb25a9098d263cb5332504c31560bc6cd0ffaf4f9fb2cc69c9",
+          "bytes": 2512307,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001040.png",
+          "sha256": "b9bf3c69eed9ae94850e65d3b902891b83eb8e03474e9015d235543aed4a3c48",
+          "bytes": 2357121,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001052.png",
+          "sha256": "f890f5c9b8b15a19ce16f6000cc551409607ef42a8b802695e2e18f9210bbf6d",
+          "bytes": 2426506,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001060.png",
+          "sha256": "ad0bfdfa22fd1e39fedc8ec3e2809d9d03e3d24d036b01b62d3bc0899aa1b63e",
+          "bytes": 2411134,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001076.png",
+          "sha256": "0acf3b92ce4e92a94edf02e735cd3076a9f50dc2a41e82703b6ebc77bda3efb7",
+          "bytes": 2376179,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001080.png",
+          "sha256": "ed8b02b85add86a529e111075faa88d9368681968845ab9f7182a7293b756851",
+          "bytes": 2440636,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001092.png",
+          "sha256": "9f279da150eecc89b8e05d73580081118406e4fe596dc94cc8fa8d4960427bb9",
+          "bytes": 2541731,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001100.png",
+          "sha256": "5d096db84c4785b2b1f6f33ff9ea37a537de67c5f1c5fa724cc3778dea175228",
+          "bytes": 2383924,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001116.png",
+          "sha256": "3811374fa6fb9d0e18665f5583bb0bc6f894673cb78eecb0636fa4a775e7fbf3",
+          "bytes": 2355772,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001128.png",
+          "sha256": "39472e0207169414de27571deed4c0b983800baaa5891cbdb4bec6cbd3928dd5",
+          "bytes": 2433602,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001136.png",
+          "sha256": "b83da223c79397e474282d5a1ddfd32a10131613c1c71c85fb927b9e01023e22",
+          "bytes": 2380034,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001144.png",
+          "sha256": "e0c3d38476186ce3d2eb4e7e495b903d7240e65f9ba59ab4a261e5cfd69fe966",
+          "bytes": 2445347,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001156.png",
+          "sha256": "0fafccf8645e486fc83364237925e2b25ed398a7b2c08c6f5693f53f4ff9096d",
+          "bytes": 2505075,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001168.png",
+          "sha256": "32812f73b4daee531b7bb0b4901494ef5f64fd9f3758bfe3a43f907d37f04e47",
+          "bytes": 2535717,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001176.png",
+          "sha256": "0701d5d33043f78c4ecd58ca59839f9cc42fa20ec3fe74698fc12e65a8ec0976",
+          "bytes": 2621501,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001180.png",
+          "sha256": "332ce9e1289afbf6d6c0ab2e9dc4c108c08e41271400355d7f6e89e4cdc0a240",
+          "bytes": 2503396,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001196.png",
+          "sha256": "76da6433aa24bc276c2d787af76067a814256b1e30e30da026783e4cac497993",
+          "bytes": 2579467,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001200.png",
+          "sha256": "e90f801401d856b51cbecf840e80ec2d217b10ac1da4512c076db298145009aa",
+          "bytes": 2594720,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001212.png",
+          "sha256": "2a1248e21caacc27e67cb0fd0e71e1dd33aa97f1ed951cf8c97a31b48a049fa9",
+          "bytes": 2547276,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001228.png",
+          "sha256": "21f30164819238580331b3bb3ca786f85d299803a02e6c44f6f00242c74dd08e",
+          "bytes": 2611092,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001232.png",
+          "sha256": "e338060bc0c3900aee783739b85852bd8d5d4c1273d03c27eb6485efa35c01bb",
+          "bytes": 2679393,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001248.png",
+          "sha256": "e29b3ffe3161667728da1a58b6dd619318917871d3fff0dd55f003a8fa9c2083",
+          "bytes": 2663915,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001256.png",
+          "sha256": "28671c62836a16701d6b213fc0acb65320e59060b50338407aa3d7d4f4239e6a",
+          "bytes": 2674049,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001268.png",
+          "sha256": "c33f2a18fbb3060700b990293154ea8f757449ed8e68209260b137e65bc8824c",
+          "bytes": 2419020,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001276.png",
+          "sha256": "95f6bca37962c38c0893b4673746fa50df2e720989ccdb606144208acf6fb68a",
+          "bytes": 2669807,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001288.png",
+          "sha256": "3e461c429cb5581f0cf894d887e4671c39e06b73f002f704a1aedbc969632fca",
+          "bytes": 2800922,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001296.png",
+          "sha256": "de8847d632c2cfbbd178b916edd6bb787a40c7009ecdf82bba55bcabc0c4db00",
+          "bytes": 2762374,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001300.png",
+          "sha256": "5b28f747205bc43c60641aa876dc43a42deda1de1cab34f7c7f3e15440939ac9",
+          "bytes": 2625106,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001312.png",
+          "sha256": "b585c282b53ccf37ea060b27c0d53b3167a4d4ca1f01fd1ad9645d75927cf5c8",
+          "bytes": 2811741,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001357.png",
+          "sha256": "a8e6dfd2adab4ad81146abfd51dbb8f959c29ad2c2a9bc0d67bca63b03bba368",
+          "bytes": 2639292,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001364.png",
+          "sha256": "891694de60887dafef568d259528748dcfcc633599af35878a052fd468602aaf",
+          "bytes": 2900468,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001372.png",
+          "sha256": "1dc066ba17246efba928e1119334325d4ee04ffc2276fdfa69804de0a81ed7d4",
+          "bytes": 3018923,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001380.png",
+          "sha256": "127bab08c6f159a437860c7948262446ff70b5f1690ef9cb8280d368b210669f",
+          "bytes": 2911273,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001407.png",
+          "sha256": "1e1f4018cc47cb0d27b8be7cc6c5ff69605a2832f24af0bb084208fbfe141bad",
+          "bytes": 2429023,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001464.png",
+          "sha256": "632430ae1f257b228cf59e89d756a33524b1dc6d2525d945c34fe6e6d3cdb35a",
+          "bytes": 2756528,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001482.png",
+          "sha256": "28be885902de87fbf82ca99ce09bd13575611cd74f46152f1ebf77d3a437df17",
+          "bytes": 2474201,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001490.png",
+          "sha256": "dc25000dd674cb2ee0a706e8474ef8e153b95c1398bd6c244b945927831fc776",
+          "bytes": 2396838,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001500.png",
+          "sha256": "74dc8fda40618ce646c8d24686c774d7ec931c23d5879d4b11f0e640ed765472",
+          "bytes": 2681701,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001512.png",
+          "sha256": "f6aa2770f84f6aff1226c881d21b5131bc7694cfd7cb64ac835a865f8f016666",
+          "bytes": 2719883,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001524.png",
+          "sha256": "01e02907fdfd8a2f8bdadf68733dc8e6ab8e90c54d2a2253242a770f2afa3dea",
+          "bytes": 2585860,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001532.png",
+          "sha256": "22f01eba7f70d3c9fc019617d9a36d74f1cd96f9a7370e7e54b8c11aee6053e6",
+          "bytes": 2536183,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001545.png",
+          "sha256": "aaaab18ac77aaac802899b70be9c2958b2d5a2d1ecbf689482495c5c689fdd10",
+          "bytes": 2182287,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001558.png",
+          "sha256": "0cf1d593254d4ace773deeccbed3098d5768b81454d467693a8cd4d9279b3eaf",
+          "bytes": 2176256,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001568.png",
+          "sha256": "25a4b698d36bd7d10e2c9cc8f969ed1ec0598615517bdba07cf817e39cac85b3",
+          "bytes": 2727575,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001572.png",
+          "sha256": "64bbd2ea80d16155e947e5b797e80ad43f568f1aa34570ead2c2c27a98c4159d",
+          "bytes": 2395593,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001580.png",
+          "sha256": "df74b0974ec8daabcff0077289d006641b7602c6c9477fbad02abd610c1c0e64",
+          "bytes": 2575224,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001592.png",
+          "sha256": "bbb0072f4a84b559452ad68ae64ba57511f4d342ea742bc381880f829900c43c",
+          "bytes": 2453207,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001600.png",
+          "sha256": "0218b14b4b86768c9b8347d61f67e840ad8da5021dd37087d30237bde54e5320",
+          "bytes": 2405256,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001616.png",
+          "sha256": "65b696bf433b2bc31d706d659063e7e81a8005239993325d60e18f28d2c76e05",
+          "bytes": 2439601,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001620.png",
+          "sha256": "33d4ed68ff7fd44fd1889d475125cfb8fd0b4391bbffb469c4db645883b601e3",
+          "bytes": 2436103,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001636.png",
+          "sha256": "02eff73886d925718096e1c24cc40a48ad60a75c3d98a8c2c20241b82eb25e8b",
+          "bytes": 2459161,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001640.png",
+          "sha256": "0b7ea0565ea64e0af50dd5f71a1aa39fc30c8c58b1ddc136d390d53ca40c1033",
+          "bytes": 2547312,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001664.png",
+          "sha256": "6290275c43ae4c7a9d5c8aaf6aae8a9de5516bb1515419240222735fe61ecbb3",
+          "bytes": 2544211,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001676.png",
+          "sha256": "20226e27cd102741afe049ed828f568680899bfb56063ca4620dc4daa476b4bb",
+          "bytes": 2639071,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001680.png",
+          "sha256": "a66c065626fdf7c9aafbbe10c10a6d383a966329864c41ec310f89b10e951f5a",
+          "bytes": 2710950,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001696.png",
+          "sha256": "a83c831df7affd6cf6676de339f068fada177741a629033920c95dff669db8f7",
+          "bytes": 2610110,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001708.png",
+          "sha256": "444d3481bdc99a591fdfb83005e782fb56bf9e723aa0189442af9804a8d8c148",
+          "bytes": 2772680,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001712.png",
+          "sha256": "225e520d625b5def346980d9d6bd2dcde4d6585744573b66a432f25e39989920",
+          "bytes": 2595337,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001728.png",
+          "sha256": "464b62bb8babc6f94a91ec10404345675ca5bb134eb357d8e281c956de5d8d41",
+          "bytes": 2729079,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_close_frame_001737.png",
+          "sha256": "04bed8d8188ebc8e2a5b905bd14f276b55bd343ddbab74c1bd9f365c55c78901",
+          "bytes": 3071487,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000057.png",
+          "sha256": "f1bd6c89c08fa250f972f6b79e6eae6e0d185b9eb7f08b3dcbb796d6a1660ea0",
+          "bytes": 2297990,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000066.png",
+          "sha256": "d762473b9559cdcab486e041f87e95083143c09acd5a693e7b7df88fe000db69",
+          "bytes": 2343719,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000112.png",
+          "sha256": "024520b3e91a8d2b810ca176f7b4b741beb001252fffcb7f595ca3f53a8b79b5",
+          "bytes": 2593796,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000126.png",
+          "sha256": "612e35a2e74ffd79ee24a361feec6da71aa86558a132d5f6797dad90de8030ae",
+          "bytes": 2275198,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000172.png",
+          "sha256": "0403aa723da0e7114af65fea13adbd7f190757ffba6ee2c53d549094f1a6c3b9",
+          "bytes": 2582337,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000180.png",
+          "sha256": "f8c890badbb0ab60f889c73c5f91a93d6f33786efc0ec002c0b2bdc7f71d2928",
+          "bytes": 2711917,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000192.png",
+          "sha256": "e23aa9bd8166cda2c9e5ddc9dcecbf60e40f93b5fc4f527512a6e15287b63710",
+          "bytes": 2661629,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000208.png",
+          "sha256": "940fbe0154a5bb753e9584b844a1f51c38d873d1170bf9caf588d43f16673eeb",
+          "bytes": 2637736,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000212.png",
+          "sha256": "441296da3332365739c69333024d18ea9975db3efc11018debd216827780b44f",
+          "bytes": 2675583,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000224.png",
+          "sha256": "0d7edbcd917de9c1e22725a754ddd4ab0ba4db403518cd6b95401b25a321da3a",
+          "bytes": 2790512,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000232.png",
+          "sha256": "ba15e853fe51c3507d21fc3583ba8a150f8aa5a5f5316373165896dd973beb45",
+          "bytes": 2649628,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000240.png",
+          "sha256": "c16641681ed2d08769133b9fd718f9ba63f4a50d868a391cd042fb9b456630b7",
+          "bytes": 2656993,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000252.png",
+          "sha256": "5d82cf6d99d21e936a68464995d893338f125e294facfcb0188f59f1ae059fa0",
+          "bytes": 2781316,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000264.png",
+          "sha256": "2bd99109167c6abb8b318bd8248f42a3064a19b4a212e32eb8d9c913ca8abbc8",
+          "bytes": 2622857,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000272.png",
+          "sha256": "e7ad18b1923475e31f884c12fe35c21c1930f73f3dc2fd6ac7df7e69c2187b6a",
+          "bytes": 2536563,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000280.png",
+          "sha256": "a7121ac11942094a606d2a992728f5ab00db367529ee1039c97e3c7739105846",
+          "bytes": 2684416,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000296.png",
+          "sha256": "df19ea820164ae4c9b91a4f4df9e8ab56b9c8dfa53de45042610f3c7c9006bdf",
+          "bytes": 2588203,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000308.png",
+          "sha256": "70509b3bde718fca66ff6f8bef93d279a917b3d6908fa2142828782fa114ebd6",
+          "bytes": 2637807,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000312.png",
+          "sha256": "ed04765fbd48c558df6ad4ce6eac565605ab3a79ba3aaa03b7d7d5594bc8bba6",
+          "bytes": 2472004,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000324.png",
+          "sha256": "f5b95ec02e0ccfd5a3906ed0f997aa45855db7b894154c6c7d66454b42bd42c1",
+          "bytes": 2500123,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000332.png",
+          "sha256": "641e4503fba45d09610806f8e9923c6c4d1f9db379d11b3df4e1a6027f323b57",
+          "bytes": 2474865,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000348.png",
+          "sha256": "9dc0b5f5661810a5fcfecbfa4a257fc1603ac898f5a0a17fc24e71ccc4b546b3",
+          "bytes": 2438162,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000352.png",
+          "sha256": "5d230cf885c09a63f9f82c19a4eb566a331ef96c4f3edd91fe60dd76043583bc",
+          "bytes": 2413921,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000364.png",
+          "sha256": "459ae4cb2cf4e536927deb2f8675c690fe12aff9f26d8bfd84e168898dff6f86",
+          "bytes": 2517174,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000372.png",
+          "sha256": "42d2ae63301af3ba540799cacb7a96dc6a5835de4622cd2285d051c1069d5ed1",
+          "bytes": 2389398,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000388.png",
+          "sha256": "06f8aa6260d3546087ff38fcd69a1bb8b36da85546f03a90fcd9a86a497cf8ee",
+          "bytes": 2441585,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000392.png",
+          "sha256": "8950b754ebb83b7b62d66d2a8f259b155dc70536364dd69038d871e6cb5fff80",
+          "bytes": 2480720,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000408.png",
+          "sha256": "33fbcc948dda4efac90641c826fb1793f49d588ac0c3e87ade98ae045744c3a4",
+          "bytes": 2391288,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000412.png",
+          "sha256": "a31e1b54d6a894bde8d00fb845d4ec1ea6711d42ac80707b6e1d06dbd553f49f",
+          "bytes": 2379330,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000420.png",
+          "sha256": "99e7b843b5656df4944777de657c6150c9ea7c739d63c062ec94e809a066269a",
+          "bytes": 2619949,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000436.png",
+          "sha256": "a690c1fff2c09404b3a046e77196702e93d661fc9b6c187188c61efa08335937",
+          "bytes": 2371567,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000448.png",
+          "sha256": "bb061a288ad11afcb20aa4b5fc4d3faf7128da0449fee5a14b32652f7866f5c3",
+          "bytes": 2612579,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000452.png",
+          "sha256": "2a0ed53c2c5441d9a076402c749b7e4187332c7218f23fad1a7fcdbbfb9439b9",
+          "bytes": 2357168,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000468.png",
+          "sha256": "133aeb6e5c07b9a96af125a5d4df5923eee160e169c7c2728827169410d8dd6c",
+          "bytes": 2482122,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000476.png",
+          "sha256": "7f3e38fb431fe2c45bf23f36908fbdda4ce730d72a655e95212bb3f7cf71c8ce",
+          "bytes": 2706377,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000488.png",
+          "sha256": "69b9e25e4265151fdbfd1c46b936cbfc8f37d2b39055453c046a7f830fe5c2f2",
+          "bytes": 2509304,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000496.png",
+          "sha256": "040097a093ca9fdf5228c5534353050985c8d0a1c77fc53b0ff10023c84d41aa",
+          "bytes": 2544948,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000500.png",
+          "sha256": "ba66a4bc93fc9fc860ef2f60359506a4b40ec4ae1d73112106954d38d90a9da1",
+          "bytes": 2575574,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000516.png",
+          "sha256": "3da667192478c6a18fec89aec05af6262aeb6dc9f86862c9483896bb5078e148",
+          "bytes": 2566361,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000524.png",
+          "sha256": "71e0b6c9b9002e1dcd553761f224467ec532ba3fcfed26411fd52065ac57d046",
+          "bytes": 2552604,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000532.png",
+          "sha256": "855ee1bd1a03913c0d136039bd22b02f88472d026b8bd2f0cb48d9ab6e1c7861",
+          "bytes": 2596047,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000548.png",
+          "sha256": "a6f2b21756161af0584a1b38633e35b8740601e0703d70792b95aa96ce106aec",
+          "bytes": 2548570,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000552.png",
+          "sha256": "868f97390484698eedf0f7cb1ab1d5574afa06d41c06dd0c2c59928aabe6d8ad",
+          "bytes": 2536542,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000568.png",
+          "sha256": "d342329d71d2804271e8d62407d3b02f8fadddc0171b7486f0981588f220f8f3",
+          "bytes": 2612451,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000576.png",
+          "sha256": "b355c2bafc2b575dedad1b6105262dfd35628e25ddef6c8d211ccaf5532d01b5",
+          "bytes": 2631783,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000584.png",
+          "sha256": "6e3592dcb9b4fcbfd0fb1278c10f470acef5bf9be75ea76f0ea28084a9df478f",
+          "bytes": 2653315,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000596.png",
+          "sha256": "8ff15116b607cfcc07088aa3bc3297b8371b734fa85a967a8cd5898f2d876d90",
+          "bytes": 2547420,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000600.png",
+          "sha256": "a5fa7253b9219fb00ba7d4ce289eabcf270779c060ff9d2c8fdb570eca973bf5",
+          "bytes": 2638210,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000616.png",
+          "sha256": "a7323c4dc46c00e5e3ba87da5356d0b2eba7cb56de5afa550e32f605085b7a6d",
+          "bytes": 2780819,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000620.png",
+          "sha256": "5c5769b9e6b7b170ad2d9d93e2e93ff103b7f7c72d3c65df366253b4e85fc3a6",
+          "bytes": 2528494,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000632.png",
+          "sha256": "cbccdde47c602f7dd61a41d6868c0210cf0a784588c023bc55bef112bcb1609c",
+          "bytes": 2536457,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000659.png",
+          "sha256": "53237b702e70fe65dcd91eaea544ba2d58cd1b765ebbe244cc418d7191c9d437",
+          "bytes": 2493240,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000668.png",
+          "sha256": "1092aa9b5abf0c14999ec9e0ff967a5f0d1a3ec1852fd3ad07807c69dd06e150",
+          "bytes": 2705542,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000672.png",
+          "sha256": "943223b58dba55a9c87859a5b0b9ee7da9206ff697fc6bbd63df9d27dca43abd",
+          "bytes": 2864403,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000692.png",
+          "sha256": "cf3196fa952695a01e6430332d02d85ca17267feb1d43a3a536404b78987ab3d",
+          "bytes": 2684648,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000724.png",
+          "sha256": "28e742406d7b578070a2dde5817c2ca642da10036a448eca7e7d0f30e09a2afc",
+          "bytes": 2597452,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000736.png",
+          "sha256": "58c4d2dd65e9bcba481b4cf5b48454d67c48d3216037575186344bd3d1f0c1b6",
+          "bytes": 2716810,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000740.png",
+          "sha256": "bda5af913d4571936c37d176320777ae4a3da8612e6d3376fc834247e2f0df3a",
+          "bytes": 2745024,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000752.png",
+          "sha256": "a903adb2420e315c5ab0e00dc6ef7e6616d1a6e4d6b2957d4c0fbe3d4f0c2ea1",
+          "bytes": 2690258,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000760.png",
+          "sha256": "bc56d7541873016b086a0628421a91cf77f9b7d207bccece4d98259b77655b8b",
+          "bytes": 2678503,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000776.png",
+          "sha256": "8187805ba0fa9070c9ffbfa942275f7b0b24d57419ba4f91ee1f3ecb5f778e5f",
+          "bytes": 2739068,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000784.png",
+          "sha256": "7eb5182b8bbe3ea019514c8336786680f3c6bf0598c10e906f625fa5f44c53bb",
+          "bytes": 2829350,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000792.png",
+          "sha256": "619233d8a8ef0f245e99529440e73dcfe4a2083b49b6bcb35ddd4deda6957bc0",
+          "bytes": 2733431,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000808.png",
+          "sha256": "1507ff9d598ba7a231fb2242e2eea8b27550da2901687da19e64247060ba54f5",
+          "bytes": 2709070,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000812.png",
+          "sha256": "829f916a3f2357915b346c7aee5beb8cd27314751f6ce81466bc805d69a53ab4",
+          "bytes": 2779999,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000828.png",
+          "sha256": "b50904d7a19ba03ee5edecf9d4c824b17d59d218075cb186027b03e671b59335",
+          "bytes": 2695459,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000832.png",
+          "sha256": "f591e3b42fd5c1eb6680db3f11c32522803dd2fae18087dbda57744e8ad1b262",
+          "bytes": 2662323,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000848.png",
+          "sha256": "d20ffc9e37a6d166fd332007fdaf6ddb2a4fa4c5d526a800cb9828d486a41b27",
+          "bytes": 2609973,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000856.png",
+          "sha256": "89e397886629348e56f3d0d3ca3d058f1802bf53ac4f2113d9513a61c98aaa39",
+          "bytes": 2642883,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000864.png",
+          "sha256": "dc6d9a15c00d1ae4583d81f42187840aa96b9c2fa973f69452d7fb1331045628",
+          "bytes": 2667371,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000876.png",
+          "sha256": "fc952eda1fa5fa8359dbe7fc7214fb252bd4e92f9d0d5c2029f9fabd69090e4a",
+          "bytes": 2585941,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000888.png",
+          "sha256": "0da258407c3fd266d9698cbce09c04ac7248c76b4a0a737997eb1ec419e337be",
+          "bytes": 2636371,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000892.png",
+          "sha256": "b88988400380d5b51efc2c90647a80ed90b912cf7cc5913404bdfab937f08ee0",
+          "bytes": 2609194,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000904.png",
+          "sha256": "6531128d13bed01850bbdbb49fd7129f3735b1a5485f827a62ee58a35b198463",
+          "bytes": 2573723,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000916.png",
+          "sha256": "d4ea919d16fd10110c1596324bbe57d2b9a74fb0ea397c61c0173570a3596648",
+          "bytes": 2568535,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000924.png",
+          "sha256": "48cb1f05067434f599f7c3c586a2a89e1b21f75a204981a79b853fba32f9827a",
+          "bytes": 2658797,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000936.png",
+          "sha256": "d51ce543a7555b56311f76759b68bb64063988a3feb92ca5d1426670a40b767b",
+          "bytes": 2508558,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000948.png",
+          "sha256": "62a7dea841cdb500e9ff1440a52a6bc30a9ef0828bc15649134e4cfa5d184995",
+          "bytes": 2485876,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000952.png",
+          "sha256": "415f0a16bb936011843b57acfb63264a50ad1a587b56b6cf99196b9c07e28d49",
+          "bytes": 2598903,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000968.png",
+          "sha256": "aca0a1eeba33fdc62d7228e511cf608c115936a13749edfc1c331680c42f8c65",
+          "bytes": 2497720,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000976.png",
+          "sha256": "bbb1e64285ad7da89d13992b3c1b9cd8088edfec7756f29e5243957cfab7826e",
+          "bytes": 2493271,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000980.png",
+          "sha256": "222cf18bf7740ae3a06799d74ea20f6cb11522a3dbb0e202e1cc72638c5cc4d3",
+          "bytes": 2559153,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_000992.png",
+          "sha256": "bd87af3637ab96ef1106b7a494bab02cd9d1a08a43d49aa2c7fcccc1f1cae390",
+          "bytes": 2389004,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001008.png",
+          "sha256": "7ab02fb75828e5471b1f7879edad7af2e5893ed5b16ff4bebabc6a68676a8a1c",
+          "bytes": 2513537,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001012.png",
+          "sha256": "bf48c41b50afadc0dfa0779b71915b38d2aad6a797bb85c6021b59bb9c9c23a2",
+          "bytes": 2330519,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001024.png",
+          "sha256": "c5dfedeadbf8fcba4e11a7f40811fd49bd90dc5ac4e8c9072b3f5f6a4d856268",
+          "bytes": 2438757,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001036.png",
+          "sha256": "42972e2c9a3cd38871a8b0794d9b2afb756d4f3afd3e61497f8475fe4843bec9",
+          "bytes": 2632005,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001044.png",
+          "sha256": "630742bc65d3960e82fb1f3fc02b1d403a36d8938f701b0d477c84c712ee31e0",
+          "bytes": 2399255,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001052.png",
+          "sha256": "b2bd5843398df905f297d570d25ee3ea7343ba8e51d429f05e4545b63a829180",
+          "bytes": 2397737,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001064.png",
+          "sha256": "89b109aa486ee5cf9d4d9a05aea50b7aa0aeaa82e81bd26ae2bd12594fa6c460",
+          "bytes": 2536326,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001072.png",
+          "sha256": "26e1f21ac5dbe019a9ede885cd1cb8fbd94597d89ce184a6ce21c1fe51ea4eea",
+          "bytes": 2369132,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001084.png",
+          "sha256": "0cc6034a96605401da3e25c61a8c4e480189340463500c90f129f30b012339f2",
+          "bytes": 2431851,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001092.png",
+          "sha256": "32b976f9b756818ed582a6b33d91104d613b451d7831bdef8775e2285e0828bb",
+          "bytes": 2592849,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001100.png",
+          "sha256": "7744821df84095ae67d20b0db9b74a402d46b3d6dcf5f1ba50536aa23a7ab07c",
+          "bytes": 2379144,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001116.png",
+          "sha256": "228f784154b23a78ff50ea3a2f0c0e345f0d16be5ff2723ac37726bffd406fa3",
+          "bytes": 2389825,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001120.png",
+          "sha256": "6c7cf17a75d951d5ebd2ce3ffbcebebc1f0d3f58c1b77de62060f3199f8f687f",
+          "bytes": 2550636,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001132.png",
+          "sha256": "fd115385339e9432b334c4dbcb72a377582e8e4931c1d4d7e7c0235c8a0f26bd",
+          "bytes": 2329117,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001158.png",
+          "sha256": "a10bbca33cb1f3a052be507ef6ee46de158fee551a7962a440fd27c9f0464ac1",
+          "bytes": 2153307,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001164.png",
+          "sha256": "f32fdfcf006f2f2cc89cf914d31e38fc36ec64e6670c73d62cfeb7ded7532def",
+          "bytes": 2593189,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001172.png",
+          "sha256": "e55334e08d0432532cbd9c5c41095aefbec835aaaa0968cfaef28e4283104567",
+          "bytes": 2633229,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001208.png",
+          "sha256": "2d540cd85b7733882a62b24ee4f6ab43bcd21ad0e001a306359503961c42c78d",
+          "bytes": 2535197,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001212.png",
+          "sha256": "38060692adee65a699562f24edd3bba3e1f6fd155f4f1e74d8ceff40b540b6f9",
+          "bytes": 2679945,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001229.png",
+          "sha256": "fc6d32b71d55c148aaddd026fe2e7997a96d8048262599b6468765c218918311",
+          "bytes": 2463742,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001232.png",
+          "sha256": "5f2294fab04504e694427f24d7e94a3902aeae5bf4e2bdb99aa30a36ed0c32b5",
+          "bytes": 2847147,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001248.png",
+          "sha256": "5932f5dd3d2dc69c686e5906513f0e7aa547b903902f15e0ee1d7ff4e8a7e36f",
+          "bytes": 2564616,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001263.png",
+          "sha256": "a9903d14ddd8bbbb4f66a170e3bf4dc5b5177e558e54e7659a6c6bcef6a28217",
+          "bytes": 2299777,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001325.png",
+          "sha256": "be6f1e444fbeeb4cb76905527fee3bd4971227fdd61bd0c0c2360695669b069a",
+          "bytes": 2507263,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001436.png",
+          "sha256": "54e2c94e89c936514e4f3c390ea18366023d0896d8876c6e2daeaa32335187a7",
+          "bytes": 2603396,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001442.png",
+          "sha256": "6b748bd3934958e89b3e7bcba2cecc75d0348283e4bbfe8ba0ed074b80a846b6",
+          "bytes": 2364393,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001456.png",
+          "sha256": "9a26cc501a48151d3c59cbc3b918572ad0661c91a5fcba7444b55975a355f91f",
+          "bytes": 2676103,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001464.png",
+          "sha256": "8a0c1796cc4743c5d5cc0943d1d0dd032e83898ede7df9080aa86175bb7ab6dd",
+          "bytes": 2566379,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001472.png",
+          "sha256": "83bebc4bfc031c7e04388ed71b92b080b1c474de65ec0400b43d40f1bb9cbf04",
+          "bytes": 2561916,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001480.png",
+          "sha256": "96b3a655e769d3599f0f25b3da0132d830f46a51dbf49d32ccf5e84d3bea3a13",
+          "bytes": 2590585,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001499.png",
+          "sha256": "69f75c590c20c2e0d21e6e3980b31c5030466689cccdb7fe031a4f4fc08a89c8",
+          "bytes": 2490310,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001508.png",
+          "sha256": "70191af123d0b611ef001c86a8112f04e2bbb699509b6779ea241842e288733e",
+          "bytes": 2515408,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001512.png",
+          "sha256": "ef7f25a83c5217c2e20cfb64fd8dd911eca2248bfbacb87c07ddbc51744e060d",
+          "bytes": 2644038,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001528.png",
+          "sha256": "4c956727d31a37e265f41d172158ceee6777016177335c7053eea140776b3615",
+          "bytes": 2653014,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001532.png",
+          "sha256": "1de743ed5560b61e6332f1e048b6e2b0e6be9c1f1d5a6ce7055abed9146a98d7",
+          "bytes": 2533111,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001540.png",
+          "sha256": "13747c32218f26e8d2dce6f92eb5e4da17db045852eb9dd58aefc17cdfe28841",
+          "bytes": 2721694,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001556.png",
+          "sha256": "61d7699f0b94d7c20a65bb155a27978ac94fd805c37a82db6d30d1907d1af9b7",
+          "bytes": 2595188,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001560.png",
+          "sha256": "2750a6c22b9be146f861dc3433b1e66df9d29735d9bad1c00e5b307ef8c288b8",
+          "bytes": 2571877,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001572.png",
+          "sha256": "83988800a6e6410e3294ca75963f4751a7b5ced466a3b74f9ad8284fc9a96d0f",
+          "bytes": 2438226,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001588.png",
+          "sha256": "8ffd7ea764f815fce1ebbd95c167f9e3c2e617c14d0b8af07cba2dab42e3e47f",
+          "bytes": 2485480,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001596.png",
+          "sha256": "aefd3d1c85d9236f54c5d694550bb4087e72bae7f2adfdec3b55e4f14597be3e",
+          "bytes": 2596717,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001604.png",
+          "sha256": "1370112ca66442d5fa5e9d000bd8cdb558fe2d3360f62fad10167876472a01cf",
+          "bytes": 2468638,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001616.png",
+          "sha256": "3327777bb091ca534955bd0fb149d1872e07bd6285d4d9d00c1f4e02924165e5",
+          "bytes": 2490564,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001620.png",
+          "sha256": "c04d10f6ad35f91aea77031ba7dfb6b243524207eab5b6836ade0edc97c894ef",
+          "bytes": 2484475,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001632.png",
+          "sha256": "8ab56158149957e59b742589cc1a14a12b17fc5f6270fdd3a1081277b8d2dcc7",
+          "bytes": 2496166,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001648.png",
+          "sha256": "1ba9fb3bc1974d63d05de91a461d96a537d58347ed010f497b9a5b12e5960f38",
+          "bytes": 2448843,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001652.png",
+          "sha256": "7fdc95f5973da26f242adfdea0faf7f3379fed2601903a4537599d6ef1304780",
+          "bytes": 2597399,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001668.png",
+          "sha256": "fd9227ca2ae29f0170f65cdea4396f62dafea4e409a60b0714beaa4e70bea746",
+          "bytes": 2557632,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001672.png",
+          "sha256": "3f49756ce7c0c0e19136c33c7f7e8aa41d00164e34725614b98ea092f7e2862c",
+          "bytes": 2453574,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001680.png",
+          "sha256": "ea8616bf93d719d0ca8432e72bef3ed87df401f99ee1014e810f43c8225955e8",
+          "bytes": 2570237,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001696.png",
+          "sha256": "6fd1c5bd83eacb21f3f18a71ffd672b4bc0996fb4ce1e2be27b2621a7c3833af",
+          "bytes": 2554549,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001708.png",
+          "sha256": "f249800264f374b5565c3efcd1ac524db66fd60944bbab1ede922750c5b95184",
+          "bytes": 2696478,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001716.png",
+          "sha256": "a01ade2e43b10da961c7bc1b751dd10067a31f2dba73a83194902c85dee4a88e",
+          "bytes": 2588730,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001724.png",
+          "sha256": "73c117d5698eb1a40b1606340452421749ec232bdca99b95a6b70bde0c7e72d9",
+          "bytes": 2642215,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001732.png",
+          "sha256": "92361526ac2d01bb65d161271d7f99876bf28edc745687685a0126bc490103f2",
+          "bytes": 2605928,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001748.png",
+          "sha256": "6a1c65f4a0704d97e7ffd346d1f0cc371449e82ab3dd32c88d0b68acc61796b5",
+          "bytes": 2550691,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001756.png",
+          "sha256": "ab6b17ddc04a01b15e94b8e987b6cf263f5ef5c1a5ddee110c598984a3ec280b",
+          "bytes": 2592583,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001768.png",
+          "sha256": "228dcc6397fb857e12e3c1334e343c39ca7ae254e68eff60a95c3c530e8c3e5a",
+          "bytes": 2452776,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001776.png",
+          "sha256": "ea62ee01a524644c841178a443d92f8c0b7ff02f82991e7d3d25ff4d4002203a",
+          "bytes": 2587344,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001784.png",
+          "sha256": "354c755af38ba1f820c6224c7865fa114a0394d70cb2a9b28059208d488b7ced",
+          "bytes": 2618632,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001792.png",
+          "sha256": "0a955346352aac929c069aba7be0b4b21adb3b12ab180c552ad2d839ad4d43e5",
+          "bytes": 2737886,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001808.png",
+          "sha256": "d05fc6ffba9c29f5c10bd79b1722c697435fcec4a945a9535a51933c454c0a9d",
+          "bytes": 2685950,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001816.png",
+          "sha256": "17b838f41ed8f37a80a8da8cc5c78946658d874f1a4fc2a3dacad0148c63463f",
+          "bytes": 2740783,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001820.png",
+          "sha256": "60b16b10694232026d11e40bd8c1e370a6b6c88b13061c5b356f63440bae1570",
+          "bytes": 2850264,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001832.png",
+          "sha256": "8d8d7831dfe10f9eff7f90ac0b16a02231e104a064d03278d690ca94cd6923e9",
+          "bytes": 2759323,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/szafka2-atlas/atlas_open_frame_001846.png",
+          "sha256": "e3870aa7cc1341de4a48eecb1fc6614c2c59ac154a9e139353328650bb281595",
+          "bytes": 3125057,
+          "size_px": [
+            1080,
+            1920
+          ]
+        }
+      ]
+    }
+  ],
+  "files": {
+    "atlas.json": "2906ec7fd6b1fef5767149eb6fd548bc9cabc9dfcfd616fa390055dd32917f22",
+    "atlas.report.json": "437e7bb928a5982745ebaf05182d4fdc7b68ccda94393ecd884699c26ffd2c7e",
+    "sets/szafka2-test/clicks.json": "ad33fd599ac45003ea47320255526b680c3477464222d5629a87ffda6b2e8dd1",
+    "sets/szafka2-test/board_poses.json": "47bd0726149a3bb601dd8a269464a4518f9d47a046c7ccf56d07bc16f5c3f181",
+    "sets/szafka2-atlas/clicks.json": "9b96592977225ada8cc6e6594af523796193c5dd131f315c0153f2dbe986fec4",
+    "sets/szafka2-atlas/board_poses.json": "5ad1d1157897e2c6c5010a052bba572ae8cff548cc0241db5f640a51690165e1"
+  }
+}

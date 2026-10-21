@@ -145,3 +145,32 @@ def poses_from_clicks(
             tvec_mm=(float(tvec[0]), float(tvec[1]), float(tvec[2])),
         )
     return poses
+
+
+def suggested_viewpoints(
+    view: str,
+    action: Action,
+    poses: dict[str, Pose],
+    clicks: Clicks,
+    atlas: Atlas,
+    min_landmarks: int,
+) -> list[str]:
+    """Recorded viewpoints to go to from view, best first.
+
+    With a pose, those that lie the move's way (fitting_viewpoints). Without
+    one there is no "that way", since the camera could be anywhere: then the
+    viewpoints that see at least min_landmarks landmarks of the atlas, the
+    most first, as those are where a result can come from.
+    """
+    current = poses.get(view)
+    if current is not None:
+        others = {name: pose for name, pose in poses.items() if name != view}
+        return fitting_viewpoints(current, others, action)
+    landmarks = {landmark.id for landmark in atlas.landmarks}
+    seen = {
+        name: len(landmarks & clicks.views.get(name, {}).keys()) for name in poses if name != view
+    }
+    return sorted(
+        (name for name, count in seen.items() if count >= min_landmarks),
+        key=lambda name: (-seen[name], name),
+    )

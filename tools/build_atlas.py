@@ -93,6 +93,12 @@ def main(argv: list[str] | None = None) -> None:
         default=5.0,
         help="how far the clicked centre of the target may be from its real centre",
     )
+    parser.add_argument(
+        "--target-tag-depth",
+        type=float,
+        help="the target is a box with a tag on its face, this deep in mm: the extent then runs "
+        "along the tag's width, its height and into the box (see tools/annotate_markers.py)",
+    )
     parser.add_argument("--samples", type=int, default=200, help="Monte Carlo samples")
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--out", type=Path, required=True, help="atlas file to write (.json)")
@@ -130,6 +136,7 @@ def main(argv: list[str] | None = None) -> None:
         click_sigma_px=args.click_sigma_px,
         target_centre_sigma_mm=args.target_centre_sigma_mm,
         seed=args.seed,
+        target_tag_depth_mm=args.target_tag_depth,
     )
 
     measured = None

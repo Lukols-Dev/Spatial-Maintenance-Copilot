@@ -42,9 +42,11 @@ packages/smc_core/     Geometry: calibration, atlas, PnP, Monte Carlo region, de
 packages/smc_agent/    The agent: a LangGraph loop over smc_core, Amazon Nova or Claude on Amazon Bedrock
 packages/smc_eval/     The evaluation: metrics, a simulated operator, injected faults
 services/perception/   FastAPI service running the pipeline and the agent (ECS Fargate)
+infra/                 The AWS deployment as an AWS CDK app
 eval/datasets/         Frozen evaluation datasets: atlas, clicks, board poses, media hashes
 eval/results/          Evaluation results, report and agent traces
 tools/                 Bench utilities and git hooks
+docs/                  The technical report
 ```
 
 Single uv workspace. The geometry lives in smc_core and the agent in smc_agent;
@@ -73,6 +75,24 @@ make api-build
 make api-run
 ```
 
+## Deploying to AWS
+
+The stack in [infra/](infra/) (AWS CDK, region eu-north-1) puts the web app on S3 and CloudFront. The
+API is served under `/api` through API Gateway, a VPC link and an internal load balancer, to the
+service on ECS Fargate (Graviton). Agent sessions are kept in DynamoDB, and the workspace the demo
+serves sits in a private S3 bucket. The task role signs Bedrock calls, so no key is stored in AWS.
+
+Requirements: AWS credentials allowed to deploy, Docker, and access to Amazon Nova 2 Lite in
+eu-north-1.
+
+```bash
+cd infra && npx cdk bootstrap   # once per account and region
+make deploy                     # builds the web app for /api, the ARM64 image, and deploys
+```
+
+`infra/cdk.json` names the atlases and view sets of `data/` that the deployment serves. The stack's
+outputs give the site's URL, the bucket, the sessions table and the service's log group.
+
 ## Evaluation
 
 The evaluation runs the service's code on a frozen dataset. The atlas is scored on viewpoints recorded
@@ -94,13 +114,11 @@ make eval        # run it: results.json, report.md and the agent's traces
 make eval-check  # run it again and compare with the stored results, within fixed tolerances
 ```
 
-## Current stage
+## Documentation
 
-The project is currently in the experimentation and prototyping phase.
-
-The first goal is to validate the underlying computer-vision and spatial-localisation approach before expanding the system.
-
-Technical details, experiments and demos will be published progressively as individual parts of the system are validated.
+[docs/report.md](docs/report.md) is the technical report: the problem and its users, the architecture
+and the agent's workflow, the OpenCV 5 implementation, the AWS deployment, the evaluation, the
+limitations and responsible use. Its first lines say which parts are built and which are in progress.
 
 ## OpenCV AI Competition 2026
 

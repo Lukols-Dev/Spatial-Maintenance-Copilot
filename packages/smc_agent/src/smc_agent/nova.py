@@ -79,10 +79,11 @@ def nova_model(
     model_id: str = DEFAULT_MODEL_ID,
     effort: str = DEFAULT_EFFORT,
     *,
-    access_key: str,
-    secret_key: str,
+    access_key: str | None,
+    secret_key: str | None,
 ) -> NovaChatModel:
-    """The model in this AWS region, called with the keys of an IAM user.
+    """The model in this AWS region, called with the keys of an IAM user, or without keys
+    with the credentials the platform gives, the ECS task role.
 
     Ten minutes to read an answer and two retries, as the Anthropic SDK gives
     Claude: boto3's minute is short for reasoning at high.

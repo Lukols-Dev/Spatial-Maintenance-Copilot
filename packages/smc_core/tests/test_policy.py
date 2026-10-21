@@ -15,6 +15,7 @@ from smc_core.contracts import (
     Decision,
     Ellipse,
     Failure,
+    FrameQuality,
     Landmark,
     LandmarkObservation,
     Localisation,
@@ -123,6 +124,7 @@ def measured(
             in_frame=in_frame(target_px, INTRINSICS["image_size"]),
             outline_px=[],
             radius_px=radius_px,
+            corners_px=[],
         ),
         uncertainty=UncertaintyRegion(
             confidence=0.95,
@@ -738,3 +740,72 @@ def test_a_localised_view_of_five_landmarks_asks_for_more() -> None:
     assert not decision.reliable
     assert decision.reasons == ["5 inliers, needs ≥ 6"]
     assert decision.action is Action.MOVE_CLOSER
+
+
+# ---- a camera frame's blur -------------------------------------------------------
+
+
+def blur(width: float | None, markers: int = 6) -> FrameQuality:
+    return FrameQuality(markers=markers if width is not None else 0, edge_width_px=width)
+
+
+def decide_frame(localisation: Localisation, frame: FrameQuality) -> Decision:
+    return decide(localisation, view_of(list(FRAMED)), atlas_at(FRAMED), INTRINSICS, frame=frame)
+
+
+def test_a_sharp_frame_adds_its_blur_to_the_checks_and_is_accepted() -> None:
+    decision = decide_frame(measured(), blur(3.2))
+
+    assert decision.reliable
+    assert [check.name for check in decision.checks] == [*CHECKS, "edge_width_px"]
+    assert decision.checks[-1].model_dump() == {
+        "name": "edge_width_px",
+        "value": 3.2,
+        "limit": 5.5,
+        "op": "<=",
+        "passed": True,
+    }
+
+
+def test_a_view_clicked_by_hand_has_no_blur_to_judge() -> None:
+    assert "edge_width_px" not in [check.name for check in decide_framed(measured()).checks]
+
+
+def test_a_blurred_frame_is_held_still_whatever_else_passes() -> None:
+    decision = decide_frame(measured(), blur(7.25))
+
+    assert not decision.reliable
+    assert decision.action is Action.HOLD_STILL
+    assert decision.reasons == ["marker edges 7.2 px wide, needs ≤ 5.5 px"]
+    assert decision.move_reason == (
+        "marker edges smeared over 7.2 px: the camera moved while the frame was taken"
+    )
+
+
+def test_blur_comes_before_a_failure_and_before_the_framing() -> None:
+    lost = decide_frame(failed(Failure.PNP_FAILED, with_pose=True), blur(9.0))
+    outside = decide_frame(measured(target_px=(500.0, 2300.0)), blur(9.0))
+
+    assert (lost.action, outside.action) == (Action.HOLD_STILL, Action.HOLD_STILL)
+    assert lost.reasons[0] == "localisation failed: PnP failed"
+    assert lost.reasons[-1] == "marker edges 9.0 px wide, needs ≤ 5.5 px"
+
+
+def test_a_frame_without_a_marker_to_measure_fails_on_the_markers_not_on_blur() -> None:
+    decision = decide_frame(failed(Failure.TOO_FEW_CORRESPONDENCES), blur(None))
+
+    assert decision.action is Action.MOVE_BACK
+    assert decision.checks[-1].value is None
+    assert decision.reasons[0] == "localisation failed: too few correspondences"
+    assert not any("edge" in reason for reason in decision.reasons)
+
+
+def test_the_blur_limit_is_the_policys() -> None:
+    lenient = Policy(max_edge_width_px=8.0)
+
+    decision = decide(
+        measured(), view_of(list(FRAMED)), atlas_at(FRAMED), INTRINSICS, lenient, frame=blur(7.25)
+    )
+
+    assert decision.reliable
+    assert decision.checks[-1].limit == 8.0

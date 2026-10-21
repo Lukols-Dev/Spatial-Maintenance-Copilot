@@ -22,7 +22,17 @@ import { cn } from "@/lib/utils";
 // lines are sized in screen pixels (times the image pixels per screen pixel),
 // so they read the same on a phone and on a large screen.
 
-export const LAYERS = ["landmarks", "residuals", "projections", "labels", "target", "region", "poseOnly", "truth"] as const;
+export const LAYERS = [
+  "landmarks",
+  "residuals",
+  "projections",
+  "labels",
+  "occluder",
+  "target",
+  "region",
+  "poseOnly",
+  "truth",
+] as const;
 export type Layer = (typeof LAYERS)[number];
 export type Layers = Record<Layer, boolean>;
 
@@ -65,13 +75,53 @@ function Ellipse({ shape, ...props }: { shape: EllipseShape } & ComponentProps<"
   );
 }
 
+/** The panel the target is behind, tinted and named: the box is drawn through it, as if it were glass. */
+function OccluderLayer({ occluder, width, k }: { occluder: NonNullable<Overlay["occluder"]>; width: number; k: number }) {
+  const fontSize = 13 * k;
+  const text = `Target behind: ${occluder.id}`;
+  const half = (text.length * 0.58 * fontSize) / 2;
+  const [x, y] = occluder.label;
+  return (
+    <g data-layer="occluder">
+      <Halo width={4} k={k}>
+        <path d={occluder.outline} />
+      </Halo>
+      <path
+        data-part="occluder"
+        data-panel={occluder.id}
+        d={occluder.outline}
+        className="fill-sky-400/25 stroke-sky-300"
+        strokeWidth={2.5 * k}
+        strokeLinejoin="round"
+      />
+      <text
+        data-part="occluder-label"
+        x={svgNumber(Math.min(Math.max(x, half + 4 * k), width - half - 4 * k))}
+        y={svgNumber(Math.max(y, 0) + fontSize * 1.3)}
+        fontSize={svgNumber(fontSize)}
+        textAnchor="middle"
+        dominantBaseline="middle"
+        className="fill-white stroke-black font-sans font-semibold"
+        strokeOpacity={0.6}
+        strokeWidth={3 * k}
+        paintOrder="stroke"
+        strokeLinejoin="round"
+      >
+        {text}
+      </text>
+    </g>
+  );
+}
+
 function TargetLayer({ overlay, k, hatch }: { overlay: Overlay; k: number; hatch: string }) {
   if (!overlay.target) return null;
   const { style } = overlay;
+  const { hidden } = overlay.target;
   return (
     <g data-layer="target" data-style={style}>
       <Halo width={4.5} k={k}>
         <path d={overlay.target.outline} />
+        <path d={overlay.target.edges} />
       </Halo>
       <path
         data-part="target-outline"
@@ -82,6 +132,16 @@ function TargetLayer({ overlay, k, hatch }: { overlay: Overlay; k: number; hatch
         strokeWidth={2 * k}
         strokeDasharray={dash(style, k)}
         strokeLinejoin="round"
+      />
+      {/* The box itself: its hidden edges dashed, as a drawing shows what lies behind a surface. */}
+      <path
+        data-part="target-box"
+        data-hidden={hidden ? "true" : "false"}
+        d={overlay.target.edges}
+        className={cn("fill-none", REGION_STROKE[style])}
+        strokeWidth={1.5 * k}
+        strokeDasharray={hidden ? `${svgNumber(5 * k)} ${svgNumber(4 * k)}` : undefined}
+        strokeLinecap="round"
       />
     </g>
   );
@@ -294,6 +354,7 @@ function OverlayMarks({ overlay, layers, k, hatch }: { overlay: Overlay; layers:
   const { style } = overlay;
   return (
     <>
+      {layers.occluder && overlay.occluder && <OccluderLayer occluder={overlay.occluder} width={overlay.width} k={k} />}
       {layers.target && <TargetLayer overlay={overlay} k={k} hatch={hatch} />}
       {layers.region && overlay.region && <RegionLayer shape={overlay.region} style={style} k={k} hatch={hatch} />}
       {layers.poseOnly && overlay.poseOnly && <PoseOnlyLayer shape={overlay.poseOnly} k={k} />}

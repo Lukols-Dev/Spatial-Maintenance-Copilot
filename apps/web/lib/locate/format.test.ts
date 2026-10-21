@@ -100,6 +100,11 @@ describe("checks", () => {
     expect(rows(FAILURE).map(([, value]) => value)).toEqual(["3", "—", "—", "—", "—", "—", "—", "—"]);
   });
 
+  it("show a frame's blur in pixels against its limit", () => {
+    const check: Check = { name: "edge_width_px", value: 7.25, limit: 5.5, op: "<=", passed: false };
+    expect([checkLabel(check.name), checkValue(check), checkLimit(check)]).toEqual(["Marker edge width", "7.3 px", "≤ 5.5 px"]);
+  });
+
   it("show a check the service adds later by its name", () => {
     const check: Check = { name: "ray_angle_deg", value: 12.3456, limit: 5, op: ">=", passed: true };
     expect([checkLabel(check.name), checkValue(check), checkLimit(check)]).toEqual(["Ray angle deg", "12.3", "≥ 5"]);

@@ -55,6 +55,13 @@ describe("the atlas choice", () => {
     expect(pickAtlas([atlases[1]], null)).toBeNull();
     expect(pickAtlas([], null)).toBeNull();
   });
+
+  it("passes over an atlas found without viewpoints, unless it is the one wanted", () => {
+    expect(pickAtlas(atlases, null, ["new"])).toBe("old");
+    expect(pickAtlas(atlases, "new", ["new"])).toBe("new");
+    // Every one passed over: the newest, whose state then says why.
+    expect(pickAtlas(atlases, null, ["new", "old"])).toBe("new");
+  });
 });
 
 describe("the view sets with viewpoints", () => {

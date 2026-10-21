@@ -1,0 +1,316 @@
+{
+  "frame_id": "0f1e2d3c4b5a",
+  "asset_id": "home-cabinet",
+  "camera_id": "phone-1x-portrait",
+  "image": {
+    "width": 1080,
+    "height": 1920
+  },
+  "observations": [
+    {
+      "landmark_id": "m54_0",
+      "pixel": [
+        420.5882873535156,
+        607.4910278320312
+      ],
+      "inlier": true
+    },
+    {
+      "landmark_id": "m54_1",
+      "pixel": [
+        515.390869140625,
+        618.8181762695312
+      ],
+      "inlier": true
+    },
+    {
+      "landmark_id": "m54_2",
+      "pixel": [
+        514.2622680664062,
+        718.4784545898438
+      ],
+      "inlier": true
+    },
+    {
+      "landmark_id": "m54_3",
+      "pixel": [
+        421.6328125,
+        705.1018676757812
+      ],
+      "inlier": true
+    },
+    {
+      "landmark_id": "m55_0",
+      "pixel": [
+        504.68780517578125,
+        1180.4111328125
+      ],
+      "inlier": true
+    },
+    {
+      "landmark_id": "m55_1",
+      "pixel": [
+        575.3394165039062,
+        1196.468505859375
+      ],
+      "inlier": true
+    },
+    {
+      "landmark_id": "m55_2",
+      "pixel": [
+        573.3212280273438,
+        1258.5662841796875
+      ],
+      "inlier": true
+    },
+    {
+      "landmark_id": "m55_3",
+      "pixel": [
+        503.66748046875,
+        1242.2548828125
+      ],
+      "inlier": true
+    }
+  ],
+  "localisation": {
+    "view_id": "0f1e2d3c4b5a",
+    "failure": null,
+    "quality": {
+      "observed": 8,
+      "inliers": 8,
+      "inlier_ratio": 1.0,
+      "outlier_ids": [],
+      "rms_reprojection_px": 0.28435113226851816,
+      "max_reprojection_px": 0.4529102163709726,
+      "reprojection_px": {
+        "m54_0": 0.08763888109495904,
+        "m54_1": 0.20253152364001284,
+        "m54_2": 0.29156719143697085,
+        "m54_3": 0.4023833251180743,
+        "m55_0": 0.29345470178748595,
+        "m55_1": 0.1156334557520328,
+        "m55_2": 0.4529102163709726,
+        "m55_3": 0.21588596571459434
+      },
+      "image_coverage": 0.027774645941232995,
+      "non_planarity": 0.03315840136129325
+    },
+    "pose": {
+      "rvec": [
+        0.4501154643686943,
+        0.3504294296577894,
+        0.10090161556310652
+      ],
+      "tvec_mm": [
+        -45.5696506551787,
+        -76.04028845357041,
+        782.947149456241
+      ]
+    },
+    "target": {
+      "centre_px": [
+        841.9489422432717,
+        851.5098573365968
+      ],
+      "depth_mm": 937.6171878414287,
+      "in_frame": true,
+      "outline_px": [
+        [
+          889.419189453125,
+          794.9586181640625
+        ],
+        [
+          883.701171875,
+          842.7145385742188
+        ],
+        [
+          865.8588256835938,
+          880.2603149414062
+        ],
+        [
+          812.958984375,
+          872.1002197265625
+        ],
+        [
+          817.9326782226562,
+          822.6315307617188
+        ],
+        [
+          838.315673828125,
+          787.8917236328125
+        ]
+      ],
+      "radius_px": 41.190031083668295,
+      "corners_px": [
+        [
+          833.3249637983051,
+          835.3086352612502
+        ],
+        [
+          812.9589967610787,
+          872.1001969344691
+        ],
+        [
+          838.3156459506173,
+          787.8917415911388
+        ],
+        [
+          817.9326839697526,
+          822.6315034770681
+        ],
+        [
+          883.701141511928,
+          842.7145272684261
+        ],
+        [
+          865.8588257221678,
+          880.2603008061772
+        ],
+        [
+          889.4191912995879,
+          794.9585973553311
+        ],
+        [
+          871.6355364466344,
+          830.4247174377681
+        ]
+      ]
+    },
+    "uncertainty": {
+      "confidence": 0.95,
+      "covariance_px": [
+        [
+          25.470474521658762,
+          4.109064279751288
+        ],
+        [
+          4.109064279751288,
+          14.737986185683901
+        ]
+      ],
+      "ellipse": {
+        "semi_major_px": 12.68655667903056,
+        "semi_minor_px": 8.941971060765793,
+        "angle_deg": 18.721081573962863
+      },
+      "pose_only": {
+        "semi_major_px": 11.294187528839906,
+        "semi_minor_px": 5.975203411235971,
+        "angle_deg": 18.25224736828673
+      },
+      "samples": 200,
+      "failed_samples": 0,
+      "seed": 0
+    },
+    "occluder": {
+      "panel_id": "door",
+      "outline_px": [
+        [
+          721.4946237788405,
+          763.0959774332126
+        ],
+        [
+          1011.4687041035239,
+          803.9308271744728
+        ],
+        [
+          971.184870147292,
+          1063.73429984147
+        ],
+        [
+          703.3564165942714,
+          1013.1105835717401
+        ]
+      ]
+    }
+  },
+  "decision": {
+    "reliable": false,
+    "action": "MOVE_DOWN",
+    "reasons": [
+      "landmarks cover 2.8 % of the frame, needs ≥ 5 %"
+    ],
+    "move_reason": "landmarks m51_0, m51_1, m51_2, m51_3 face away from the camera, seen from further down",
+    "checks": [
+      {
+        "name": "landmarks",
+        "value": 8.0,
+        "limit": 4.0,
+        "op": ">=",
+        "passed": true
+      },
+      {
+        "name": "inliers",
+        "value": 8.0,
+        "limit": 6.0,
+        "op": ">=",
+        "passed": true
+      },
+      {
+        "name": "inlier_ratio",
+        "value": 1.0,
+        "limit": 0.75,
+        "op": ">=",
+        "passed": true
+      },
+      {
+        "name": "rms_reprojection_px",
+        "value": 0.28435113226851816,
+        "limit": 3.0,
+        "op": "<=",
+        "passed": true
+      },
+      {
+        "name": "image_coverage",
+        "value": 0.027774645941232995,
+        "limit": 0.05,
+        "op": ">=",
+        "passed": false
+      },
+      {
+        "name": "target_in_frame",
+        "value": 1.0,
+        "limit": 1.0,
+        "op": ">=",
+        "passed": true
+      },
+      {
+        "name": "pose_stability",
+        "value": 0.0,
+        "limit": 0.05,
+        "op": "<=",
+        "passed": true
+      },
+      {
+        "name": "region_ratio",
+        "value": 0.30800065805390314,
+        "limit": 0.5,
+        "op": "<=",
+        "passed": true
+      },
+      {
+        "name": "edge_width_px",
+        "value": 3.7,
+        "limit": 5.5,
+        "op": "<=",
+        "passed": true
+      }
+    ],
+    "policy": {
+      "min_landmarks": 4,
+      "min_inliers": 6,
+      "min_inlier_ratio": 0.75,
+      "max_rms_reprojection_px": 3.0,
+      "min_image_coverage": 0.05,
+      "max_failed_sample_ratio": 0.05,
+      "max_region_ratio": 0.5,
+      "max_edge_width_px": 5.5
+    }
+  },
+  "sighting": null,
+  "frame_quality": {
+    "markers": 2,
+    "edge_width_px": 3.7
+  },
+  "elapsed_ms": 64.0
+}

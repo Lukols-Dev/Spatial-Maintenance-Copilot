@@ -207,7 +207,7 @@ function OpenFailed({ title, detail, onRetry }: { title: string; detail: string;
             </Button>
           )}
           <Button asChild variant="outline">
-            <Link href="/annotate">
+            <Link href="/atlas/annotate">
               <FolderOpen /> Local files
             </Link>
           </Button>

@@ -55,7 +55,7 @@ async function nextImage(page: Page, name: string) {
 
 test.beforeEach(async ({ page }) => {
   await stubHealth(page);
-  await page.goto("/annotate/");
+  await page.goto("/atlas/annotate/");
   // The annotator is loaded in the browser after the page; wait until it is there.
   await expect(page.getByLabel("New point id")).toBeVisible();
 });
@@ -347,7 +347,7 @@ test("images dropped beside the canvas open instead of leaving the page", async 
     { data: view.buffer.toString("base64"), name: view.name },
   );
   await waitForImage(page, "view_0.png");
-  await expect(page).toHaveURL(/\/annotate\/$/);
+  await expect(page).toHaveURL(/\/atlas\/annotate\/$/);
 
   const drop = (selector: string, name: string, type: string, data: string) =>
     page.evaluate(

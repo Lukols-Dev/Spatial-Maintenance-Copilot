@@ -1,0 +1,13 @@
+{
+  "frame_id": "9a8b7c6d5e4f",
+  "region_px": [
+    512,
+    760,
+    742,
+    1010
+  ],
+  "question": "Is a cardboard box visible in this region?",
+  "verdict": "yes",
+  "answer": "Yes. A small cardboard box sits on the shelf behind the open door.",
+  "model": "eu.amazon.nova-2-lite-v1:0 (eu-north-1)"
+}

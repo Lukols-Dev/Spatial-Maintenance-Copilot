@@ -55,13 +55,13 @@ def test_the_agent_s_trace_runs_from_perception_to_approval(perception: FrozenPe
     assert trace[-1].summary == "the operator approved"
 
 
-def test_with_no_viewpoint_to_go_to_the_agent_s_session_is_refused(
+def test_from_a_view_without_a_pose_the_agent_sends_the_operator_where_most_is_seen(
     perception: FrozenPerception,
 ) -> None:
     run = agent(perception, BLIND)
 
-    assert run.views == [BLIND]
-    assert run.outcome == "refused" and run.success is False
+    assert run.views == [BLIND, ACCEPTED]
+    assert run.outcome == "accepted" and run.success is True
 
 
 def test_a_result_accepted_where_no_truth_was_recorded_is_unscored(
@@ -112,9 +112,9 @@ def test_a_summary_counts_success_false_accepts_and_refusals(
     summary = sessions.summarise("agent", runs, 1, "every viewpoint")
 
     assert (summary.starts, summary.unscored) == (4, 1)
-    assert (summary.success.k, summary.success.n) == (2, 3)
-    assert (summary.false_accept.k, summary.refused.k) == (0, 1)
-    assert summary.views_to_success.mean == pytest.approx(1.5)
+    assert (summary.success.k, summary.success.n) == (3, 3)
+    assert (summary.false_accept.k, summary.refused.k) == (0, 0)
+    assert summary.views_to_success.mean == pytest.approx(5 / 3)
 
 
 def test_the_agent_s_next_view_is_held_against_the_first_and_a_random_one(

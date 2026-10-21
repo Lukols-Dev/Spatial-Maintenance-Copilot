@@ -280,6 +280,7 @@ def test_a_view_with_too_few_landmarks_fails_and_asks_for_a_step_back(
         "pose": None,
         "target": None,
         "uncertainty": None,
+        "occluder": None,
     }
     assert [observation["inlier"] for observation in result["observations"]] == [None] * 3
     assert result["projections"] == []

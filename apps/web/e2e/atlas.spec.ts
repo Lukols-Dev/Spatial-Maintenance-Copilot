@@ -1,6 +1,6 @@
 import { expect, test, type Locator, type Page } from "@playwright/test";
 
-import type { Board, ViewSetSummary, Workspace } from "../lib/workspace";
+import type { Board, MarkersAnswer, ViewSetSummary, Workspace } from "../lib/workspace";
 import { example, routeJson, stubHealth, stubWorkspace, type Stub } from "./helpers";
 
 // workspace.json: the set cabinet (3 images; hinge_top, handle and the drone
@@ -26,6 +26,8 @@ interface Service {
   measure: Stub;
   /** POST /view-sets */
   upload: Stub;
+  /** POST /view-sets/cabinet/markers */
+  markers: Stub;
 }
 
 /** The perception service, answering with the examples. Nothing reaches a real one. */
@@ -39,6 +41,7 @@ async function serve(page: Page, workspace: Workspace | "offline" = example("wor
     build: await routeJson(page, "POST", "**/atlases", example("atlas.json"), 201),
     measure: await routeJson(page, "PUT", "**/boards/rig_board_a/measurement", measuredBoard()),
     upload: await routeJson(page, "POST", "**/view-sets", example("view-set-summary.json"), 201),
+    markers: await routeJson(page, "POST", "**/view-sets/cabinet/markers", example("markers-answer.json")),
   };
 }
 
@@ -277,7 +280,7 @@ test("Import views sends a video as a form, shows its progress, then opens the n
   expect(sent).toMatch(/name="window"\r\n\r\n10\r\n/);
   expect(sent).toMatch(/name="files"; filename="cabinet-2\.mov"\r\nContent-Type: video\/quicktime\r\n\r\nnot really a video\r\n/);
   await expect(form.getByRole("combobox", { name: "View set" })).toHaveText("cabinet-2 · 24 images");
-  await expect(form.getByRole("link", { name: "Annotate" })).toHaveAttribute("href", "/annotate/?set=cabinet-2");
+  await expect(form.getByRole("link", { name: "Annotate" })).toHaveAttribute("href", "/atlas/annotate/?set=cabinet-2");
   await expect(missing(form)).toContainText(["No points marked"]);
 });
 
@@ -291,6 +294,63 @@ test("an import the service refuses shows its words, and the dialog keeps the fi
   await dialog.getByRole("button", { name: "Import" }).click();
   await expect(dialog.getByRole("alert")).toHaveText("no frames could be read from cabinet-2.mov");
   await expect(dialog.getByRole("button", { name: "Import" })).toBeEnabled();
+});
+
+test("Find markers gives the set its points from the printed markers, and the form takes the tag", async ({ page }) => {
+  const service = await serve(page);
+  await page.goto("/atlas/");
+  const form = buildForm(page);
+  const points = form.getByRole("group", { name: "Points" });
+  await points.getByRole("button", { name: "Find markers…" }).click();
+
+  const dialog = page.getByRole("dialog", { name: "Find markers in cabinet" });
+  await expect(dialog.getByText("3 images · landmarks 50–60 · tag 70")).toBeVisible();
+  await expect(dialog.getByRole("combobox", { name: "Camera" })).toHaveText(CAMERA);
+  await expect(dialog.getByLabel("Target point")).toHaveValue("drone");
+  await expect(dialog.getByRole("checkbox")).toHaveCount(11);
+  await expect(dialog.getByText("Replaces 4 points marked in 3 images")).toBeVisible();
+  await dialog.getByLabel("Target point").fill("cel");
+  for (const marker of ["50", "51", "52", "53"]) await dialog.getByRole("checkbox", { name: marker, exact: true }).check();
+
+  // The workspace read after the search lists the set's new points.
+  const marked = example<Workspace>("workspace.json");
+  marked.view_sets[0] = { ...marked.view_sets[0], clicks: example<MarkersAnswer>("markers-answer.json").clicks };
+  service.workspace.reply(marked);
+  await dialog.getByRole("button", { name: "Replace points" }).click();
+
+  await expect(dialog.getByRole("status")).toHaveText("Markers in 287 of 290 images · tag in 149");
+  await expect(dialog.getByRole("list", { name: "Images per marker" }).getByRole("listitem")).toHaveCount(11);
+  await expect(dialog.getByText("60: not found")).toBeVisible();
+  expect(service.markers.bodies).toEqual([example("markers-request.json")]);
+  await dialog.getByRole("button", { name: "Close" }).first().click();
+  await expect(dialog).toBeHidden();
+
+  await expect(form.getByText("3 images · 1080×1920 · 49 points, 37 in ≥ 2 images")).toBeVisible();
+  // The tag is the target now: its box needs a depth before the atlas can be built.
+  await expect(form.getByRole("combobox", { name: "Target" })).toHaveText("cel · 149 views");
+  await expect(missing(form)).toHaveText(["Tag depth missing"]);
+  await form.getByLabel("Tag depth (mm)").fill("140");
+  await expect(missing(form)).toHaveCount(0);
+});
+
+test("Find markers says what stops it, and the service's refusal in its words", async ({ page }) => {
+  const workspace = example<Workspace>("workspace.json");
+  workspace.rig.markers = null;
+  const service = await serve(page, workspace);
+  await page.goto("/atlas/");
+  await buildForm(page).getByRole("button", { name: "Find markers…" }).click();
+  const dialog = page.getByRole("dialog", { name: "Find markers in cabinet" });
+  await expect(dialog.getByRole("list", { name: "Missing" })).toHaveText("calib/rig.yaml names no printed markers");
+  await expect(dialog.getByRole("button", { name: "Replace points" })).toBeDisabled();
+  await dialog.getByRole("button", { name: "Close" }).first().click();
+
+  service.workspace.reply(example("workspace.json"));
+  service.markers.reply({ detail: "no marker of calib/rig.yaml in the 3 images of view set 'cabinet'" }, 409);
+  await page.reload();
+  await buildForm(page).getByRole("button", { name: "Find markers…" }).click();
+  await dialog.getByRole("button", { name: "Replace points" }).click();
+  await expect(dialog.getByRole("alert")).toHaveText("no marker of calib/rig.yaml in the 3 images of view set 'cabinet'");
+  await expect(dialog.getByRole("button", { name: "Replace points" })).toBeEnabled();
 });
 
 test("another view set brings its own target, also after a set without points", async ({ page }) => {
@@ -370,9 +430,9 @@ test("the Annotate link opens the set in the annotator", async ({ page }) => {
   await serve(page);
   await page.goto("/atlas/");
   const link = buildForm(page).getByRole("link", { name: "Annotate" });
-  await expect(link).toHaveAttribute("href", "/annotate/?set=cabinet");
+  await expect(link).toHaveAttribute("href", "/atlas/annotate/?set=cabinet");
   await link.click();
-  await expect(page).toHaveURL(/\/annotate\/\?set=cabinet$/);
+  await expect(page).toHaveURL(/\/atlas\/annotate\/\?set=cabinet$/);
 });
 
 test("the form is used from the keyboard", async ({ page }) => {
@@ -384,8 +444,9 @@ test("the form is used from the keyboard", async ({ page }) => {
 
   await viewSet.focus();
   const order = [
-    form.getByRole("link", { name: "Annotate" }),
     form.getByRole("button", { name: "Import views…" }),
+    form.getByRole("button", { name: "Find markers…" }),
+    form.getByRole("link", { name: "Annotate" }),
     form.getByRole("combobox", { name: "Camera" }),
     form.getByRole("combobox", { name: "Board" }),
     form.getByRole("button", { name: "Measure…" }),
@@ -477,6 +538,7 @@ test("the page logs no error, and says no more than facts", async ({ page }) => 
     for (const [button, title] of [
       ["Measure…", "Measure rig_board_a"],
       ["Import views…", "Import views"],
+      ...(data === "workspace.json" ? [["Find markers…", "Find markers in cabinet"]] : []),
     ]) {
       await buildForm(page).getByRole("button", { name: button }).click();
       const dialog = page.getByRole("dialog", { name: title });

@@ -39,7 +39,19 @@ export interface Camera {
 export interface Rig {
   dictionary: string | null;
   boards: Board[];
+  /** Null when the file names no printed markers. */
+  markers: RigMarkers | null;
   error: string | null;
+}
+
+/** The printed ArUco markers: landmarks stuck on the asset, and a tag on the target. */
+export interface RigMarkers {
+  /** First and last landmark marker id, inclusive. */
+  landmark_ids: [number, number];
+  /** The marker id of the target's tag. */
+  target_id: number;
+  /** Measured, else nominal. */
+  side_mm: number;
 }
 
 export interface Board {
@@ -88,6 +100,36 @@ export interface ViewSetSummary {
   /** ISO 8601 with offset: the newest file of the set. */
   updated_at: string;
   error: string | null;
+}
+
+/** POST /view-sets/{name}/markers: the set's printed markers found in every image, saved as its clicks. */
+export interface MarkersRequest {
+  /** Calibrated at the size of the set's images. */
+  camera_id: string;
+  /** The point the target's tag gives; "cel" when left out. */
+  target_id?: string;
+  /** Landmark markers on a part that opens: left out of the images that show the target's tag. */
+  moving?: number[];
+  /** Replace the set's clicks; a set with clicks is refused (409) without it. */
+  replace?: boolean;
+}
+
+export interface MarkerCount {
+  marker_id: number;
+  /** Images it is marked in. */
+  images: number;
+}
+
+export interface MarkersAnswer {
+  view_set: string;
+  images: number;
+  /** Images with at least one marker of the rig. */
+  marked_images: number;
+  /** Images that show the target's tag. */
+  tag_images: number;
+  /** Every landmark marker of the rig, in id order. */
+  markers: MarkerCount[];
+  clicks: ClicksSummary;
 }
 
 /** The clicks.json of a set, counted. An invalid file gives zero counts and error set. */
@@ -146,6 +188,8 @@ export interface Landmark {
   seen_from?: Vec3 | null;
   /** The widest angle between seen_from and the direction to one of those cameras. */
   seen_within_deg?: number | null;
+  /** The panel it is on, when that panel opens. */
+  moves_with?: string | null;
 }
 
 export interface Target {
@@ -177,6 +221,8 @@ export interface AtlasBuildRequest {
   target_extent_mm: Vec3;
   /** The target centre measured with a ruler, to compare the triangulated one with. */
   target_measured_mm?: Vec3 | null;
+  /** null: the target is a point. A number: it is a box with a tag on its face, this deep behind the tag. */
+  target_tag_depth_mm?: number | null;
   /** 2.0 */
   click_sigma_px?: number;
   /** 5.0: how far the clicked centre of the target may be from its real centre. */
@@ -388,6 +434,18 @@ export async function saveClicks(
   });
   patchViewSet(name, (set) => ({ ...set, clicks: summary, updated_at: summary.saved_at }));
   return summary;
+}
+
+/** Can take tens of seconds: the service searches every image of the set. */
+export async function findMarkers(name: string, body: MarkersRequest): Promise<MarkersAnswer> {
+  const answer = await apiJson<MarkersAnswer>(`/view-sets/${segment(name)}/markers`, {
+    method: "POST",
+    headers: JSON_HEADERS,
+    body: JSON.stringify(body),
+    timeoutMs: SLOW_CALL_MS,
+  });
+  await refreshWorkspace();
+  return answer;
 }
 
 export function getAtlas(id: string, options: { signal?: AbortSignal } = {}): Promise<AtlasDetail> {

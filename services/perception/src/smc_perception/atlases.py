@@ -117,10 +117,11 @@ def _report_of(workspace: WorkspaceFiles, asset_id: str, atlas: Atlas) -> AtlasB
         report = AtlasBuildReport.model_validate_json(workspace.report_file(asset_id).read_bytes())
     except OSError, ValidationError, WorkspaceError:
         return None
+    # The report also lists points that are no landmark, the corners of the target's tag.
     located = {point.id: point.position_mm for point in report.points}
     stored = {landmark.id: landmark.position_mm for landmark in atlas.landmarks}
     stored[atlas.target.id] = atlas.target.position_mm
-    return report if located == stored else None
+    return report if all(located.get(key) == value for key, value in stored.items()) else None
 
 
 # ---- building ----------------------------------------------------------------
@@ -132,7 +133,7 @@ def build(workspace: WorkspaceFiles, request: AtlasBuildRequest) -> AtlasDetail:
     intrinsics = find_intrinsics(workspace, request.camera_id)
     rig = measured_board(workspace, request.board)
     clicks = _clicks(workspace, folder, request)
-    _check_image_size(workspace, folder, request.view_set, intrinsics)
+    check_image_size(workspace, folder, request.view_set, intrinsics)
 
     board = create_board(
         rig["squares_x"],
@@ -166,6 +167,7 @@ def build(workspace: WorkspaceFiles, request: AtlasBuildRequest) -> AtlasDetail:
             click_sigma_px=request.click_sigma_px,
             target_centre_sigma_mm=request.target_centre_sigma_mm,
             seed=request.seed,
+            target_tag_depth_mm=request.target_tag_depth_mm,
         )
     except ValueError as error:
         raise Conflict(str(error)) from error
@@ -190,7 +192,7 @@ def _clicks(workspace: WorkspaceFiles, folder: Path, request: AtlasBuildRequest)
     return clicks
 
 
-def _check_image_size(
+def check_image_size(
     workspace: WorkspaceFiles, folder: Path, name: str, intrinsics: Intrinsics
 ) -> None:
     """Fail unless every image has the size the camera was calibrated at."""
