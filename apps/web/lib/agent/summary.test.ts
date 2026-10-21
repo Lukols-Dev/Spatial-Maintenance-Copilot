@@ -21,7 +21,7 @@ const EVENTS: TraceEvent[] = [
   event(2, "decision", "localise", "not reliable: MOVE_LEFT", {
     reliable: false,
     action: "MOVE_LEFT",
-    move_reason: "landmarks bok_d, bok_g face away from the camera, seen from further left",
+    move_reason: "landmarks side_bottom, side_top face away from the camera, seen from further left",
     reasons: ["4 inliers, needs ≥ 6"],
   }),
   event(3, "fallback", "guide", "the model gave no answer: unavailable", { reason: "unavailable" }),
@@ -57,7 +57,7 @@ describe("a session's summary", () => {
     expect(summary.rows[0].decision).toEqual({
       reliable: false,
       action: "MOVE_LEFT",
-      reason: "landmarks bok_d, bok_g face away from the camera, seen from further left",
+      reason: "landmarks side_bottom, side_top face away from the camera, seen from further left",
     });
     expect(summary.rows[0].agent).toEqual({ did: "Asked: move left", words: "policy", corrected: false });
     expect(summary.rows[1].agent).toEqual({ did: "Proposed: Open the flap", words: "model", corrected: true });

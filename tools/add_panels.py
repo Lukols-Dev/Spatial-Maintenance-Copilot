@@ -11,10 +11,10 @@ frame that shows the target's tag, since the panel is then open.
 For the cabinet of the 2026-10-09 recordings, in the frame of rig board B
 (up is -z, the front faces +y):
 
-    uv run tools/add_panels.py data/atlas/szafka.json --version 3 \\
-        --box 154 -434 -372 754 -34 0 --face y+=klapa --face x-=lewy_bok \\
-        --face x+=prawy_bok --face z-=blat --face y-=tyl --face z+=dno \\
-        --moving klapa=klapa_lg,klapa_p,klapa_d
+    uv run tools/add_panels.py data/atlas/cabinet-manual.json --version 3 \\
+        --box 154 -434 -372 754 -34 0 --face y+=flap --face x-=left_side \\
+        --face x+=right_side --face z-=top --face y-=back --face z+=bottom \\
+        --moving flap=flap_top_left,flap_right,flap_bottom
 """
 
 import argparse

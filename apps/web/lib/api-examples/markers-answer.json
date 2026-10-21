@@ -1,5 +1,5 @@
 {
-  "view_set": "szafka2-atlas",
+  "view_set": "cabinet-aruco-atlas",
   "images": 290,
   "marked_images": 287,
   "tag_images": 149,
@@ -99,11 +99,11 @@
       "m60_1": 0,
       "m60_2": 0,
       "m60_3": 0,
-      "cel": 149,
-      "cel_0": 149,
-      "cel_1": 149,
-      "cel_2": 149,
-      "cel_3": 149
+      "target": 149,
+      "target_0": 149,
+      "target_1": 149,
+      "target_2": 149,
+      "target_3": 149
     },
     "saved_at": "2026-10-15T18:30:12+02:00",
     "error": null

@@ -7,7 +7,7 @@ import { SmcStack } from "../lib/smc-stack";
 // The CDK app: one stack in the region cdk.json names. What it serves is set
 // in cdk.json's context, or with -c on the command line:
 //
-//   npx cdk deploy -c atlases='["szafka"]' -c viewSets='["szafka-b"]'
+//   npx cdk deploy -c atlases='["cabinet-manual"]' -c viewSets='["cabinet-manual-test"]'
 //
 // A cost budget with an email alert is set only when an address is given:
 //

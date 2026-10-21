@@ -25,7 +25,7 @@ import yaml
 from smc_core.contracts import Vec2
 
 # The target's point id when none is given: the name the cabinet's atlases use.
-DEFAULT_TARGET_ID = "cel"
+DEFAULT_TARGET_ID = "target"
 
 
 @dataclass(frozen=True)

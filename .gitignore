@@ -56,6 +56,8 @@ out/
 # Infrastructure
 # ============================================================
 cdk.out/
+# CDK's lookups for a deployment, keyed by the AWS account's number.
+cdk.context.json
 .terraform/
 *.tfstate
 *.tfstate.backup

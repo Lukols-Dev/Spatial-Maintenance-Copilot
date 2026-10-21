@@ -14,7 +14,7 @@ they read clicks made by hand. The Atlas page runs the same search
 (POST /view-sets/{name}/markers). Clicks already in the folder are kept unless
 --force replaces them.
 
-    uv run tools/annotate_markers.py data/views/szafka2-atlas \\
+    uv run tools/annotate_markers.py data/views/cabinet-aruco-atlas \\
         --camera-id iphone11-1x-1080p-portrait --moving 50 51 52 53
 """
 

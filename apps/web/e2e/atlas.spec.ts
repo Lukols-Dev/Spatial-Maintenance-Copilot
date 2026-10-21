@@ -309,7 +309,7 @@ test("Find markers gives the set its points from the printed markers, and the fo
   await expect(dialog.getByLabel("Target point")).toHaveValue("drone");
   await expect(dialog.getByRole("checkbox")).toHaveCount(11);
   await expect(dialog.getByText("Replaces 4 points marked in 3 images")).toBeVisible();
-  await dialog.getByLabel("Target point").fill("cel");
+  await dialog.getByLabel("Target point").fill("target");
   for (const marker of ["50", "51", "52", "53"]) await dialog.getByRole("checkbox", { name: marker, exact: true }).check();
 
   // The workspace read after the search lists the set's new points.
@@ -327,7 +327,7 @@ test("Find markers gives the set its points from the printed markers, and the fo
 
   await expect(form.getByText("3 images · 1080×1920 · 49 points, 37 in ≥ 2 images")).toBeVisible();
   // The tag is the target now: its box needs a depth before the atlas can be built.
-  await expect(form.getByRole("combobox", { name: "Target" })).toHaveText("cel · 149 views");
+  await expect(form.getByRole("combobox", { name: "Target" })).toHaveText("target · 149 views");
   await expect(missing(form)).toHaveText(["Tag depth missing"]);
   await form.getByLabel("Tag depth (mm)").fill("140");
   await expect(missing(form)).toHaveCount(0);

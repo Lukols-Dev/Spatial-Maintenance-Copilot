@@ -20,8 +20,8 @@ function workspace(withSite: boolean): string {
   };
   file("calib/intrinsics/phone.yml", "%YAML:1.0\n");
   file("calib/rig.yaml", "dictionary: DICT_5X5_100\n");
-  file("data/atlas/szafka.json", "{}");
-  file("data/views/szafka-b/clicks.json", "{}");
+  file("data/atlas/cabinet-manual.json", "{}");
+  file("data/views/cabinet-manual-test/clicks.json", "{}");
   if (withSite) file("apps/web/out/index.html", "<!doctype html>");
   return root;
 }
@@ -31,8 +31,8 @@ function synth(withSite = true, budget?: { usd: number; email: string }): Templa
   const stack = new SmcStack(app, "Test", {
     env: { account: "123456789012", region: "eu-north-1" },
     root: workspace(withSite),
-    atlases: ["szafka"],
-    viewSets: ["szafka-b"],
+    atlases: ["cabinet-manual"],
+    viewSets: ["cabinet-manual-test"],
     model: "eu.amazon.nova-2-lite-v1:0",
     modelCallsPerDay: 1000,
     budget,
@@ -93,6 +93,20 @@ describe("the service", () => {
       Port: 8000,
     });
   });
+
+  it("describes its network rules only in the characters EC2 takes", () => {
+    // EC2 refuses any other character, an apostrophe among them, and only once a deployment reaches the rule.
+    const allowed = /^[\w. :/()#,@[\]+=&;{}!$*-]{0,255}$/;
+    const groups = Object.values(template.findResources("AWS::EC2::SecurityGroup"));
+    const rules = [
+      ...Object.values(template.findResources("AWS::EC2::SecurityGroupIngress")).map((rule) => rule.Properties),
+      ...groups.flatMap((group) => [...(group.Properties.SecurityGroupIngress ?? []), ...(group.Properties.SecurityGroupEgress ?? [])]),
+    ] as { Description?: unknown }[];
+    const descriptions = [...groups.map((group) => group.Properties.GroupDescription), ...rules.map((rule) => rule.Description)];
+
+    expect(rules.length).toBeGreaterThan(0);
+    for (const description of descriptions.filter((text) => typeof text === "string")) expect(description).toMatch(allowed);
+  });
 });
 
 describe("the data", () => {
@@ -121,10 +135,10 @@ describe("the data", () => {
 
   it("copies the camera, the rig, the chosen atlases and view sets, and refuses one that is not there", () => {
     const root = workspace(false);
-    const prefixes = workspaceSources({ root, atlases: ["szafka"], viewSets: ["szafka-b"] }).map(
+    const prefixes = workspaceSources({ root, atlases: ["cabinet-manual"], viewSets: ["cabinet-manual-test"] }).map(
       (source) => source.prefix,
     );
-    expect(prefixes).toEqual(["calib/intrinsics", "calib", "data/atlas", "data/views/szafka-b"]);
+    expect(prefixes).toEqual(["calib/intrinsics", "calib", "data/atlas", "data/views/cabinet-manual-test"]);
     expect(() => workspaceSources({ root, atlases: ["nope"], viewSets: [] })).toThrow("no atlas nope");
     expect(() => workspaceSources({ root, atlases: [], viewSets: ["nope"] })).toThrow("no view set nope");
   });

@@ -14,7 +14,7 @@ MOVING_ABOVE, and the change's spread in bands of marker motion. Videos of the
 Camera app are steadied; a browser's live camera is not, which is why the
 steady threshold takes in a hand's tremor of a few pixels a frame.
 
-    uv run tools/motion_limit.py data/szafka2_demo/demo_1.MOV data/szafka2_demo/demo_2.MOV
+    uv run tools/motion_limit.py data/cabinet-aruco/demo/demo_1.MOV data/cabinet-aruco/demo/demo_2.MOV
 """
 
 import argparse

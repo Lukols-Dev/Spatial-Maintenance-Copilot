@@ -74,11 +74,11 @@ def test_the_markers_of_every_image_become_the_sets_clicks(
     clicks = saved(marked)
     assert clicks["camera_id"] == CAMERA_ID
     assert clicks["points"][:4] == ["m50_0", "m50_1", "m50_2", "m50_3"]
-    assert clicks["points"][-5:] == ["cel", "cel_0", "cel_1", "cel_2", "cel_3"]
-    assert {"m50_0", "cel", "cel_3"} <= clicks["views"]["view_0.png"].keys()
+    assert clicks["points"][-5:] == ["target", "target_0", "target_1", "target_2", "target_3"]
+    assert {"m50_0", "target", "target_3"} <= clicks["views"]["view_0.png"].keys()
     assert answer.clicks.marked_images == 8
     assert answer.clicks.point_views["m50_0"] == 7
-    assert answer.clicks.point_views["cel"] == 5
+    assert answer.clicks.point_views["target"] == 5
 
 
 def test_the_workspace_lists_the_new_points(marked: Path, client: TestClient) -> None:
@@ -98,7 +98,7 @@ def test_markers_on_a_part_that_opens_are_left_out_where_the_tag_shows(
     counts = {count.marker_id: count.images for count in answer.markers}
     assert (counts[50], counts[51], counts[52]) == (3, 2, 8)
     for points in saved(marked)["views"].values():
-        if "cel" in points:
+        if "target" in points:
             assert not {"m50_0", "m51_0"} & points.keys()
 
 

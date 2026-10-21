@@ -51,8 +51,8 @@ def test_the_markers_of_every_frame_become_its_clicks(
     assert clicks.camera_id == CAMERA_ID
     assert sorted(clicks.views) == [f"view_{index}.png" for index in range(8)]
     assert clicks.points[:4] == ["m50_0", "m50_1", "m50_2", "m50_3"]
-    assert clicks.points[-5:] == ["cel", "cel_0", "cel_1", "cel_2", "cel_3"]
-    assert {"m50_0", "cel", "cel_3"} <= clicks.views["view_0.png"].keys()
+    assert clicks.points[-5:] == ["target", "target_0", "target_1", "target_2", "target_3"]
+    assert {"m50_0", "target", "target_3"} <= clicks.views["view_0.png"].keys()
     printed = capsys.readouterr().out
     assert "8 of 8 frames with markers" in printed
     assert f"target's tag {TAG_ID}:" in printed
@@ -63,9 +63,9 @@ def test_markers_on_a_part_that_opens_are_left_out_where_the_tag_shows(folder: P
 
     views = load_clicks(folder / "clicks.json").views
     for marked in views.values():
-        if "cel" in marked:
+        if "target" in marked:
             assert not {"m50_0", "m51_0"} & marked.keys()
-    assert any("m50_0" in marked for marked in views.values() if "cel" not in marked)
+    assert any("m50_0" in marked for marked in views.values() if "target" not in marked)
 
 
 def test_clicks_made_before_are_kept_unless_forced(folder: Path) -> None:
@@ -108,7 +108,7 @@ def test_the_atlas_builder_turns_the_marked_frames_into_an_atlas_with_its_box(
             "--board", "rig_board_a",
             "--rig", str(REPOSITORY / "calib" / "rig.yaml"),
             "--asset-id", "home-cabinet",
-            "--target-id", "cel",
+            "--target-id", "target",
             "--target-extent", "80", "50", str(MARKER_BOX_DEPTH_MM),
             "--target-tag-depth", str(MARKER_BOX_DEPTH_MM),
             "--click-sigma-px", "0.5",

@@ -206,7 +206,8 @@ export class SmcStack extends Stack {
     // ---- the API -------------------------------------------------------------------
 
     const linkGroup = new SecurityGroup(this, "VpcLinkGroup", { vpc, allowAllOutbound: true });
-    balancerGroup.addIngressRule(linkGroup, Port.tcp(80), "from API Gateway's VPC link");
+    // EC2 takes letters, digits and a few signs in a rule's description: no apostrophe.
+    balancerGroup.addIngressRule(linkGroup, Port.tcp(80), "from the API Gateway VPC link");
     const link = new VpcLink(this, "VpcLink", {
       vpc,
       subnets: { subnetType: SubnetType.PUBLIC },

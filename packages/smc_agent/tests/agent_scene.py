@@ -17,9 +17,9 @@ from smc_agent.copilot import Copilot
 from smc_agent.model import ModelTurn, ModelUnavailable
 from smc_core.contracts import Action, Decision, Failure, Localisation, Policy
 
-ASSET, VIEW_SET = "szafka", "szafka-b"
+ASSET, VIEW_SET = "cabinet-manual", "cabinet-manual-test"
 FRONT, SIDE, BLIND = "B1_close.png", "B5_close.png", "B6_close.png"
-SIDE_REASON = "landmarks bok_d, bok_g face away from the camera, seen from further left"
+SIDE_REASON = "landmarks side_bottom, side_top face away from the camera, seen from further left"
 
 
 def located(

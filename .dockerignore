@@ -8,8 +8,9 @@ __pycache__
 .pytest_cache
 .mypy_cache
 .ruff_cache
-.env
-.env.*
+# In any directory: services/perception/.env holds the local service's keys.
+**/.env
+**/.env.*
 eval
 fixtures
 docs

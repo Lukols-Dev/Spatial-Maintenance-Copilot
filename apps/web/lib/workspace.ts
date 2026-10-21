@@ -106,7 +106,7 @@ export interface ViewSetSummary {
 export interface MarkersRequest {
   /** Calibrated at the size of the set's images. */
   camera_id: string;
-  /** The point the target's tag gives; "cel" when left out. */
+  /** The point the target's tag gives; "target" when left out. */
   target_id?: string;
   /** Landmark markers on a part that opens: left out of the images that show the target's tag. */
   moving?: number[];

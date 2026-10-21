@@ -107,7 +107,7 @@ It measures:
 - task success and the agent's next view, against a single view, the policy alone and a random view;
 - injected faults: missing landmarks, swapped labels, a gross click error, click noise.
 
-The latest results are in [eval/results/cabinet-2026-10-09/report.md](eval/results/cabinet-2026-10-09/report.md).
+The latest results are in [eval/results/cabinet-manual-2026-10-09/report.md](eval/results/cabinet-manual-2026-10-09/report.md).
 
 ```bash
 make eval        # run it: results.json, report.md and the agent's traces

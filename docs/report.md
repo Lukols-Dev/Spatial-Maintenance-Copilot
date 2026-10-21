@@ -4,7 +4,7 @@ Uncertainty-aware Agentic Vision for locating occluded components during mainten
 OpenCV AI Competition 2026 (powered by AWS), Agentic Vision path. Solo entry by Łukasz Olszewski.
 
 > **Working draft, 2026-10-14.** Each section says what runs today and what is still being built.
-> Numbers are quoted from [eval/results/cabinet-2026-10-09/report.md](../eval/results/cabinet-2026-10-09/report.md),
+> Numbers are quoted from [eval/results/cabinet-manual-2026-10-09/report.md](../eval/results/cabinet-manual-2026-10-09/report.md),
 > which `make eval` regenerates.
 
 ## Contents
@@ -167,7 +167,7 @@ flowchart TD
 - **Observability.** Every node appends numbered trace events (`perception`, `decision`, `agent`, `tool`,
   `guard`, `fallback`, `human`). The Demo page shows them under the session's summary, and the evaluation
   saves them for every session
-  ([eval/results/cabinet-2026-10-09/traces](../eval/results/cabinet-2026-10-09/traces)).
+  ([eval/results/cabinet-manual-2026-10-09/traces](../eval/results/cabinet-manual-2026-10-09/traces)).
 
 ## 6. OpenCV 5 implementation
 
@@ -338,11 +338,11 @@ read-only, and answers `/health` and `/frames`.
 ## 8. Evaluation
 
 **Dataset and protocol.** The evaluation plan of the proposal (§9) is implemented in `smc_eval` and runs
-the service's own code on a frozen dataset, [eval/datasets/cabinet-2026-10-09](../eval/datasets/cabinet-2026-10-09).
+the service's own code on a frozen dataset, [eval/datasets/cabinet-manual-2026-10-09](../eval/datasets/cabinet-manual-2026-10-09).
 The dataset holds the atlas, the clicks and the board poses, with the SHA-256 of every file and of the 30
 private source videos and 181 frames.
 
-The test set (szafka-b) was recorded apart from the atlas's views. It contains 19 viewpoints with the box
+The test set (cabinet-manual-test) was recorded apart from the atlas's views. It contains 19 viewpoints with the box
 hidden behind the closed flap. For 14 of them, the truth is the box clicked in the shot taken from the
 same spot with the flap open.
 

@@ -46,7 +46,7 @@ from smc_core.xray import target_box
 RIG_FILE = Path(__file__).resolve().parents[3] / "calib" / "rig.yaml"
 MARKERS = MarkerSet(cv.aruco.DICT_5X5_100, tuple(range(50, 61)), TAG_ID, MARKER_SIDE_MM)
 LANDMARK_MARKERS = [marker for marker in MARKERS_MM if marker != TAG_ID]
-TARGET = "cel"
+TARGET = "target"
 
 
 @pytest.fixture(scope="module")

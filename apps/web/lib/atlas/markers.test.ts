@@ -36,7 +36,7 @@ function cabinet(): ViewSetSummary {
 function markerAtlas(): AtlasDetail & { report: NonNullable<AtlasDetail["report"]> } {
   const detail = copy<AtlasDetail & { report: NonNullable<AtlasDetail["report"]> }>(atlasExample);
   detail.atlas.landmarks = detail.atlas.landmarks.map((landmark, index) =>
-    index < 2 ? { ...landmark, id: `m50_${index}`, moves_with: "klapa" } : landmark,
+    index < 2 ? { ...landmark, id: `m50_${index}`, moves_with: "flap" } : landmark,
   );
   detail.atlas.landmarks.push({ ...detail.atlas.landmarks[0], id: "m52_0", moves_with: null });
   return detail;
@@ -65,7 +65,7 @@ describe("initialMarkers", () => {
     });
   });
 
-  it("falls back to a camera that fits the set, the last build's target, then cel", () => {
+  it("falls back to a camera that fits the set, the last build's target, then the default one", () => {
     expect(initialMarkers(cabinet(), [markerAtlas()], { camera_id: "other", target_id: "" })).toMatchObject({
       camera_id: CAMERA,
       target_id: "drone",
@@ -79,7 +79,7 @@ describe("initialMarkers", () => {
 });
 
 describe("checkMarkers", () => {
-  const form = { camera_id: CAMERA, target_id: " cel ", moving: [50, 51, 52, 53] };
+  const form = { camera_id: CAMERA, target_id: " target ", moving: [50, 51, 52, 53] };
 
   it("makes the request of the example, replacing the clicks the set has", () => {
     expect(checkMarkers(form, cabinet(), workspace().rig)).toEqual({ request: requestExample, problems: [] });

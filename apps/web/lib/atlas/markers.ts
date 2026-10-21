@@ -9,7 +9,7 @@ import { previousBuild } from "./form";
 // target's tag the target's point and its corners.
 
 /** What the service names the target's point when it is not told: the cabinet's atlases call it that. */
-export const DEFAULT_TARGET = "cel";
+export const DEFAULT_TARGET = "target";
 
 export interface MarkersForm {
   camera_id: string;
@@ -43,7 +43,7 @@ export function movingMarkers(detail: AtlasDetail): number[] {
 
 /**
  * The dialog as it opens: the camera of the Build form when it fits the set,
- * else the first that does; the target of the form, else "cel"; and as moving
+ * else the first that does; the target of the form, else "target"; and as moving
  * markers those of the atlas built from this set before, if any.
  */
 export function initialMarkers(

@@ -1,0 +1,1854 @@
+{
+  "name": "cabinet-manual-2026-10-09",
+  "frozen_at": "2026-10-21T21:31:31+02:00",
+  "git_commit": "2adb8accf1e6142e5855118f6efcf460d84172c8",
+  "asset_id": "cabinet-manual",
+  "atlas_version": "3",
+  "camera_id": "iphone11-1x-1080p-portrait",
+  "board": "rig_board_b",
+  "camera": {
+    "path": "calib/intrinsics/iphone11-1x-1080p-portrait.yml",
+    "sha256": "50990f540d65d129b8180c8283bb985638b3d8f311bcd830928cf93b0432e791",
+    "bytes": 931,
+    "size_px": null
+  },
+  "rig": {
+    "path": "calib/rig.yaml",
+    "sha256": "fc93936c643ac260ee31ef4654393204fae1ca4df909d4272f3d08b92bb039ef",
+    "bytes": 1444,
+    "size_px": null
+  },
+  "videos": [
+    {
+      "path": "data/cabinet-manual/A/calibration.MOV",
+      "sha256": "40f5361ec6246b0e1133016c66f79345274bef43f95c0d798ba93dee758d8137",
+      "bytes": 31063164,
+      "size_px": null
+    },
+    {
+      "path": "data/cabinet-manual/A/close.MOV",
+      "sha256": "1c86af6f2a67e6dbf5b4f8cf72c4c735dfed522b6ab5d6c3bdb24a96d571eedf",
+      "bytes": 63265331,
+      "size_px": null
+    },
+    {
+      "path": "data/cabinet-manual/A/open.MOV",
+      "sha256": "f6c1bc8ee12efc037987d4c4c25419961fc49d5657293e0b01719465ccb581cd",
+      "bytes": 63990962,
+      "size_px": null
+    },
+    {
+      "path": "data/cabinet-manual/B/B1/B1/B1_1_close.MOV",
+      "sha256": "5dff4c7f415bc5189a9e5f393b02c1ce9135459ba17dd2aef66e14f621cb599c",
+      "bytes": 4188374,
+      "size_px": null
+    },
+    {
+      "path": "data/cabinet-manual/B/B1/B1/B1_close.MOV",
+      "sha256": "155cf28e6c2bdf8b027bd00d4c89bde2025acbab73f7dc894aeead3f2360adb7",
+      "bytes": 4015627,
+      "size_px": null
+    },
+    {
+      "path": "data/cabinet-manual/B/B1/B1/B1_open.MOV",
+      "sha256": "36c93d41a740a931de1bf73535cd21342108921dbbbff110a4d2797fbc95be5e",
+      "bytes": 5055409,
+      "size_px": null
+    },
+    {
+      "path": "data/cabinet-manual/B/B1/B2/B2_1_close.MOV",
+      "sha256": "7edd619276f1bb2417828bbfabaa1157b0c7d57be90152f5e50068a55ca5baef",
+      "bytes": 5049238,
+      "size_px": null
+    },
+    {
+      "path": "data/cabinet-manual/B/B1/B2/B2_close.MOV",
+      "sha256": "1c121b4fcec8d5541ed598e8a1981637de6bc3c66862df835404bffbaee5e1aa",
+      "bytes": 4016798,
+      "size_px": null
+    },
+    {
+      "path": "data/cabinet-manual/B/B1/B2/B2_open.MOV",
+      "sha256": "ee3edede1ef1fc5331a7b41109f770a4fadaae9e4a55e18e15193a96b2d26723",
+      "bytes": 5078811,
+      "size_px": null
+    },
+    {
+      "path": "data/cabinet-manual/B/B1/B3/B3_1_close.MOV",
+      "sha256": "8322a6f83f1884940374f46bf02b99303583315a1d4c5fa65622d8458494518d",
+      "bytes": 3914366,
+      "size_px": null
+    },
+    {
+      "path": "data/cabinet-manual/B/B1/B3/B3_close.MOV",
+      "sha256": "3707ace99c88e42b5b10ddfaba661085ea0f6802ca71652f25266709083666b4",
+      "bytes": 4034829,
+      "size_px": null
+    },
+    {
+      "path": "data/cabinet-manual/B/B1/B3/B3_open.MOV",
+      "sha256": "df04660b66ce2f8c765389362ae58f6acdb50c0996952b73cbcd6052207e837d",
+      "bytes": 3917286,
+      "size_px": null
+    },
+    {
+      "path": "data/cabinet-manual/B/B1/B4/B4_1_close.MOV",
+      "sha256": "1743a40e117a92350ddad71b2efc92e97102f0f3617b27a9a49941e0e538dcc0",
+      "bytes": 4691865,
+      "size_px": null
+    },
+    {
+      "path": "data/cabinet-manual/B/B1/B4/B4_close.MOV",
+      "sha256": "262570995b67aaeb411a31ac193356ebcacc51e1f37adcc0e11d9e7c802cd837",
+      "bytes": 3919924,
+      "size_px": null
+    },
+    {
+      "path": "data/cabinet-manual/B/B1/B4/B4_open.MOV",
+      "sha256": "0ccc19ac3b61a7ad8da61ddb357be3f771612564383bf81b8107a34e0d789307",
+      "bytes": 4911772,
+      "size_px": null
+    },
+    {
+      "path": "data/cabinet-manual/B/B1/B5/B5_1_close.MOV",
+      "sha256": "25e30b6728fcca1a45eec5be247eef7e0d08706fda40cdf64c7d91db70b3b697",
+      "bytes": 3969473,
+      "size_px": null
+    },
+    {
+      "path": "data/cabinet-manual/B/B1/B5/B5_close.MOV",
+      "sha256": "5330edf78be86cf5919a2464126bf5d95f0719dfc3f07d9948f005e3594b483e",
+      "bytes": 3970565,
+      "size_px": null
+    },
+    {
+      "path": "data/cabinet-manual/B/B1/B5/B5_open.MOV",
+      "sha256": "17cc6e62796f5ddd63cc3ab50bc493ad7f737022c3a313d236510298e4c1c82f",
+      "bytes": 3758397,
+      "size_px": null
+    },
+    {
+      "path": "data/cabinet-manual/B/B1/B6/B6_1_close.MOV",
+      "sha256": "61fa4433cd218b6ec526ab29050dbdcc789887c9d777d987cbbce4165fc758f2",
+      "bytes": 5922451,
+      "size_px": null
+    },
+    {
+      "path": "data/cabinet-manual/B/B1/B6/B6_close.MOV",
+      "sha256": "478433759a805015aca8117d9ab755ea969d008267a4f9404c9585992e03bbae",
+      "bytes": 5657178,
+      "size_px": null
+    },
+    {
+      "path": "data/cabinet-manual/B/B1/B6/B6_open.MOV",
+      "sha256": "732aab9e60c9e60e178d5d74ed2d453f152f3c1f92c226e66a7e0f34b8414ac8",
+      "bytes": 6076076,
+      "size_px": null
+    },
+    {
+      "path": "data/cabinet-manual/B/B1/B7/B7_1_close.MOV",
+      "sha256": "bd80340ed29522638df4257bca4ab7299aa7b6e226e9d6bede2b5eb72efad31f",
+      "bytes": 4274699,
+      "size_px": null
+    },
+    {
+      "path": "data/cabinet-manual/B/B1/B7/B7_close.MOV",
+      "sha256": "443618a87f3ad4f6b521fe48c050f89982339ddb138b2628d93cf0d3b5c78c83",
+      "bytes": 4035662,
+      "size_px": null
+    },
+    {
+      "path": "data/cabinet-manual/B/B1/B7/B7_open.MOV",
+      "sha256": "c58b386a69c5a8494958912e18b843992c364b5ea654ef416a0d3894bc8c7eca",
+      "bytes": 4001320,
+      "size_px": null
+    },
+    {
+      "path": "data/cabinet-manual/B/B1/B8/B8_1_close.MOV",
+      "sha256": "1e266faf2d6364b70ca53a5de7125617dd1da61696ed6ab18230dfcb6293891f",
+      "bytes": 3923719,
+      "size_px": null
+    },
+    {
+      "path": "data/cabinet-manual/B/B1/B8/B8_close.MOV",
+      "sha256": "ce3255d6640d3267aec288325ee40843b1ff44ed81bb120ac8186a743d0a56a8",
+      "bytes": 4011047,
+      "size_px": null
+    },
+    {
+      "path": "data/cabinet-manual/B/B1/B8/B8_open.MOV",
+      "sha256": "6dc9f9bf9902966d7499c837386854190132aaad4df2b48a0cb8931cc783f33a",
+      "bytes": 3750237,
+      "size_px": null
+    },
+    {
+      "path": "data/cabinet-manual/B/B1/B9/B9_1_close.MOV",
+      "sha256": "a68e5c5c8287f8178f9adb9bf68574b315063a9046d0f3b6b4dd84f9d0b080b5",
+      "bytes": 3980061,
+      "size_px": null
+    },
+    {
+      "path": "data/cabinet-manual/B/B1/B9/B9_close.MOV",
+      "sha256": "99ad94289e9a5a5e44b24d2a5157732687a11aa766b068faf251e5ccd1ec56f2",
+      "bytes": 3778565,
+      "size_px": null
+    },
+    {
+      "path": "data/cabinet-manual/B/B1/B9/B9_open.MOV",
+      "sha256": "23df86bc48a1bff079c7d504e228ae525957c6d4d1daee7e865fdf262c89c8ff",
+      "bytes": 3984789,
+      "size_px": null
+    }
+  ],
+  "sets": [
+    {
+      "name": "cabinet-manual-test",
+      "role": "test",
+      "frames": [
+        {
+          "path": "data/views/cabinet-manual-test/B1_1_close.png",
+          "sha256": "113162c721cd6ac00cb4c89aa0378529baffb75342e571482947d7cbe36cd378",
+          "bytes": 2534450,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-test/B1_close.png",
+          "sha256": "f860d958b79245c13a8272d1000917f1e193c89581e8913103cd2556747459c4",
+          "bytes": 2454293,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-test/B1_open.png",
+          "sha256": "021698f6446662dbe9a1d8971a524228d635a7d4de79382c350306819baaa0d7",
+          "bytes": 2326532,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-test/B2_1_close.png",
+          "sha256": "cf2c123d4597b45340f95eb47a22509109549568e464844d8b72ebb9bdbc62ac",
+          "bytes": 2751590,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-test/B2_close.png",
+          "sha256": "f35c94ef6ba3e1eae05fee0e62ee30b2df2239b88e61367ccd445003e57d14c6",
+          "bytes": 2701195,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-test/B2_open.png",
+          "sha256": "6912fcdc23c95beb1245a6c614449b44be5d95a33b6bf50bf9d01d9d9eb9de0d",
+          "bytes": 2672923,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-test/B3_1_close.png",
+          "sha256": "af7cf2617731f5ee9f582f08ac94d36899cfdaaeb574d554b44c3270aa8dc992",
+          "bytes": 2656221,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-test/B3_close.png",
+          "sha256": "2dddf4628f56c8486ad21ff0bc6aef45ebfd4ec752f0a79099211709d4b98eae",
+          "bytes": 2674520,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-test/B3_open.png",
+          "sha256": "a878a6abaad994a74295fd1d389568567e2b2a467aa80b089ee9a674a3a23e3a",
+          "bytes": 2565345,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-test/B4_1_close.png",
+          "sha256": "615ede28a5050acd7f6a898d5c8bc69c81b4b7686e50c21abecd79e521432445",
+          "bytes": 2339206,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-test/B4_close.png",
+          "sha256": "a984b965003b24b9c168ee46283f5c25cb2b09f77d4e7d41a5b638c5b1cc9de4",
+          "bytes": 2724743,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-test/B4_open.png",
+          "sha256": "f0de2e13b9c86e4154b86981365567137d43d74e961fa1a1b383c33a6dad292a",
+          "bytes": 2482507,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-test/B5_1_close.png",
+          "sha256": "b91e885ed0212e8dfe059ed2c529fada63ba6bb1979fb69cf810901584223895",
+          "bytes": 2591447,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-test/B5_close.png",
+          "sha256": "3dd61d8295c08594c239ef46bbeca669241cea828bc0be7540759ccb61e82cba",
+          "bytes": 2599836,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-test/B5_open.png",
+          "sha256": "4421d8c8822fdf1b0d7f6bbff2f2db76a4974f3c8a400d5c34657bcaf0469c36",
+          "bytes": 2631740,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-test/B6_1_close.png",
+          "sha256": "7b4f33cd035fef8413a010d7afe1cb33ba0820a0696faba5bb1925060dc17512",
+          "bytes": 2621001,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-test/B6_close.png",
+          "sha256": "d8c9dd008a71bc547ce285ed20bb8224fe1f36adde339165359832dfdee005dd",
+          "bytes": 2501335,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-test/B6_open.png",
+          "sha256": "da8df104398675bc1ff1cde2cfb028fb500233c4425ea5bc6d7648f779402d79",
+          "bytes": 2889148,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-test/B7_1_close.png",
+          "sha256": "e9ee4c2ea63a63ad38712f724300b3895a507c028c541a5f2bc112c51a00f839",
+          "bytes": 2836701,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-test/B7_close.png",
+          "sha256": "0dab68e6093485cae9b19e854b7839545f81a7b9a78afa6f7301c308fc7d7de8",
+          "bytes": 2837864,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-test/B7_open.png",
+          "sha256": "d6ba10a6932463a282eb4c24a8d0457c3689cb01744b3b1da181a165f09cbb89",
+          "bytes": 2785420,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-test/B8_1_close.png",
+          "sha256": "7fbf611709301a1e9ca6d9968c97df1b6e6216d4a421fadc89a39c97ce3fe3c3",
+          "bytes": 2861018,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-test/B8_close.png",
+          "sha256": "7d7745bdbbb1b99377c64c74ea0b7c701273fd45d470ddd848563decb5df0926",
+          "bytes": 2615472,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-test/B8_open.png",
+          "sha256": "e760391543deb068e988216c559f998205b6458549a5002eca4b26057f0d5813",
+          "bytes": 2677467,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-test/B9_1_close.png",
+          "sha256": "800dda2a9b66fbfecd131f6e9dcdc8a9c7b503af277f49d1bf5078bb4665a590",
+          "bytes": 2757333,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-test/B9_close.png",
+          "sha256": "dfdf84f11e6c5ac95c06ed1a7b1bd10a77afa4d8887bbc746e2ea6014852497a",
+          "bytes": 2778088,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-test/B9_open.png",
+          "sha256": "42d222338ca125df24b4e317207b229f93ea276a177208f0392076570a153e81",
+          "bytes": 2803197,
+          "size_px": [
+            1080,
+            1920
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cabinet-manual-atlas",
+      "role": "build",
+      "frames": [
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_000008.png",
+          "sha256": "4eac5ed9b6ac02d3247a676f4955bed05718d3bb28965df2e58c8f6524a97268",
+          "bytes": 2539814,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_000028.png",
+          "sha256": "b0f72ba75077020adc5fe78be40a1edeffa8395eb640f8103c7d58a92df00e8c",
+          "bytes": 2971157,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_000032.png",
+          "sha256": "24057830356cf32c077ac40a7cb2d8d9aa5cc7dad836bcb48ca6bebce7ebba74",
+          "bytes": 2404451,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_000056.png",
+          "sha256": "51f09e52d86d4579938c34d081cf130297908b7a4710236d8d8b0a5cd4b71464",
+          "bytes": 2809990,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_000072.png",
+          "sha256": "9d4b2e9ea3b4286dd435eeb67b1e4361f823a0425153d3c2a7a60213f3cbd26d",
+          "bytes": 2392758,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_000084.png",
+          "sha256": "68ddc410bbcd078f0cd22613cb639b3f472723a53ee2e6655230c20ac47aacdd",
+          "bytes": 2679844,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_000092.png",
+          "sha256": "d0920df2d823512c191add014d90b4999744d9f109213d0c53563bcd10a11b25",
+          "bytes": 2245453,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_000106.png",
+          "sha256": "290ea6ee51992648c630413f49e05f79d088ba3f9dacc4061830cb59fd28232d",
+          "bytes": 2146597,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_000132.png",
+          "sha256": "c1d5696d19bd3e39946337ac4faa8c5705e8d150d332e9977276e0c511ff31e7",
+          "bytes": 2362260,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_000148.png",
+          "sha256": "176faef5de769df5ebdd9b33ecd2d1d7c92a8c370909b1a8207586c3be0ca09a",
+          "bytes": 2252658,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_000164.png",
+          "sha256": "4893a91b76a3edbfc17c70d3885ca9a65f662c2d6851b81b7d2dcff8d49ed78e",
+          "bytes": 2513538,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_000168.png",
+          "sha256": "3b9a07495e6dcace3380dddb907dcca232f1fafa1044602d419408e32c257d91",
+          "bytes": 2756955,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_000192.png",
+          "sha256": "f7713ca909925bddfebe765ec40470be4b20e402bbdf962d532f4a8ca61d6928",
+          "bytes": 2428630,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_000196.png",
+          "sha256": "6b3a32f24c8282902b26e22afe3a3af3ef051306a9d874b2ecbac91f5dc1b2ce",
+          "bytes": 2722809,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_000210.png",
+          "sha256": "0e67f3261279c80ce11a4da4248b79cc986424e20b5e54d5290fb643aba1b95e",
+          "bytes": 2133499,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_000236.png",
+          "sha256": "a42defa74435ab1dc9167144568011bc9b9bfcc90f74c40b7457007859dcbad5",
+          "bytes": 2272760,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_000244.png",
+          "sha256": "87ec3e5237ddd4d1ce1b0420b2729b6f8e165441f406d3cdcf6b335fd7d9fc1b",
+          "bytes": 2428476,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_000264.png",
+          "sha256": "2f75da68fe93524fe35312cc627207ba02648d02839714b047082d8492789a32",
+          "bytes": 2223746,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_000276.png",
+          "sha256": "00513f73a3ecc88cdbee547e6033fde240d6d48744d52d6f880874996d4b37ba",
+          "bytes": 2243293,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_000308.png",
+          "sha256": "ef9adf1bcb0fdac99bea92ed58713fc65183a7ceb9e634ec911306c9c9aab900",
+          "bytes": 2795782,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_000328.png",
+          "sha256": "48c32252f9995fe8fc0b3821ce4a06d220605d96033cfc497aed06e061854266",
+          "bytes": 2559502,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_000344.png",
+          "sha256": "1d02c56b8898a42b827bf2ccb13c65e94f15ef5ad70d8a225d7852eaede76e8d",
+          "bytes": 2380398,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_000352.png",
+          "sha256": "3ac436977125eb78ab97b2a404482abfbf43702f6259586317639b3e38d9714b",
+          "bytes": 2470319,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_000360.png",
+          "sha256": "0cb83dd7c40a96484e2dd49a609c216c731f378888b153bb74ddaf3ca6f051cd",
+          "bytes": 2500631,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_000376.png",
+          "sha256": "f4604560fcc203c156f81abcfa24e67d3d0e2cf7011e9081b3a4307062f7d2f7",
+          "bytes": 2449702,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_000404.png",
+          "sha256": "c1ab94d5c38bd613613e5f5162e1c6c9414e61c92790e009ebe972f8073a1879",
+          "bytes": 2456359,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_000408.png",
+          "sha256": "60ca92be678ec0da89bf6570bc14baeb25f51c3fa414b3ae6464399796f59af2",
+          "bytes": 2598024,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_000442.png",
+          "sha256": "3467317b6bd40a47549358cf7b606db2b94bab19b1e64d97f12cae952b361114",
+          "bytes": 2499301,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_000451.png",
+          "sha256": "a888b59f2ca766770c0ce261bf39540deeb06b0fbcdacac0302341e4dca22c18",
+          "bytes": 2279672,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_000614.png",
+          "sha256": "18d0a34555db00ed4471243975d803413776c42e3d8c07f7da0aff0804998972",
+          "bytes": 1990550,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_000616.png",
+          "sha256": "ea2bab992496902b7970dadc0f4682d3f7e29ea48c178abe27868d745770f5f9",
+          "bytes": 2471994,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_000634.png",
+          "sha256": "600f852796acd6c6e739b9f7f6e43e4cc70e8f2134612c1ea57dd1e9df5b45ec",
+          "bytes": 1878783,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_000656.png",
+          "sha256": "81d9dbe8761fb7f35d7132e7f509dc04438f529f0da4bd720546a713ed16bc15",
+          "bytes": 2355860,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_000660.png",
+          "sha256": "b168228d6ffa227bbc20ff4a9aa14ca8954ffe8e2b9d78f0769ad6f25df15415",
+          "bytes": 2361361,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_000688.png",
+          "sha256": "426c1f20368896cfdef7a0a99c43a19a86152eecdb459b4808db495d5a3dc08d",
+          "bytes": 2485241,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_000704.png",
+          "sha256": "a3e138509e8acfd24660c69372cc2e4190604133d3b386ab2c03db86bf8989f1",
+          "bytes": 2207625,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_000716.png",
+          "sha256": "3bbe5125d881224c074533145c13ba7940ce08d4967f02cfc7dfd8f193dc8cb7",
+          "bytes": 2312589,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_000728.png",
+          "sha256": "036a9cbf94070b902e399d66346500d96a235015d50a61998513a0bb92478d40",
+          "bytes": 2691765,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_000748.png",
+          "sha256": "4f6fed43b05f4a04a5d1a45e58f754b33adbc5cf7d47c74cdfe8512c37d6ccbb",
+          "bytes": 2453407,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_000756.png",
+          "sha256": "3cbb3cbe7be9ebfdf19601c979095c4f9f5138d7961b12ec94830e93f71d114d",
+          "bytes": 2748927,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_000776.png",
+          "sha256": "45a03681ae2f5848a95c5e4ae9d6640307f7eba3a6fb52872845affacd82c8fd",
+          "bytes": 2474678,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_000784.png",
+          "sha256": "07e7e4d4a5ed13260bbc4a9cc2a6f79468c37a365eb8fd634829b9bcef69779e",
+          "bytes": 2747031,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_000808.png",
+          "sha256": "40cb31f3bec19ea8993fd67ee7eb0bee64c10c37cde09ee6aaf78a90a25ebc45",
+          "bytes": 2474919,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_000824.png",
+          "sha256": "718ebd9b31bea66a63f5ced6ae3b32ec2d6218a148e2321ac3c71e70b86f22fe",
+          "bytes": 2450786,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_000832.png",
+          "sha256": "e669c8fbba7b4def12b82cef367d8dff0136c0343fb336689c39d0f918795adc",
+          "bytes": 2415547,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_000840.png",
+          "sha256": "782d343fd3d4201c85d425be91381bab4fbf09b6a0cb44a36496ec27331fca23",
+          "bytes": 2711963,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_000860.png",
+          "sha256": "72c213dfbe526fdee71a6a95b84c18d5ed0158eda7f7733543a7807eea89a529",
+          "bytes": 2464346,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_000884.png",
+          "sha256": "c4ab61ae7bf7b9d7f7c96de665b6c4954fd1918c7ecb24e0eecd4c5e6ad859d9",
+          "bytes": 2478972,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_000896.png",
+          "sha256": "cc0c0a515db3e3e3c7bc26cad404827980aff25aec45bc86d2c325ae51fce379",
+          "bytes": 2774765,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_000912.png",
+          "sha256": "5fe1cd199694c7fc046a8af7aa17e36b7169686749a18c6ad73879a6629a5558",
+          "bytes": 2477589,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_000924.png",
+          "sha256": "4cdd270f059298b48a5f5731525bb5a901a3bd5ee57a8c63c0b9307643986a0d",
+          "bytes": 2754504,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_000940.png",
+          "sha256": "ee28f8f75f2b0072e51b53618902a4cc6d58b1fe2d6d43339641eb8fe4d63692",
+          "bytes": 2362950,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_000952.png",
+          "sha256": "cb22ba62b758712df1cf257af11eed97867d6b9e16af97e5157d2c6d5b42ce05",
+          "bytes": 2705288,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_000960.png",
+          "sha256": "cc43bd5724325f85ad2c559adaab0869eee737a1afe5961057b01dd3f424b329",
+          "bytes": 2216715,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_000980.png",
+          "sha256": "0891732f040f3a8e25d216218ee06884437cfb0fecbb39ca54842c3d3532ec6d",
+          "bytes": 2728958,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_001004.png",
+          "sha256": "231002d965fc0374814700c10379c79a14ef557e3e514497184c559dc095a410",
+          "bytes": 2470225,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_001008.png",
+          "sha256": "0bd416c8f900aa43b9ab151b26b56fa31a0a666a7a9077f72f92b66906e2359e",
+          "bytes": 2774491,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_001024.png",
+          "sha256": "ad3bad8e81c033957e9246e1816cc2623f65092f4e7fb190043109f6df4ccec8",
+          "bytes": 2438099,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_001036.png",
+          "sha256": "93969304f1445f3b91d246fbec961d76ee2145c57220bc8c71d03baea3433a53",
+          "bytes": 2678569,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_001069.png",
+          "sha256": "a8798d7c282b9a0ceb9052a529f10e9e6f8134115648d0338592222406694a63",
+          "bytes": 2037181,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_001098.png",
+          "sha256": "48595ea1cbf648fa3cdc8fc08d8519507f103f32e19bf80e78a80e170e9a6844",
+          "bytes": 2278834,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_001116.png",
+          "sha256": "7a90a97148a3959308a8bb05c2a084d6ddae8343538a3896b1a856a80bb62011",
+          "bytes": 2628443,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_001384.png",
+          "sha256": "6ca6e44637ba6233887342184d0de57ad618152274fe5a901f0fc38229f26190",
+          "bytes": 2299848,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_001395.png",
+          "sha256": "eb976417bcb3467f6ff113d0e61bb11ce86e3a91dc0cc8fbb70defc4510c15d6",
+          "bytes": 1920374,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_001412.png",
+          "sha256": "470ccf898a02f7bb33229aaae9370bf0b8eac691775965a2e43f3bf94b008746",
+          "bytes": 2460132,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_001425.png",
+          "sha256": "71dd5550d4beb351cce45153b8cc043a6e227019f9afde5b634f8a5d19836807",
+          "bytes": 2147715,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_001452.png",
+          "sha256": "33e8c7d5562348877cca2669096c5c4f4b8b8040d828435ff8404e6c49a45083",
+          "bytes": 2530856,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_001464.png",
+          "sha256": "c82af15a5196200d302b9fff3d001f10e6325a9869e6f06829cd37f419a14eaa",
+          "bytes": 2487169,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_001476.png",
+          "sha256": "da1a3028a730ccda43bf090d82b6ee8453e2d1440d281901ef6ffc95179ddfd5",
+          "bytes": 2528169,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_001488.png",
+          "sha256": "d71364ff5fb0bfec5b94c23f8172330ba5795e62cbd84a64e606b137fe64ddee",
+          "bytes": 2467472,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_001512.png",
+          "sha256": "5821e269f78904eb9e5debb576b16c01462676e57b8500e31a6023cf6a3eddf7",
+          "bytes": 2761585,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_001528.png",
+          "sha256": "45130fa0ddb5de5dd1ccdf6f692d4d5cf74dc77ef134bf55de8919337f1ed3bb",
+          "bytes": 2458216,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_001532.png",
+          "sha256": "e6043793404e399d4c3f1ef7569f1423d983ab02707a8bf38552c08ef831c085",
+          "bytes": 2454832,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_001556.png",
+          "sha256": "1a577ba55e260002efc40667c597fdd436c3733532c751df51647feaa41c2280",
+          "bytes": 2470192,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_001560.png",
+          "sha256": "639d6af4cd83a01993a4e897942cbdd1204db98b53052dd54021bc8023d01c72",
+          "bytes": 2477344,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_001584.png",
+          "sha256": "de7d4db4b51fb7a2a939b8d7f4ae7967bae61ee15b3468a5bd728fbb55d66ae5",
+          "bytes": 2431256,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_001592.png",
+          "sha256": "a057b4eac69063b86729b93e325a5d5625778afe0d1bdf41191960f272e83b04",
+          "bytes": 2290260,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_001616.png",
+          "sha256": "e24f7135b5e1fe7c5b5e6bb77a31efa6c9a167dae352abd2298e5b4c200c5ab8",
+          "bytes": 2345719,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_001624.png",
+          "sha256": "9315c73a0ada4cafa910c169b71cf0c623ad70c7c3b7e1efa133a7c918b47a9c",
+          "bytes": 2711341,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_001644.png",
+          "sha256": "e267eca2dc352288d6c6123b87d8c9b471f79e400a87e8092dc4cd3b4675efd1",
+          "bytes": 2371713,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_001652.png",
+          "sha256": "b5514115aaa243122376d5e4428b88fdcb84a5dedcabf577a9cd10b97f7046a2",
+          "bytes": 2710131,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_001672.png",
+          "sha256": "9fba9f7c001eef1c0cd6b055c5ba4b613918495245c266fad7017086a4877242",
+          "bytes": 2381428,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_001690.png",
+          "sha256": "1ef72594061ff764d198802824ca6ce66ec4b882c6a294405f8e25daf2828e6f",
+          "bytes": 1997134,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_001709.png",
+          "sha256": "0318702bbf7923278aca9bc1b8aad5cbb4d22588f6bc388d560d32174457a028",
+          "bytes": 2001581,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/close_frame_001732.png",
+          "sha256": "97d3a5268c203af954c2e371df304c466d1f8c48147695d5cd7ba15871dd3f38",
+          "bytes": 2511587,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_000012.png",
+          "sha256": "cb6045ac7eec6e7b968781c82b4968eb466a22a92313cdc65c256f7ea20d068f",
+          "bytes": 2514140,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_000028.png",
+          "sha256": "20f0dfab652a4d29f258ce341add62c4d917845d6409e18661de28b9c0ed9e5b",
+          "bytes": 2852009,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_000032.png",
+          "sha256": "abb9d4c61e49bc517bd8cb9af0264c80704f14a7cc2af970e6d668f0b60dd102",
+          "bytes": 2429517,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_000048.png",
+          "sha256": "b0a5c6c713b2bd45b7d496fc4d18ac23adfabbf2ae8ce8df54d06b7c0b5337da",
+          "bytes": 2491282,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_000072.png",
+          "sha256": "36a849cd045f49dfe16c1e774fcd6991eb7a436f73e273b99a48044cedb2c564",
+          "bytes": 2346743,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_000084.png",
+          "sha256": "9e61f0cee96d1f32bf4a38d5bdbaf5166a181530d72a45be3b51c268d5f88009",
+          "bytes": 2848970,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_000100.png",
+          "sha256": "57c94e6e13c9ae77ad025ee94325753e599cafaa1f68891bc783219ffd89def9",
+          "bytes": 2431169,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_000112.png",
+          "sha256": "b54e603221b66dececff3c830c563061019eac0fcd5a64160adb7fbb69f639a9",
+          "bytes": 2742477,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_000120.png",
+          "sha256": "59fb25f645611406e4b1a0a1832d251e7ac7412901c5dc422a573d97eade6bd2",
+          "bytes": 2154187,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_000148.png",
+          "sha256": "ccbbab5a33f1563b2a949b6ce2b442c5ccc5cc49e769cf408f2f706017b664c4",
+          "bytes": 2148779,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_000150.png",
+          "sha256": "d80b93f9243a34af32378e60edf0fde1c2ee170c6a329af262cbd9c4d415e0f3",
+          "bytes": 2061511,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_000168.png",
+          "sha256": "9e81d13ce7ac4c54c5ce2e383f36dc75bbc3e2ba7f6e8573e123e6fb6e7f4708",
+          "bytes": 2621651,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_000188.png",
+          "sha256": "adc2408d3e4ae0ecb011a20cf42bc3e87603a1126df3e9a2354b60b835f4d7ff",
+          "bytes": 2248990,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_000196.png",
+          "sha256": "5958d0502d2ea083d6013c694a747fe139562514b559a3327888bc63b9c1e056",
+          "bytes": 2657520,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_000224.png",
+          "sha256": "c586e4f289a53252158a44de82fd6231e35de4db68534c052c90f07a6787e4f7",
+          "bytes": 2689518,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_000236.png",
+          "sha256": "9bf4475f08c3876444b6d6957d0658f721f23dd2411e6f5cfa49b544dc9844dd",
+          "bytes": 2266131,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_000252.png",
+          "sha256": "ebd5cbaa44af3f7e2851ea66b9f6c0cd6b1557b5c647578a5197adbd84bccf04",
+          "bytes": 2674360,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_000256.png",
+          "sha256": "278475cedb168959f2b1a53c2ce61a31bc48fa890dfd09b5c0955cdcf164a08f",
+          "bytes": 2051794,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_000276.png",
+          "sha256": "279dc10ed5793dee2ef16f8854689a535d7b2c1223572e7a4dbf9717e848a567",
+          "bytes": 2329248,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_000292.png",
+          "sha256": "d17a55cdde558bf039a7b40217b7ead66dbcf6c6ef4de91b9441650354b96e21",
+          "bytes": 2370201,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_000308.png",
+          "sha256": "b21a28592869b7c591fd6d5e22f34e29abb140cb27d5cadac68871de8663f420",
+          "bytes": 2805000,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_000556.png",
+          "sha256": "9ff32974535a947e2e30da04d10e2bc3978b1ba0e7998ac2d2de9d5f37a39526",
+          "bytes": 2181325,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_000596.png",
+          "sha256": "5ca92e6568891ac910b24f7f19dadc73f619995bbc3c109c376fb5063598cff3",
+          "bytes": 2126815,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_000601.png",
+          "sha256": "3375a502d77177a7897d97e3bdc1847a1d1d9d1b65f05a14985647488683682a",
+          "bytes": 2005064,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_000658.png",
+          "sha256": "c14457e7531952703a8bfbf9e6595eef36c0444229c39c598f2ed402841d008b",
+          "bytes": 2322458,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_000672.png",
+          "sha256": "ea157153e14c211cec191e650b0bbb559a25358e3e090304ac4a28d17b5a9123",
+          "bytes": 2876573,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_000688.png",
+          "sha256": "475ca049b3cc04d4b346f0c85afa028363956b8d1caa75c74b9f415232ab1d87",
+          "bytes": 2577847,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_000700.png",
+          "sha256": "3fc57d7057aa5a05cc1052fba81bf44a820e18a5b3fd2230b3a4259f933488ef",
+          "bytes": 2922274,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_000712.png",
+          "sha256": "fbf07d5146ae967408ea9efb7fe7445f265ff4c6445cddf63f1bd2380cb54228",
+          "bytes": 2549004,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_000728.png",
+          "sha256": "ff6a94d39b21acf3d433e31aa17fa425ade39e3cebb4ec9ae04e20fb78d4ffd2",
+          "bytes": 2885023,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_000744.png",
+          "sha256": "ff057c8f8c9f6780048f0ca35c7424f9c46da6f068fe8d93fee76fba114ca44c",
+          "bytes": 2462247,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_000764.png",
+          "sha256": "3bfc7ab94c0cc0595c680de4fa67711344f080bf859f89c92b305ea3031765fd",
+          "bytes": 2315660,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_000776.png",
+          "sha256": "2044162b067dfad4fdd6cba68418695aa0213c1867b1ec74c92e3492101f4d02",
+          "bytes": 2365531,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_000792.png",
+          "sha256": "d4f23b1f6e363508ba2b836cdfe7a238917ff8b073cfc70155c18eb75ee82fd1",
+          "bytes": 2289502,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_000804.png",
+          "sha256": "eeba2b94c2abb8cfd4e5e7706b8268911797a42c542f33029af8b28da275a9dd",
+          "bytes": 2415837,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_000812.png",
+          "sha256": "2c0a8986871ceecfb59b94d9f68f2a295afa1f3262d1ef48bf3283c89121ca95",
+          "bytes": 2867736,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_000836.png",
+          "sha256": "29959d24e007644ac072a0c3d251affbc481027c0d38b6c525d090dce141a2d5",
+          "bytes": 2495206,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_000840.png",
+          "sha256": "a52638f02bca15177c53ad5013afc504a0b484262ebee4279df94e0d0a0f0bdd",
+          "bytes": 2809063,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_000856.png",
+          "sha256": "41f09a5676ff63fc540006f05727ac32a4bcdfc50f4e31900b4352eb7139b0b5",
+          "bytes": 2404654,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_000882.png",
+          "sha256": "0867882495233956da66007c4af074ce8769f2996da8f6fb46257c5be434029c",
+          "bytes": 1982389,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_000896.png",
+          "sha256": "21d656f426e2f8c56dbfdddb9162c0b0057757f5715cb169c6880418a99f3a02",
+          "bytes": 2772491,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_000900.png",
+          "sha256": "d6dd9c46ea7db458cb727dbf32a976a34c31e667429449d72dfc5d65dcf29385",
+          "bytes": 2374967,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_000928.png",
+          "sha256": "a8ca8774d36be1606f39339e2a94bac265fde8e00c0fbbde515d916aeef3d8cc",
+          "bytes": 2294739,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_000940.png",
+          "sha256": "b532e7e9576a8c3a617a3a7a94d6b41a5634afc55585f39ffd45c145c0a1c463",
+          "bytes": 2418614,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_000952.png",
+          "sha256": "9b3bed28fd1b5559171babf7d09e85777824d3184b494b899b73bb523993f52a",
+          "bytes": 2759557,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_000960.png",
+          "sha256": "84a834490980b358cb100d1b282a76d7625d30959460fbe725ce6e749cce4979",
+          "bytes": 2182038,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_001018.png",
+          "sha256": "b827ce0c18b5f351273f92bf0fe20a01b3c2bb2a5a43c490d25265bb1ff88740",
+          "bytes": 2454458,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_001024.png",
+          "sha256": "4deb969c5b6aec58a447e374789a52fa547571d7559b75778c62be292dc075d8",
+          "bytes": 2475629,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_001332.png",
+          "sha256": "d936fd1edb81a91ec1a9f756945772ae49c6ed6e76ebe2b08a709e503918d400",
+          "bytes": 2575692,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_001340.png",
+          "sha256": "025a35ad6bc1a3e8c4da0473efe1ac5a384e9669eaf7429c5341f8f6d30fea21",
+          "bytes": 2601675,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_001364.png",
+          "sha256": "5e822c1030fb2e8b91805c96a4d35397b42c650942a85a1b23a85016a89e4284",
+          "bytes": 2522850,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_001372.png",
+          "sha256": "1dcaf5fb63da4a628abb0d33537d068711665d0955819f644ff01189efd099ed",
+          "bytes": 2882993,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_001380.png",
+          "sha256": "02289ebcad8f54cd3c6a055d626e713ee070ab45f3318f519cb82c3576c5282f",
+          "bytes": 2328613,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_001400.png",
+          "sha256": "50a8ae36c91f7ab7a14ac10d1c839b2eb7b6ce8d8455274a456828323ee8336d",
+          "bytes": 2852165,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_001420.png",
+          "sha256": "d1ed5171ec409f47af9dc59550bad58cf6abeea63f8e02ea17efad183bd036e1",
+          "bytes": 2639110,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_001425.png",
+          "sha256": "536d56080392663da217a6bcef9527dc38c238c74f2f46a2b689602ade704f10",
+          "bytes": 2298675,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_001443.png",
+          "sha256": "ad8745fcbc6cd2ec908a41219a1f611f42f78e47e6012c47da8ed6c31b412ed6",
+          "bytes": 2046466,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_001469.png",
+          "sha256": "bf9ce30f87772e9ef0d56ff3e97d692f5da4cbd10b61416084543c3c177a9970",
+          "bytes": 1999883,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_001484.png",
+          "sha256": "b9b0c78b7596be3bb910653aa531026b1512ad01d808f8ef4757f75d190acc53",
+          "bytes": 2775702,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_001488.png",
+          "sha256": "711e380f14602cd7fd4291a4c1c96a0f896e94082bd903343c818f349dc4aa37",
+          "bytes": 2261935,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_001504.png",
+          "sha256": "e463ed542217d78d2209b7e80a1a992298bf42dfeb15105bdba659b8080bf958",
+          "bytes": 2397479,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_001522.png",
+          "sha256": "03d9b11664d325da01903e8422c97e1eeda64c48442f07c94999aa1772467b38",
+          "bytes": 1965337,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_001540.png",
+          "sha256": "766ea5d801a47dfe22cc59b8a5eaf508faede23019601592f9e58f87e20d5e15",
+          "bytes": 2685546,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_001556.png",
+          "sha256": "8993b9decb7433430e11a5fc9d5f54695386f72c8127fb92d38abacb3b63f342",
+          "bytes": 2199825,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_001568.png",
+          "sha256": "9d40dd926254cca43e8a20e2a5e6033854609e961fe42137f2363046f15c0a44",
+          "bytes": 2727005,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_001584.png",
+          "sha256": "51eebeae09b180bc0fda2518884c3a4bdefa408546d038288fd6e60593b83360",
+          "bytes": 2168960,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_001593.png",
+          "sha256": "a785908913800e99e5ee1be48872fa268b9a494de2db417adadd551f7c47c624",
+          "bytes": 1865696,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_001636.png",
+          "sha256": "a95ca42504a1a823e9189ed784264a56e8b1d0970097308b2e7e6697a3cd995f",
+          "bytes": 2417682,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-manual-atlas/open_frame_001651.png",
+          "sha256": "e1d8d88e376b4a61c9290268ae18a38b2b0ce5448343176ce2e1f24ed278db79",
+          "bytes": 2099368,
+          "size_px": [
+            1080,
+            1920
+          ]
+        }
+      ]
+    }
+  ],
+  "files": {
+    "atlas.json": "57dafadd6c37b7a9ecf722487925b8114ca675b5756bc81adb52d3707b4d498c",
+    "atlas.report.json": "f880d942598b3d82a4fbe2f45050190e3e3f63f9627bbe6afff332a694217305",
+    "sets/cabinet-manual-test/clicks.json": "6f7b77042e7edd93013c1b842ab8c1e1c6d80f2a3ea22f905996ee22fb140ec7",
+    "sets/cabinet-manual-test/board_poses.json": "95e09d6d94d25cae9caa6779bb4d8ae8fcda37fbd8d580bcc71ce7f579f47b71",
+    "sets/cabinet-manual-atlas/clicks.json": "7788a537083134aadb9a65de47bc75e4e9f2de19e6189150350317d1bfca6864",
+    "sets/cabinet-manual-atlas/board_poses.json": "d8151eb75d3276cd99ded6d9a408e3ead30e1def4f941ad1ab1f00f5a79e6315"
+  }
+}

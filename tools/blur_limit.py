@@ -13,8 +13,8 @@ accepts without the blur check and with it, then the quartiles of the 95%
 region's size. Policy.max_edge_width_px is set where the jitter's 90th
 percentile leaves the 95% region of a typical frame.
 
-    uv run tools/blur_limit.py data/atlas/szafka2.json \\
-        data/szafka2_demo/demo_1.MOV data/szafka2_demo/demo_2.MOV \\
+    uv run tools/blur_limit.py data/atlas/cabinet-aruco.json \\
+        data/cabinet-aruco/demo/demo_1.MOV data/cabinet-aruco/demo/demo_2.MOV \\
         --camera-id iphone11-1x-1080p-portrait
 """
 

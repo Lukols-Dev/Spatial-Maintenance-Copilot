@@ -2,8 +2,8 @@
   "app": "npx tsx bin/smc.ts",
   "context": {
     "region": "eu-north-1",
-    "atlases": ["szafka", "szafka2"],
-    "viewSets": ["szafka-b"],
+    "atlases": ["cabinet-manual", "cabinet-aruco"],
+    "viewSets": ["cabinet-manual-test"],
     "model": "eu.amazon.nova-2-lite-v1:0",
     "modelCallsPerDay": 1000,
     "budgetUsd": 30,

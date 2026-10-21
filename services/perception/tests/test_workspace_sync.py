@@ -38,7 +38,7 @@ def test_every_object_under_the_prefix_lands_at_its_path(tmp_path: Path) -> None
     client = FakeS3(
         {
             "workspace/calib/rig.yaml": b"rig",
-            "workspace/data/atlas/szafka.json": b"{}",
+            "workspace/data/atlas/cabinet-manual.json": b"{}",
             "workspace/data/views/demo/": b"",
             "workspace/data/views/demo/a.png": b"png",
             "other/secret.txt": b"no",

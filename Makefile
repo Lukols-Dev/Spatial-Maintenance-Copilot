@@ -7,7 +7,7 @@ NAME  := smc-perception
 API_ENV := services/perception/.env
 API_ENV_FILE = $(if $(wildcard $(API_ENV)),--env-file $(API_ENV))
 # The frozen dataset the evaluation runs on (tools/freeze_dataset.py).
-EVAL_DATASET := eval/datasets/cabinet-2026-10-09
+EVAL_DATASET := eval/datasets/cabinet-manual-2026-10-09
 
 help:  ## Show this help
 	@grep -E '^[a-zA-Z0-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \

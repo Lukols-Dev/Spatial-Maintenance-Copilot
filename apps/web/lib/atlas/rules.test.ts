@@ -16,7 +16,7 @@ describe("nameProblem", () => {
     expect(nameProblem("-cabinet", "Asset id")).toBe("Asset id needs a letter or digit first");
     expect(nameProblem(".hidden", "Name")).toBe("Name needs a letter or digit first");
     expect(nameProblem("my cabinet", "Name")).toBe("Name has characters other than A–Z a–z 0–9 . _ -");
-    expect(nameProblem("szafka-ż", "Name")).toBe("Name has characters other than A–Z a–z 0–9 . _ -");
+    expect(nameProblem("cabinet-ż", "Name")).toBe("Name has characters other than A–Z a–z 0–9 . _ -");
     expect(nameProblem("../etc", "Name")).toBe("Name needs a letter or digit first");
   });
 });
