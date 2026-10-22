@@ -41,6 +41,20 @@ export function pickAtlas(
   )?.asset_id ?? null;
 }
 
+/**
+ * The Demo's atlas: the one chosen, else the one the deployment prefers until
+ * it is found without viewpoints, else as pickAtlas picks.
+ */
+export function pickDemoAtlas(
+  atlases: readonly AtlasSummary[],
+  wanted: string | null,
+  passedOver: readonly string[],
+  preferred: string | null,
+): string | null {
+  const first = wanted ?? (preferred !== null && !passedOver.includes(preferred) ? preferred : null);
+  return pickAtlas(atlases, first, passedOver);
+}
+
 function landmarkIds(atlas: Atlas): Set<string> {
   return new Set(atlas.landmarks.map((landmark) => landmark.id));
 }

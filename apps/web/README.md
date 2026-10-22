@@ -79,6 +79,9 @@ records what the page sent.
 - `npm run build` writes the site to `out/`. With `trailingSlash: true` every page is `<path>/index.html`.
 - `NEXT_PUBLIC_API_URL` is baked in at build time. Set it in the environment of the deploy build;
   `.env.local` (localhost) would otherwise end up in the bundle.
+- `NEXT_PUBLIC_DEMO_ASSET` names the atlas the Demo opens on, also baked in. `make deploy` sets it from
+  `DEMO_ASSET` (`cabinet-manual` unless given, as in `make deploy DEMO_ASSET=cabinet-aruco`). Unset, the Demo
+  opens on the newest atlas that has viewpoints.
 - The API must allow the site's origin in CORS (`CORS_ALLOWED_ORIGINS` in the perception service), for `GET`,
   `POST` and `PUT`.
 - CloudFront with a private S3 origin does not serve `index.html` for sub-paths: add a viewer-request function

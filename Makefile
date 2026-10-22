@@ -8,6 +8,8 @@ API_ENV := services/perception/.env
 API_ENV_FILE = $(if $(wildcard $(API_ENV)),--env-file $(API_ENV))
 # The frozen dataset the evaluation runs on (tools/freeze_dataset.py).
 EVAL_DATASET := eval/datasets/cabinet-manual-2026-10-09
+# The atlas the deployed Demo opens on; empty: the newest one with viewpoints.
+DEMO_ASSET ?= cabinet-manual
 
 help:  ## Show this help
 	@grep -E '^[a-zA-Z0-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
@@ -74,7 +76,7 @@ synth:  ## Synthesize the AWS stack into infra/cdk.out
 	cd infra && npx cdk synth --quiet
 
 deploy:  ## Build the web app for CloudFront and deploy the stack (AWS credentials, cdk bootstrap, Docker)
-	cd apps/web && NEXT_PUBLIC_API_URL=/api npm run build
+	cd apps/web && NEXT_PUBLIC_API_URL=/api NEXT_PUBLIC_DEMO_ASSET=$(DEMO_ASSET) npm run build
 	cd infra && npx cdk deploy
 
 boards:  ## Generate the printable ChArUco rig boards

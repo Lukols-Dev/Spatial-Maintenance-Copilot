@@ -10,6 +10,7 @@ import {
   buildSetOf,
   defaultTruthView,
   pickAtlas,
+  pickDemoAtlas,
   pickViewSet,
   truthViews,
   viewpointSets,
@@ -61,6 +62,14 @@ describe("the atlas choice", () => {
     expect(pickAtlas(atlases, "new", ["new"])).toBe("new");
     // Every one passed over: the newest, whose state then says why.
     expect(pickAtlas(atlases, null, ["new", "old"])).toBe("new");
+  });
+
+  it("opens the Demo on the atlas the deployment prefers, unless another is chosen or it has no viewpoints", () => {
+    expect(pickDemoAtlas(atlases, null, [], "old")).toBe("old");
+    expect(pickDemoAtlas(atlases, "new", [], "old")).toBe("new");
+    expect(pickDemoAtlas(atlases, null, ["old"], "old")).toBe("new");
+    expect(pickDemoAtlas(atlases, null, [], "gone")).toBe("new");
+    expect(pickDemoAtlas(atlases, null, [], null)).toBe("new");
   });
 });
 

@@ -38,7 +38,7 @@ import { latestByView, shownTruth } from "@/lib/locate/trace";
 import {
   atlasOptions,
   buildSetOf,
-  pickAtlas,
+  pickDemoAtlas,
   pickViewSet,
   viewpointSets,
   viewpointsOf,
@@ -52,6 +52,9 @@ import { getAtlas, getViewSet, refreshWorkspace, useWorkspace, type Workspace } 
 // decides, and the agent asks for the move the policy chose, or for approval
 // of the next step. The session's summary puts each view's measurement next to
 // the decision and the action it led to.
+
+// The atlas a deployment opens the Demo on (make deploy sets it), baked in at build time.
+const DEMO_ASSET = process.env.NEXT_PUBLIC_DEMO_ASSET?.trim() || null;
 
 const loadAtlas = (id: string, signal: AbortSignal) => getAtlas(id, { signal });
 const loadViewSet = (name: string, signal: AbortSignal) => getViewSet(name, { signal });
@@ -86,7 +89,7 @@ function Agent({ workspace, problem }: { workspace: Workspace; problem: string |
   const [passedOver, setPassedOver] = useState<readonly string[]>([]);
 
   const atlases = useMemo(() => atlasOptions(workspace), [workspace]);
-  const assetId = pickAtlas(atlases, wanted.asset, passedOver);
+  const assetId = pickDemoAtlas(atlases, wanted.asset, passedOver, DEMO_ASSET);
   const summary = atlases.find((atlas) => atlas.asset_id === assetId) ?? null;
   const atlasRead = useLoaded(assetId, summary?.built_at ?? "", loadAtlas);
   const detail = atlasRead.state.status === "ready" ? atlasRead.state.data : null;
