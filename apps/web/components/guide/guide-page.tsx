@@ -1,6 +1,6 @@
 "use client";
 
-import { Boxes, Camera as CameraIcon, CircleAlert, FileVideo, LoaderCircle, ServerOff, Square, X } from "lucide-react";
+import { Boxes, Camera as CameraIcon, CircleAlert, FileVideo, Film, LoaderCircle, ServerOff, Square, X } from "lucide-react";
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore, type ChangeEvent } from "react";
 
 import { SessionSummaryCard } from "@/components/agent/session-summary";
@@ -27,7 +27,8 @@ import { inspectFrame, postFrame } from "@/lib/guide/api";
 import { wordsOf } from "@/lib/guide/moves";
 import { useGuideSettings } from "@/lib/guide/settings";
 import { summariseLog } from "@/lib/guide/summary";
-import { cameraSource, fileSource } from "@/lib/guide/sources";
+import { recordingUrl, useRecordings } from "@/lib/guide/recordings";
+import { cameraSource, fileSource, recordingSource } from "@/lib/guide/sources";
 import { IDLE, createGuideStore, type GuideState, type GuideStore } from "@/lib/guide/store";
 import type { FrameAnswer } from "@/lib/guide/types";
 import { unavailableTitle } from "@/lib/locate/format";
@@ -92,6 +93,7 @@ function Guide({ workspace, problem }: { workspace: Workspace; problem: string |
   const mobile = useIsMobile();
   const [opening, setOpening] = useState<string | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const recordings = useRecordings();
 
   const atlases = useMemo(() => atlasOptions(workspace), [workspace]);
   const assetId = pickAtlas(atlases, wanted.asset);
@@ -134,6 +136,11 @@ function Guide({ workspace, problem }: { workspace: Workspace; problem: string |
     const file = event.target.files?.[0];
     event.target.value = "";
     if (file) void begin((video) => fileSource(video, file));
+  }
+
+  function onRecording(file: string) {
+    const recording = recordings.find((candidate) => candidate.file === file);
+    if (recording) void begin((video) => recordingSource(video, recordingUrl(recording), recording.title));
   }
 
   const toolbar = (
@@ -190,6 +197,21 @@ function Guide({ workspace, problem }: { workspace: Workspace; problem: string |
                 <input type="file" accept="video/*" className="sr-only" onChange={onFile} disabled={!camera || !assetId} />
               </label>
             </Button>
+            {recordings.length > 0 && (
+              <Select value="" onValueChange={onRecording} disabled={!camera || !assetId}>
+                <SelectTrigger aria-label="Recording" className="w-56">
+                  <Film aria-hidden />
+                  <SelectValue placeholder="Recording" />
+                </SelectTrigger>
+                <SelectContent>
+                  {recordings.map((recording) => (
+                    <SelectItem key={recording.file} value={recording.file}>
+                      {recording.title} · {Math.round(recording.seconds)} s
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            )}
           </>
         )}
         <GuideSettings motion={state.motion} />

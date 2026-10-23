@@ -3,7 +3,7 @@
   "context": {
     "region": "eu-north-1",
     "atlases": ["cabinet-manual", "cabinet-aruco"],
-    "viewSets": ["cabinet-manual-test", "cabinet-aruco-test"],
+    "viewSets": ["cabinet-manual-test", "cabinet-aruco-tripod"],
     "model": "eu.amazon.nova-2-lite-v1:0",
     "modelCallsPerDay": 1000,
     "budgetUsd": 30,

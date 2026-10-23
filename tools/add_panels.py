@@ -18,10 +18,10 @@ For the cabinet of the 2026-10-09 recordings, in the frame of rig board B
 """
 
 import argparse
+from collections.abc import Iterable
 from pathlib import Path
 
-from pydantic import ValidationError
-from smc_core.contracts import Atlas, load_atlas
+from smc_core.contracts import Atlas, Panel, load_atlas
 from smc_core.xray import FACES, box_panels
 
 
@@ -32,6 +32,43 @@ def face_name(text: str) -> tuple[str, str]:
             f"{text!r}: expected FACE=ID with FACE one of {sorted(FACES)}"
         )
     return face, name
+
+
+def moving_landmarks(atlas: Atlas, texts: Iterable[str]) -> dict[str, str]:
+    """Landmark id to the panel it moves with, from PANEL=ID,ID texts; ValueError on a wrong one."""
+    moving: dict[str, str] = {}
+    for text in texts:
+        panel, separator, ids = text.partition("=")
+        if not separator or not ids:
+            raise ValueError(f"--moving {text!r}: expected PANEL=ID,ID")
+        for item in ids.split(","):
+            matched = [
+                landmark.id
+                for landmark in atlas.landmarks
+                if landmark.id == item or landmark.id.startswith(f"{item}_")
+            ]
+            if not matched:
+                raise ValueError(f"--moving {text!r}: no landmark {item!r} in the atlas")
+            moving.update(dict.fromkeys(matched, panel))
+    return moving
+
+
+def with_panels(
+    atlas: Atlas, panels: list[Panel], moving: dict[str, str], version: str | None
+) -> Atlas:
+    """The atlas with these panels and these landmarks moving with them, everything else as it was.
+
+    It is validated again, so a duplicate panel id raises pydantic's
+    ValidationError instead of reaching the file.
+    """
+    landmarks = [
+        landmark.model_copy(update={"moves_with": moving.get(landmark.id)})
+        for landmark in atlas.landmarks
+    ]
+    update: dict[str, object] = {"panels": panels, "landmarks": landmarks}
+    if version:
+        update["version"] = version
+    return Atlas.model_validate(atlas.model_copy(update=update).model_dump())
 
 
 def main(argv: list[str] | None = None) -> None:
@@ -70,31 +107,10 @@ def main(argv: list[str] | None = None) -> None:
     except ValueError as error:
         raise SystemExit(str(error)) from error
 
-    moving: dict[str, str] = {}
-    for text in args.moving:
-        panel, separator, ids = text.partition("=")
-        if not separator or not ids:
-            raise SystemExit(f"--moving {text!r}: expected PANEL=ID,ID")
-        for item in ids.split(","):
-            matched = [
-                landmark.id
-                for landmark in atlas.landmarks
-                if landmark.id == item or landmark.id.startswith(f"{item}_")
-            ]
-            if not matched:
-                raise SystemExit(f"--moving {text!r}: no landmark {item!r} in the atlas")
-            moving.update(dict.fromkeys(matched, panel))
-    landmarks = [
-        landmark.model_copy(update={"moves_with": moving.get(landmark.id)})
-        for landmark in atlas.landmarks
-    ]
-    update: dict[str, object] = {"panels": panels, "landmarks": landmarks}
-    if args.version:
-        update["version"] = args.version
-    # Validated again, so a duplicate panel id stops the write.
     try:
-        written = Atlas.model_validate(atlas.model_copy(update=update).model_dump())
-    except ValidationError as error:
+        moving = moving_landmarks(atlas, args.moving)
+        written = with_panels(atlas, panels, moving, args.version)
+    except ValueError as error:  # pydantic's ValidationError among them
         raise SystemExit(str(error)) from error
     out = args.out or args.atlas
     out.write_text(written.model_dump_json(indent=2) + "\n", encoding="utf-8")

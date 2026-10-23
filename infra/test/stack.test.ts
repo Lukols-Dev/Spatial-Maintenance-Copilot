@@ -12,7 +12,7 @@ import { SmcStack, workspaceSources } from "../lib/smc-stack";
 // The stack's template, synthesized from a small workspace in a temporary
 // folder and a public image, so nothing is built and nothing reaches AWS.
 
-function workspace(withSite: boolean): string {
+function workspace(withSite: boolean, withRecordings = false): string {
   const root = mkdtempSync(join(tmpdir(), "smc-infra-"));
   const file = (path: string, text: string) => {
     mkdirSync(join(root, path, ".."), { recursive: true });
@@ -23,14 +23,15 @@ function workspace(withSite: boolean): string {
   file("data/atlas/cabinet-manual.json", "{}");
   file("data/views/cabinet-manual-test/clicks.json", "{}");
   if (withSite) file("apps/web/out/index.html", "<!doctype html>");
+  if (withRecordings) file("data/recordings/index.json", '{"recordings": []}');
   return root;
 }
 
-function synth(withSite = true, budget?: { usd: number; email: string }): Template {
+function synth(withSite = true, budget?: { usd: number; email: string }, withRecordings = false): Template {
   const app = new App();
   const stack = new SmcStack(app, "Test", {
     env: { account: "123456789012", region: "eu-north-1" },
-    root: workspace(withSite),
+    root: workspace(withSite, withRecordings),
     atlases: ["cabinet-manual"],
     viewSets: ["cabinet-manual-test"],
     model: "eu.amazon.nova-2-lite-v1:0",
@@ -176,6 +177,19 @@ describe("the web app", () => {
     // The camera, the rig, the atlas and the view set, then the site.
     expect(Object.keys(template.findResources("Custom::CDKBucketDeployment"))).toHaveLength(5);
     expect(Object.keys(synth(false).findResources("Custom::CDKBucketDeployment"))).toHaveLength(4);
+  });
+
+  it("serves the judge's recordings beside it, apart from the site's own upload", () => {
+    const withRecordings = synth(true, undefined, true);
+    withRecordings.hasResourceProperties("Custom::CDKBucketDeployment", {
+      DestinationBucketKeyPrefix: "recordings",
+      DistributionPaths: ["/recordings/*"],
+    });
+    withRecordings.hasResourceProperties("Custom::CDKBucketDeployment", {
+      Exclude: ["recordings/*"],
+      DestinationBucketKeyPrefix: Match.absent(),
+    });
+    expect(Object.keys(withRecordings.findResources("Custom::CDKBucketDeployment"))).toHaveLength(6);
   });
 });
 

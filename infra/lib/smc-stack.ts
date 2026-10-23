@@ -1,7 +1,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
-import { CfnOutput, Duration, RemovalPolicy, Stack, type StackProps } from "aws-cdk-lib";
+import { CfnOutput, Duration, RemovalPolicy, Size, Stack, type StackProps } from "aws-cdk-lib";
 import { HttpApi, HttpMethod, HttpStage, MappingValue, ParameterMapping, VpcLink } from "aws-cdk-lib/aws-apigatewayv2";
 import { HttpAlbIntegration } from "aws-cdk-lib/aws-apigatewayv2-integrations";
 import {
@@ -69,6 +69,8 @@ const SERVICE_PORT = 8000;
 /** Where the workspace is copied to in the container: the app user's home, which it may write. */
 const CONTAINER_WORKSPACE = "/home/app/workspace";
 const WORKSPACE_PREFIX = "workspace";
+/** Where the judge's recordings sit in the site bucket, served at /recordings/ (tools/judge_recordings.py). */
+const RECORDINGS_PREFIX = "recordings";
 
 // The export has one index.html per page (/localise/index.html): CloudFront asks
 // S3 for objects, so a page's path is completed to its file.
@@ -273,6 +275,22 @@ export class SmcStack extends Stack {
         sources: [Source.asset(out)],
         destinationBucket: site,
         distribution,
+        // The recordings are uploaded apart: the site's upload neither sends nor prunes them.
+        exclude: [`${RECORDINGS_PREFIX}/*`],
+      });
+    }
+    // The clips the Localise page offers a judge, from data/ and never from git, on
+    // the page's own origin: a canvas draws only a video of that origin.
+    const recordings = join(props.root, "data", RECORDINGS_PREFIX);
+    if (existsSync(join(recordings, "index.json"))) {
+      new BucketDeployment(this, "Recordings", {
+        sources: [Source.asset(recordings)],
+        destinationBucket: site,
+        destinationKeyPrefix: RECORDINGS_PREFIX,
+        distribution,
+        distributionPaths: [`/${RECORDINGS_PREFIX}/*`],
+        memoryLimit: 1024,
+        ephemeralStorageSize: Size.gibibytes(2),
       });
     }
     // The service answers only the page's own origin.

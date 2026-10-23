@@ -104,15 +104,32 @@ export async function cameraSource(
 }
 
 /** A video file, stepped through FILE_STEP_S at a time, each step shown while it is localised. */
-export async function fileSource(video: HTMLVideoElement, file: File): Promise<FrameSource> {
+export function fileSource(video: HTMLVideoElement, file: File): Promise<FrameSource> {
   const url = URL.createObjectURL(file);
+  return steppedSource(video, url, file.name, () => URL.revokeObjectURL(url));
+}
+
+/** A recording served beside the page, stepped through as a file is; its origin lets the canvas read it. */
+export function recordingSource(video: HTMLVideoElement, url: string, name: string): Promise<FrameSource> {
+  return steppedSource(video, url, name, () => {});
+}
+
+async function steppedSource(
+  video: HTMLVideoElement,
+  url: string,
+  name: string,
+  release: () => void,
+): Promise<FrameSource> {
   video.srcObject = null;
   video.src = url;
   video.muted = true;
   video.pause();
   await new Promise<void>((resolve, reject) => {
     video.onloadedmetadata = () => resolve();
-    video.onerror = () => reject(new Error(`${file.name} cannot be played here`));
+    video.onerror = () => {
+      release();
+      reject(new Error(`${name} cannot be played here`));
+    };
   });
   const canvas = document.createElement("canvas");
   let time = 0;
@@ -132,7 +149,7 @@ export async function fileSource(video: HTMLVideoElement, file: File): Promise<F
     stop() {
       video.removeAttribute("src");
       video.load();
-      URL.revokeObjectURL(url);
+      release();
     },
   };
 }
