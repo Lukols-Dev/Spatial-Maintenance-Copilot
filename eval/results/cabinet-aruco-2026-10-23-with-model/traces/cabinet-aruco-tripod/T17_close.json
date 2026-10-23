@@ -1,0 +1,240 @@
+[
+  {
+    "step": 1,
+    "kind": "perception",
+    "node": "localise",
+    "summary": "localised T17_close.png",
+    "data": {
+      "view": "T17_close.png"
+    }
+  },
+  {
+    "step": 2,
+    "kind": "decision",
+    "node": "localise",
+    "summary": "not reliable: MOVE_UP",
+    "data": {
+      "reliable": false,
+      "action": "MOVE_UP",
+      "move_reason": "landmarks m50_1, m51_0, m51_1, m51_2, m51_3, m54_0, m54_1, m54_2, m54_3, m56_0, m56_1, m56_2, m56_3, m57_0, m57_1, m57_2, m57_3 face away from the camera, seen from further up",
+      "reasons": [
+        "4 inliers, needs ≥ 6",
+        "landmarks cover 1.1 % of the frame, needs ≥ 5 %",
+        "95 % region is 0.64 × the target radius, needs ≤ 0.5"
+      ]
+    }
+  },
+  {
+    "step": 3,
+    "kind": "tool",
+    "node": "guide",
+    "summary": "suggest_viewpoints MOVE_UP",
+    "data": {
+      "tool": "suggest_viewpoints",
+      "views": [
+        "T06_close.png",
+        "T06_2_close.png",
+        "T10_2_close.png",
+        "T10_close.png",
+        "T07_close.png",
+        "T07_2_close.png",
+        "T01_close.png",
+        "T01_2_close.png",
+        "T03_close.png",
+        "T03_2_close.png",
+        "T11_close.png",
+        "T02_2_close.png",
+        "T02_close.png",
+        "T05_close.png",
+        "T04_2_close.png",
+        "T04_close.png",
+        "T12_close.png",
+        "T15_close.png",
+        "T15_2_close.png",
+        "T13_close.png",
+        "T13_2_close.png",
+        "T08_close.png"
+      ]
+    }
+  },
+  {
+    "step": 4,
+    "kind": "guard",
+    "node": "guide",
+    "summary": "the model wrote numbers",
+    "data": {
+      "check": "numbers"
+    }
+  },
+  {
+    "step": 5,
+    "kind": "agent",
+    "node": "guide",
+    "summary": "asked for MOVE_UP",
+    "data": {
+      "action": "MOVE_UP",
+      "views": [
+        "T06_close.png",
+        "T06_2_close.png",
+        "T10_2_close.png",
+        "T10_close.png",
+        "T07_close.png",
+        "T07_2_close.png",
+        "T01_close.png",
+        "T01_2_close.png",
+        "T03_close.png",
+        "T03_2_close.png",
+        "T11_close.png",
+        "T02_2_close.png",
+        "T02_close.png",
+        "T05_close.png",
+        "T04_2_close.png",
+        "T04_close.png",
+        "T12_close.png",
+        "T15_close.png",
+        "T15_2_close.png",
+        "T13_close.png",
+        "T13_2_close.png",
+        "T08_close.png"
+      ]
+    }
+  },
+  {
+    "step": 6,
+    "kind": "human",
+    "node": "await_view",
+    "summary": "the operator chose T06_close.png",
+    "data": {
+      "view": "T06_close.png"
+    }
+  },
+  {
+    "step": 7,
+    "kind": "perception",
+    "node": "localise",
+    "summary": "localised T06_close.png",
+    "data": {
+      "view": "T06_close.png"
+    }
+  },
+  {
+    "step": 8,
+    "kind": "decision",
+    "node": "localise",
+    "summary": "not reliable: MOVE_LEFT",
+    "data": {
+      "reliable": false,
+      "action": "MOVE_LEFT",
+      "move_reason": "landmarks m56_0, m56_1, m56_2, m56_3, m57_0, m57_1, m57_2, m57_3 face away from the camera, seen from further left",
+      "reasons": [
+        "landmarks cover 1.7 % of the frame, needs ≥ 5 %"
+      ]
+    }
+  },
+  {
+    "step": 9,
+    "kind": "tool",
+    "node": "guide",
+    "summary": "suggest_viewpoints MOVE_LEFT",
+    "data": {
+      "tool": "suggest_viewpoints",
+      "views": [
+        "T07_2_close.png",
+        "T07_close.png",
+        "T16_close.png",
+        "T04_2_close.png",
+        "T04_close.png",
+        "T15_close.png",
+        "T15_2_close.png",
+        "T02_close.png",
+        "T02_2_close.png"
+      ]
+    }
+  },
+  {
+    "step": 10,
+    "kind": "guard",
+    "node": "guide",
+    "summary": "the model wrote numbers",
+    "data": {
+      "check": "numbers"
+    }
+  },
+  {
+    "step": 11,
+    "kind": "agent",
+    "node": "guide",
+    "summary": "asked for MOVE_LEFT",
+    "data": {
+      "action": "MOVE_LEFT",
+      "views": [
+        "T07_2_close.png",
+        "T07_close.png",
+        "T16_close.png",
+        "T04_2_close.png",
+        "T04_close.png",
+        "T15_close.png",
+        "T15_2_close.png",
+        "T02_close.png",
+        "T02_2_close.png"
+      ]
+    }
+  },
+  {
+    "step": 12,
+    "kind": "human",
+    "node": "await_view",
+    "summary": "the operator chose T07_2_close.png",
+    "data": {
+      "view": "T07_2_close.png"
+    }
+  },
+  {
+    "step": 13,
+    "kind": "perception",
+    "node": "localise",
+    "summary": "localised T07_2_close.png",
+    "data": {
+      "view": "T07_2_close.png"
+    }
+  },
+  {
+    "step": 14,
+    "kind": "decision",
+    "node": "localise",
+    "summary": "reliable",
+    "data": {
+      "reliable": true,
+      "action": "ACCEPT",
+      "move_reason": "",
+      "reasons": []
+    }
+  },
+  {
+    "step": 15,
+    "kind": "guard",
+    "node": "present",
+    "summary": "the model wrote numbers",
+    "data": {
+      "check": "numbers"
+    }
+  },
+  {
+    "step": 16,
+    "kind": "agent",
+    "node": "present",
+    "summary": "presented the result for approval",
+    "data": {
+      "next_step": "Approve to proceed with removing the cover"
+    }
+  },
+  {
+    "step": 17,
+    "kind": "human",
+    "node": "await_approval",
+    "summary": "the operator approved",
+    "data": {
+      "approved": true
+    }
+  }
+]

@@ -2,11 +2,28 @@
 
 > An Agentic Vision system for spatial guidance during equipment inspection and maintenance.
 
-🚧 **Status: Active development**
-
-Spatial Maintenance Copilot is being developed for the **OpenCV AI Competition 2026, powered by AWS**.
+Spatial Maintenance Copilot was built for the **OpenCV AI Competition 2026, powered by AWS**, on the
+Agentic Vision path.
 
 The project was selected as one of **55 recipients of an AWS Compute Grant** during the competition build phase.
+
+| | |
+|---|---|
+| Live application | <https://d14b6iicnc69ik.cloudfront.net> (AWS eu-north-1) |
+| Technical report | [docs/report.md](docs/report.md), also as [PDF](docs/report.pdf) |
+| Diagrams | [architecture](docs/architecture.png), [agent workflow](docs/agent-workflow.png) |
+| Evaluation | [eval/results/cabinet-aruco-2026-10-23/report.md](eval/results/cabinet-aruco-2026-10-23/report.md) |
+
+## Try it
+
+The live application needs neither the cabinet nor a calibrated phone:
+
+- **Demo**: act as the operator on recorded viewpoints. Every landmark, quality check, decision and agent
+  turn is shown, with the session's trace.
+- **Localise → Recording**: play one of four phone recordings through the loop the phone runs live: the
+  overlay, the policy's move, the agent's words and, once the flap opens, the target's tag checked against
+  the prediction.
+- **Atlas**: the Component Atlas, its landmarks and view sets.
 
 ## About
 
@@ -25,14 +42,12 @@ The project focuses on situations where the target component may be difficult or
 
 ## Technology
 
-Currently exploring:
-
-- OpenCV 5
-- Python
-- Computer Vision
-- Multimodal AI
-- AI Agents
-- AWS
+- **OpenCV 5** (`opencv-python-headless` 5.0.0.93): ArUco and ChArUco detection, camera calibration,
+  `solvePnPRansac` and `solvePnPRefineLM`, Monte Carlo uncertainty, marker-based blur measurement
+- **The agent**: a LangGraph loop with typed tools, guards and a trace; Amazon Nova 2 Lite on Amazon Bedrock
+- **Service and web app**: Python 3.14 with FastAPI, and a static Next.js app
+- **AWS**: CloudFront, S3, API Gateway, ECS Fargate on Graviton, DynamoDB, Bedrock and CloudWatch, as an
+  AWS CDK app
 
 ## Repository layout
 
@@ -107,18 +122,31 @@ It measures:
 - task success and the agent's next view, against a single view, the policy alone and a random view;
 - injected faults: missing landmarks, swapped labels, a gross click error, click noise.
 
-The latest results are in [eval/results/cabinet-manual-2026-10-09/report.md](eval/results/cabinet-manual-2026-10-09/report.md).
+The main result is the marker dataset of 2026-10-23, 27 tripod viewpoints with the box hidden
+([report](eval/results/cabinet-aruco-2026-10-23/report.md)):
+- a median target error of 1.7 px;
+- the truth inside the 95% region in 22 of 22;
+- no wrong result accepted;
+- 25 of 25 agent sessions successful.
+
+The same run with Amazon Nova as the agent's model is in
+[cabinet-aruco-2026-10-23-with-model](eval/results/cabinet-aruco-2026-10-23-with-model/report.md). The
+clicked baseline is [cabinet-manual-2026-10-09](eval/results/cabinet-manual-2026-10-09/report.md).
 
 ```bash
 make eval        # run it: results.json, report.md and the agent's traces
 make eval-check  # run it again and compare with the stored results, within fixed tolerances
+make eval EVAL_DATASET=eval/datasets/cabinet-manual-2026-10-09   # another frozen dataset
 ```
 
 ## Documentation
 
-[docs/report.md](docs/report.md) is the technical report: the problem and its users, the architecture
-and the agent's workflow, the OpenCV 5 implementation, the AWS deployment, the evaluation, the
-limitations and responsible use. Its first lines say which parts are built and which are in progress.
+[docs/report.md](docs/report.md) ([PDF](docs/report.pdf)) is the technical report. It covers:
+- the problem and its users;
+- the architecture and the agent's workflow;
+- the OpenCV 5 implementation and the AWS deployment;
+- the evaluation with its failure cases;
+- the changes from the proposal, the limitations and responsible use.
 
 ## OpenCV AI Competition 2026
 

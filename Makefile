@@ -6,10 +6,11 @@ NAME  := smc-perception
 # the container has no copy of it, so api-run passes it to Docker when it is there.
 API_ENV := services/perception/.env
 API_ENV_FILE = $(if $(wildcard $(API_ENV)),--env-file $(API_ENV))
-# The frozen dataset the evaluation runs on (tools/freeze_dataset.py).
-EVAL_DATASET := eval/datasets/cabinet-manual-2026-10-09
+# The frozen dataset the evaluation runs on (tools/freeze_dataset.py); the others
+# in eval/datasets/ run with EVAL_DATASET=eval/datasets/<name>.
+EVAL_DATASET := eval/datasets/cabinet-aruco-2026-10-23
 # The atlas the deployed Demo opens on; empty: the newest one with viewpoints.
-DEMO_ASSET ?= cabinet-manual
+DEMO_ASSET ?= cabinet-aruco
 # A recording session of the marked cabinet (tools/marker_session.py): its folder
 # in data/, the folder its videos came into, and the rig board's thickness in mm
 # (0: board B is a sheet of paper on the floor).

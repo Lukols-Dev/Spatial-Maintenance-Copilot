@@ -20,10 +20,10 @@
     "max_region_ratio": 0.5,
     "max_edge_width_px": 5.5
   },
-  "evaluated_at": "2026-10-23T14:55:50+02:00",
+  "evaluated_at": "2026-10-23T15:04:52+02:00",
   "environment": {
-    "git_commit": "2b4d99369c9f7606e19b6fcde369fc96e553d440",
-    "git_dirty": true,
+    "git_commit": "993157b21424ef2852810b101e6e3bc2ff8677a4",
+    "git_dirty": false,
     "python": "3.14.5",
     "numpy": "2.5.3",
     "opencv": "5.0.0",

@@ -8,9 +8,9 @@ Atlas cabinet-aruco v2, scored on the held-out view set cabinet-aruco-tripod. Ev
 | Monte Carlo | 500 samples, seed 0 |
 | click sigma | 1 px |
 | agent's model | none |
-| code | `2b4d99369c9f7606e19b6fcde369fc96e553d440` with uncommitted changes |
+| code | `993157b21424ef2852810b101e6e3bc2ff8677a4` |
 | versions | Python 3.14.5, NumPy 2.5.3, OpenCV 5.0.0, LangGraph 1.2.15, arm64 |
-| run | 2026-10-23T14:55:50+02:00 |
+| run | 2026-10-23T15:04:52+02:00 |
 
 ## Localisation
 

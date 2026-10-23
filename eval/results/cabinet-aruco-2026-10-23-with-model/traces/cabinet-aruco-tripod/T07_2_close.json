@@ -1,0 +1,41 @@
+[
+  {
+    "step": 1,
+    "kind": "perception",
+    "node": "localise",
+    "summary": "localised T07_2_close.png",
+    "data": {
+      "view": "T07_2_close.png"
+    }
+  },
+  {
+    "step": 2,
+    "kind": "decision",
+    "node": "localise",
+    "summary": "reliable",
+    "data": {
+      "reliable": true,
+      "action": "ACCEPT",
+      "move_reason": "",
+      "reasons": []
+    }
+  },
+  {
+    "step": 3,
+    "kind": "agent",
+    "node": "present",
+    "summary": "presented the result for approval",
+    "data": {
+      "next_step": "Approve the localisation and proceed with the next maintenance step"
+    }
+  },
+  {
+    "step": 4,
+    "kind": "human",
+    "node": "await_approval",
+    "summary": "the operator approved",
+    "data": {
+      "approved": true
+    }
+  }
+]
