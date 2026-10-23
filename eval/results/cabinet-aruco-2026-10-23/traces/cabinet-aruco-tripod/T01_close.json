@@ -1,0 +1,50 @@
+[
+  {
+    "step": 1,
+    "kind": "perception",
+    "node": "localise",
+    "summary": "localised T01_close.png",
+    "data": {
+      "view": "T01_close.png"
+    }
+  },
+  {
+    "step": 2,
+    "kind": "decision",
+    "node": "localise",
+    "summary": "reliable",
+    "data": {
+      "reliable": true,
+      "action": "ACCEPT",
+      "move_reason": "",
+      "reasons": []
+    }
+  },
+  {
+    "step": 3,
+    "kind": "fallback",
+    "node": "present",
+    "summary": "the model gave no answer: unavailable",
+    "data": {
+      "reason": "unavailable"
+    }
+  },
+  {
+    "step": 4,
+    "kind": "agent",
+    "node": "present",
+    "summary": "presented the result for approval",
+    "data": {
+      "next_step": "Remove the cover in front of the highlighted region and check the component."
+    }
+  },
+  {
+    "step": 5,
+    "kind": "human",
+    "node": "await_approval",
+    "summary": "the operator approved",
+    "data": {
+      "approved": true
+    }
+  }
+]

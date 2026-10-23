@@ -1,0 +1,2781 @@
+{
+  "name": "cabinet-aruco-2026-10-23",
+  "frozen_at": "2026-10-23T14:55:11+02:00",
+  "git_commit": "2b4d99369c9f7606e19b6fcde369fc96e553d440",
+  "asset_id": "cabinet-aruco",
+  "atlas_version": "2",
+  "camera_id": "iphone11-1x-1080p-portrait",
+  "board": "rig_board_b",
+  "camera": {
+    "path": "calib/intrinsics/iphone11-1x-1080p-portrait.yml",
+    "sha256": "50990f540d65d129b8180c8283bb985638b3d8f311bcd830928cf93b0432e791",
+    "bytes": 931,
+    "size_px": null
+  },
+  "rig": {
+    "path": "calib/rig.yaml",
+    "sha256": "fc93936c643ac260ee31ef4654393204fae1ca4df909d4272f3d08b92bb039ef",
+    "bytes": 1444,
+    "size_px": null
+  },
+  "videos": [
+    {
+      "path": "data/cabinet-aruco/2026-10-23/atlas/atlas_close.MOV",
+      "sha256": "3fc9a32d5d2dc4eeaf886b473d5c7c6e577352fe63710a8ab13ceabf2e5d6a0e",
+      "bytes": 74120749,
+      "size_px": null
+    },
+    {
+      "path": "data/cabinet-aruco/2026-10-23/atlas/atlas_open.MOV",
+      "sha256": "0895bc5b64279fb69a36b05e961ea2ae230c03541a9b5c321fa0c29a57f28da1",
+      "bytes": 66660738,
+      "size_px": null
+    },
+    {
+      "path": "data/cabinet-aruco/2026-10-23/tripod/T01.MOV",
+      "sha256": "e4027cd225d9204910bdb757fced32e1f31579bab76a075082b879f71217abe4",
+      "bytes": 22451817,
+      "size_px": null
+    },
+    {
+      "path": "data/cabinet-aruco/2026-10-23/tripod/T02.MOV",
+      "sha256": "1bdc3d4dae5ade25fb8e055493ac54e9ee269fafacf45d71abf14ea80405bda8",
+      "bytes": 32326170,
+      "size_px": null
+    },
+    {
+      "path": "data/cabinet-aruco/2026-10-23/tripod/T03.MOV",
+      "sha256": "9a9da911e936f3928c3ebf0c094a9268201564a2ae392d0e4c67ed236ae15b1b",
+      "bytes": 31264047,
+      "size_px": null
+    },
+    {
+      "path": "data/cabinet-aruco/2026-10-23/tripod/T04.MOV",
+      "sha256": "09a3c3df09dd2e348110bb694c50380cb33de96cd9a5f3d6d448277264641847",
+      "bytes": 33742133,
+      "size_px": null
+    },
+    {
+      "path": "data/cabinet-aruco/2026-10-23/tripod/T05.MOV",
+      "sha256": "7cd7b8f9b2b9c80da93060e8fe0d0da660077961faa1235ba2c0986399fcc142",
+      "bytes": 29454885,
+      "size_px": null
+    },
+    {
+      "path": "data/cabinet-aruco/2026-10-23/tripod/T06.MOV",
+      "sha256": "310d6a430d7ee1abdade636d5c4a4967364edaf352467bf2bd0ea55d2ba74f45",
+      "bytes": 22829976,
+      "size_px": null
+    },
+    {
+      "path": "data/cabinet-aruco/2026-10-23/tripod/T07.MOV",
+      "sha256": "39bc2731096961c8489f0446ed3b9c6a2ab8c6a58657d37202b1c46425b521de",
+      "bytes": 30819212,
+      "size_px": null
+    },
+    {
+      "path": "data/cabinet-aruco/2026-10-23/tripod/T08.MOV",
+      "sha256": "ebedc37672c48303b130d20c6975eee759ae0fdac14693940fb816ad190a4a1c",
+      "bytes": 34227738,
+      "size_px": null
+    },
+    {
+      "path": "data/cabinet-aruco/2026-10-23/tripod/T09.MOV",
+      "sha256": "ea91841037ba453d5e0b297b988701f66a2e6d42c4dbd54b3267143852bed2e0",
+      "bytes": 25512161,
+      "size_px": null
+    },
+    {
+      "path": "data/cabinet-aruco/2026-10-23/tripod/T10.MOV",
+      "sha256": "10af6513cd98786ce6df9dc8ede4b0593e358ed133760ed9051d6accdd4bc0c7",
+      "bytes": 30246051,
+      "size_px": null
+    },
+    {
+      "path": "data/cabinet-aruco/2026-10-23/tripod/T11.MOV",
+      "sha256": "333fb9ae0ca21d5d781413073a6d4f73d1151c2443befcb9026ad861d98e61bc",
+      "bytes": 25361620,
+      "size_px": null
+    },
+    {
+      "path": "data/cabinet-aruco/2026-10-23/tripod/T12.MOV",
+      "sha256": "19f7e0a4e257f6cae18728ce0e401ffdade16e4b8195c581161d557fabf28844",
+      "bytes": 30399364,
+      "size_px": null
+    },
+    {
+      "path": "data/cabinet-aruco/2026-10-23/tripod/T13.MOV",
+      "sha256": "0d16a26f79d3c7f12e1360cbe12cb922ff34aa4f2d7da12b717da48ef6a3eba1",
+      "bytes": 23372417,
+      "size_px": null
+    },
+    {
+      "path": "data/cabinet-aruco/2026-10-23/tripod/T15.MOV",
+      "sha256": "2b2e58c1c88d87ae5eaf4759137beda71025cd8bdb3e190d155fae55921f9747",
+      "bytes": 20073999,
+      "size_px": null
+    },
+    {
+      "path": "data/cabinet-aruco/2026-10-23/tripod/T16.MOV",
+      "sha256": "df2833d32eae5649a4acce26299e27fca18646a5d318353c5895c5ed32aadcd5",
+      "bytes": 20918028,
+      "size_px": null
+    },
+    {
+      "path": "data/cabinet-aruco/2026-10-23/tripod/T17.MOV",
+      "sha256": "14e0fcd8bf95d457da9af808b31cc9cd4fa84e94825e0fcc729e3056fb76a50a",
+      "bytes": 23079600,
+      "size_px": null
+    }
+  ],
+  "sets": [
+    {
+      "name": "cabinet-aruco-tripod",
+      "role": "test",
+      "frames": [
+        {
+          "path": "data/views/cabinet-aruco-tripod/T01_2_close.png",
+          "sha256": "0d7b122c17e073e160cde857656a559632105b83b57ef304d43b257c4e4995b3",
+          "bytes": 2042327,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-tripod/T01_close.png",
+          "sha256": "6acbf152ca99935aa470347bbc50fbb9c079386bf8b037b82c06d9e062cc9827",
+          "bytes": 1862369,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-tripod/T01_open.png",
+          "sha256": "d4dffb65640d785a01eb385aac91ccda7dc0f61e2004c7d1a8cf7530685cb7b8",
+          "bytes": 1891110,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-tripod/T02_2_close.png",
+          "sha256": "a53cb0a63afafe4fe018502573fa27ac4af69172ed8db14775742072c62efb22",
+          "bytes": 2481151,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-tripod/T02_close.png",
+          "sha256": "c6c5d399d3d639d5e05749a0fe1c5d34dc0977fabbde6ad22c74179a43242b14",
+          "bytes": 2285512,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-tripod/T02_open.png",
+          "sha256": "3052b802e35d2f5ca730213badd439ef6ee845233eedc4d5f7f5d7a0fc2e8a5e",
+          "bytes": 2168011,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-tripod/T03_2_close.png",
+          "sha256": "9e4f549c3f0f26ea631bc61260efa0f462130d558d7f8ba60ad2d60fb7d9d6a3",
+          "bytes": 2338658,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-tripod/T03_close.png",
+          "sha256": "1eb686088795403900be8a23d65a8e61e810766fb37df58e9e2ff90ef78eb095",
+          "bytes": 2339896,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-tripod/T03_open.png",
+          "sha256": "c0f744d0c45162a2784e954ce698747930bc09f906d6c42e8d801de719893f79",
+          "bytes": 2262391,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-tripod/T04_2_close.png",
+          "sha256": "fb614eb3bd0bc94e06d13cc5f534a91fa25476403291f1eaf2f202ac605b4df8",
+          "bytes": 2748419,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-tripod/T04_close.png",
+          "sha256": "c2b395709229f5c2c0675be7b6607e87a498e8da31987adbc15967c2c5bc0f90",
+          "bytes": 2385997,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-tripod/T04_open.png",
+          "sha256": "306a8c8067d0d19f50684bdedd4a4d26226cd6805e0850f3f7113ad2fc9593fa",
+          "bytes": 2369890,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-tripod/T05_close.png",
+          "sha256": "20caae2d2e77e63deaa03c21f139b52819e8e533f01f1566d3b4ab3b6337aece",
+          "bytes": 2483905,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-tripod/T05_open.png",
+          "sha256": "88c859be4cc5e2530164770eefa4efa588a8827bf52bad1d103277eb3f6c7dcc",
+          "bytes": 2392376,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-tripod/T06_2_close.png",
+          "sha256": "22edac1800d8e1d3af3afcd55db4d3f0d11fa9f76bc23ed5c4f3ea2a902064bd",
+          "bytes": 2270503,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-tripod/T06_close.png",
+          "sha256": "6c3ec2ee0df5664661e5b5d055947552aba682a5b239eb1b79b8f532992e8707",
+          "bytes": 2267848,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-tripod/T06_open.png",
+          "sha256": "1dcdc2e96c5b3bdd2cde8b0479dd8aa669101ecc21d30bed4a0a0dc183006727",
+          "bytes": 2128868,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-tripod/T07_2_close.png",
+          "sha256": "7278fd677c674a90c054b0e21d8aa734cf2e409945a5b6067e76ee672e26c542",
+          "bytes": 2618043,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-tripod/T07_close.png",
+          "sha256": "f4e0d3bad0169d27287b7e6e22ab3b5748f0d9752a080116250eb978276e9d91",
+          "bytes": 2547013,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-tripod/T07_open.png",
+          "sha256": "4aa5ce1107d2a9844bb98d910e615d0d54f52366d9b4530b69ca90ff15ffb674",
+          "bytes": 2358057,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-tripod/T08_2_close.png",
+          "sha256": "1131eff232934fb7d9682a5c63194af46a1e8945eb8fbed072cbd3afeb19299e",
+          "bytes": 2040793,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-tripod/T08_close.png",
+          "sha256": "99f8ec38c864b984abc6101eec7b699c1d9853ac7b84d2b10e5e23b25f2a9d84",
+          "bytes": 2465115,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-tripod/T08_open.png",
+          "sha256": "c54a6f260f8afddca0adf20abbf97d3a0d2fc23ebc5e2d3652ca3ac54d24f3eb",
+          "bytes": 2510313,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-tripod/T09_2_close.png",
+          "sha256": "18930fd8cb386dfd9970330f7f91715f2a6e4e9e1bd661aaa67f2d34a970d927",
+          "bytes": 1924151,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-tripod/T09_close.png",
+          "sha256": "d3ed735e3184b45e03f62799ba731cde52014ad1e24b6c8b4f883062e6d3373d",
+          "bytes": 1994920,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-tripod/T09_open.png",
+          "sha256": "a66ecc116ff8ab1074f3d66cd695abea1d6555a3ae0c34b6ae5493728f201f62",
+          "bytes": 2480077,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-tripod/T10_2_close.png",
+          "sha256": "7d89e184ef7e80f72659cf3a8442497cb5201cb33347a021cf2820d4fb1c628a",
+          "bytes": 2075908,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-tripod/T10_close.png",
+          "sha256": "b6768902e863ac5ce5bb7445277caaa187a61c370f62c354b234813ea686aa21",
+          "bytes": 2107690,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-tripod/T10_open.png",
+          "sha256": "a53208e91e31d8421e32b93cf6567b57097a5574a793b4d3fe14698404cb52aa",
+          "bytes": 2052172,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-tripod/T11_close.png",
+          "sha256": "14983eeacabcb0bb0430591c805c52490d653c8d746813f6bb02f5018662af36",
+          "bytes": 2311442,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-tripod/T11_open.png",
+          "sha256": "4f9d168f2d74b72dc818ea195b8a5cc8cc4770ab335a06d21ea4213434b30aa7",
+          "bytes": 2677669,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-tripod/T12_close.png",
+          "sha256": "8c568482a22a560f4b838171823930553d4ec9f3e669c5f7dc5acb06c72171d6",
+          "bytes": 2804225,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-tripod/T12_open.png",
+          "sha256": "ae2ec7ce5d3973073cb32ec2b957889dbdee7c1c57a0a4e06537a5cf2eef2d14",
+          "bytes": 2994541,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-tripod/T13_2_close.png",
+          "sha256": "4543894489297ad35b00f747fb6ad81a4788139c7ac60860faa475739d3d49cc",
+          "bytes": 2655222,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-tripod/T13_close.png",
+          "sha256": "38330d80cce95305db6b5d2d382873143919ff77f83f86e0d7f080362a6f03de",
+          "bytes": 2810257,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-tripod/T15_2_close.png",
+          "sha256": "8d8c14e1541d9d2214db18ac407d2a85b69aed6f4e0f322123a4cc3bed14bd59",
+          "bytes": 2388132,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-tripod/T15_close.png",
+          "sha256": "5a90003e98ad1d04f6ed31075843451297ac641d1258f0993d29ec83b13ab187",
+          "bytes": 2266717,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-tripod/T16_close.png",
+          "sha256": "b7f20150b5dbb2b7de7ce4ce3f9f810409ab51d8c3aaf0e3af76b6230ed1d63e",
+          "bytes": 2674934,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-tripod/T17_close.png",
+          "sha256": "623322a2af3f418f206f2f2d64bdcbf2039453d2bf68573f967b1dc8fa6ecd09",
+          "bytes": 1965430,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-tripod/T17_open.png",
+          "sha256": "8d46289a5d378f1285a3c3bc4ca7b7f84e82c4c28f91abac8f8a35dd33aa75b0",
+          "bytes": 1965792,
+          "size_px": [
+            1080,
+            1920
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cabinet-aruco-walkaround",
+      "role": "build",
+      "frames": [
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000216.png",
+          "sha256": "f3c5b8ac149e793f839a4e5e1b40b132333bb7550bf6a99c8f7e322182a7a8d5",
+          "bytes": 3122498,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000239.png",
+          "sha256": "d2292c96932d8e1c209ca54c0512639c64ebdbdc16828c8987002c362eb25ca3",
+          "bytes": 2694713,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000248.png",
+          "sha256": "0fe5640d08b42c9e3464dca75b62b1ef6b78cdb95e8c2199e6e5a5ae5cdaeafc",
+          "bytes": 3087064,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000317.png",
+          "sha256": "f5fd576edac6dbe951aa7e8529e70409213e6e5be4a2e11677aa9056dd8efb21",
+          "bytes": 2568124,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000320.png",
+          "sha256": "ffbe6537d3bba694bcbd28afaea4796070830c34e7c89029d9f313f829f58e12",
+          "bytes": 2812149,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000336.png",
+          "sha256": "df3e9580ef5d420173740c73e311ebefa343976ac918fca24c26984187a27df2",
+          "bytes": 3086137,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000340.png",
+          "sha256": "e086c1bd79c479790586e94f25edea71c42e36848fc3f844e3d9cb63ea82f089",
+          "bytes": 2882734,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000352.png",
+          "sha256": "db28fd4e7c2927f194b7f65899ec5ea05225511a7fb0eb32a9217b7aa6cf3861",
+          "bytes": 2809756,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000388.png",
+          "sha256": "d38a58dfbbc5befce57109a32c4356418c04bbfbe806f587bca3ad28da3b94eb",
+          "bytes": 2698332,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000396.png",
+          "sha256": "6dd1f63063770d829ea1920dbf2d25410edaaea6da6ef93c74c8ac04071aadb1",
+          "bytes": 2670175,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000408.png",
+          "sha256": "6a8b55932ab6fcc8eee58e3626049c6eb08d6c0054721660cb55bc9ebf86f27f",
+          "bytes": 2684185,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000416.png",
+          "sha256": "dc1dac04ef13e85df58b8dd92ee49aee92d2ec4708da3b09ae2a358a4fa6ea71",
+          "bytes": 2704364,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000420.png",
+          "sha256": "07b5d64f836a0ee04791d35b38c9e4e24801ab1ff6ff5052960db58bdd7fd174",
+          "bytes": 2875581,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000432.png",
+          "sha256": "5a42113c4fe2583a079d7888f82c47c9defb00fb793ac22b50bf24880f5a16b3",
+          "bytes": 2617120,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000440.png",
+          "sha256": "5ec3fd539ec831daccd04d6f9fb9272ae3aae142389d351f489d49b2232632b3",
+          "bytes": 2610587,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000456.png",
+          "sha256": "e0b2b69aa7bb2aa7f1c28db7a7433cbae56eced32aa8aa7d88bbbb195862a959",
+          "bytes": 2572144,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000460.png",
+          "sha256": "ca71940abaccee45d9d74e183ca323485cdc1db68b99cc415ddc72aa5527de65",
+          "bytes": 2601039,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000476.png",
+          "sha256": "24527e5c78ecc0d6949f384ed48729075c008d13d552a083600464e5eeb1104b",
+          "bytes": 2759746,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000488.png",
+          "sha256": "fc39f89d33fa0d7ebbff7dcce72c09cd8a71b8fb221d5f8f51edb7532b51c063",
+          "bytes": 2482757,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000496.png",
+          "sha256": "1004a0006a8391ff750e5b6e929ea13b9b12844b955b79142d9b4e778f6e12e8",
+          "bytes": 2463651,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000504.png",
+          "sha256": "5e6844923b2a00d31cd19835c2b47199ba01936bfa0ceb5ed89eaf24407d7ad1",
+          "bytes": 2746177,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000512.png",
+          "sha256": "7bb570210938b22b860a197a7819bedce1a70207234dd7df7faaf4260e8ce5c9",
+          "bytes": 2297502,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000520.png",
+          "sha256": "c5adf3530bba6e93dd61cbbbcb02d68773b4d33693737b4ada6bbfc4afbb6750",
+          "bytes": 2370321,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000532.png",
+          "sha256": "1fc0008964cc07c245dce93dc7be1c97a9b3e115f3facf7b33d351d23be5d5b2",
+          "bytes": 2674115,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000544.png",
+          "sha256": "ed4adeebae402176cab27dc5eef6848035ca6dc4014787b63e75e4aaf6a9324e",
+          "bytes": 2149153,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000552.png",
+          "sha256": "5de82d8314eb03349aff818d6e9b13b38f4b043c0a2ced7d84a0a4c82e72add5",
+          "bytes": 2404478,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000560.png",
+          "sha256": "05aed2c11b7e294860b50512f9c868d4ec53ae47b85ca27702ba4ecd52f5acda",
+          "bytes": 2674517,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000572.png",
+          "sha256": "c31ea4ee7e40e64478103776755afa1ace1d0734c56293267e2b04b047d3f072",
+          "bytes": 2259362,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000588.png",
+          "sha256": "8e6a25ddc90021b67710afbe2fae186693f356e9da202044bac0aee075fb96a8",
+          "bytes": 2627050,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000592.png",
+          "sha256": "883f47b251e04a8bfff9defc7a596e4f5213f7416d12596eb044b7ec2118fd11",
+          "bytes": 2248175,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000600.png",
+          "sha256": "3a7a6217680e359a8fa6e6884ff52f3b8db3c1c8abafcd0fe9cb071f06595b70",
+          "bytes": 2232368,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000616.png",
+          "sha256": "51b3a080291f5251b78dcc87b675a79e7084e49c237e1e635ec5edc218b0d7d1",
+          "bytes": 2622336,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000620.png",
+          "sha256": "b6cb3f9f76b93a0e8c79457cacef57343db20b282b3765418d901872d9aed8d3",
+          "bytes": 2236883,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000632.png",
+          "sha256": "cb68611e1cb70b4cc6fad327ad84350d3b77b2c6216c6420a4c287232947d901",
+          "bytes": 2303321,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000644.png",
+          "sha256": "3fd0984d1aa55d492f2602dbda390f73b4e4a4ef8416fdab10bb3838b0ec0840",
+          "bytes": 2614598,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000652.png",
+          "sha256": "17cf3b6b4b7096982829bda2fbe1ec7507ad4877ca11bbebe8e48b3473fe7f96",
+          "bytes": 2180324,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000668.png",
+          "sha256": "81758ba0cff2c0090cf790ee30ea19ada1ffc91915972c5502a0b2fba999f2c8",
+          "bytes": 2246782,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000672.png",
+          "sha256": "024fa99bd97a6640666bf84a4c353731ba7a2df68df924092f724bfd76022df6",
+          "bytes": 2580120,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000684.png",
+          "sha256": "2bd1853ccd068e74858511d0f3627e859a98488652370ac6cbdfa00e9e439156",
+          "bytes": 2265575,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000699.png",
+          "sha256": "315e7a54d441f5f62bb48388265833f08c2bf7f00f349b5a043f3699767754e2",
+          "bytes": 2112441,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000700.png",
+          "sha256": "59504911309a14f1eda789d5a2e576dd9d4cb5a5c41a581ae4a04ed11be2a9fc",
+          "bytes": 2626095,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000716.png",
+          "sha256": "3c4c63d3316f530423e30122df386c63b4421f308817d5eedd4e0175ed3d7179",
+          "bytes": 2348325,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000728.png",
+          "sha256": "bd4a75c9978dd8827641fea0e0c22548f94ebc19057c2a6a415f08d37ebfe027",
+          "bytes": 2686059,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000732.png",
+          "sha256": "2830dde330a6c4fbe0fe38faaa6ad283c63b41f89d6ff9c8767938dacdbe185c",
+          "bytes": 2327513,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000744.png",
+          "sha256": "87154011551c5b523419f885da14e3c7752c1044fb1d42467ec9f2848d769c1d",
+          "bytes": 2421156,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000752.png",
+          "sha256": "866f5ffe1e48e76de5005b635ff2c4760d4173339d66c6653b5b374347eb4a69",
+          "bytes": 2394026,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000768.png",
+          "sha256": "b8fc11fddd5520c3c24dae8993fee070949d46292de515eaa5d623e39c23ae3f",
+          "bytes": 2365316,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000772.png",
+          "sha256": "537ade0e6fed1ee009db39a4cd780ea9377720e09d88d149d82a10aec66ce007",
+          "bytes": 2436004,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000784.png",
+          "sha256": "1f905fb6cff458a9b32bab2c767534972fee6bdaadce7cabf4130b29067c8460",
+          "bytes": 2635500,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000796.png",
+          "sha256": "3dffb3e283e3c103be84f9c466f18b1921fe71407391b576a26be3bee684b199",
+          "bytes": 2416636,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000848.png",
+          "sha256": "6d42a4da9f40eeca8dd7d456622a2ad2be94544470088a48e404107174de2cbd",
+          "bytes": 2535792,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000852.png",
+          "sha256": "f07adab54238c7142efb481f109bf8e2f09bb6730f1efb66df5f6f311d36eb18",
+          "bytes": 2531183,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000860.png",
+          "sha256": "e16341b667d841df14b378db983ad50a26044b0e19acd6eb8e85d96bcc01b423",
+          "bytes": 2471368,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000879.png",
+          "sha256": "7a544ae5ada8ecabbda29977b6268f82d170f5730a97c564b8a3c09616825ab2",
+          "bytes": 2392815,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000884.png",
+          "sha256": "cec7cb05b2040b2a177f09f0182b1bb001a9cbaea1a5e12a44cea8d22eb262b8",
+          "bytes": 2684492,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000896.png",
+          "sha256": "8c27858ec3d286c5f6c0cf330523bb4360178aad20278aa9b3c96c218ba76061",
+          "bytes": 2879097,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000900.png",
+          "sha256": "6f9cab8f592af8baf037f50ed28a94ebd528d8cf63d3450e665f308d610a1c9c",
+          "bytes": 2652526,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000916.png",
+          "sha256": "a21b6bc1920d39329d1a3f19ad37b9f44347e427ba381ecdaee8d72b6f687475",
+          "bytes": 2661046,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000924.png",
+          "sha256": "64e4db446557d00a92f9f56160acfa814794736e7a11cb04f4993eadc49a9737",
+          "bytes": 3061364,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000930.png",
+          "sha256": "0dfe8c2d4416db2a3c2e786f1466b745651e63741bd5f9979410ac84d7ea4ee5",
+          "bytes": 2684757,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000940.png",
+          "sha256": "22ddb52e28c88d8f24985c65c0590b7c2119dc2d01dc1daf0eb2ba7173e718e2",
+          "bytes": 2853083,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000952.png",
+          "sha256": "c1203e8fc38a926bf7176c2798ff65a33819afb444e8452cb3105c7a726ab809",
+          "bytes": 3075757,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000968.png",
+          "sha256": "aa12113bea2ec1d16a3e493f8785231230922c0f3fd8450bc6726fdc0e0944dd",
+          "bytes": 2878852,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000976.png",
+          "sha256": "3f910603334759ed0b8168dacd22fcee3f04e0fd268c85c4eb257dc459b8679b",
+          "bytes": 2897835,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000980.png",
+          "sha256": "21a5ac3574999c38429877f031d281da6a5ec69f813dfc67d95b0e6c87409f11",
+          "bytes": 3110646,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_000996.png",
+          "sha256": "79bda8b9c8bc838dcb775c56372177f27d952fada7fb42d1a1312384166cd6b7",
+          "bytes": 2925455,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001000.png",
+          "sha256": "b3bfe7eaa8e2274779b06331baee59567060d25acedfc81fe9991292595af8ac",
+          "bytes": 2926765,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001010.png",
+          "sha256": "515d1c5ba56ca2e201fb9dfde76ccc1f30eba31554c76c46a82000fa38adab4f",
+          "bytes": 2728044,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001027.png",
+          "sha256": "1e5b8fb39ecaac5aa72c71143bee022a462a82c95f3876f953023ae06d0fb554",
+          "bytes": 2693653,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001056.png",
+          "sha256": "75050e6cab1e2bfceefcdf38156541c771dcd74864126755b3acb3275dfaff1e",
+          "bytes": 3026220,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001064.png",
+          "sha256": "882f7ba477c042ec5cf46b3fdd068e29056ba7a3842628064f33e53b4245ca33",
+          "bytes": 3254662,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001078.png",
+          "sha256": "670d27902e79720a86d1280d29603735ebde437c97252fc282d2c099ceb8d799",
+          "bytes": 2724056,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001108.png",
+          "sha256": "df86f3a7e582815fc3bf9fdbd5f3d1f62801b7426e5738c1d4a19642bad4704b",
+          "bytes": 2651540,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001112.png",
+          "sha256": "2002bf6f8a0a91450bffed7cbdc2d2bac24c5a8b19c1e6445a950dd2500242be",
+          "bytes": 2665265,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001124.png",
+          "sha256": "89e5ef6ba86b36b2dea44b34d17c4a6b00b753bcd7dbb96a35e894b30e64849f",
+          "bytes": 2574698,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001148.png",
+          "sha256": "4d4f4bf35e3e39b7ed845237e5c75e08b9a0d66cb74dfd7f11cf0f619afc3c9e",
+          "bytes": 3048201,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001159.png",
+          "sha256": "2fbe75c05a7c315f747438fad2df83c05d932e22933432f476e8fb13e957572b",
+          "bytes": 2538306,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001164.png",
+          "sha256": "06c7e4939bb449e6622a030fe2215a07af4fc88c8f522956687708f1a4a2566b",
+          "bytes": 2758767,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001176.png",
+          "sha256": "9c5d7173adb6d37718788c9735c3b23f4bd60ceea021fb10c0a888784c4723a5",
+          "bytes": 2905025,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001180.png",
+          "sha256": "11b0dd892d1fa25fa6dbce0580b05846701b3da151946ff1ae960de9ab750b1f",
+          "bytes": 2726444,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001204.png",
+          "sha256": "858231a68c370f00e999ce009d2e2d353c3dc114dde876253e08499ed4f23dcf",
+          "bytes": 2757590,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001216.png",
+          "sha256": "f8c877e6f165a982b71bafe3aab945a6a85c6cd8ed3b989cafda72e050a154c8",
+          "bytes": 2537614,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001228.png",
+          "sha256": "43a4ce1233cb2510ec829e9b4ab69e7c72deaec56b22f80a5a995ec11797fb84",
+          "bytes": 2514015,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001232.png",
+          "sha256": "f768fbf82f579525dea4db2836be59d4d0f14afa229d14a67af934dfcea8886f",
+          "bytes": 2793423,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001240.png",
+          "sha256": "73f2da7971fe90891d4a2ddf2102ae44d111a792871b10f03709b67a5e2f4b26",
+          "bytes": 2440294,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001252.png",
+          "sha256": "938169ac8252c1934171ba19366a60d6c43daa8a742d2853678524411ecf8081",
+          "bytes": 2380215,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001260.png",
+          "sha256": "a74aec58b34d2998d2ac044f64e833128a895cb5600c209fbccab56ed15e4926",
+          "bytes": 2642043,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001276.png",
+          "sha256": "6183b842325f28647845976d9cd6954ba1a395c8b4ecb94cedefc6e72df62733",
+          "bytes": 2127527,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001288.png",
+          "sha256": "5e97331a3ae0de99699fe997ab0bdfbb7c64b3175baa06bd4246af55d1b84546",
+          "bytes": 2672045,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001292.png",
+          "sha256": "ccf790c765d729e75ddbd25b93ef5156106ed795e40e81b298cdb42889d0f379",
+          "bytes": 2254484,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001316.png",
+          "sha256": "b1be00953a3b3edf8a66cfa438e56345d9f603227dcfa58a18208082edf82670",
+          "bytes": 2624446,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001320.png",
+          "sha256": "0d12913aa82373eddbe51d9464f2aa5793ea967cfd2ad6d62f6b0a96656508fd",
+          "bytes": 2173118,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001336.png",
+          "sha256": "142bf62e52311f051cea98fe6b5a4e2b127eb96238baed1fa785e2f84e0e1466",
+          "bytes": 2181937,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001344.png",
+          "sha256": "cca98d322860d8fb8746067550d4da5a1565308aeabe8e08997f94733ffa32e5",
+          "bytes": 2692139,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001352.png",
+          "sha256": "b3f813c32ecd2387770ee45f7bb83d89295dc8c934cfe7cfacd0eaa0dc0a9809",
+          "bytes": 2427779,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001368.png",
+          "sha256": "d7a99f154bf2d55ca8c36f389d8a941b2da9bec0502e477052d80de1ab8d2243",
+          "bytes": 2507703,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001372.png",
+          "sha256": "dc64a9eb79bc2e4c4d0f3dffa374c6c3c538ac8bfb7f291fb8cdf73d51a5e44c",
+          "bytes": 2734573,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001384.png",
+          "sha256": "462f67142abb1a3f04ff2269a264d2ad0290d9f28030a7c2f7041145dd1c7e8f",
+          "bytes": 2318763,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001396.png",
+          "sha256": "1e2d7c664cd97a526d0f26c5e8382e42d4db279e15d2118f1879033cea9a7d7d",
+          "bytes": 2483319,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001408.png",
+          "sha256": "24b30586bdf8ff90017b565b81a90f25398a1c3199bca0a5b26838c031ac09fb",
+          "bytes": 2525739,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001412.png",
+          "sha256": "5c5594d8522397fc8c03cf90d559382bc5b85f12b174043c36c335d2e1f0f6c5",
+          "bytes": 2672505,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001428.png",
+          "sha256": "ccecef8d5e23ccde9eb4a53a96643f932cc6f0d977870be32f88236264d37a68",
+          "bytes": 2898183,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001432.png",
+          "sha256": "ec742b89f1f870f8079ac45237c816fa3a6aa1d34431d4ced1466eb91cf03e67",
+          "bytes": 2521508,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001444.png",
+          "sha256": "8c1e0bfd7db8ea6e76c83df82bd58fb1d30535449b1fc6d931bffe0fb1556139",
+          "bytes": 2359399,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001453.png",
+          "sha256": "d47f8266a1f0f300f165f344ea2841917f59d847078883d669a84d399383c0fd",
+          "bytes": 2457445,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001492.png",
+          "sha256": "346e591408fa0bfc6bd0b8187551511e7ec54d81c737e814b8f49652f387da8d",
+          "bytes": 2805889,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001500.png",
+          "sha256": "8ced852975b946ebb906c0a7d40c6912c96be6d602b219ed7e5a40470721286d",
+          "bytes": 2948542,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001716.png",
+          "sha256": "d3e11d1270442cb3ffb63757f0b8846ae00bc639b04fc5f0b43dfb65eb3790d2",
+          "bytes": 2708353,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001775.png",
+          "sha256": "28f9d5ce80174fdce7cff6eab39e401051e9a3b5e6d55263bbba370580a17f57",
+          "bytes": 2500879,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001794.png",
+          "sha256": "e602485449bd246829b4f8d46a52115a9b905d07562e794d128d1dd02c8473f5",
+          "bytes": 2288778,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001809.png",
+          "sha256": "1123f876aacb059bdebe0c0f511fa1006ab391c13e234e91b43cf7543e934a91",
+          "bytes": 2162349,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001819.png",
+          "sha256": "b51df1ff965ee3b70ab88c8bd176d3f5be14a27717880cda728540d41205eebc",
+          "bytes": 2512386,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001820.png",
+          "sha256": "f9d9997cb1b777c196ae7915f70951546a99e19c88a37a22e571c36713ebc2d9",
+          "bytes": 2989699,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001836.png",
+          "sha256": "945e15eee6aa47a2761ae3bdd1281b08efb12712c0e2e400b72ccf91ffdbccde",
+          "bytes": 2656319,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001840.png",
+          "sha256": "1b6c30e10af375a144e1f9ffe591505efc66df902d2150fa734aadb81adb84f3",
+          "bytes": 2658017,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001862.png",
+          "sha256": "1ca0ee679c9c73518bef89b054fb29c77eeb25b06bf489d1c697741ea81c02cf",
+          "bytes": 2188707,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001876.png",
+          "sha256": "0909a0847789c513e962e2b23134f91267e0bf4b5ecee818ab4acdf69269ee48",
+          "bytes": 2630355,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001884.png",
+          "sha256": "4fca12fa8391a18bdb6f26aa56efb0e803b667f2da5bfed3c0f7c9a37d8643da",
+          "bytes": 2317309,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001896.png",
+          "sha256": "939ef8c0efd0dc86b47cf3f785dfce0c27da54eed10f3b18579669446df1f36c",
+          "bytes": 2319606,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001904.png",
+          "sha256": "c29a1766ba7050c0305bddc7d3c9d7780d4ea1fea0975eac1a9c507fd92f522a",
+          "bytes": 2665932,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001912.png",
+          "sha256": "02eab34ab1f1c4c638aaa1af5c1e87e4f8fe016ceae8d890dd42a62b623f32e1",
+          "bytes": 2361286,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001920.png",
+          "sha256": "b92c34d179318480f321a90ad519ff91b11ee6fb731d6a6d03c610fabeef98ef",
+          "bytes": 2242833,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001935.png",
+          "sha256": "217e7e3ebdd6eaed047fa2adcacaa8fec752a54e9ea28346bc3a06fa66a8229e",
+          "bytes": 1795252,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001949.png",
+          "sha256": "48123423e2414ad280055f8f9b4eb1ae81e061c07e331b991572f7ed79c99fed",
+          "bytes": 2119828,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001956.png",
+          "sha256": "d8a38e6614a71b6bcf84582920753897293a87c269dbe2eb57b33153694119b9",
+          "bytes": 2498929,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001960.png",
+          "sha256": "41e184ade57d7e47b9402ffecd22f5bb55bbe1fcaf3f7e749d0336d193f4b4de",
+          "bytes": 2827519,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001972.png",
+          "sha256": "59d7fde771b2b47f4c1725159f0eb951f7f78335a3e2ea9bc91aeafcf98516bc",
+          "bytes": 2423006,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001988.png",
+          "sha256": "5f5804f0e606bc3eeb72cedfd72cbb04ff208ef27387d643372e1ef3920a0f01",
+          "bytes": 2739275,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_001992.png",
+          "sha256": "e56a3dfbcbdd4dc2c6e8d402a5356db6dae757653b4d35351e0e025057a4332f",
+          "bytes": 2431187,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_002019.png",
+          "sha256": "e168e5c3bbc74d84f14319106e612b57457bba2e6aca21e9ab3001dc1520afe6",
+          "bytes": 2338895,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_002024.png",
+          "sha256": "5dbdb7818b1096f296e6e5e1ec11ddcba3df92fde8d4d1e7671474c857aacfea",
+          "bytes": 2638267,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_002032.png",
+          "sha256": "c11501395c6f598faefd6af54fe05c5d6b32950441f141641e66af78b8c88071",
+          "bytes": 2658308,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_002058.png",
+          "sha256": "f54daff37c3454500e0e3d8fcd688286b0b20b9ce9eb07833c89e9d2af506bbb",
+          "bytes": 2416473,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_002060.png",
+          "sha256": "590ee79f85eeea8d1d5db206032ce2c7ef585533a3d9e9af24925fafec536b03",
+          "bytes": 2650852,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_002078.png",
+          "sha256": "00d82ba74291203b995522d987d59ec9753c8a29a4e5e3ec947d557876702ec9",
+          "bytes": 2516343,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_002080.png",
+          "sha256": "39a601ed691b2923a12f808a96bbc0e28737d8a134f10a8d9a8355714b8bb534",
+          "bytes": 2622256,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_002104.png",
+          "sha256": "bb2409f8970d3c13aef6555d1a598dbc267e46df4f1b8b2917c53f58c954872a",
+          "bytes": 2930565,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_002128.png",
+          "sha256": "32d3732183e7227e13d3618d8dd1249009fc197a03bef678fe6b90ec956f00f6",
+          "bytes": 3288696,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_002130.png",
+          "sha256": "6d7196a2be5162845b4ee5a7c3d54e352edf1f81122526da31b7fe285a2dc2b7",
+          "bytes": 2934524,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_002140.png",
+          "sha256": "ea3075fec37dfb012ebfe15f48c291c7cf05974ec52ab0db4ff1562bb0822715",
+          "bytes": 3009479,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_close_frame_002152.png",
+          "sha256": "e380c6421194e17fa16f2f213c8d66bc3f75d39b894e6ab0f4dc3d3266ba6485",
+          "bytes": 3004236,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000196.png",
+          "sha256": "c8bb9a4be311e205b0f395deeee56b1f28024b6dc6d1ae838d16b46d8ea3be09",
+          "bytes": 2718261,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000205.png",
+          "sha256": "e3a8e35f1abcd4fb62c90ce61ad71b9855bfa83db38f6a393f42c12e2a431ec0",
+          "bytes": 2371499,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000218.png",
+          "sha256": "7a8d2bf006440a38f71f558ea89b2734affb321194057a34eb166b28301582b9",
+          "bytes": 2400583,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000228.png",
+          "sha256": "78129f2e40ad0d34b5735ba553d1bc0f2a109d36a4eeef99c2e9c27a889c7cc1",
+          "bytes": 2442195,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000230.png",
+          "sha256": "a501891241462a19c08b8aae846c9ac463d040e9355f5cb30dd5de368bfcee78",
+          "bytes": 2324150,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000244.png",
+          "sha256": "cb482ea3269dbd0b6e7b494bbfdec854c34c5cf10f4fc89281d792fabe9310a0",
+          "bytes": 2568346,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000285.png",
+          "sha256": "2469d6ae01b5b626de9b70235555199aa976721b60ea0f9a1dc73ac4a03953e3",
+          "bytes": 2271734,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000296.png",
+          "sha256": "5e28c486b370e84526407c6e57f2174446f2b862bb1e5d959e7826df6fac178e",
+          "bytes": 2498541,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000301.png",
+          "sha256": "8cb622f09a9c8d57149a19707d3fdeed052810daee150ec854455c1e7a8113f1",
+          "bytes": 2297249,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000313.png",
+          "sha256": "213f71996152fe52b776edcd845c8b043eee1c15cf4fb4d94cc0ed7fa4c455b9",
+          "bytes": 2232868,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000324.png",
+          "sha256": "239999bc87e7cc1ace806861c95ced3877bcded174877b5f7a830b32f9b75c70",
+          "bytes": 2348947,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000336.png",
+          "sha256": "8f798b2651b6e1ed64700a2b49ff9a3a1e806526935fbace36dec58b2e082244",
+          "bytes": 2423949,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000340.png",
+          "sha256": "d6fd8430b3a1f2610c9d643c6d45e06385275f7b4381e94e28a899dc70992901",
+          "bytes": 2510606,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000352.png",
+          "sha256": "915c245975c76f2d39d9277750547cc90b2150d5596de7a5ac2bee6d0c93eff2",
+          "bytes": 2535480,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000368.png",
+          "sha256": "1c01d50ff1c32b2a6119e7bb6e8ce6d5b6e7b062b4e86117ed22fb7610fe5c53",
+          "bytes": 2482074,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000372.png",
+          "sha256": "46845d65b12d26ddadb4fe1825afaa2336a3eb893a107a5bf7c8fb1ec98e41c9",
+          "bytes": 2392409,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000384.png",
+          "sha256": "0a1142e69a0b387a21708e33bd8f3c01a84651ba4a825b1b7db99b012e655985",
+          "bytes": 2430725,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000392.png",
+          "sha256": "2ca74e0931669ca7719be15bc982f357a90b32499adceab38094a21fd1a5c550",
+          "bytes": 2721570,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000408.png",
+          "sha256": "d299f76de6ec205a2e7fe9ae9cee604e42685f622d7847cd953fa3dd60dbf5c9",
+          "bytes": 2269476,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000418.png",
+          "sha256": "fd20c0a851763384bc1f27be67cf68a8de318ae7f94b680d38556cf8f8e4e628",
+          "bytes": 1969554,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000428.png",
+          "sha256": "816e7362a7a6c3b57c7f742dcd5ed67d540214e8aaa87864400ca58315b803d7",
+          "bytes": 2305470,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000432.png",
+          "sha256": "19f25ed2eddc27fbd8cb0424e1a956bc4bf05f4f513b8aa770ca1217ad5b330f",
+          "bytes": 2230525,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000448.png",
+          "sha256": "e7b2ebf9015c1204b8c56cb22152c9c187987d3a56438440749b68c34ed93f6f",
+          "bytes": 2498123,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000476.png",
+          "sha256": "cf8072772bf3ad71509c2d79fb032c2951d66403f46adc68954924f2545ffbbc",
+          "bytes": 2489007,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000480.png",
+          "sha256": "17ab8d078544d8fdf71cbbf4b29ad41cf246b62e56f475762e8f1a0ab79715c6",
+          "bytes": 2293666,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000496.png",
+          "sha256": "b546278f8c072a3c16938006f68269aff45cee8a890eea4e2d9370f30152c6b6",
+          "bytes": 2223931,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000516.png",
+          "sha256": "303b9d2a1d22a0e564d4acf916ee4a7b2ca200a3aaf08e89e2b64da6e6f8d390",
+          "bytes": 2239199,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000552.png",
+          "sha256": "f82396aa1c27964a2b45f5119de3f56a6eafda315112332349775aff752e6ad3",
+          "bytes": 2309499,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000560.png",
+          "sha256": "e5af749fc39ca7fddc185c5a205f89e87054a244a5d943d8ccf93e2e40dd94a5",
+          "bytes": 2547886,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000596.png",
+          "sha256": "03f7d24e68f2d63fc7ad0f4f66a6dab35cbfd046026a8939e70fd40d4654acc0",
+          "bytes": 2436439,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000604.png",
+          "sha256": "b54787c5be7081e044a7aa1dfbf70b3c94b551e08e749a734f9e8a81fc4ccd2b",
+          "bytes": 2490364,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000616.png",
+          "sha256": "07a41fd5db2af29b8c8f9303133b3be80e6c94033cd0a328032fd65e862d806b",
+          "bytes": 2678034,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000628.png",
+          "sha256": "9cac7411acdcaa90fba19773a2df23fdf07b66a3363cbd0d07cbe7f499ff3bc6",
+          "bytes": 2467613,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000632.png",
+          "sha256": "a6d112fa49baa0b8157d4c52cc1f6e0f553aa462e5743413f4e2abb09ec7d7cd",
+          "bytes": 2513014,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000640.png",
+          "sha256": "f43125d9927f3a8e0c8d1319fe81de672618424544f958fb65a3cff96ebf67bb",
+          "bytes": 2456074,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000688.png",
+          "sha256": "65ee01e842cde16c399247e12637579d4d50fc635493bbb005d5cddb6064b221",
+          "bytes": 2561722,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000692.png",
+          "sha256": "f45cf2c81ebad1ac8aee854ef552ab1957e5e59156ecb68dd63ad1b192c7384e",
+          "bytes": 2538668,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000748.png",
+          "sha256": "327dfae5ce14162477c2ca488c34a41475b23908edee208410e3da9670601f75",
+          "bytes": 2481731,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000752.png",
+          "sha256": "3250186f31efbfc6d3050fcb2f567d7e693bad78b7c4d8afd33badcd78e1ddef",
+          "bytes": 2603612,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000768.png",
+          "sha256": "b1f3253fd3d2a817727cf2d70274b1c7a35d342b7e2505ab10c8093655e3f395",
+          "bytes": 2587078,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000772.png",
+          "sha256": "9f57df89386e57946f1df0175f7bcd7fd28787b318d3c2f80ab2ce6b5911d734",
+          "bytes": 2591095,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000784.png",
+          "sha256": "1329dec2f86d378217108419af71e0ff98825d69c9edf0452e360c103b57b45a",
+          "bytes": 2728509,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000796.png",
+          "sha256": "7c8dbf2ef5e59d639b17555906dde4fdfc6899833fa8c29fd8cd1dc316d78ac5",
+          "bytes": 2534227,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000804.png",
+          "sha256": "c5342025d96badce9ad3681757170b39dc2b3227d842fe36dd221ef3ac5908c4",
+          "bytes": 2538676,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000812.png",
+          "sha256": "28edecc7bfac48f5660741cc65065171d62e604d058ce3834373c260a32906f2",
+          "bytes": 2671302,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000820.png",
+          "sha256": "77ccb9aa9b3118123a16dfbf7708413f477c3af77c78c1d65c2bd6bbe7db0a1e",
+          "bytes": 2420766,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000836.png",
+          "sha256": "0572d6b50064d9e0a4c70a9457dd91ec5fb56f77a0c4f90cdc273e8d2bed267e",
+          "bytes": 2574865,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000848.png",
+          "sha256": "c46cfa3fdbd9b518730c81f26396de6b3e75eda6ab2a124cc9a4311f648c62c9",
+          "bytes": 2504208,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000856.png",
+          "sha256": "b5e75ce556df186e4c5eb1eaade78ced6a3b8571ed4ecf9cda8fc54f388786b7",
+          "bytes": 2498585,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000864.png",
+          "sha256": "1b79c49bc6f42aa335d2b324007f607e53ff4a6f87c2a52b5839d9d7e24da98f",
+          "bytes": 2493699,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000876.png",
+          "sha256": "c2ee90e8fb6d668d068e42d3542069347e745564e6ac7bf45af5075c4159e781",
+          "bytes": 2364963,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000880.png",
+          "sha256": "0dee4739e09451c2c85af7f7092532427aa2bff1ffcd2d01a0644806b68b2a61",
+          "bytes": 2370325,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000894.png",
+          "sha256": "e9aa06ed688c3fbf1bcb7736b5838e65ff265cc21a97cc677b92a791251bce06",
+          "bytes": 2085343,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000909.png",
+          "sha256": "943964e9822090d761e8557789d8d1d061c6c68b484006774b17b987af44db21",
+          "bytes": 1920015,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000916.png",
+          "sha256": "6c65d96e4c551596f7814ab44eb7add1c6872629db7020e896d2815677d0e668",
+          "bytes": 2292282,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000920.png",
+          "sha256": "d34425914812f48572507a3c3adf39d447ee89a1c56897053ac5a67b42fcb446",
+          "bytes": 2190164,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000948.png",
+          "sha256": "178acae14916b45cd747cd9f9f16f91e4a15a1905fbe1988b56bffc78a6fc658",
+          "bytes": 2287941,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000952.png",
+          "sha256": "7d142c70cd7f310b3b55b9b7e11cea054a15297b6706a75fee732a9437986f24",
+          "bytes": 2506207,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000960.png",
+          "sha256": "2e41961acde36c0cd7eb8a2f3770eec1da51b9c4816513bbd80c9254a1f4f943",
+          "bytes": 2121755,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000972.png",
+          "sha256": "4d5cb87584c6813320528868825c9c28016d9b25e3fe2449a667a5bd82b86f3b",
+          "bytes": 2223694,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000988.png",
+          "sha256": "5049b7b9253344cd800bf2d1de85365816b4c6bc5a0e50cb864aa0b968559b01",
+          "bytes": 2136121,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_000996.png",
+          "sha256": "c09f4c06057b2428434982321a7b76391de48739487c0f266a2b32a7561f5d4c",
+          "bytes": 2278407,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_001000.png",
+          "sha256": "b9b27c16c9d6d33767609253c2bb60a526f233f7e0148f79dc60e262ee616c19",
+          "bytes": 2354470,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_001018.png",
+          "sha256": "29361ad50a827a7d91069ea31f69b884efc7a7677ced79fb46cd6458a5ce533d",
+          "bytes": 2077655,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_001020.png",
+          "sha256": "1d75e504dd0386a879576acfc5f3de39ffd1289a8ffc3ba1a1fd8083cd18381b",
+          "bytes": 2430707,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_001036.png",
+          "sha256": "3f9497426c965235f3129aa8d2219094b18131294d1c633af62dfadd44007213",
+          "bytes": 2622279,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_001052.png",
+          "sha256": "339a7a42ffb3a314a5d449766b596a2232f6f488b6ce6cf815b407c97b17224f",
+          "bytes": 2373895,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_001063.png",
+          "sha256": "7c84bf7fb678fe9274c1d1bc2a3284b0f1738b49fcebf0d8f62b9fdcdb07bc08",
+          "bytes": 2252695,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_001072.png",
+          "sha256": "27760a5cf9f0eb6f6a72e244cdcd6aaf43bb8a122d6280c1f3d2f0b88c43645f",
+          "bytes": 2421501,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_001088.png",
+          "sha256": "d48d2c8518b3a9daa75216e56272daed6af051d26f52a7a57e18c6f9ca07473d",
+          "bytes": 2580536,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_001091.png",
+          "sha256": "5be22c027fb3e0f68dfc420bce5ff97b7d8bc76403a8b0e1b89c1a10c425266b",
+          "bytes": 2301273,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_001114.png",
+          "sha256": "547f0600e0831de6b1c4459036ff34782677c441e1fcd27cda598d7d25a9cfe6",
+          "bytes": 2456549,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_001124.png",
+          "sha256": "66de5635cdc4e73fb222a8989f4e39611d696af822c6193a85a378288d2daf8b",
+          "bytes": 2580052,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_001138.png",
+          "sha256": "c3c066ed58ec17aed5d602ea26573355a0356123ebd94a19b3f57753643e4224",
+          "bytes": 2299397,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_001148.png",
+          "sha256": "166f6abe093044938c2a6a02467711f6fb0406400f29432a1541eae9015f6659",
+          "bytes": 2795817,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_001152.png",
+          "sha256": "00d01aa54c5185205f75e00d3de9f22d400c9dda9b59e77debb869d55338f545",
+          "bytes": 2532362,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_001168.png",
+          "sha256": "416f806ccd6a1c598833b631737e53f367575bfab4c07620bb4d736a2a5d1ef1",
+          "bytes": 2556669,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_001175.png",
+          "sha256": "2fd4346f5dcdd14249a2fa7a22650f3ed555a35ac8736b3060e373a04cb5f3f1",
+          "bytes": 2268781,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_001519.png",
+          "sha256": "016fa66ed4f6081956a4dc0ba74a9965aa876cfcc681a1798f918c286f029634",
+          "bytes": 2383590,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_001536.png",
+          "sha256": "036ed36ab63ce4171827f633ed195978b8d1bc011c7bffa571310960685a4cf4",
+          "bytes": 2609268,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_001540.png",
+          "sha256": "571b2a1050bfc18c5ed6d4fc147f609e75adb3d495c84ef83cc021a74a7f1cb2",
+          "bytes": 2693564,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_001568.png",
+          "sha256": "535367f5e8a768dbe9818b2b7d9b748851b0babfaf3c318ddb35800cfb99d887",
+          "bytes": 2631897,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_001576.png",
+          "sha256": "2b01bf9517f19a718dfaff9d88a3fe4347e7621fa923c01d2da8edea2934f06d",
+          "bytes": 2396028,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_001588.png",
+          "sha256": "532cb468ad249bd20baf5bd6cb8a50a2306ab4054fce4635c7dc2fa27deebaff",
+          "bytes": 2452978,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_001596.png",
+          "sha256": "7a77890a9d9fb725736bdc89cadfac4efa0c54a5603c92015c830637b31e4089",
+          "bytes": 2630051,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_001600.png",
+          "sha256": "244b1f16e49c020a9998b3020abb5ae9c47760de8232a23549ff1c8121f52d86",
+          "bytes": 2317586,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_001616.png",
+          "sha256": "71838247eaea3167ef118150ac49744820027cb99ababb3d7f22e6ce4d958024",
+          "bytes": 2420563,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_001624.png",
+          "sha256": "229ced7ae81a1c7f1198751a4ff6dbfbad18c1ecf8b787fb73de8fe31cd4d7c9",
+          "bytes": 2645766,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_001636.png",
+          "sha256": "89b7bdfa6b10c81819e15abd203f8e382332de4be7bbfda865002fd4ede2d700",
+          "bytes": 2416051,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_001644.png",
+          "sha256": "14e38c63bd488cbd381610b93e52e736e4d137bdaea1806e052934ef913bb6be",
+          "bytes": 2387191,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_001656.png",
+          "sha256": "eff5cd158fbfbe8b5ac696789e0d3a0d9f6f73a5d78fdc10e0a7f5dc706b33d2",
+          "bytes": 2359441,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_001660.png",
+          "sha256": "30d6f90bd4ab0da880206a960b9b86023954a2532b00deeb538b9f607468553a",
+          "bytes": 2244172,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_001676.png",
+          "sha256": "3557e0d7841d4813208932dea02ad4ef10a82a2512809c5eec857edff531ceec",
+          "bytes": 2205772,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_001688.png",
+          "sha256": "6ec03382dc9f297118c95c62a70ead9269c3f2690f2cd5cd84a412c818563f05",
+          "bytes": 2179439,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_001692.png",
+          "sha256": "385d4c24728ed91701ba084b2bdb23e606fc10c64d1adc9913e3c428dbbf9fc6",
+          "bytes": 2148195,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_001708.png",
+          "sha256": "183067dfa771140a73ded940c330295bd7a7e231a0238f0026fca11daa5b5e19",
+          "bytes": 2529667,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_001712.png",
+          "sha256": "e16b5515298efa5a6f99a036649a14bbd41723e2de2122ca4d9760fabf712f2c",
+          "bytes": 2263753,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_001724.png",
+          "sha256": "80903d71e99800eaed12f44c026bf2df65055d10d2d842d535154d59453f233f",
+          "bytes": 2176407,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_001732.png",
+          "sha256": "13444829823611ef20b1c90f2958edbc9f385196734bf1dc56db931636b00a48",
+          "bytes": 2168301,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_001748.png",
+          "sha256": "04292e3a2dbb4645d8f994142cf0e18bfba3d8b345f6e33b97c344e419dcf511",
+          "bytes": 2070334,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_001752.png",
+          "sha256": "1d7813d04292fdbf83341e9603f87f55dedf163072f5c1a20bbbc61474b2bdee",
+          "bytes": 2181368,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_001764.png",
+          "sha256": "f252d50813a7c90feabe0b1f75b920009439f5b39116e56bd7463ad6b615c56a",
+          "bytes": 2552612,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_001784.png",
+          "sha256": "7df26c1e0fc1a49b989f3bc20f9c8b3b2b73504974c76355e8fd046105430303",
+          "bytes": 2198201,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_001798.png",
+          "sha256": "4e68e2cadb8e3922683be1a21d0b242aeecf54cc59840b741232894cdacee15e",
+          "bytes": 1922776,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_001800.png",
+          "sha256": "1c0b81bce426324fa612e2c3ca732c68478248c8eb5905fe3037bdac790e0786",
+          "bytes": 2081654,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_001816.png",
+          "sha256": "42b4dae6431b05c993ee370335ee5cabc4a5921bb318344fd2749ecca06b857c",
+          "bytes": 2229385,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_001820.png",
+          "sha256": "a39a65f085fc55a48cba32158911ab262c36b2d9e01fb28fd402a0f53c5e6fac",
+          "bytes": 2668453,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_001836.png",
+          "sha256": "9e4d872a301da6550e0c6e67e4492407dae5d3d7eb237f80fe56eba90d737cf6",
+          "bytes": 2193650,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_001848.png",
+          "sha256": "c20b76686f33ce9930cba8f508becb631d8f1aaf1845db35fcc893fe30e0a8dc",
+          "bytes": 2704497,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_001852.png",
+          "sha256": "ada20f99b2fbdb3928cdd73bd1a8a3b982b6d4171b034c2310b7e442289e36d8",
+          "bytes": 2390287,
+          "size_px": [
+            1080,
+            1920
+          ]
+        },
+        {
+          "path": "data/views/cabinet-aruco-walkaround/atlas_open_frame_001863.png",
+          "sha256": "bc072ec380f80989cd52e754487eb99d158aa33de7c1209f19583d7aec9f404a",
+          "bytes": 2750630,
+          "size_px": [
+            1080,
+            1920
+          ]
+        }
+      ]
+    }
+  ],
+  "files": {
+    "atlas.json": "b8220759f26dd98ae7386ca2e087cfe656021cfc1b9e53d8f2fad884b590a312",
+    "atlas.report.json": "f2f7bb4c9d977cc3de1be034204e21e49cb0f4593dbcd0423be3fc86e9d3474c",
+    "sets/cabinet-aruco-tripod/clicks.json": "3483b50efa6aeca35e35e6fbc9c1fede64c82d2d21064db035255200a5b4e33f",
+    "sets/cabinet-aruco-tripod/board_poses.json": "c5e24a46978e3b4bbedff26c7a716a8f011ed13647a68e8d159635ffe1b9883f",
+    "sets/cabinet-aruco-walkaround/clicks.json": "122c4d7a4032ff9d162b20771571ae09a6421b3ea0c6a953006cc21d46fda8f7",
+    "sets/cabinet-aruco-walkaround/board_poses.json": "0d6a6ae70063adadf42e349a106cb6a3859288b8e68d4b4079dda3e4c22c1982"
+  }
+}
