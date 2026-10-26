@@ -152,6 +152,16 @@ make eval EVAL_DATASET=eval/datasets/cabinet-manual-2026-10-09   # another froze
 - the evaluation with its failure cases;
 - the changes from the proposal, the limitations and responsible use.
 
+## Where this could go
+
+A new asset needs only a new Component Atlas, with the same perception, uncertainty and agent loop.
+Further ahead, the loop could run on AR glasses. In a factory, a technician would see the component
+highlighted inside an electrical cabinet before opening it.
+
+![Concept illustration: the same loop on AR glasses in a factory. Not built and not part of this submission.](docs/vision-concept.jpg)
+
+*Concept illustration: where this could go. It is not built and not part of this submission.*
+
 ## OpenCV AI Competition 2026
 
 Primary track: **Agentic Vision**
