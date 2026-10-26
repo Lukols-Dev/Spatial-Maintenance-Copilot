@@ -2,6 +2,8 @@
 
 > An Agentic Vision system for spatial guidance during equipment inspection and maintenance.
 
+![The loop on a phone, live on AWS: the agent asks for a better view, the operator approves, the box's tag confirms the prediction](docs/phone-loop.jpg)
+
 Spatial Maintenance Copilot was built for the **OpenCV AI Competition 2026, powered by AWS**, on the
 Agentic Vision path.
 
@@ -96,6 +98,8 @@ The stack in [infra/](infra/) (AWS CDK, region eu-north-1) puts the web app on S
 API is served under `/api` through API Gateway, a VPC link and an internal load balancer, to the
 service on ECS Fargate (Graviton). Agent sessions are kept in DynamoDB, and the workspace the demo
 serves sits in a private S3 bucket. The task role signs Bedrock calls, so no key is stored in AWS.
+
+![Architecture: OpenCV 5 and the LangGraph agent on ECS Fargate (Graviton), with Amazon Nova 2 Lite on Bedrock](docs/architecture.png)
 
 Requirements: AWS credentials allowed to deploy, Docker, and access to Amazon Nova 2 Lite in
 eu-north-1.
